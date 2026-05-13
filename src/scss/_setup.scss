@@ -297,10 +297,21 @@ html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
 
 .setup-button--primary {
   color: #fff;
-  background: $button-primary-disabled;
+  background: $button-primary;
+  transition: background-color 0.15s ease;
 
   &:disabled {
     cursor: default;
+    background: $button-primary-disabled;
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &:not(:disabled):focus-visible {
+    outline: 3px solid rgba($button-primary, 0.35);
+    outline-offset: 2px;
   }
 }
 
