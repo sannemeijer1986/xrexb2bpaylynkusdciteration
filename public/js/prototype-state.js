@@ -31,38 +31,6 @@
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const states = {};
 
-  function syncSetupStepperFromProgress(p) {
-    const root = document.querySelector(".setup-steps");
-    if (!root) return;
-    const tracks = root.querySelectorAll(".setup-steps__track");
-    const items = root.querySelectorAll(".setup-steps__item");
-
-    if (p >= 4) {
-      tracks[0]?.classList.add("setup-steps__track--done");
-      tracks[1]?.classList.add("setup-steps__track--done");
-      items.forEach((el) => {
-        el.classList.add("setup-steps__item--done");
-        el.classList.remove("setup-steps__item--current");
-      });
-      root.setAttribute("aria-label", "Setup steps complete");
-      return;
-    }
-
-    const step = clamp(p, 1, 3);
-    if (tracks[0]) {
-      tracks[0].classList.toggle("setup-steps__track--done", step >= 2);
-    }
-    if (tracks[1]) {
-      tracks[1].classList.toggle("setup-steps__track--done", step >= 3);
-    }
-    items.forEach((el, i) => {
-      const n = i + 1;
-      el.classList.toggle("setup-steps__item--done", n < step);
-      el.classList.toggle("setup-steps__item--current", n === step);
-    });
-    root.setAttribute("aria-label", `Step ${step} of 3`);
-  }
-
   function syncWalletTimelineFromProgress(p) {
     const steps = document.querySelectorAll(".setup-timeline__step");
     if (!steps.length) return;
@@ -129,7 +97,6 @@
   function applySetupProgressToUi() {
     const p = states.setupProgress;
     document.documentElement.dataset.prototypeSetupProgress = String(p);
-    syncSetupStepperFromProgress(p);
     syncWalletTimelineFromProgress(p);
     syncConsentTimestamp();
   }

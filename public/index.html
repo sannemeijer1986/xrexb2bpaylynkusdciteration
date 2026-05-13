@@ -7,7 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=25" />
+  <link rel="stylesheet" href="css/main.css?v=32" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v != null && v !== "") document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="setup-page" data-prototype-context="payment-setup">
   <main class="setup-shell" aria-labelledby="setup-title">
@@ -20,28 +29,45 @@
       <div class="setup-panel__body">
         <div class="setup-panel__content">
           <header class="setup-header">
-            <div class="setup-steps" aria-label="Step 2 of 3">
-              <span class="setup-steps__track setup-steps__track--done"></span>
+            <div class="setup-steps" aria-label="Step 1 of 3">
               <span class="setup-steps__track"></span>
-              <span class="setup-steps__item setup-steps__item--done">1</span>
-              <span class="setup-steps__item setup-steps__item--current">2</span>
+              <span class="setup-steps__track"></span>
+              <span class="setup-steps__item setup-steps__item--current">1</span>
+              <span class="setup-steps__item">2</span>
               <span class="setup-steps__item">3</span>
             </div>
             <h1 id="setup-title">Set up payment method</h1>
           </header>
 
           <div class="setup-options" aria-label="Payment methods">
-            <a class="setup-option" href="setup-wallet.html">
-              <img class="setup-option__image" src="assets/setup-stablecoin.png" alt="" />
-              <span class="setup-option__content">
-                <span class="setup-option__eyebrow">USDT, USDC</span>
-                <span class="setup-option__title">Stablecoin wallet</span>
-                <span class="setup-option__description">Create your self-custodial wallet for easy Auto-debit payments using USD stablecoins.</span>
-                <span class="setup-option__action">
-                  <img src="assets/icon-add-blue.svg" alt="" />
-                  <span>Set up stablecoin payments</span>
+            <a class="setup-option setup-option--stablecoin" href="setup-wallet.html">
+              <div class="setup-option__top">
+                <img class="setup-option__image" src="assets/setup-stablecoin.png" alt="" />
+                <span class="setup-option__content">
+                  <span class="setup-option__eyebrow">USDT, USDC</span>
+                  <span class="setup-option__title">Stablecoin wallet</span>
+                  <span class="setup-option__description">Create your self-custodial wallet for easy Auto-debit payments using USD stablecoins.</span>
+                  <span class="setup-option__action">
+                    <img src="assets/icon-add-blue.svg" alt="" />
+                    <span>Set up stablecoin payments</span>
+                  </span>
                 </span>
-              </span>
+              </div>
+              <div class="setup-option__incomplete">
+                <div class="setup-option__incomplete-row">
+                  <div class="setup-option__incomplete-icon-wrap">
+                    <img class="setup-option__incomplete-icon" src="assets/icon_wallet_blue.svg" width="20" height="20" alt="" />
+                  </div>
+                  <div class="setup-option__incomplete-main">
+                    <span class="setup-option__incomplete-title">Stablecoin wallet</span>
+                    <span class="setup-option__incomplete-status">Setup incomplete</span>
+                  </div>
+                  <span class="setup-option__incomplete-cta">
+                    <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                    <span class="setup-option__incomplete-cta-text">Continue setup</span>
+                  </span>
+                </div>
+              </div>
             </a>
 
             <button class="setup-option" type="button">

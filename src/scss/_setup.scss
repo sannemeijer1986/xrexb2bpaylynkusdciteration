@@ -172,6 +172,97 @@ a.setup-option {
   }
 }
 
+// Stablecoin only: groups image + copy so incomplete bar can sit full-width below (desktop).
+.setup-option--stablecoin .setup-option__top {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.setup-option__incomplete {
+  display: none;
+  align-self: stretch;
+  width: 100%;
+  margin-top: 16px;
+  box-sizing: border-box;
+}
+
+.setup-option__incomplete-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.setup-option__incomplete-icon-wrap {
+  display: grid;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+}
+
+.setup-option__incomplete-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.setup-option__incomplete-main {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.setup-option__incomplete-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  color: $text-primary;
+}
+
+.setup-option__incomplete-status {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  color: $text-email-highlight;
+}
+
+.setup-option__incomplete-cta {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: $button-primary;
+}
+
+.setup-option__incomplete-cta-text {
+  display: none;
+}
+
+html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
+  .setup-option--stablecoin .setup-option__action {
+    display: none !important;
+  }
+
+  .setup-option--stablecoin .setup-option__incomplete {
+    display: block;
+  }
+}
+
 .setup-actions {
   display: flex;
   flex-direction: column;
@@ -374,6 +465,23 @@ a.setup-button--secondary {
     text-align: left;
   }
 
+  // Full-width incomplete bar below image + text (not in the text column).
+  a.setup-option--stablecoin {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .setup-option--stablecoin .setup-option__top {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 24px;
+  }
+
+  .setup-option--stablecoin .setup-option__incomplete {
+    margin-top: 0;
+  }
+
   .setup-option__image {
     width: 210px;
     height: 160px;
@@ -389,6 +497,33 @@ a.setup-button--secondary {
 
   .setup-option__description {
     max-width: 405px;
+  }
+
+  .setup-option__incomplete-row {
+    gap: 16px;
+    min-height: 78px;
+  }
+
+  .setup-option__incomplete-status {
+    font-size: 14px;
+  }
+
+  .setup-option__incomplete-cta {
+    width: auto;
+    min-width: 0;
+    height: 32px;
+    padding: 0 16px;
+    gap: 4px;
+    border-radius: 16px;
+  }
+
+  .setup-option__incomplete-cta-text {
+    display: inline;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    white-space: nowrap;
   }
 
   .setup-actions {
