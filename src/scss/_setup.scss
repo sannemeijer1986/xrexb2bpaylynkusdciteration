@@ -44,7 +44,7 @@
 .setup-panel {
   position: relative;
   z-index: 2;
-  margin-top: -30px;
+  margin-top: -16px;
   padding: 0 24px 24px;
 }
 
@@ -246,12 +246,6 @@
     width: 97px;
   }
 
-  .setup-panel {
-    grid-column: 2;
-    min-height: calc(100vh - 64px);
-    padding: 88px 40px 112px;
-  }
-
   .setup-panel__content {
     max-width: 700px;
     margin: 0 auto;
@@ -382,16 +376,13 @@
   }
 
   .setup-footer {
-    position: fixed;
-    z-index: 3;
-    right: 0;
-    bottom: 0;
-    left: 50%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    width: 100%;
+    flex-shrink: 0;
     min-height: 64px;
     padding: 24px 40px;
+    box-sizing: border-box;
     border-top: 1px solid $border-soft;
     background: $surface-secondary;
     color: $text-secondary;
@@ -437,26 +428,50 @@
 
 // Staging-like desktop behavior at 1280px+
 @media (min-width: $desktop-breakpoint) {
+  // Lock shell to one viewport tall and stretch both columns — avoids a strip below the panel
+  // when `min-height: 100vh` alone lets the flex line grow past `height: 100vh` children.
   .setup-shell {
     display: flex;
+    align-items: stretch;
     min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
   }
 
   .setup-hero {
     position: sticky;
     top: 0;
-    flex: 1 1 auto;
-    height: 100vh;
+    flex: 1 1 50%;
+    min-width: 0;
+    height: auto;
+    align-self: stretch;
     inset: auto;
   }
 
+  // Grid: main row is min 880px but grows to fill column height (footer at bottom of “slot”);
+  // when column is shorter than 880 + footer, one scroll on the panel includes footer below 880.
   .setup-panel {
-    flex: 0 0 50vw;
+    display: grid;
+    grid-template-rows: minmax($setup-panel-main-min-height, 1fr) auto;
+    grid-template-columns: 100%;
+    flex: 1 1 50%;
     min-width: 900px;
-    height: 100vh;
+    min-height: 0;
+    height: auto;
+    align-self: stretch;
+    overflow-x: hidden;
     overflow-y: auto;
     background: $surface-primary;
-    padding: 88px 24px 112px;
+    // Top inset only — no L/R/bottom so footer is flush with panel edges (staging)
+    padding: 88px 0 0;
+  }
+
+  .setup-panel__body {
+    min-width: 0;
+    min-height: 0;
+    padding: 0 24px;
+    box-sizing: border-box;
   }
 }
 

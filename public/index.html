@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=13" />
+  <link rel="stylesheet" href="css/main.css?v=19" />
 </head>
 <body class="setup-page">
   <main class="setup-shell" aria-labelledby="setup-title">
@@ -17,63 +17,65 @@
     </section>
 
     <section class="setup-panel">
-      <div class="setup-panel__content">
-        <header class="setup-header">
-          <div class="setup-steps" aria-label="Step 2 of 3">
-            <span class="setup-steps__track setup-steps__track--done"></span>
-            <span class="setup-steps__track"></span>
-            <span class="setup-steps__item setup-steps__item--done">1</span>
-            <span class="setup-steps__item setup-steps__item--current">2</span>
-            <span class="setup-steps__item">3</span>
+      <div class="setup-panel__body">
+        <div class="setup-panel__content">
+          <header class="setup-header">
+            <div class="setup-steps" aria-label="Step 2 of 3">
+              <span class="setup-steps__track setup-steps__track--done"></span>
+              <span class="setup-steps__track"></span>
+              <span class="setup-steps__item setup-steps__item--done">1</span>
+              <span class="setup-steps__item setup-steps__item--current">2</span>
+              <span class="setup-steps__item">3</span>
+            </div>
+            <h1 id="setup-title">Set up payment method</h1>
+          </header>
+
+          <div class="setup-options" aria-label="Payment methods">
+            <button class="setup-option" type="button">
+              <img class="setup-option__image" src="assets/setup-stablecoin.png" alt="" />
+              <span class="setup-option__content">
+                <span class="setup-option__eyebrow">USDT, USDC</span>
+                <span class="setup-option__title">Stablecoin wallet</span>
+                <span class="setup-option__description">Create your self-custodial wallet for easy Auto-debit payments using USD stablecoins.</span>
+                <span class="setup-option__action">
+                  <img src="assets/icon-add-blue.svg" alt="" />
+                  <span>Set up stablecoin payments</span>
+                </span>
+              </span>
+            </button>
+
+            <button class="setup-option" type="button">
+              <img class="setup-option__image" src="assets/setup-swift.png" alt="" />
+              <span class="setup-option__content">
+                <span class="setup-option__eyebrow">USD</span>
+                <span class="setup-option__title">SWIFT transfer</span>
+                <span class="setup-option__description">Whitelist your USD bank account to streamline and speed up future cross-border payments.</span>
+                <span class="setup-option__action">
+                  <img src="assets/icon-add-blue.svg" alt="" />
+                  <span>Whitelist bank account</span>
+                </span>
+              </span>
+            </button>
           </div>
-          <h1 id="setup-title">Set up payment method</h1>
-        </header>
 
-        <div class="setup-options" aria-label="Payment methods">
-          <button class="setup-option" type="button">
-            <img class="setup-option__image" src="assets/setup-stablecoin.png" alt="" />
-            <span class="setup-option__content">
-              <span class="setup-option__eyebrow">USDT, USDC</span>
-              <span class="setup-option__title">Stablecoin wallet</span>
-              <span class="setup-option__description">Create your self-custodial wallet for easy Auto-debit payments using USD stablecoins.</span>
-              <span class="setup-option__action">
-                <img src="assets/icon-add-blue.svg" alt="" />
-                <span>Set up stablecoin payments</span>
-              </span>
-            </span>
-          </button>
-
-          <button class="setup-option" type="button">
-            <img class="setup-option__image" src="assets/setup-swift.png" alt="" />
-            <span class="setup-option__content">
-              <span class="setup-option__eyebrow">USD</span>
-              <span class="setup-option__title">SWIFT transfer</span>
-              <span class="setup-option__description">Whitelist your USD bank account to streamline and speed up future cross-border payments.</span>
-              <span class="setup-option__action">
-                <img src="assets/icon-add-blue.svg" alt="" />
-                <span>Whitelist bank account</span>
-              </span>
-            </span>
-          </button>
-        </div>
-
-        <div class="setup-actions">
-          <button class="setup-button setup-button--secondary" type="button">Back</button>
-          <button class="setup-button setup-button--primary" type="button" disabled>Next</button>
+          <div class="setup-actions">
+            <button class="setup-button setup-button--secondary" type="button">Back</button>
+            <button class="setup-button setup-button--primary" type="button" disabled>Next</button>
+          </div>
         </div>
       </div>
+
+      <footer class="setup-footer">
+        <p>© XREX Pay Limited 2026</p>
+        <nav class="setup-footer__nav" aria-label="Footer">
+          <!-- <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Support</a>
+          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span> -->
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
+          <!-- <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Privacy Policy</a> -->
+        </nav>
+      </footer>
     </section>
   </main>
-
-  <footer class="setup-footer">
-    <p>© XREX Pay Limited 2026</p>
-    <nav class="setup-footer__nav" aria-label="Footer">
-      <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Support</a>
-      <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
-      <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
-      <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
-      <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Privacy Policy</a>
-    </nav>
-  </footer>
 </body>
 </html>
