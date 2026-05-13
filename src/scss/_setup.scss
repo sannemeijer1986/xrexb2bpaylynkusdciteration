@@ -36,6 +36,8 @@
   left: 24px;
   width: 97px;
   height: auto;
+  object-fit: contain;
+  object-position: left top;
 }
 
 .setup-panel {
@@ -415,10 +417,8 @@
   }
 }
 
-// Staging-like large desktop behavior:
-// - right panel is scrollable, 50vw with min-width 900px, full height
-// - right panel background becomes grayscale-200-ish
-@media (min-width: 1280px) {
+// Staging-like desktop behavior at 1280px+
+@media (min-width: $desktop-breakpoint) {
   .setup-shell {
     display: flex;
     min-height: 100vh;
