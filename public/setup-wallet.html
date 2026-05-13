@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=29" />
+  <link rel="stylesheet" href="css/main.css?v=36" />
   <script>
     (function () {
       try {
@@ -127,6 +127,79 @@
       </footer>
     </section>
   </main>
+
+  <div id="verify-email-modal" class="verify-email-modal" hidden>
+    <div class="verify-email-modal__backdrop" data-verify-email-modal-dismiss tabindex="-1"></div>
+    <div
+      class="verify-email-modal__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="verify-email-modal-title"
+    >
+      <header class="verify-email-modal__header">
+        <button type="button" class="verify-email-modal__close" data-verify-email-modal-dismiss aria-label="Close dialog">
+          <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" />
+        </button>
+        <h2 id="verify-email-modal-title" class="verify-email-modal__title">Verify your email</h2>
+      </header>
+
+      <div class="verify-email-modal__body">
+        <div class="verify-email-modal__intro">
+          <p class="verify-email-modal__lede">
+            <span class="verify-email-modal__lede-text">Enter the verification code sent by Fireblocks Dynamic to </span><span class="verify-email-modal__email setup-timeline__email">abc1234@gmail.com</span>
+          </p>
+          <div class="verify-email-modal__logo-wrap">
+            <img
+              class="verify-email-modal__logo"
+              src="assets/logo_dynamic.svg"
+              width="120"
+              height="38"
+              alt="Dynamic by Fireblocks"
+            />
+          </div>
+        </div>
+
+        <div class="verify-email-modal__field">
+          <label class="verify-email-modal__label" for="verify-email-code-input">Verification code</label>
+          <input
+            id="verify-email-code-input"
+            class="verify-email-modal__input"
+            type="text"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            maxlength="6"
+            placeholder="Enter code from your email"
+          />
+          <div class="verify-email-modal__hints">
+            <p class="verify-email-modal__resend-line">
+              <span>Didn’t receive the code? </span>
+              <button type="button" class="verify-email-modal__resend">Resend</button>
+            </p>
+            <p class="verify-email-modal__spam-hint">If it’s missing, check your spam or junk folder</p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="verify-email-modal__footer">
+        <button type="button" class="verify-email-modal__cancel" data-verify-email-modal-dismiss>Cancel</button>
+      </footer>
+    </div>
+
+    <div id="verify-email-loader" class="verify-email-loader" hidden aria-hidden="true">
+      <div class="verify-email-loader__scrim" aria-hidden="true"></div>
+      <div class="verify-email-loader__card" role="status" aria-live="polite" aria-busy="true">
+        <div class="verify-email-loader__icon-ring">
+          <img
+            class="verify-email-loader__icon"
+            src="assets/icon_loader_big_blue.svg"
+            width="76"
+            height="76"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="build-badge" role="note" aria-label="Prototype state controls">
     <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyWallet">

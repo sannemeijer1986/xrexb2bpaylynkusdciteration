@@ -244,6 +244,86 @@
     });
   }
 
+  function initVerifyEmailModal() {
+    const root = document.getElementById("verify-email-modal");
+    if (!root) return;
+
+    const input = root.querySelector("#verify-email-code-input");
+    const emailDest = root.querySelector(".verify-email-modal__email");
+    const loader = document.getElementById("verify-email-loader");
+    let lastFocus = null;
+
+    function syncModalEmail() {
+      const src =
+        document.querySelector(
+          ".setup-timeline__desc--verify .setup-timeline__email",
+        ) || document.querySelector(".setup-timeline__email");
+      if (src && emailDest) emailDest.textContent = src.textContent.trim();
+    }
+
+    function hideLoader() {
+      if (!loader) return;
+      loader.hidden = true;
+      loader.setAttribute("aria-hidden", "true");
+    }
+
+    function showLoader() {
+      if (!loader) return;
+      loader.hidden = false;
+      loader.setAttribute("aria-hidden", "false");
+    }
+
+    function updateLoaderFromInput() {
+      if (!input || !loader) return;
+      if (input.value.length === 6) showLoader();
+      else hideLoader();
+    }
+
+    function openModal() {
+      syncModalEmail();
+      lastFocus = document.activeElement;
+      root.hidden = false;
+      document.body.classList.add("verify-email-modal-is-open");
+      if (input) {
+        input.value = "";
+        hideLoader();
+      }
+      window.requestAnimationFrame(() => input?.focus());
+    }
+
+    function closeModal() {
+      hideLoader();
+      if (input) input.value = "";
+      root.hidden = true;
+      document.body.classList.remove("verify-email-modal-is-open");
+      if (lastFocus && typeof lastFocus.focus === "function") {
+        lastFocus.focus();
+      }
+      lastFocus = null;
+    }
+
+    document.querySelectorAll(".setup-timeline-verify").forEach((btn) => {
+      btn.addEventListener("click", () => openModal());
+    });
+
+    input?.addEventListener("input", () => updateLoaderFromInput());
+
+    root.addEventListener("click", (e) => {
+      if (loader && !loader.hidden) return;
+      if (e.target.closest("[data-verify-email-modal-dismiss]")) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape" || root.hidden) return;
+      if (loader && !loader.hidden) {
+        hideLoader();
+        e.preventDefault();
+        return;
+      }
+      closeModal();
+    });
+  }
+
   function initPrototypeReset() {
     const resetBtn = document.querySelector("[data-prototype-reset]");
     if (!resetBtn) return;
@@ -286,6 +366,7 @@
     initStates();
     initBadgeControls();
     initTimelineAgreeButton();
+    initVerifyEmailModal();
     initEmptyCheckbox();
     initLoggedInSelect();
     initPrototypeReset();
