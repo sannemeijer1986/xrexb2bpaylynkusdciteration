@@ -1749,21 +1749,15 @@ body.wallet-modals-is-open {
   justify-content: flex-end;
 }
 
-.build-badge__section-row .build-badge__select {
-  width: 132px;
-  max-width: 100%;
-}
-
 .build-badge__logged-in-timer-row {
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  margin-top: 2px;
   box-sizing: border-box;
 }
 
 .build-badge__logged-in-timer {
-  width: 132px;
+  width: 124px;
   max-width: 100%;
   box-sizing: border-box;
   padding: 0 2px;
@@ -1785,6 +1779,8 @@ body.wallet-modals-is-open {
 
 .build-badge__select {
   box-sizing: border-box;
+  width: 100px;
+  max-width: 100%;
   font: inherit;
   font-size: 12px;
   font-weight: 600;

@@ -5,6 +5,7 @@
   const STORAGE_PREFIX = "xrex.paylynk.prototype.";
   const EMPTY_KEY = `${STORAGE_PREFIX}empty.v1`;
   const LOGGED_IN_KEY = `${STORAGE_PREFIX}loggedIn.v1`;
+  const ACCOUNT_CREATED_KEY = `${STORAGE_PREFIX}accountCreated.v1`;
   const CONSENT_AT_KEY = `${STORAGE_PREFIX}consentCompletedAtIso.v1`;
   const EMAIL_VERIFIED_AT_KEY = `${STORAGE_PREFIX}emailVerifiedAtIso.v1`;
   const PASSCODE_SET_AT_KEY = `${STORAGE_PREFIX}passcodeSetAtIso.v1`;
@@ -129,6 +130,19 @@
       stopLoggedInTimerTick();
       updateLoggedInTimerDisplay();
     }
+  }
+
+  /** Account created (prototype): persisted; auto-true when verify-email loader finishes. */
+  function setAccountCreatedValue(isTrue) {
+    const v = isTrue ? "true" : "false";
+    try {
+      window.localStorage?.setItem(ACCOUNT_CREATED_KEY, v);
+    } catch (_) {
+      /* ignore */
+    }
+    document.querySelectorAll("[data-prototype-account-created]").forEach((sel) => {
+      sel.value = v;
+    });
   }
 
   function syncWalletTimelineFromProgress(p) {
@@ -297,8 +311,14 @@
     }
     updateGroupUI(group);
     if (group === "setupProgress") {
-      if (prev === 3 && clamped === 2) setLoggedInValue(false);
-      if (prev === 2 && clamped === 3) setLoggedInValue(true);
+      if (prev === 3 && clamped === 2) {
+        setLoggedInValue(false);
+        setAccountCreatedValue(false);
+      }
+      if (prev === 2 && clamped === 3) {
+        setLoggedInValue(true);
+        setAccountCreatedValue(true);
+      }
       applySetupProgressToUi();
     }
     return clamped;
@@ -426,6 +446,28 @@
     });
   }
 
+  /** Account created dropdown (prototype controls). */
+  function initAccountCreatedSelect() {
+    const selects = document.querySelectorAll("[data-prototype-account-created]");
+    if (!selects.length) return;
+
+    let stored = "false";
+    try {
+      stored = window.localStorage?.getItem(ACCOUNT_CREATED_KEY) === "true" ? "true" : "false";
+    } catch (_) {
+      /* ignore */
+    }
+    selects.forEach((sel) => {
+      sel.value = stored;
+    });
+
+    selects.forEach((select) => {
+      select.addEventListener("change", () => {
+        setAccountCreatedValue(select.value === "true");
+      });
+    });
+  }
+
   function initTimelineAgreeButton() {
     document.querySelectorAll(".setup-timeline-agree").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -519,6 +561,7 @@
       clearOtpTimerOnly();
       otpPending = false;
       hideLoader();
+      setAccountCreatedValue(true);
       if (input) input.value = "";
       if (verifyDialog) verifyDialog.hidden = true;
       setState("setupProgress", 3, { force: true });
@@ -614,6 +657,7 @@
       }
 
       setLoggedInValue(false);
+      setAccountCreatedValue(false);
 
       try {
         window.localStorage?.removeItem(CONSENT_AT_KEY);
@@ -665,6 +709,7 @@
     initWalletModals();
     initEmptyCheckbox();
     initLoggedInSelect();
+    initAccountCreatedSelect();
     initPrototypeReset();
   }
 
