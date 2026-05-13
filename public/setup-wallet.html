@@ -7,9 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=20" />
+  <link rel="stylesheet" href="css/main.css?v=25" />
 </head>
-<body class="setup-page">
+<body class="setup-page" data-prototype-context="wallet-setup">
   <main class="setup-shell" aria-labelledby="wallet-title">
     <section class="setup-hero" aria-label="XREX Pay">
       <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
@@ -38,11 +38,9 @@
               <div class="setup-timeline__step setup-timeline__step--active">
                 <div class="setup-timeline__gutter">
                   <div class="setup-timeline__icon-wrap" aria-hidden="true">
-                    <svg class="setup-timeline__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                      <path d="M5 7a2 2 0 012-2h10a2 2 0 012 2v10H5V7z" />
-                      <path d="M5 17V9h14v8" />
-                      <path d="M9 12h6" />
-                    </svg>
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--active" src="assets/icon_consent_blue.svg" alt="" />
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--pending setup-timeline__icon-img--consent-pending" src="assets/icon_consent_blue.svg" alt="" />
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--done" src="assets/icon_success.svg" alt="" />
                   </div>
                   <div class="setup-timeline__rail"></div>
                 </div>
@@ -64,10 +62,9 @@
               <div class="setup-timeline__step setup-timeline__step--pending">
                 <div class="setup-timeline__gutter">
                   <div class="setup-timeline__icon-wrap" aria-hidden="true">
-                    <svg class="setup-timeline__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                      <path d="M4 6h16v12H4V6z" />
-                      <path d="m4 8 8 5 8-5" />
-                    </svg>
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--active" src="assets/icon_mail_blue.svg" alt="" />
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--pending" src="assets/icon_mail_gray.svg" alt="" />
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--done" src="assets/icon_success.svg" alt="" />
                   </div>
                   <div class="setup-timeline__rail"></div>
                 </div>
@@ -81,10 +78,9 @@
               <div class="setup-timeline__step setup-timeline__step--pending">
                 <div class="setup-timeline__gutter">
                   <div class="setup-timeline__icon-wrap" aria-hidden="true">
-                    <svg class="setup-timeline__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                      <rect x="6" y="10" width="12" height="10" rx="1" />
-                      <path d="M9 10V7a3 3 0 016 0v3" />
-                    </svg>
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--active" src="assets/icon_lock_blue.svg" alt="" />
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--pending" src="assets/icon_lock_gray.svg" alt="" />
+                    <img class="setup-timeline__icon setup-timeline__icon-img setup-timeline__icon-img--done" src="assets/icon_success.svg" alt="" />
                   </div>
                 </div>
                 <div class="setup-timeline__main">
@@ -115,5 +111,49 @@
       </footer>
     </section>
   </main>
+
+  <div class="build-badge" role="note" aria-label="Prototype state controls">
+    <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyWallet">
+      <span class="build-badge__title">Prototype controls</span>
+      <span class="build-badge__chevron" aria-hidden="true">
+        <img class="build-badge__chevron-icon" src="assets/icon_back.svg" alt="" />
+        <img class="build-badge__chevron-icon build-badge__chevron-icon--collapsed" src="assets/icon_prototypecontrols.svg" alt="" />
+      </span>
+    </button>
+    <div class="build-badge__body" id="prototypeStatesBodyWallet">
+      <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
+
+      <div class="build-badge__checkbox-stack">
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-empty aria-label="Empty" />
+            <span>Empty</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="build-badge__group" data-state-group="setupProgress">
+        <div class="build-badge__group-label">Setup progress</div>
+        <div class="build-badge__state">
+          <button type="button" class="build-badge__state-btn" data-state-action="down" aria-label="Previous setup progress">−</button>
+          <span class="build-badge__state-value" data-state-value></span>
+          <button type="button" class="build-badge__state-btn" data-state-action="up" aria-label="Next setup progress">+</button>
+          <span class="build-badge__state-name" data-state-name></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/prototype-state.js"></script>
 </body>
 </html>

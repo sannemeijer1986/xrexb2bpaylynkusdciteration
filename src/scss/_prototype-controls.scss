@@ -1,0 +1,331 @@
+// Floating build badge — matches xrexexchangedca prototype controls (main.css)
+
+/* Floating build badge */
+.build-badge {
+  position: fixed;
+  right: 16px;
+  bottom: 24px;
+  z-index: 1201;
+  min-width: 240px;
+  width: 240px;
+  min-height: 40px;
+  max-height: 550px;
+  background: rgba(57, 59, 59, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  padding: 16px 16px 16px 16px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  color-scheme: dark;
+  pointer-events: auto;
+  transition: width 0.15s ease, max-height 0.25s ease, opacity 0.2s ease;
+}
+
+@media (max-width: 640px) {
+  .build-badge {
+    bottom: 84px;
+  }
+}
+
+.build-badge__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0px 0px 0px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.build-badge__title {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: Sora, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  transition: opacity 0.4s ease;
+  opacity: 1;
+}
+
+.build-badge__chevron {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-90deg);
+  transition: transform 0.2s ease;
+  opacity: 1;
+}
+
+.build-badge__chevron img {
+  width: 12px;
+  height: 12px;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+.build-badge__chevron .build-badge__chevron-icon--collapsed {
+  display: none;
+}
+
+.build-badge.is-collapsed .build-badge__chevron {
+  width: 40px;
+  height: 40px;
+}
+
+.build-badge.is-collapsed .build-badge__chevron img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 2px;
+}
+
+.build-badge__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform-origin: bottom;
+  transition: max-height 0.15s ease, opacity 0.2s ease, transform 0.25s ease;
+  max-height: 550px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.build-badge.is-collapsed {
+  width: 56px;
+  min-width: 56px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.build-badge.is-collapsed .build-badge__title {
+  display: none;
+  opacity: 0;
+}
+
+.build-badge.is-collapsed .build-badge__header {
+  padding: 0;
+  justify-content: center;
+}
+
+.build-badge.is-collapsed .build-badge__body {
+  max-height: 1px;
+  opacity: 0;
+  transform: scaleY(0.92);
+  overflow: hidden;
+}
+
+.build-badge.is-collapsed .build-badge__chevron {
+  transform: none;
+  background: transparent;
+}
+
+.build-badge.is-collapsed .build-badge__chevron-icon {
+  display: none;
+}
+
+.build-badge.is-collapsed .build-badge__chevron-icon--collapsed {
+  display: block;
+}
+
+.build-badge__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.build-badge__group.is-locked {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.build-badge__group-label {
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.build-badge__section-title {
+  font-family: Sora, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.build-badge__checkbox-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.build-badge__checkbox-stack .build-badge__section-row {
+  margin-top: 0;
+}
+
+.build-badge__section-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+
+  > .build-badge__section-title {
+    margin-top: 0;
+    flex-shrink: 0;
+  }
+}
+
+.build-badge__checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.build-badge__checkbox-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.build-badge__section-row .build-badge__checkbox-group {
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+.build-badge__section-row .build-badge__select {
+  width: 132px;
+  max-width: 100%;
+}
+
+.build-badge__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.build-badge__select {
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 2px 22px 2px 8px;
+  min-height: 30px;
+  min-width: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23fff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+}
+
+.build-badge__select option {
+  font: inherit;
+  line-height: 1.35;
+  padding: 6px 10px;
+}
+
+.build-badge__select:focus {
+  outline: none;
+  border-color: #4d88ff;
+}
+
+.build-badge__checkbox input {
+  width: 14px;
+  height: 14px;
+  accent-color: #4d88ff;
+}
+
+.build-badge__reset {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4d88ff;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.build-badge__divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.075);
+  margin: 4px 2px;
+  border-radius: 999px;
+}
+
+.build-badge__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 4px 4px;
+  line-height: 1.2;
+  flex-wrap: wrap;
+}
+
+.build-badge__state-btn {
+  background: #ffffff;
+  color: #111827;
+  border: 0;
+  border-radius: 20px;
+  width: 16px;
+  height: 16px;
+  font-weight: 700;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 2px 0;
+  cursor: pointer;
+  line-height: 1;
+  font-family: inherit;
+}
+
+.build-badge__state-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.build-badge__state-value {
+  font-weight: 700;
+  font-size: 12px;
+  min-width: 10px;
+  text-align: center;
+}
+
+.build-badge__state-name {
+  font-size: 10px;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  opacity: 1;
+}

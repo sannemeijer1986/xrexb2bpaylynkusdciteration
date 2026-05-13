@@ -305,9 +305,23 @@ a.setup-button--secondary {
     height: 4px;
     background: $border-soft;
 
-    &--done {
+    // Segment between steps 1–2 (grey when not completed)
+    &:nth-of-type(1):not(.setup-steps__track--done) {
       left: 4px;
       width: 60px;
+    }
+
+    // First segment completed
+    &:nth-of-type(1).setup-steps__track--done {
+      left: 4px;
+      width: 60px;
+      background: $step-blue;
+    }
+
+    // Segment between steps 2–3 (prototype stepper state)
+    &:nth-of-type(2).setup-steps__track--done {
+      left: 74px;
+      width: 53px;
       background: $step-blue;
     }
   }

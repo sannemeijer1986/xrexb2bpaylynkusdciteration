@@ -91,9 +91,30 @@
   color: $text-placeholder;
 }
 
+.setup-timeline__step--done .setup-timeline__icon-wrap {
+  color: $text-primary;
+}
+
 .setup-timeline__icon {
   width: 26px;
   height: 26px;
+}
+
+// Raster / external SVG timeline icons (active vs pending vs completed)
+.setup-timeline__icon-img {
+  display: none;
+  object-fit: contain;
+}
+
+.setup-timeline__step--active .setup-timeline__icon-img--active,
+.setup-timeline__step--pending .setup-timeline__icon-img--pending,
+.setup-timeline__step--done .setup-timeline__icon-img--done {
+  display: block;
+}
+
+// No gray consent asset — dim the blue icon if this step is ever pending
+.setup-timeline__icon-img--consent-pending {
+  opacity: 0.38;
 }
 
 .setup-timeline__rail {
@@ -143,6 +164,10 @@
 
 .setup-timeline__step--pending .setup-timeline__heading {
   color: $text-placeholder;
+}
+
+.setup-timeline__step--done .setup-timeline__heading {
+  color: $text-primary;
 }
 
 .setup-timeline__desc {
