@@ -40,21 +40,23 @@
   object-position: left top;
 }
 
+// Mobile / tablet (<1280): Figma `0 Mobie` (32075:11887) — hero 118px, sheet starts at 88px → 30px overlap
 .setup-panel {
   position: relative;
   z-index: 2;
-  padding: 24px 20px 32px;
   margin-top: -30px;
+  padding: 0 24px 24px;
 }
 
 .setup-panel__content {
   width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   padding: 24px 20px;
   background: $surface-card;
   border: 1px solid $border-soft;
-  border-radius: $radius-card;
+  border-radius: $radius-card $radius-card 0 0;
+  box-sizing: border-box;
 }
 
 .setup-header {
@@ -166,6 +168,15 @@
   flex-direction: column;
   gap: 16px;
   margin-top: 26px;
+
+  // Next above Back (matches Figma mobile); desktop overrides order in @media (min-width: $desktop-breakpoint)
+  .setup-button--primary {
+    order: -1;
+  }
+
+  .setup-button--secondary {
+    order: 0;
+  }
 }
 
 .setup-button {
@@ -199,19 +210,10 @@
   display: none;
 }
 
-// Tablet-ish layout: keep stacked, but stop overlapping the hero.
-@media (min-width: 720px) {
-  .setup-panel {
-    margin-top: 0;
-    padding-top: 40px;
-  }
-
-  .setup-panel__content {
-    max-width: 520px;
-  }
-
+// Tablet (still < desktop): same overlap + full-width sheet as mobile; only loosen description measure
+@media (min-width: 720px) and (max-width: ($desktop-breakpoint - 0.02px)) {
   .setup-option__description {
-    max-width: 420px;
+    max-width: none;
   }
 }
 
@@ -257,6 +259,7 @@
     background: transparent;
     border: 0;
     border-radius: 0;
+    box-sizing: border-box;
   }
 
   .setup-header {
@@ -364,18 +367,18 @@
     justify-content: flex-end;
     gap: 16px;
     margin-top: 28px;
+
+    .setup-button--secondary {
+      order: 1;
+    }
+
+    .setup-button--primary {
+      order: 2;
+    }
   }
 
   .setup-button {
     width: 240px;
-  }
-
-  .setup-button--secondary {
-    order: 1;
-  }
-
-  .setup-button--primary {
-    order: 2;
   }
 
   .setup-footer {
