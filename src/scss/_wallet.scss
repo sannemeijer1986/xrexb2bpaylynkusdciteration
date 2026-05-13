@@ -49,6 +49,8 @@
   flex-shrink: 0;
   width: 16px;
   height: 16px;
+  display: block;
+  object-fit: contain;
 }
 
 .setup-timeline {
@@ -146,6 +148,18 @@
   align-items: flex-start;
 }
 
+.setup-timeline__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.setup-timeline__copy .setup-timeline__heading {
+  margin: 0;
+}
+
 .setup-timeline__heading {
   margin: 0 0 2px;
   font-size: 16px;
@@ -160,6 +174,16 @@
   align-items: center;
   min-height: 44px;
   margin-bottom: 0;
+}
+
+// Step 2 uses .setup-timeline__copy (heading + verify desc in DOM); when verify is hidden (progress ≠ 2), center title with gutter icon
+html:not([data-prototype-setup-progress="2"])
+  .setup-timeline__step:nth-child(2)
+  .setup-timeline__copy
+  .setup-timeline__heading {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 .setup-timeline__step--pending .setup-timeline__heading {
@@ -181,6 +205,75 @@
 .setup-timeline__email {
   font-weight: 700;
   color: $text-email-highlight;
+}
+
+.setup-timeline__desc--verify .setup-timeline__email {
+  font-weight: 600;
+}
+
+// Figma 32096:9906 — consent complete: timestamp replaces body copy
+.setup-timeline__timestamp {
+  display: none;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: $text-secondary;
+}
+
+.setup-timeline__desc--verify {
+  display: none;
+  margin: 0;
+}
+
+.setup-timeline-verify {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  background: $button-primary;
+  color: #fff;
+  font-family: $font-family-sans;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid rgba($button-primary, 0.35);
+    outline-offset: 2px;
+  }
+}
+
+// State ≥2 Consented: step 1 shows timestamp, hides Agree + consent copy
+html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
+  .setup-timeline__step:nth-child(1) {
+    .setup-timeline__desc--consent,
+    .setup-timeline-agree {
+      display: none;
+    }
+
+    .setup-timeline__timestamp {
+      display: block;
+    }
+  }
+}
+
+// State 2 only: step 2 shows OTP copy + Verify email (Figma Consented)
+html[data-prototype-setup-progress="2"] {
+  .setup-timeline__step:nth-child(2) {
+    .setup-timeline__desc--verify {
+      display: block;
+    }
+
+    .setup-timeline-verify {
+      display: inline-flex;
+    }
+  }
 }
 
 .setup-timeline-agree {
@@ -243,7 +336,8 @@
     gap: 16px;
   }
 
-  .setup-timeline-agree {
+  .setup-timeline-agree,
+  .setup-timeline-verify {
     flex-shrink: 0;
     margin-top: 2px;
   }

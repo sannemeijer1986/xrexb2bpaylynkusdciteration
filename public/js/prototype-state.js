@@ -5,6 +5,7 @@
   const STORAGE_PREFIX = "xrex.paylynk.prototype.";
   const EMPTY_KEY = `${STORAGE_PREFIX}empty.v1`;
   const LOGGED_IN_KEY = `${STORAGE_PREFIX}loggedIn.v1`;
+  const CONSENT_AT_KEY = `${STORAGE_PREFIX}consentCompletedAtIso.v1`;
 
   const STATE_CONFIGS = {
     setupProgress: {
@@ -92,11 +93,45 @@
     });
   }
 
+  function formatConsentDate(d) {
+    return new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(d);
+  }
+
+  function syncConsentTimestamp() {
+    const el = document.querySelector("[data-consent-at]");
+    if (!el) return;
+    const p = states.setupProgress;
+    if (p < 2) {
+      el.textContent = "";
+      return;
+    }
+    let iso = null;
+    try {
+      iso = window.localStorage?.getItem(CONSENT_AT_KEY);
+    } catch (_) {
+      /* ignore */
+    }
+    if (!iso) {
+      iso = new Date().toISOString();
+      try {
+        window.localStorage?.setItem(CONSENT_AT_KEY, iso);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+    const d = new Date(iso);
+    el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
+  }
+
   function applySetupProgressToUi() {
     const p = states.setupProgress;
     document.documentElement.dataset.prototypeSetupProgress = String(p);
     syncSetupStepperFromProgress(p);
     syncWalletTimelineFromProgress(p);
+    syncConsentTimestamp();
   }
 
   function getLabel(group, value) {
@@ -234,6 +269,14 @@
     });
   }
 
+  function initTimelineAgreeButton() {
+    document.querySelectorAll(".setup-timeline-agree").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        setState("setupProgress", 2, { force: true });
+      });
+    });
+  }
+
   function initPrototypeReset() {
     const resetBtn = document.querySelector("[data-prototype-reset]");
     if (!resetBtn) return;
@@ -262,12 +305,20 @@
           /* ignore */
         }
       }
+
+      try {
+        window.localStorage?.removeItem(CONSENT_AT_KEY);
+      } catch (_) {
+        /* ignore */
+      }
+      syncConsentTimestamp();
     });
   }
 
   function init() {
     initStates();
     initBadgeControls();
+    initTimelineAgreeButton();
     initEmptyCheckbox();
     initLoggedInSelect();
     initPrototypeReset();

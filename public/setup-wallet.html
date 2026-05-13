@@ -7,7 +7,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=25" />
+  <link rel="stylesheet" href="css/main.css?v=28" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v != null && v !== "") document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="setup-page" data-prototype-context="wallet-setup">
   <main class="setup-shell" aria-labelledby="wallet-title">
@@ -28,9 +37,7 @@
               </p>
               <a class="setup-wallet-works" href="#">
                 How it works
-                <svg class="setup-wallet-works__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                  <path fill="currentColor" d="M4.5 11.5 11 5H7V4h5v5h-1V5.7l-6.5 6.5-.7-.7z" />
-                </svg>
+                <img class="setup-wallet-works__icon" src="assets/icon_northeast_arrow_blue.svg" width="16" height="16" alt="" aria-hidden="true" />
               </a>
             </div>
 
@@ -46,13 +53,14 @@
                 </div>
                 <div class="setup-timeline__main">
                   <div class="setup-timeline__row">
-                    <div>
+                    <div class="setup-timeline__copy">
                       <h2 class="setup-timeline__heading">Review &amp; consent</h2>
-                      <p class="setup-timeline__desc">
+                      <p class="setup-timeline__desc setup-timeline__desc--consent">
                         A self-custodial wallet will be created using your email
                         <span class="setup-timeline__email">abc1234@gmail.com</span>
                         (via Fireblocks Dynamic)
                       </p>
+                      <p class="setup-timeline__timestamp" data-consent-at aria-live="polite"></p>
                     </div>
                     <button type="button" class="setup-timeline-agree">Agree</button>
                   </div>
@@ -70,7 +78,15 @@
                 </div>
                 <div class="setup-timeline__main">
                   <div class="setup-timeline__row">
-                    <h2 class="setup-timeline__heading">Verify email &amp; create wallet</h2>
+                    <div class="setup-timeline__copy">
+                      <h2 class="setup-timeline__heading">Verify email &amp; create wallet</h2>
+                      <p class="setup-timeline__desc setup-timeline__desc--verify">
+                        Fireblocks Dynamic will send a one-time password to
+                        <span class="setup-timeline__email">abc1234@gmail.com</span>
+                        to verify your email and continue wallet creation setup.
+                      </p>
+                    </div>
+                    <button type="button" class="setup-timeline-verify">Verify email</button>
                   </div>
                 </div>
               </div>
