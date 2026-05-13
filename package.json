@@ -1,0 +1,15 @@
+{
+  "name": "xrexb2bpaylynkusdciteration",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "mkdir -p public/css && sass src/scss/main.scss public/css/main.css --style=compressed --no-source-map",
+    "watch:css": "mkdir -p public/css && sass --watch src/scss/main.scss:public/css/main.css --style=expanded --source-map --poll",
+    "start": "npx --yes serve -s public -l 5173",
+    "dev": "npm-run-all -p watch:css start"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.93.3"
+  }
+}
