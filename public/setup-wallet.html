@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XREX PayLynk - Create your wallet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=20" />
+</head>
+<body class="setup-page">
+  <main class="setup-shell" aria-labelledby="wallet-title">
+    <section class="setup-hero" aria-label="XREX Pay">
+      <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
+      <img class="setup-hero__logo" src="assets/logo-xrex-pay-white.svg" alt="XREX Pay" />
+    </section>
+
+    <section class="setup-panel">
+      <div class="setup-panel__body">
+        <div class="setup-panel__content setup-panel__content--wallet">
+          <h1 id="wallet-title" class="setup-wallet-title">Create your wallet</h1>
+
+          <div class="setup-wallet-card">
+            <div class="setup-wallet-intro">
+              <p class="setup-wallet-lede">
+                One-time setup for your self-custodial stablecoin wallet to make easy and fast payments using USD stablecoins
+              </p>
+              <a class="setup-wallet-works" href="#">
+                How it works
+                <svg class="setup-wallet-works__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M4.5 11.5 11 5H7V4h5v5h-1V5.7l-6.5 6.5-.7-.7z" />
+                </svg>
+              </a>
+            </div>
+
+            <div class="setup-timeline" aria-label="Wallet setup steps">
+              <div class="setup-timeline__step setup-timeline__step--active">
+                <div class="setup-timeline__gutter">
+                  <div class="setup-timeline__icon-wrap" aria-hidden="true">
+                    <svg class="setup-timeline__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                      <path d="M5 7a2 2 0 012-2h10a2 2 0 012 2v10H5V7z" />
+                      <path d="M5 17V9h14v8" />
+                      <path d="M9 12h6" />
+                    </svg>
+                  </div>
+                  <div class="setup-timeline__rail"></div>
+                </div>
+                <div class="setup-timeline__main">
+                  <div class="setup-timeline__row">
+                    <div>
+                      <h2 class="setup-timeline__heading">Review &amp; consent</h2>
+                      <p class="setup-timeline__desc">
+                        A self-custodial wallet will be created using your email
+                        <span class="setup-timeline__email">abc1234@gmail.com</span>
+                        (via Fireblocks Dynamic)
+                      </p>
+                    </div>
+                    <button type="button" class="setup-timeline-agree">Agree</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="setup-timeline__step setup-timeline__step--pending">
+                <div class="setup-timeline__gutter">
+                  <div class="setup-timeline__icon-wrap" aria-hidden="true">
+                    <svg class="setup-timeline__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                      <path d="M4 6h16v12H4V6z" />
+                      <path d="m4 8 8 5 8-5" />
+                    </svg>
+                  </div>
+                  <div class="setup-timeline__rail"></div>
+                </div>
+                <div class="setup-timeline__main">
+                  <div class="setup-timeline__row">
+                    <h2 class="setup-timeline__heading">Verify email &amp; create wallet</h2>
+                  </div>
+                </div>
+              </div>
+
+              <div class="setup-timeline__step setup-timeline__step--pending">
+                <div class="setup-timeline__gutter">
+                  <div class="setup-timeline__icon-wrap" aria-hidden="true">
+                    <svg class="setup-timeline__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                      <rect x="6" y="10" width="12" height="10" rx="1" />
+                      <path d="M9 10V7a3 3 0 016 0v3" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="setup-timeline__main">
+                  <div class="setup-timeline__row">
+                    <h2 class="setup-timeline__heading">Set wallet passcode</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="setup-actions setup-actions--wallet">
+              <a class="setup-button setup-button--secondary" href="index.html">Cancel</a>
+              <button class="setup-button setup-button--primary" type="button" disabled>Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="setup-footer">
+        <p>© XREX Pay Limited 2026</p>
+        <nav class="setup-footer__nav" aria-label="Footer">
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Support</a>
+          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
+          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Privacy Policy</a>
+        </nav>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

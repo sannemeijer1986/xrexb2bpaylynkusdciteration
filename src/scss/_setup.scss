@@ -80,7 +80,8 @@
   gap: 26px;
 }
 
-.setup-option {
+button.setup-option,
+a.setup-option {
   display: flex;
   width: 100%;
   min-height: 190px;
@@ -93,7 +94,15 @@
   border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: $radius-card;
   text-align: center;
+}
 
+a.setup-option {
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.setup-option {
   &:focus-visible {
     outline: 3px solid rgba($text-clickable, 0.28);
     outline-offset: 2px;
@@ -204,6 +213,16 @@
 .setup-button--secondary {
   color: #3f78ff;
   background: $button-secondary;
+}
+
+a.setup-button {
+  text-decoration: none;
+  box-sizing: border-box;
+  color: inherit;
+}
+
+a.setup-button--secondary {
+  color: #3f78ff;
 }
 
 .setup-footer {
@@ -330,7 +349,9 @@
     gap: 24px;
   }
 
-  .setup-option {
+  // Match `button.setup-option` / `a.setup-option` specificity so row layout wins over mobile column
+  button.setup-option,
+  a.setup-option {
     min-height: 160px;
     flex-direction: row;
     justify-content: flex-start;
