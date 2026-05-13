@@ -133,6 +133,14 @@
   color: $text-primary;
 }
 
+// Standalone title row (no copy / inner wrapper): match icon column height so text centers with the 44px circle
+.setup-timeline__row > .setup-timeline__heading:only-child {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 0;
+}
+
 .setup-timeline__step--pending .setup-timeline__heading {
   color: $text-placeholder;
 }
