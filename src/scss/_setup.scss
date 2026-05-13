@@ -150,7 +150,7 @@ a.setup-option {
   font-size: 16px;
   font-weight: 400;
   line-height: 23px;
-  color: $text-secondary;
+  color: $text-primary;
 }
 
 .setup-option__action {
@@ -206,6 +206,9 @@ a.setup-option {
   width: 32px;
   height: 32px;
   place-items: center;
+  border-radius: 999px;
+  background: #ebf2ff;
+  box-sizing: border-box;
 }
 
 .setup-option__incomplete-icon {
@@ -219,7 +222,7 @@ a.setup-option {
   flex: 1 1 auto;
   min-width: 0;
   flex-direction: column;
-  gap: 4px;
+  gap: 1px;
   align-items: flex-start;
   text-align: left;
 }
