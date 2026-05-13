@@ -7,6 +7,7 @@
   const LOGGED_IN_KEY = `${STORAGE_PREFIX}loggedIn.v1`;
   const CONSENT_AT_KEY = `${STORAGE_PREFIX}consentCompletedAtIso.v1`;
   const EMAIL_VERIFIED_AT_KEY = `${STORAGE_PREFIX}emailVerifiedAtIso.v1`;
+  const PASSCODE_SET_AT_KEY = `${STORAGE_PREFIX}passcodeSetAtIso.v1`;
   const LOGGED_IN_SESSION_END_KEY = `${STORAGE_PREFIX}loggedInSessionEndsAtIso.v1`;
   const LOGGED_IN_SESSION_MS = 5 * 60 * 1000;
 
@@ -219,6 +220,32 @@
     el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
   }
 
+  function syncPasscodeTimestamp() {
+    const el = document.querySelector("[data-passcode-set-at]");
+    if (!el) return;
+    const p = states.setupProgress;
+    if (p < 4) {
+      el.textContent = "";
+      return;
+    }
+    let iso = null;
+    try {
+      iso = window.localStorage?.getItem(PASSCODE_SET_AT_KEY);
+    } catch (_) {
+      /* ignore */
+    }
+    if (!iso) {
+      iso = new Date().toISOString();
+      try {
+        window.localStorage?.setItem(PASSCODE_SET_AT_KEY, iso);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+    const d = new Date(iso);
+    el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
+  }
+
   function syncWalletContinueButton() {
     const btn = document.querySelector(".setup-actions--wallet .setup-button--primary");
     if (!btn || btn.tagName !== "BUTTON") return;
@@ -231,6 +258,7 @@
     syncWalletTimelineFromProgress(p);
     syncConsentTimestamp();
     syncEmailVerifiedTimestamp();
+    syncPasscodeTimestamp();
     syncWalletContinueButton();
   }
 
@@ -597,8 +625,14 @@
       } catch (_) {
         /* ignore */
       }
+      try {
+        window.localStorage?.removeItem(PASSCODE_SET_AT_KEY);
+      } catch (_) {
+        /* ignore */
+      }
       syncConsentTimestamp();
       syncEmailVerifiedTimestamp();
+      syncPasscodeTimestamp();
 
       const wm = document.getElementById("wallet-modals");
       if (wm) {

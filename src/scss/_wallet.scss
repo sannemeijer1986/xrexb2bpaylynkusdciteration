@@ -157,8 +157,17 @@
   flex: 1 1 auto;
 }
 
-.setup-timeline__copy .setup-timeline__heading {
+// Wrap the title only — min-height + flex centering stays off the desc/timestamp column so dates align with the title.
+.setup-timeline__heading-row {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.setup-timeline__heading-row .setup-timeline__heading {
   margin: 0;
+  width: 100%;
+  min-width: 0;
 }
 
 .setup-timeline__heading {
@@ -169,32 +178,23 @@
   color: $text-primary;
 }
 
-// Standalone title row (no copy / inner wrapper): match icon column height so text centers with the 44px circle
-.setup-timeline__row > .setup-timeline__heading:only-child {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  margin-bottom: 0;
-}
+// Pending / upcoming steps only: vertically center the lone title with the gutter icon (~40px).
+// Done and active steps omit this so title + timestamp stack tightly like Figma.
 
-// Step 2 uses .setup-timeline__copy (heading + verify desc in DOM); when verify is hidden (progress ≠ 2), center title with gutter icon
 html:not([data-prototype-setup-progress="2"])
-  .setup-timeline__step:nth-child(2)
-  .setup-timeline__copy
-  .setup-timeline__heading {
+  .setup-timeline__step:nth-child(2).setup-timeline__step--pending
+  .setup-timeline__heading-row {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 40px;
 }
 
-// Step 3: same — when passcode desc is hidden (progress ≠ 3), center title with gutter icon
 html:not([data-prototype-setup-progress="3"])
-  .setup-timeline__step:nth-child(3)
-  .setup-timeline__copy
-  .setup-timeline__heading {
+  .setup-timeline__step:nth-child(3).setup-timeline__step--pending
+  .setup-timeline__heading-row {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 40px;
 }
 
 .setup-timeline__step--pending .setup-timeline__heading {
@@ -226,10 +226,14 @@ html:not([data-prototype-setup-progress="3"])
 .setup-timeline__timestamp {
   display: none;
   margin: 0;
+  align-self: flex-start;
+  width: max-content;
+  max-width: 100%;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
   color: $text-secondary;
+  text-align: left;
 }
 
 .setup-timeline__desc--verify {
@@ -279,7 +283,7 @@ html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
       display: none;
     }
 
-    .setup-timeline__timestamp {
+    .setup-timeline__timestamp[data-consent-at] {
       display: block;
     }
   }
@@ -302,6 +306,15 @@ html[data-prototype-setup-progress="2"] {
 @for $p from 3 through 10 {
   html[data-prototype-setup-progress="#{$p}"] {
     .setup-timeline__step:nth-child(2) .setup-timeline__timestamp[data-email-verified-at] {
+      display: block;
+    }
+  }
+}
+
+// State ≥4: step 3 shows passcode-set timestamp
+@for $p from 4 through 10 {
+  html[data-prototype-setup-progress="#{$p}"] {
+    .setup-timeline__step:nth-child(3) .setup-timeline__timestamp[data-passcode-set-at] {
       display: block;
     }
   }
@@ -357,7 +370,7 @@ html[data-prototype-setup-progress="2"] {
   }
 
   .setup-timeline {
-    padding: 32px 24px;
+    padding: 32px 24px 16px 24px;
   }
 
   .setup-timeline__row {
@@ -514,7 +527,7 @@ body.wallet-modals-is-open {
   top: 16px;
   left: 50%;
   width: calc(100% - 32px);
-  max-width: 768px;
+  max-width: 320px;
   box-sizing: border-box;
   pointer-events: none;
   transform: translate(-50%, calc(-100% - 24px));
