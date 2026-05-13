@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=36" />
+  <link rel="stylesheet" href="css/main.css?v=44" />
   <script>
     (function () {
       try {
@@ -85,6 +85,7 @@
                         <span class="setup-timeline__email">abc1234@gmail.com</span>
                         to verify your email and continue wallet creation setup.
                       </p>
+                      <p class="setup-timeline__timestamp" data-email-verified-at aria-live="polite"></p>
                     </div>
                     <button type="button" class="setup-timeline-verify">Verify email</button>
                   </div>
@@ -101,7 +102,12 @@
                 </div>
                 <div class="setup-timeline__main">
                   <div class="setup-timeline__row">
-                    <h2 class="setup-timeline__heading">Set wallet passcode</h2>
+                    <div class="setup-timeline__copy">
+                      <h2 class="setup-timeline__heading">Set wallet passcode</h2>
+                      <p class="setup-timeline__desc setup-timeline__desc--passcode">
+                        Create a passcode to secure your self-custodial wallet and authorize changes.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -118,71 +124,91 @@
       <footer class="setup-footer">
         <p>© XREX Pay Limited 2026</p>
         <nav class="setup-footer__nav" aria-label="Footer">
-          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Support</a>
-          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
+          <!-- <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Support</a>
+          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span> -->
           <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
-          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
-          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Privacy Policy</a>
+          <!-- <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Privacy Policy</a> -->
         </nav>
       </footer>
     </section>
   </main>
 
-  <div id="verify-email-modal" class="verify-email-modal" hidden>
-    <div class="verify-email-modal__backdrop" data-verify-email-modal-dismiss tabindex="-1"></div>
-    <div
-      class="verify-email-modal__panel"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="verify-email-modal-title"
-    >
-      <header class="verify-email-modal__header">
-        <button type="button" class="verify-email-modal__close" data-verify-email-modal-dismiss aria-label="Close dialog">
-          <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" />
-        </button>
-        <h2 id="verify-email-modal-title" class="verify-email-modal__title">Verify your email</h2>
-      </header>
+  <div id="wallet-modals" class="wallet-modals" hidden>
+    <div class="wallet-modals__backdrop" data-wallet-modals-dismiss tabindex="-1"></div>
 
-      <div class="verify-email-modal__body">
-        <div class="verify-email-modal__intro">
-          <p class="verify-email-modal__lede">
-            <span class="verify-email-modal__lede-text">Enter the verification code sent by Fireblocks Dynamic to </span><span class="verify-email-modal__email setup-timeline__email">abc1234@gmail.com</span>
-          </p>
-          <div class="verify-email-modal__logo-wrap">
-            <img
-              class="verify-email-modal__logo"
-              src="assets/logo_dynamic.svg"
-              width="120"
-              height="38"
-              alt="Dynamic by Fireblocks"
-            />
-          </div>
-        </div>
+    <div id="verify-email-dialog" class="verify-email-dialog wallet-modals__dialog">
+      <div
+        class="verify-email-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="verify-email-modal-title"
+      >
+        <header class="verify-email-modal__header">
+          <button type="button" class="verify-email-modal__close" data-wallet-modals-dismiss aria-label="Close dialog">
+            <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" />
+          </button>
+          <h2 id="verify-email-modal-title" class="verify-email-modal__title">Verify your email</h2>
+        </header>
 
-        <div class="verify-email-modal__field">
-          <label class="verify-email-modal__label" for="verify-email-code-input">Verification code</label>
-          <input
-            id="verify-email-code-input"
-            class="verify-email-modal__input"
-            type="text"
-            inputmode="numeric"
-            autocomplete="one-time-code"
-            maxlength="6"
-            placeholder="Enter code from your email"
-          />
-          <div class="verify-email-modal__hints">
-            <p class="verify-email-modal__resend-line">
-              <span>Didn’t receive the code? </span>
-              <button type="button" class="verify-email-modal__resend">Resend</button>
+        <div class="verify-email-modal__body">
+          <div class="verify-email-modal__intro">
+            <p class="verify-email-modal__lede">
+              <span class="verify-email-modal__lede-text">Enter the verification code sent by Fireblocks Dynamic to </span><span class="verify-email-modal__email setup-timeline__email">abc1234@gmail.com</span>
             </p>
-            <p class="verify-email-modal__spam-hint">If it’s missing, check your spam or junk folder</p>
+            <div class="verify-email-modal__logo-wrap">
+              <img
+                class="verify-email-modal__logo"
+                src="assets/logo_dynamic.svg"
+                width="120"
+                height="38"
+                alt="Dynamic by Fireblocks"
+              />
+            </div>
+          </div>
+
+          <div class="verify-email-modal__field">
+            <label class="verify-email-modal__label" for="verify-email-code-input">Verification code</label>
+            <input
+              id="verify-email-code-input"
+              class="verify-email-modal__input"
+              type="text"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              maxlength="6"
+              placeholder="Enter code from your email"
+            />
+            <div class="verify-email-modal__hints">
+              <p class="verify-email-modal__resend-line">
+                <span>Didn’t receive the code? </span>
+                <button type="button" class="verify-email-modal__resend">Resend</button>
+              </p>
+              <p class="verify-email-modal__spam-hint">If it’s missing, check your spam or junk folder</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <footer class="verify-email-modal__footer">
-        <button type="button" class="verify-email-modal__cancel" data-verify-email-modal-dismiss>Cancel</button>
-      </footer>
+        <footer class="verify-email-modal__footer">
+          <button type="button" class="verify-email-modal__cancel" data-wallet-modals-dismiss>Cancel</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="set-passcode-modal" class="set-passcode-modal wallet-modals__dialog" hidden>
+      <div
+        class="set-passcode-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="set-passcode-modal-title"
+      >
+        <header class="set-passcode-modal__header">
+          <button type="button" class="set-passcode-modal__close" data-wallet-modals-dismiss aria-label="Close dialog">
+            <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" />
+          </button>
+          <h2 id="set-passcode-modal-title" class="set-passcode-modal__title">Set wallet passcode</h2>
+        </header>
+        <div class="set-passcode-modal__body"></div>
+      </div>
     </div>
 
     <div id="verify-email-loader" class="verify-email-loader" hidden aria-hidden="true">
@@ -201,6 +227,13 @@
     </div>
   </div>
 
+  <div id="wallet-toast" class="wallet-toast" hidden aria-live="polite">
+    <div class="wallet-toast__inner">
+      <img class="wallet-toast__icon" src="assets/icon_success.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <p class="wallet-toast__text">E-mail verified</p>
+    </div>
+  </div>
+
   <div class="build-badge" role="note" aria-label="Prototype state controls">
     <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyWallet">
       <span class="build-badge__title">Prototype controls</span>
@@ -212,7 +245,7 @@
     <div class="build-badge__body" id="prototypeStatesBodyWallet">
       <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
 
-      <div class="build-badge__checkbox-stack">
+      <div class="build-badge__checkbox-stack" style="display: none !important;">
         <div class="build-badge__section-row">
           <label class="build-badge__checkbox">
             <input type="checkbox" data-prototype-empty aria-label="Empty" />
@@ -229,6 +262,9 @@
             <option value="true">True</option>
           </select>
         </div>
+      </div>
+      <div class="build-badge__logged-in-timer-row">
+        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
       </div>
 
       <div class="build-badge__group" data-state-group="setupProgress">

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=36" />
+  <link rel="stylesheet" href="css/main.css?v=44" />
   <script>
     (function () {
       try {
@@ -115,7 +115,7 @@
     <div class="build-badge__body" id="prototypeStatesBody">
       <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
 
-      <div class="build-badge__checkbox-stack">
+      <div class="build-badge__checkbox-stack" style="display: none !important;">
         <div class="build-badge__section-row">
           <label class="build-badge__checkbox">
             <input type="checkbox" data-prototype-empty aria-label="Empty" />
@@ -132,6 +132,9 @@
             <option value="true">True</option>
           </select>
         </div>
+      </div>
+      <div class="build-badge__logged-in-timer-row">
+        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
       </div>
 
       <div class="build-badge__group" data-state-group="setupProgress">

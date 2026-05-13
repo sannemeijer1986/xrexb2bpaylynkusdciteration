@@ -6,6 +6,9 @@
   const EMPTY_KEY = `${STORAGE_PREFIX}empty.v1`;
   const LOGGED_IN_KEY = `${STORAGE_PREFIX}loggedIn.v1`;
   const CONSENT_AT_KEY = `${STORAGE_PREFIX}consentCompletedAtIso.v1`;
+  const EMAIL_VERIFIED_AT_KEY = `${STORAGE_PREFIX}emailVerifiedAtIso.v1`;
+  const LOGGED_IN_SESSION_END_KEY = `${STORAGE_PREFIX}loggedInSessionEndsAtIso.v1`;
+  const LOGGED_IN_SESSION_MS = 5 * 60 * 1000;
 
   const STATE_CONFIGS = {
     setupProgress: {
@@ -30,6 +33,102 @@
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const states = {};
+
+  let loggedInTickId = null;
+
+  function stopLoggedInTimerTick() {
+    if (loggedInTickId != null) {
+      window.clearInterval(loggedInTickId);
+      loggedInTickId = null;
+    }
+  }
+
+  function updateLoggedInTimerDisplay() {
+    const els = document.querySelectorAll("[data-prototype-logged-in-timer]");
+    let isTrue = false;
+    try {
+      isTrue = window.localStorage?.getItem(LOGGED_IN_KEY) === "true";
+    } catch (_) {
+      /* ignore */
+    }
+    if (!isTrue) {
+      els.forEach((el) => {
+        el.textContent = "0:00";
+      });
+      return;
+    }
+    let endMs = NaN;
+    try {
+      const iso = window.localStorage?.getItem(LOGGED_IN_SESSION_END_KEY);
+      if (iso) endMs = new Date(iso).getTime();
+    } catch (_) {
+      /* ignore */
+    }
+    if (!Number.isFinite(endMs)) {
+      els.forEach((el) => {
+        el.textContent = "0:00";
+      });
+      return;
+    }
+    const remain = Math.max(0, endMs - Date.now());
+    const totalSec = Math.floor(remain / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    const text = `${m}:${String(s).padStart(2, "0")}`;
+    els.forEach((el) => {
+      el.textContent = text;
+    });
+    if (remain <= 0 && loggedInTickId != null) {
+      window.clearInterval(loggedInTickId);
+      loggedInTickId = null;
+    }
+  }
+
+  function startLoggedInTimerTick() {
+    stopLoggedInTimerTick();
+    updateLoggedInTimerDisplay();
+    let endMs = NaN;
+    try {
+      const iso = window.localStorage?.getItem(LOGGED_IN_SESSION_END_KEY);
+      if (iso) endMs = new Date(iso).getTime();
+    } catch (_) {
+      /* ignore */
+    }
+    if (!Number.isFinite(endMs)) return;
+    const remain = Math.max(0, endMs - Date.now());
+    if (remain <= 0) return;
+    loggedInTickId = window.setInterval(updateLoggedInTimerDisplay, 1000);
+  }
+
+  /** Persist logged-in, sync all selects, and run or clear the 5:00 session timer. */
+  function setLoggedInValue(isTrue) {
+    const v = isTrue ? "true" : "false";
+    try {
+      window.localStorage?.setItem(LOGGED_IN_KEY, v);
+    } catch (_) {
+      /* ignore */
+    }
+    document.querySelectorAll("[data-prototype-logged-in]").forEach((sel) => {
+      sel.value = v;
+    });
+    if (isTrue) {
+      const end = new Date(Date.now() + LOGGED_IN_SESSION_MS).toISOString();
+      try {
+        window.localStorage?.setItem(LOGGED_IN_SESSION_END_KEY, end);
+      } catch (_) {
+        /* ignore */
+      }
+      startLoggedInTimerTick();
+    } else {
+      try {
+        window.localStorage?.removeItem(LOGGED_IN_SESSION_END_KEY);
+      } catch (_) {
+        /* ignore */
+      }
+      stopLoggedInTimerTick();
+      updateLoggedInTimerDisplay();
+    }
+  }
 
   function syncWalletTimelineFromProgress(p) {
     const steps = document.querySelectorAll(".setup-timeline__step");
@@ -94,11 +193,45 @@
     el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
   }
 
+  function syncEmailVerifiedTimestamp() {
+    const el = document.querySelector("[data-email-verified-at]");
+    if (!el) return;
+    const p = states.setupProgress;
+    if (p < 3) {
+      el.textContent = "";
+      return;
+    }
+    let iso = null;
+    try {
+      iso = window.localStorage?.getItem(EMAIL_VERIFIED_AT_KEY);
+    } catch (_) {
+      /* ignore */
+    }
+    if (!iso) {
+      iso = new Date().toISOString();
+      try {
+        window.localStorage?.setItem(EMAIL_VERIFIED_AT_KEY, iso);
+      } catch (_) {
+        /* ignore */
+      }
+    }
+    const d = new Date(iso);
+    el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
+  }
+
+  function syncWalletContinueButton() {
+    const btn = document.querySelector(".setup-actions--wallet .setup-button--primary");
+    if (!btn || btn.tagName !== "BUTTON") return;
+    btn.disabled = states.setupProgress < 4;
+  }
+
   function applySetupProgressToUi() {
     const p = states.setupProgress;
     document.documentElement.dataset.prototypeSetupProgress = String(p);
     syncWalletTimelineFromProgress(p);
     syncConsentTimestamp();
+    syncEmailVerifiedTimestamp();
+    syncWalletContinueButton();
   }
 
   function getLabel(group, value) {
@@ -125,8 +258,9 @@
   function setState(group, next, opts = {}) {
     const config = STATE_CONFIGS[group];
     if (!config) return;
+    const prev = states[group];
     const clamped = clamp(parseInt(String(next), 10), config.min, config.max);
-    if (!opts.force && states[group] === clamped) return clamped;
+    if (!opts.force && prev === clamped) return clamped;
     states[group] = clamped;
     try {
       window.localStorage?.setItem(config.storageKey, String(clamped));
@@ -134,7 +268,11 @@
       /* ignore */
     }
     updateGroupUI(group);
-    if (group === "setupProgress") applySetupProgressToUi();
+    if (group === "setupProgress") {
+      if (prev === 3 && clamped === 2) setLoggedInValue(false);
+      if (prev === 2 && clamped === 3) setLoggedInValue(true);
+      applySetupProgressToUi();
+    }
     return clamped;
   }
 
@@ -216,23 +354,47 @@
     });
   }
 
-  /** Reserved — persists only; wire UI later. */
+  /** Logged-in dropdown + 5 min session timer (prototype controls). */
   function initLoggedInSelect() {
-    const select = document.querySelector("[data-prototype-logged-in]");
-    if (!select) return;
+    const selects = document.querySelectorAll("[data-prototype-logged-in]");
+    if (!selects.length) return;
+
+    let stored = "false";
     try {
-      const v = window.localStorage?.getItem(LOGGED_IN_KEY);
-      if (v === "true") select.value = "true";
-      else select.value = "false";
+      stored = window.localStorage?.getItem(LOGGED_IN_KEY) === "true" ? "true" : "false";
     } catch (_) {
-      select.value = "false";
+      /* ignore */
     }
-    select.addEventListener("change", () => {
+    selects.forEach((sel) => {
+      sel.value = stored;
+    });
+
+    if (stored === "true") {
+      let endIso = null;
       try {
-        window.localStorage?.setItem(LOGGED_IN_KEY, select.value);
+        endIso = window.localStorage?.getItem(LOGGED_IN_SESSION_END_KEY);
       } catch (_) {
         /* ignore */
       }
+      if (!endIso) {
+        try {
+          window.localStorage?.setItem(
+            LOGGED_IN_SESSION_END_KEY,
+            new Date(Date.now() + LOGGED_IN_SESSION_MS).toISOString(),
+          );
+        } catch (_) {
+          /* ignore */
+        }
+      }
+      startLoggedInTimerTick();
+    } else {
+      updateLoggedInTimerDisplay();
+    }
+
+    selects.forEach((select) => {
+      select.addEventListener("change", () => {
+        setLoggedInValue(select.value === "true");
+      });
     });
   }
 
@@ -244,14 +406,21 @@
     });
   }
 
-  function initVerifyEmailModal() {
-    const root = document.getElementById("verify-email-modal");
-    if (!root) return;
+  function initWalletModals() {
+    const walletModals = document.getElementById("wallet-modals");
+    if (!walletModals) return;
 
-    const input = root.querySelector("#verify-email-code-input");
-    const emailDest = root.querySelector(".verify-email-modal__email");
+    const verifyDialog = document.getElementById("verify-email-dialog");
+    const passcodeModal = document.getElementById("set-passcode-modal");
+    const input = walletModals.querySelector("#verify-email-code-input");
+    const emailDest = walletModals.querySelector(".verify-email-modal__email");
     const loader = document.getElementById("verify-email-loader");
+    const toast = document.getElementById("wallet-toast");
+
     let lastFocus = null;
+    let otpTimer = null;
+    let otpPending = false;
+    let toastHideTimer = null;
 
     function syncModalEmail() {
       const src =
@@ -273,29 +442,101 @@
       loader.setAttribute("aria-hidden", "false");
     }
 
-    function updateLoaderFromInput() {
-      if (!input || !loader) return;
-      if (input.value.length === 6) showLoader();
-      else hideLoader();
+    function clearOtpTimerOnly() {
+      if (otpTimer) clearTimeout(otpTimer);
+      otpTimer = null;
     }
 
-    function openModal() {
+    function abortOtpVerification() {
+      clearOtpTimerOnly();
+      otpPending = false;
+      hideLoader();
+    }
+
+    function hideToast() {
+      if (!toast) return;
+      clearTimeout(toastHideTimer);
+      toastHideTimer = null;
+      toast.classList.remove("is-visible");
+      const fallback = window.setTimeout(() => {
+        if (!toast.classList.contains("is-visible")) toast.hidden = true;
+      }, 400);
+      const onEnd = () => {
+        window.clearTimeout(fallback);
+        if (!toast.classList.contains("is-visible")) toast.hidden = true;
+        toast.removeEventListener("transitionend", onEnd);
+      };
+      toast.addEventListener("transitionend", onEnd);
+    }
+
+    function hideToastImmediate() {
+      if (!toast) return;
+      clearTimeout(toastHideTimer);
+      toastHideTimer = null;
+      toast.classList.remove("is-visible");
+      toast.hidden = true;
+    }
+
+    function showToast() {
+      if (!toast) return;
+      clearTimeout(toastHideTimer);
+      toast.hidden = false;
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => toast.classList.add("is-visible"));
+      });
+      toastHideTimer = window.setTimeout(() => hideToast(), 4500);
+    }
+
+    function completeEmailVerification() {
+      clearOtpTimerOnly();
+      otpPending = false;
+      hideLoader();
+      if (input) input.value = "";
+      if (verifyDialog) verifyDialog.hidden = true;
+      setState("setupProgress", 3, { force: true });
+      setLoggedInValue(true);
+      showToast();
+      if (passcodeModal) {
+        passcodeModal.hidden = false;
+        window.requestAnimationFrame(() => {
+          passcodeModal.querySelector(".set-passcode-modal__close")?.focus();
+        });
+      }
+    }
+
+    function updateLoaderFromInput() {
+      if (!input || !loader) return;
+      if (input.value.length === 6) {
+        showLoader();
+        if (!otpPending) {
+          otpPending = true;
+          otpTimer = window.setTimeout(completeEmailVerification, 3000);
+        }
+      } else {
+        abortOtpVerification();
+      }
+    }
+
+    function openVerifyModal() {
       syncModalEmail();
       lastFocus = document.activeElement;
-      root.hidden = false;
-      document.body.classList.add("verify-email-modal-is-open");
-      if (input) {
-        input.value = "";
-        hideLoader();
-      }
+      walletModals.hidden = false;
+      if (verifyDialog) verifyDialog.hidden = false;
+      if (passcodeModal) passcodeModal.hidden = true;
+      document.body.classList.add("wallet-modals-is-open");
+      abortOtpVerification();
+      if (input) input.value = "";
       window.requestAnimationFrame(() => input?.focus());
     }
 
-    function closeModal() {
-      hideLoader();
+    function closeWalletModals() {
+      abortOtpVerification();
       if (input) input.value = "";
-      root.hidden = true;
-      document.body.classList.remove("verify-email-modal-is-open");
+      if (verifyDialog) verifyDialog.hidden = false;
+      if (passcodeModal) passcodeModal.hidden = true;
+      walletModals.hidden = true;
+      document.body.classList.remove("wallet-modals-is-open");
+      hideToastImmediate();
       if (lastFocus && typeof lastFocus.focus === "function") {
         lastFocus.focus();
       }
@@ -303,24 +544,25 @@
     }
 
     document.querySelectorAll(".setup-timeline-verify").forEach((btn) => {
-      btn.addEventListener("click", () => openModal());
+      btn.addEventListener("click", () => openVerifyModal());
     });
 
     input?.addEventListener("input", () => updateLoaderFromInput());
 
-    root.addEventListener("click", (e) => {
+    walletModals.addEventListener("click", (e) => {
       if (loader && !loader.hidden) return;
-      if (e.target.closest("[data-verify-email-modal-dismiss]")) closeModal();
+      if (e.target.closest("[data-wallet-modals-dismiss]")) closeWalletModals();
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key !== "Escape" || root.hidden) return;
+      if (e.key !== "Escape" || walletModals.hidden) return;
       if (loader && !loader.hidden) {
-        hideLoader();
+        abortOtpVerification();
+        if (input) input.value = "";
         e.preventDefault();
         return;
       }
-      closeModal();
+      closeWalletModals();
     });
   }
 
@@ -343,22 +585,42 @@
         }
       }
 
-      const loggedIn = document.querySelector("[data-prototype-logged-in]");
-      if (loggedIn) {
-        loggedIn.value = "false";
-        try {
-          window.localStorage?.setItem(LOGGED_IN_KEY, "false");
-        } catch (_) {
-          /* ignore */
-        }
-      }
+      setLoggedInValue(false);
 
       try {
         window.localStorage?.removeItem(CONSENT_AT_KEY);
       } catch (_) {
         /* ignore */
       }
+      try {
+        window.localStorage?.removeItem(EMAIL_VERIFIED_AT_KEY);
+      } catch (_) {
+        /* ignore */
+      }
       syncConsentTimestamp();
+      syncEmailVerifiedTimestamp();
+
+      const wm = document.getElementById("wallet-modals");
+      if (wm) {
+        wm.hidden = true;
+        document.body.classList.remove("wallet-modals-is-open");
+        const v = document.getElementById("verify-email-dialog");
+        const p = document.getElementById("set-passcode-modal");
+        const inp = wm.querySelector("#verify-email-code-input");
+        const ld = document.getElementById("verify-email-loader");
+        const toastEl = document.getElementById("wallet-toast");
+        if (v) v.hidden = false;
+        if (p) p.hidden = true;
+        if (inp) inp.value = "";
+        if (ld) {
+          ld.hidden = true;
+          ld.setAttribute("aria-hidden", "true");
+        }
+        if (toastEl) {
+          toastEl.hidden = true;
+          toastEl.classList.remove("is-visible");
+        }
+      }
     });
   }
 
@@ -366,7 +628,7 @@
     initStates();
     initBadgeControls();
     initTimelineAgreeButton();
-    initVerifyEmailModal();
+    initWalletModals();
     initEmptyCheckbox();
     initLoggedInSelect();
     initPrototypeReset();

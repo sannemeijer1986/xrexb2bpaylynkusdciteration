@@ -187,6 +187,16 @@ html:not([data-prototype-setup-progress="2"])
   min-height: 44px;
 }
 
+// Step 3: same — when passcode desc is hidden (progress ≠ 3), center title with gutter icon
+html:not([data-prototype-setup-progress="3"])
+  .setup-timeline__step:nth-child(3)
+  .setup-timeline__copy
+  .setup-timeline__heading {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 .setup-timeline__step--pending .setup-timeline__heading {
   color: $text-placeholder;
 }
@@ -225,6 +235,17 @@ html:not([data-prototype-setup-progress="2"])
 .setup-timeline__desc--verify {
   display: none;
   margin: 0;
+}
+
+.setup-timeline__desc--passcode {
+  display: none;
+}
+
+// State 3 only: step 3 shows passcode description (Figma-style gated copy)
+html[data-prototype-setup-progress="3"] {
+  .setup-timeline__step:nth-child(3) .setup-timeline__desc--passcode {
+    display: block;
+  }
 }
 
 .setup-timeline-verify {
@@ -273,6 +294,15 @@ html[data-prototype-setup-progress="2"] {
 
     .setup-timeline-verify {
       display: inline-flex;
+    }
+  }
+}
+
+// State ≥3: step 2 shows email-verified timestamp (same treatment as consent on step 1)
+@for $p from 3 through 10 {
+  html[data-prototype-setup-progress="#{$p}"] {
+    .setup-timeline__step:nth-child(2) .setup-timeline__timestamp[data-email-verified-at] {
+      display: block;
     }
   }
 }
@@ -361,17 +391,18 @@ html[data-prototype-setup-progress="2"] {
   }
 }
 
-// Verify email modal — Figma 32097:10776 (desktop), 32097:10779 (mobile)
-body.verify-email-modal-is-open {
+// Verify email + passcode modals — shared backdrop (wallet-modals)
+body.wallet-modals-is-open {
   overflow: hidden;
 }
 
-.verify-email-modal {
+.wallet-modals {
   position: fixed;
   inset: 0;
   z-index: 1300;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 16px;
   box-sizing: border-box;
 
@@ -380,10 +411,154 @@ body.verify-email-modal-is-open {
   }
 }
 
-.verify-email-modal__backdrop {
+.wallet-modals__backdrop {
   position: absolute;
+  z-index: 0;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
+}
+
+.wallet-modals__dialog {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 580px;
+  box-sizing: border-box;
+}
+
+// Wrappers only — do not set display on these nodes or `hidden` stops working (passcode would show next to verify in the flex row).
+.verify-email-dialog {
+  width: 100%;
+}
+
+.set-passcode-modal {
+  width: 100%;
+}
+
+.verify-email-dialog[hidden],
+.set-passcode-modal[hidden] {
+  display: none !important;
+}
+
+.set-passcode-modal__panel {
+  display: flex;
+  width: 100%;
+  max-height: calc(100dvh - 32px);
+  flex-direction: column;
+  overflow: hidden auto;
+  border-radius: 16px;
+  background: $surface-primary;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.set-passcode-modal__header {
+  position: relative;
+  flex-shrink: 0;
+  min-height: 64px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid $border-soft;
+}
+
+.set-passcode-modal__close {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  place-items: center;
+  transform: translateY(-50%);
+
+  img {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba($text-clickable, 0.35);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+.set-passcode-modal__title {
+  margin: 0;
+  padding: 0 44px;
+  color: $text-primary;
+  font-family: $font-sora;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
+}
+
+.set-passcode-modal__body {
+  min-height: 120px;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+}
+
+// Toast — Figma 32099:11545 (Toast_bar_2025)
+.wallet-toast {
+  position: fixed;
+  z-index: 1400;
+  top: 16px;
+  left: 50%;
+  width: calc(100% - 32px);
+  max-width: 768px;
+  box-sizing: border-box;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 24px));
+  opacity: 0;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+
+  &[hidden] {
+    display: none !important;
+  }
+
+  &.is-visible {
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.wallet-toast__inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  background: $border-soft;
+  box-sizing: border-box;
+}
+
+.wallet-toast__icon {
+  flex-shrink: 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.wallet-toast__text {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .verify-email-modal__panel {
@@ -594,11 +769,11 @@ body.verify-email-modal-is-open {
   }
 }
 
-// Stacked on verify-email modal — Figma 32097:11438 (Loading_2025)
+// Full-layer overlay on #wallet-modals (sibling of dialogs, not inside verify panel)
 .verify-email-loader {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 10;
   display: grid;
   place-items: center;
   padding: 24px;
@@ -613,19 +788,22 @@ body.verify-email-modal-is-open {
 .verify-email-loader__scrim {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .verify-email-loader__card {
   position: relative;
   z-index: 1;
   display: flex;
+  min-width: 480px;
+  max-width: 100%;
   flex-direction: column;
   align-items: center;
   padding: 48px;
   border: 1px solid $border-soft;
   border-radius: 16px;
   background: $surface-card;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
 }
 
@@ -658,6 +836,10 @@ body.verify-email-modal-is-open {
 @media (min-width: $desktop-breakpoint) {
   .verify-email-modal__panel {
     background: $surface-card;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  }
+
+  .verify-email-loader__card {
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
   }
 
@@ -716,5 +898,38 @@ body.verify-email-modal-is-open {
     height: 40px;
     border-radius: $radius-card;
     font-size: 14px;
+  }
+
+  .set-passcode-modal__panel {
+    background: $surface-card;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  }
+
+  .set-passcode-modal__header {
+    display: flex;
+    min-height: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 32px 16px;
+    border-bottom: 0;
+  }
+
+  .set-passcode-modal__close {
+    position: static;
+    order: 2;
+    transform: none;
+  }
+
+  .set-passcode-modal__title {
+    flex: 1;
+    order: 1;
+    padding: 0;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .set-passcode-modal__body {
+    min-height: 200px;
+    padding: 0 32px 32px;
   }
 }
