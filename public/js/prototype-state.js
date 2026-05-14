@@ -486,6 +486,11 @@
     const emailDest = walletModals.querySelector(".verify-email-modal__email");
     const loader = document.getElementById("verify-email-loader");
     const toast = document.getElementById("wallet-toast");
+    const passcodeWalletInput = document.getElementById("set-passcode-wallet-input");
+    const passcodeConfirmInput = document.getElementById("set-passcode-confirm-input");
+    const passcodeAck = document.getElementById("set-passcode-ack");
+    const passcodeSubmit = document.getElementById("set-passcode-submit");
+    let passcodePrototypeDemoApplied = false;
 
     let lastFocus = null;
     let otpTimer = null;
@@ -547,6 +552,51 @@
       toast.hidden = true;
     }
 
+    function updatePasscodeSubmitState() {
+      if (!passcodeSubmit) return;
+      const w = passcodeWalletInput?.value ?? "";
+      const c = passcodeConfirmInput?.value ?? "";
+      const ok =
+        !!passcodeAck?.checked &&
+        w.length >= 8 &&
+        w.length <= 25 &&
+        c.length >= 8 &&
+        c.length <= 25 &&
+        w === c;
+      passcodeSubmit.disabled = !ok;
+    }
+
+    function resetPasscodeForm() {
+      passcodePrototypeDemoApplied = false;
+      passcodeModal?.querySelector(".set-passcode-modal__rules")?.classList.remove("is-complete");
+      if (passcodeWalletInput) {
+        passcodeWalletInput.value = "";
+        passcodeWalletInput.type = "password";
+      }
+      if (passcodeConfirmInput) {
+        passcodeConfirmInput.value = "";
+        passcodeConfirmInput.type = "password";
+      }
+      if (passcodeAck) passcodeAck.checked = false;
+      document.querySelectorAll("[data-passcode-visibility]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", "false");
+        const tid = btn.getAttribute("data-passcode-target");
+        const isConfirm = tid === "set-passcode-confirm-input";
+        btn.setAttribute("aria-label", `Show ${isConfirm ? "confirm passcode" : "wallet passcode"}`);
+      });
+      updatePasscodeSubmitState();
+    }
+
+    function applyPasscodePrototypeDemo() {
+      if (passcodePrototypeDemoApplied) return;
+      passcodePrototypeDemoApplied = true;
+      const demo = "Aa1!aaaa";
+      if (passcodeWalletInput) passcodeWalletInput.value = demo;
+      if (passcodeConfirmInput) passcodeConfirmInput.value = demo;
+      passcodeModal?.querySelector(".set-passcode-modal__rules")?.classList.add("is-complete");
+      updatePasscodeSubmitState();
+    }
+
     function showToast() {
       if (!toast) return;
       clearTimeout(toastHideTimer);
@@ -569,8 +619,9 @@
       showToast();
       if (passcodeModal) {
         passcodeModal.hidden = false;
+        resetPasscodeForm();
         window.requestAnimationFrame(() => {
-          passcodeModal.querySelector(".set-passcode-modal__close")?.focus();
+          passcodeWalletInput?.focus();
         });
       }
     }
@@ -612,6 +663,7 @@
         lastFocus.focus();
       }
       lastFocus = null;
+      resetPasscodeForm();
     }
 
     document.querySelectorAll(".setup-timeline-verify").forEach((btn) => {
@@ -633,6 +685,47 @@
         e.preventDefault();
         return;
       }
+      closeWalletModals();
+    });
+
+    document.querySelectorAll("[data-passcode-visibility]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tid = btn.getAttribute("data-passcode-target");
+        const el = tid ? document.getElementById(tid) : null;
+        if (!el || el.tagName !== "INPUT") return;
+        const show = el.type === "password";
+        el.type = show ? "text" : "password";
+        btn.setAttribute("aria-pressed", show ? "true" : "false");
+        const isConfirm = tid === "set-passcode-confirm-input";
+        btn.setAttribute(
+          "aria-label",
+          show
+            ? `Hide ${isConfirm ? "confirm passcode" : "wallet passcode"}`
+            : `Show ${isConfirm ? "confirm passcode" : "wallet passcode"}`,
+        );
+      });
+    });
+
+    function onPasscodeFieldInput() {
+      const w = passcodeWalletInput?.value ?? "";
+      const c = passcodeConfirmInput?.value ?? "";
+      if (!w && !c) {
+        passcodePrototypeDemoApplied = false;
+        passcodeModal?.querySelector(".set-passcode-modal__rules")?.classList.remove("is-complete");
+      }
+      updatePasscodeSubmitState();
+    }
+
+    passcodeWalletInput?.addEventListener("focusin", applyPasscodePrototypeDemo);
+    passcodeConfirmInput?.addEventListener("focusin", applyPasscodePrototypeDemo);
+
+    passcodeWalletInput?.addEventListener("input", onPasscodeFieldInput);
+    passcodeConfirmInput?.addEventListener("input", onPasscodeFieldInput);
+    passcodeAck?.addEventListener("change", updatePasscodeSubmitState);
+
+    passcodeSubmit?.addEventListener("click", () => {
+      if (passcodeSubmit.disabled) return;
+      setState("setupProgress", 4, { force: true });
       closeWalletModals();
     });
   }

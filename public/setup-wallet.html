@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=50" />
+  <link rel="stylesheet" href="css/main.css?v=52" />
   <script>
     (function () {
       try {
@@ -214,7 +214,186 @@
           </button>
           <h2 id="set-passcode-modal-title" class="set-passcode-modal__title">Set wallet passcode</h2>
         </header>
-        <div class="set-passcode-modal__body"></div>
+        <div class="set-passcode-modal__body">
+          <p class="set-passcode-modal__lede">
+            Create a passcode to secure your self-custodial wallet and authorize changes.
+          </p>
+
+          <div class="set-passcode-modal__fields">
+            <div class="set-passcode-modal__field">
+              <div class="set-passcode-modal__field-top">
+                <label class="set-passcode-modal__field-label" for="set-passcode-wallet-input">Wallet passcode</label>
+              </div>
+              <div class="set-passcode-modal__input-row">
+                <input
+                  id="set-passcode-wallet-input"
+                  class="verify-email-modal__input set-passcode-modal__pass-input"
+                  type="password"
+                  name="wallet-passcode"
+                  autocomplete="new-password"
+                  placeholder="Set your wallet passcode"
+                />
+                <button
+                  type="button"
+                  class="set-passcode-modal__visibility"
+                  aria-label="Show wallet passcode"
+                  aria-pressed="false"
+                  data-passcode-visibility
+                  data-passcode-target="set-passcode-wallet-input"
+                >
+                  <img src="assets/icon_eye_closed_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+                </button>
+              </div>
+              <ul class="set-passcode-modal__rules" aria-label="Passcode requirements">
+                <li class="set-passcode-modal__rule">
+                  <span class="set-passcode-modal__rule-icon" aria-hidden="true">
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--gray"
+                      src="assets/icon_check_small_gray.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--green"
+                      src="assets/icon_check_small_darkgreen.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                  </span>
+                  <span class="set-passcode-modal__rule-text">8 - 25 characters</span>
+                </li>
+                <li class="set-passcode-modal__rule">
+                  <span class="set-passcode-modal__rule-icon" aria-hidden="true">
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--gray"
+                      src="assets/icon_check_small_gray.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--green"
+                      src="assets/icon_check_small_darkgreen.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                  </span>
+                  <span class="set-passcode-modal__rule-text">1 special character</span>
+                </li>
+                <li class="set-passcode-modal__rule">
+                  <span class="set-passcode-modal__rule-icon" aria-hidden="true">
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--gray"
+                      src="assets/icon_check_small_gray.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--green"
+                      src="assets/icon_check_small_darkgreen.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                  </span>
+                  <span class="set-passcode-modal__rule-text">1 number</span>
+                </li>
+                <li class="set-passcode-modal__rule">
+                  <span class="set-passcode-modal__rule-icon" aria-hidden="true">
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--gray"
+                      src="assets/icon_check_small_gray.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                    <img
+                      class="set-passcode-modal__rule-img set-passcode-modal__rule-img--green"
+                      src="assets/icon_check_small_darkgreen.svg"
+                      width="14"
+                      height="14"
+                      alt=""
+                    />
+                  </span>
+                  <span class="set-passcode-modal__rule-text">1 upper-case &amp; lower-case</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="set-passcode-modal__field">
+              <div class="set-passcode-modal__field-top">
+                <label class="set-passcode-modal__field-label" for="set-passcode-confirm-input">Confirm passcode</label>
+              </div>
+              <div class="set-passcode-modal__input-row">
+                <input
+                  id="set-passcode-confirm-input"
+                  class="verify-email-modal__input set-passcode-modal__pass-input"
+                  type="password"
+                  name="wallet-passcode-confirm"
+                  autocomplete="new-password"
+                  placeholder="Enter passcode again"
+                />
+                <button
+                  type="button"
+                  class="set-passcode-modal__visibility"
+                  aria-label="Show confirm passcode"
+                  aria-pressed="false"
+                  data-passcode-visibility
+                  data-passcode-target="set-passcode-confirm-input"
+                >
+                  <img src="assets/icon_eye_closed_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="set-passcode-modal__warning" role="note">
+            <span class="set-passcode-modal__warning-icon" aria-hidden="true">
+              <img src="assets/icon_alert.svg" width="16" height="16" alt="" />
+            </span>
+            <p class="set-passcode-modal__warning-text">
+              Your wallet passcode can’t be recovered if lost. Keep it safe to restore access to your wallet.
+            </p>
+          </div>
+
+          <div class="set-passcode-modal__ack-row">
+            <label class="set-passcode-modal__ack-label">
+              <input type="checkbox" id="set-passcode-ack" class="set-passcode-modal__ack-input" />
+              <span class="set-passcode-modal__ack-graphic" aria-hidden="true">
+                <img
+                  class="set-passcode-modal__ack-img set-passcode-modal__ack-img--unchecked"
+                  src="assets/checkbox_inactive.svg"
+                  width="24"
+                  height="24"
+                  alt=""
+                />
+                <img
+                  class="set-passcode-modal__ack-img set-passcode-modal__ack-img--checked"
+                  src="assets/checkbox_active.svg"
+                  width="24"
+                  height="24"
+                  alt=""
+                />
+              </span>
+              <span class="set-passcode-modal__ack-copy">
+                I understand that this wallet passcode can’t be recovered if I forget it.
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <footer class="set-passcode-modal__footer">
+          <button type="button" class="set-passcode-modal__btn set-passcode-modal__btn--secondary" data-wallet-modals-dismiss>
+            Cancel
+          </button>
+          <button type="button" class="set-passcode-modal__btn set-passcode-modal__btn--primary" id="set-passcode-submit" disabled>
+            Set passcode
+          </button>
+        </footer>
       </div>
     </div>
 
