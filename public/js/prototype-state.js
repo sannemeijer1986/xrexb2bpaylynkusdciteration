@@ -11,6 +11,26 @@
   const PASSCODE_SET_AT_KEY = `${STORAGE_PREFIX}passcodeSetAtIso.v1`;
   const LOGGED_IN_SESSION_END_KEY = `${STORAGE_PREFIX}loggedInSessionEndsAtIso.v1`;
   const LOGGED_IN_SESSION_MS = 5 * 60 * 1000;
+  const ACTIVATING_SELECTION_KEY = `${STORAGE_PREFIX}activatingSelection.v1`;
+
+  function readActivatingSelectionCoin() {
+    let coin = "usdt";
+    try {
+      const raw = window.sessionStorage?.getItem(ACTIVATING_SELECTION_KEY);
+      if (raw) {
+        const o = JSON.parse(raw);
+        if (o.coin === "usdc" || o.coin === "usdt") coin = o.coin;
+      }
+    } catch (_) {
+      /* ignore */
+    }
+    return coin;
+  }
+
+  function readActivatingSelectionCoinSym() {
+    const coin = readActivatingSelectionCoin();
+    return coin === "usdc" ? "USDC" : "USDT";
+  }
 
   const STATE_CONFIGS = {
     setupProgress: {
@@ -25,7 +45,7 @@
         4: "Passcode created",
         5: "Cur&Netw. selected",
         6: "Address generated",
-        7: "Gas injected",
+        7: "Authorize auto-debit",
         8: "Auto-debit approved",
         9: "Auto-debit finalized",
         10: "...",
@@ -37,6 +57,17 @@
   const states = {};
 
   let loggedInTickId = null;
+
+  /** One-shot: after 7 → 8, progress bar animates 50% → 75% instead of jumping. */
+  let activatingProgress7to8AnimPending = false;
+  let activatingProgress7to8TimerId = null;
+
+  function cancelActivatingProgress7to8Anim() {
+    if (activatingProgress7to8TimerId != null) {
+      window.clearTimeout(activatingProgress7to8TimerId);
+      activatingProgress7to8TimerId = null;
+    }
+  }
 
   function stopLoggedInTimerTick() {
     if (loggedInTickId != null) {
@@ -318,11 +349,13 @@
   function syncActivatingStablecoinStatusFromProgress() {
     if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
     const p = states.setupProgress;
+    const sym = readActivatingSelectionCoinSym();
     let pct = 0;
     let stepLabel = "Step 1 of 4";
     let title = "Generating payment address";
     let desc =
       "We’re generating your auto-debit payment address for payments to Halcyon Systems Corp. This may take a few minutes.";
+    let isSetupComplete = false;
 
     if (p <= 5) {
       pct = 0;
@@ -331,27 +364,36 @@
       desc =
         "We’re generating your auto-debit payment address for payments to Halcyon Systems Corp. This may take a few minutes.";
     } else if (p === 6) {
-      pct = 33;
+      pct = 25;
       stepLabel = "Step 2 of 4";
       title = "Preparing wallet";
       desc =
         "We’re adding gas to your wallet to cover the fees needed to enable auto-debit. This may take a few minutes";
     } else if (p === 7) {
-      pct = 66;
+      pct = 50;
       stepLabel = "Step 3 of 4";
-      title = "Enable auto-debit";
+      title = "Authorize auto-debit";
       desc =
         "Set up auto-debit for Halcyon Systems Corp. Approved payment requests will be automatically debited from a dedicated auto-debit wallet for this beneficiary.";
     } else if (p === 8) {
-      pct = 66;
+      pct = 75;
       stepLabel = "Step 4 of 4";
-      title = "Auto-debit approved";
-      desc = "[placeholder] Description for auto-debit approved — replace with final copy.";
+      title = "Enabling auto-debit";
+      desc = "Your authorization is being confirmed on the blockchain. This may take a few minutes.";
     } else {
+      isSetupComplete = true;
       pct = 100;
-      stepLabel = "Step 4 of 4";
-      title = "Auto-debit finalized";
-      desc = "[placeholder] Description for auto-debit finalized — replace with final copy.";
+      stepLabel = "All steps completed";
+      title = "Setup finished";
+      desc = `${sym}: Ethereum network (ERC-20) has been activated`;
+    }
+
+    const isAuthorizeDebit = p === 7;
+    const isContinueEnabled = isSetupComplete || isAuthorizeDebit;
+
+    const runActivatingProgress7to8Anim = activatingProgress7to8AnimPending && p === 8;
+    if (runActivatingProgress7to8Anim) {
+      activatingProgress7to8AnimPending = false;
     }
 
     const fr = Math.max(0, Math.min(100, pct)) / 100;
@@ -361,19 +403,94 @@
     const fillEl = progressEl?.querySelector(".activating-stablecoin-progress__fill");
     const stepLabelEl = document.querySelector("[data-activating-step-label]");
     const stepPctEl = document.querySelector("[data-activating-step-pct]");
+    const liveIcon = document.querySelector("[data-activating-status-live-icon]");
+    const hintEl = document.querySelector("[data-activating-hint]");
+    const footerEl = document.querySelector(".activating-stablecoin-status__footer");
+    const statusCard = document.querySelector(".activating-stablecoin-status");
+    const cardRoot = document.querySelector("[data-activating-root]");
+    const ctaWrap = document.querySelector("[data-activating-status-cta]");
+
+    if (cardRoot) cardRoot.setAttribute("data-setup-progress", String(p));
+    if (statusCard) statusCard.classList.toggle("activating-stablecoin-status--authorize", isAuthorizeDebit);
 
     if (titleEl) titleEl.textContent = title;
     if (descEl) descEl.textContent = desc;
     if (stepLabelEl) stepLabelEl.textContent = stepLabel;
-    if (stepPctEl) stepPctEl.textContent = `${pct}%`;
+    if (stepPctEl) {
+      stepPctEl.textContent = runActivatingProgress7to8Anim ? "50%" : `${pct}%`;
+    }
     if (progressEl) {
-      progressEl.style.setProperty("--activating-progress-fr", String(fr));
-      progressEl.setAttribute("aria-valuenow", String(pct));
+      progressEl.hidden = isAuthorizeDebit;
+      progressEl.setAttribute("aria-hidden", isAuthorizeDebit ? "true" : "false");
+      if (runActivatingProgress7to8Anim) {
+        const frStart = 0.5;
+        const frEnd = 0.75;
+        const pctEnd = 75;
+        const delayMs = 140;
+        progressEl.style.setProperty("--activating-progress-fr", String(frStart));
+        progressEl.setAttribute("aria-valuenow", "50");
+        void progressEl.offsetWidth;
+        cancelActivatingProgress7to8Anim();
+        activatingProgress7to8TimerId = window.setTimeout(() => {
+          activatingProgress7to8TimerId = null;
+          if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
+          if (states.setupProgress !== 8) return;
+          const pe = document.querySelector("[data-activating-progress]");
+          const spe = document.querySelector("[data-activating-step-pct]");
+          if (pe) {
+            pe.style.setProperty("--activating-progress-fr", String(frEnd));
+            pe.setAttribute("aria-valuenow", String(pctEnd));
+          }
+          if (spe) spe.textContent = `${pctEnd}%`;
+        }, delayMs);
+      } else {
+        progressEl.style.setProperty("--activating-progress-fr", String(fr));
+        progressEl.setAttribute("aria-valuenow", String(pct));
+      }
     }
     if (fillEl) {
       fillEl.classList.toggle("activating-stablecoin-progress__fill--full", pct >= 100);
-      fillEl.classList.toggle("activating-stablecoin-progress__fill--empty", pct <= 0);
+      fillEl.classList.toggle("activating-stablecoin-progress__fill--empty", pct <= 0 && !isSetupComplete);
+      fillEl.classList.toggle("activating-stablecoin-progress__fill--success", isSetupComplete);
     }
+    if (liveIcon) {
+      if (isAuthorizeDebit) {
+        liveIcon.hidden = true;
+        liveIcon.setAttribute("aria-hidden", "true");
+      } else {
+        liveIcon.hidden = false;
+        liveIcon.setAttribute("aria-hidden", "true");
+      }
+      if (isSetupComplete) {
+        liveIcon.src = "assets/icon_success.svg";
+        liveIcon.classList.add("activating-stablecoin-status__live-icon--success");
+      } else if (!isAuthorizeDebit) {
+        liveIcon.src = "assets/icon_loader_lightblue.svg";
+        liveIcon.classList.remove("activating-stablecoin-status__live-icon--success");
+      }
+    }
+    if (footerEl) {
+      footerEl.hidden = isAuthorizeDebit;
+      footerEl.setAttribute("aria-hidden", isAuthorizeDebit ? "true" : "false");
+    }
+    if (ctaWrap) {
+      ctaWrap.hidden = !isAuthorizeDebit;
+      ctaWrap.setAttribute("aria-hidden", isAuthorizeDebit ? "false" : "true");
+    }
+    if (hintEl) {
+      hintEl.hidden = isSetupComplete;
+      hintEl.setAttribute("aria-hidden", isSetupComplete ? "true" : "false");
+    }
+    document.querySelectorAll("[data-activating-continue]").forEach((btn) => {
+      if (btn.tagName !== "BUTTON") return;
+      if (isContinueEnabled) {
+        btn.disabled = false;
+        btn.removeAttribute("aria-disabled");
+      } else {
+        btn.disabled = true;
+        btn.setAttribute("aria-disabled", "true");
+      }
+    });
   }
 
   function getLabel(group, value) {
@@ -411,6 +528,8 @@
     }
     updateGroupUI(group);
     if (group === "setupProgress") {
+      cancelActivatingProgress7to8Anim();
+      activatingProgress7to8AnimPending = prev === 7 && clamped === 8;
       if (prev === 3 && clamped === 2) {
         setLoggedInValue(false);
         setAccountCreatedValue(false);
@@ -935,7 +1054,7 @@
         checked && (checked.value === "usdc" || checked.value === "usdt") ? checked.value : "usdt";
       try {
         window.sessionStorage?.setItem(
-          "xrex.paylynk.prototype.activatingSelection.v1",
+          ACTIVATING_SELECTION_KEY,
           JSON.stringify({ coin }),
         );
       } catch (_) {
@@ -948,17 +1067,7 @@
 
   function initActivatingStablecoinPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
-    const KEY = "xrex.paylynk.prototype.activatingSelection.v1";
-    let coin = "usdt";
-    try {
-      const raw = window.sessionStorage?.getItem(KEY);
-      if (raw) {
-        const o = JSON.parse(raw);
-        if (o.coin === "usdc" || o.coin === "usdt") coin = o.coin;
-      }
-    } catch (_) {
-      /* ignore */
-    }
+    const coin = readActivatingSelectionCoin();
     const sym = coin === "usdc" ? "USDC" : "USDT";
     const iconSrc = coin === "usdc" ? "assets/icon_usdc.svg" : "assets/icon_usdt.svg";
     const titleEl = document.querySelector("[data-activating-page-title]");
@@ -978,6 +1087,15 @@
     }
 
     syncActivatingStablecoinStatusFromProgress();
+
+    document.querySelectorAll("[data-activating-continue]").forEach((btn) => {
+      if (btn.tagName !== "BUTTON") return;
+      btn.addEventListener("click", () => {
+        if (states.setupProgress === 7) {
+          setState("setupProgress", 8);
+        }
+      });
+    });
 
     const ACTIVATING_WAIT_SLIDES = [
       {

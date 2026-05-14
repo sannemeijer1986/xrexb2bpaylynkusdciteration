@@ -630,6 +630,53 @@
   box-sizing: border-box;
 }
 
+.activating-stablecoin-status__live-icon[hidden],
+.activating-stablecoin-progress[hidden],
+.activating-stablecoin-status__footer[hidden] {
+  display: none !important;
+}
+
+.activating-stablecoin-status__cta {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-status__cta[hidden] {
+  display: none !important;
+}
+
+.activating-stablecoin-status__continue-btn {
+  box-sizing: border-box;
+  width: 240px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.activating-stablecoin-status--authorize {
+  gap: 0;
+
+  .activating-stablecoin-status__intro {
+    padding-bottom: 0;
+    gap: 8px;
+  }
+
+  .activating-stablecoin-status__head {
+    justify-content: center;
+  }
+
+  .activating-stablecoin-status__cta:not([hidden]) {
+    margin-top: 24px;
+  }
+}
+
+.activating-stablecoin-card[data-setup-progress="7"] .activating-stablecoin-actions > .setup-button--primary {
+  display: none;
+}
+
 .activating-stablecoin-status__intro {
   display: flex;
   flex-direction: column;
@@ -725,6 +772,16 @@
   animation: none;
 }
 
+.activating-stablecoin-progress__fill--success {
+  background-color: #3fae64;
+  background-image: none;
+  animation: none;
+}
+
+.activating-stablecoin-status__live-icon--success {
+  animation: none;
+}
+
 .activating-stablecoin-status__footer {
   display: flex;
   flex-direction: column;
@@ -740,6 +797,10 @@
   align-items: flex-start;
   justify-content: center;
   width: 100%;
+}
+
+.activating-stablecoin-hint[hidden] {
+  display: none !important;
 }
 
 .activating-stablecoin-hint__icon {
@@ -1005,6 +1066,10 @@
     align-items: flex-end;
     justify-content: space-between;
     padding-top: 0;
+  }
+
+  .activating-stablecoin-status__footer:has([data-activating-hint][hidden]) {
+    justify-content: flex-end;
   }
 
   .activating-stablecoin-hint {

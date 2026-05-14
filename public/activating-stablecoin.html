@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=78" />
+  <link rel="stylesheet" href="css/main.css?v=81" />
   <script>
     (function () {
       try {
@@ -56,12 +56,12 @@
             </p>
 
             <div class="activating-stablecoin-wrapper">
-              <p class="activating-stablecoin-wait__title">Progress</p>
               <div class="activating-stablecoin-status">
                 <div class="activating-stablecoin-status__intro">
                   <div class="activating-stablecoin-status__head">
                     <img
                       class="activating-stablecoin-status__live-icon"
+                      data-activating-status-live-icon
                       src="assets/icon_loader_lightblue.svg"
                       width="26"
                       height="26"
@@ -73,6 +73,17 @@
                   <p class="activating-stablecoin-status__desc" data-activating-status-desc>
                     [placeholder] Description for generating payment address — replace with final copy.
                   </p>
+                </div>
+                <div class="activating-stablecoin-status__cta" data-activating-status-cta hidden>
+                  <button
+                    type="button"
+                    class="setup-button setup-button--primary activating-stablecoin-status__continue-btn"
+                    data-activating-continue
+                    disabled
+                    aria-disabled="true"
+                  >
+                    Continue
+                  </button>
                 </div>
                 <div
                   class="activating-stablecoin-progress"
@@ -87,7 +98,7 @@
                   <div class="activating-stablecoin-progress__fill activating-stablecoin-progress__fill--empty"></div>
                 </div>
                 <div class="activating-stablecoin-status__footer">
-                  <div class="activating-stablecoin-hint">
+                  <div class="activating-stablecoin-hint" data-activating-hint>
                     <img
                       class="activating-stablecoin-hint__icon"
                       src="assets/icon_info_blue.svg"
@@ -109,7 +120,7 @@
               </div>
 
               <div class="activating-stablecoin-wait">
-              <p class="activating-stablecoin-wait__title">While you wait</p>
+                <p class="activating-stablecoin-wait__title">While you wait</p>
               <div class="activating-stablecoin-carousel" data-activating-carousel>
                 <div class="activating-stablecoin-carousel__panel">
                   <div class="activating-stablecoin-carousel__media">
@@ -162,7 +173,15 @@
             </div>
 
             <div class="setup-actions activating-stablecoin-actions">
-              <button class="setup-button setup-button--primary" type="button" disabled aria-disabled="true">Continue</button>
+              <button
+                class="setup-button setup-button--primary"
+                type="button"
+                data-activating-continue
+                disabled
+                aria-disabled="true"
+              >
+                Continue
+              </button>
               <a class="setup-button setup-button--secondary" href="pick-stablecoin.html">Cancel</a>
             </div>
           </div>
