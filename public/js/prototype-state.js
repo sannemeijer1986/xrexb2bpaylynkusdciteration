@@ -24,9 +24,9 @@
         3: "E-mail verified",
         4: "Passcode created",
         5: "Cur&Netw. selected",
-        6: "...",
-        7: "...",
-        8: "...",
+        6: "Address generated",
+        7: "Gas injected",
+        8: "Auto-debit authed",
         9: "...",
         10: "...",
       },
@@ -918,27 +918,27 @@
     const ACTIVATING_WAIT_SLIDES = [
       {
         img: "assets/placeholder-wait-1.svg",
-        headline: "[Placeholder] What is stablecoin auto-debit?",
+        headline: "Placeholder title number one",
         body:
-          "Short placeholder copy for slide 1 of 4. Replace with final marketing or education content when assets are ready. Short placeholder copy for slide 1 of 4. Replace with final marketing or education content when assets are ready. ",
+          "Nullam finibus, orci ac mollis sodales, magna lorem mollis nisl, et mattis eros metus nec orci.\n\nVestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; donec velit neque, auctor sit amet aliquam vel.",
       },
       {
         img: "assets/placeholder-wait-2.svg",
-        headline: "[Placeholder] Why we use the Ethereum network",
+        headline: "Placeholder title number two",
         body:
-          "Placeholder copy for slide 2 of 4. This block can explain ERC-20, settlement time, or fees—swap in real copy later. Placeholder copy for slide 2 of 4. This block can explain ERC-20, settlement time, or fees—swap in real copy later. ",
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero sed cursus ante dapibus diam.\n\nSuspendisse potenti. Cras dapibus vivamus elementum semper nisi aenean vulputate eleifend tellus aenean leo ligula, porttitor eu consequat vitae.",
       },
       {
         img: "assets/placeholder-wait-3.svg",
-        headline: "[Placeholder] Keeping your authorization safe",
+        headline: "Placeholder title number three",
         body:
-          "Placeholder copy for slide 3 of 4. Use this slot for security practices, limits, or what happens if activation pauses. Placeholder copy for slide 3 of 4. Use this slot for security practices, limits, or what happens if activation pauses. ",
+          "Curabitur ullamcorper ultricies nisi nam eget dui etiam rhoncus maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero.\n\nEtiam sit amet orci eget eros faucibus tincidunt duis leo sed fringilla mauris sit amet nibh donec sodales sagittis magna.",
       },
       {
         img: "assets/placeholder-wait-4.svg",
-        headline: "[Placeholder] After activation finishes",
+        headline: "Placeholder title number four",
         body:
-          "Placeholder copy for slide 4 of 4. Outline the next screen, email confirmation, or where to find payment history. Placeholder copy for slide 4 of 4. Outline the next screen, email confirmation, or where to find payment history. ",
+          "Phasellus viverra nulla ut metus varius laoreet quisque rutrum aenean imperdiet etiam ultricies nisi vel augue curabitur ullamcorper.\n\nNam quam nunc, blandit vel luctus pulvinar hendrerit id lorem maecenas nec odio et ante tincidunt tempus donec vitae sapien.",
       },
     ];
 
