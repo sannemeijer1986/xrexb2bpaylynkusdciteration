@@ -616,14 +616,11 @@
       if (verifyDialog) verifyDialog.hidden = true;
       setState("setupProgress", 3, { force: true });
       setLoggedInValue(true);
+      if (passcodeModal) passcodeModal.hidden = true;
+      walletModals.hidden = true;
+      document.body.classList.remove("wallet-modals-is-open");
+      resetPasscodeForm();
       showToast();
-      if (passcodeModal) {
-        passcodeModal.hidden = false;
-        resetPasscodeForm();
-        window.requestAnimationFrame(() => {
-          passcodeWalletInput?.focus();
-        });
-      }
     }
 
     function updateLoaderFromInput() {
@@ -651,6 +648,18 @@
       window.requestAnimationFrame(() => input?.focus());
     }
 
+    function openPasscodeModal() {
+      lastFocus = document.activeElement;
+      walletModals.hidden = false;
+      if (verifyDialog) verifyDialog.hidden = true;
+      if (passcodeModal) {
+        passcodeModal.hidden = false;
+        resetPasscodeForm();
+      }
+      document.body.classList.add("wallet-modals-is-open");
+      abortOtpVerification();
+    }
+
     function closeWalletModals() {
       abortOtpVerification();
       if (input) input.value = "";
@@ -668,6 +677,10 @@
 
     document.querySelectorAll(".setup-timeline-verify").forEach((btn) => {
       btn.addEventListener("click", () => openVerifyModal());
+    });
+
+    document.querySelectorAll(".setup-timeline-set-passcode").forEach((btn) => {
+      btn.addEventListener("click", () => openPasscodeModal());
     });
 
     input?.addEventListener("input", () => updateLoaderFromInput());

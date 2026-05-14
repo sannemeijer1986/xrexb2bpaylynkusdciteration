@@ -245,14 +245,19 @@ html:not([data-prototype-setup-progress="3"])
   display: none;
 }
 
-// State 3 only: step 3 shows passcode description (Figma-style gated copy)
+// State 3 only: step 3 shows passcode description + Set passcode (Figma-style gated copy)
 html[data-prototype-setup-progress="3"] {
   .setup-timeline__step:nth-child(3) .setup-timeline__desc--passcode {
     display: block;
   }
+
+  .setup-timeline-set-passcode {
+    display: inline-flex;
+  }
 }
 
-.setup-timeline-verify {
+.setup-timeline-verify,
+.setup-timeline-set-passcode {
   display: none;
   align-items: center;
   justify-content: center;
@@ -381,7 +386,8 @@ html[data-prototype-setup-progress="2"] {
   }
 
   .setup-timeline-agree,
-  .setup-timeline-verify {
+  .setup-timeline-verify,
+  .setup-timeline-set-passcode {
     flex-shrink: 0;
     margin-top: 2px;
   }
@@ -565,12 +571,24 @@ body.wallet-modals-is-open {
   width: 100%;
 }
 
-.set-passcode-modal__pass-input {
-  padding-right: 48px;
+.set-passcode-modal__input-row .verify-email-modal__input {
+  min-height: 74px;
+  border: 1px solid $border-hard;
+  outline: none;
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid $text-clickable;
+    outline-offset: 0;
+  }
 
   &:not(:placeholder-shown) {
     font-weight: 600;
   }
+}
+
+.set-passcode-modal__pass-input {
+  padding-right: 48px;
 }
 
 .set-passcode-modal__visibility {
@@ -589,10 +607,25 @@ body.wallet-modals-is-open {
   place-items: center;
   transform: translateY(-50%);
 
-  img {
+  .set-passcode-modal__eye {
     display: block;
     width: 24px;
     height: 24px;
+    grid-area: 1 / 1;
+  }
+
+  .set-passcode-modal__eye--open {
+    display: none;
+  }
+
+  &[aria-pressed="true"] {
+    .set-passcode-modal__eye--closed {
+      display: none;
+    }
+
+    .set-passcode-modal__eye--open {
+      display: block;
+    }
   }
 
   &:focus-visible {
@@ -612,8 +645,8 @@ body.wallet-modals-is-open {
 
   &.is-complete {
     .set-passcode-modal__rule {
-      background: #e3f6ea;
-      color: #1f6b45;
+      background: $tag-green-surface;
+      color: $tag-green-text;
     }
 
     .set-passcode-modal__rule-img--gray {
@@ -629,7 +662,7 @@ body.wallet-modals-is-open {
 .set-passcode-modal__rule {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   padding: 2px 6px;
   border-radius: 30px;
   background: $border-hard;

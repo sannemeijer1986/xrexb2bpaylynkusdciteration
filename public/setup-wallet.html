@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=52" />
+  <link rel="stylesheet" href="css/main.css?v=54" />
   <script>
     (function () {
       try {
@@ -115,6 +115,7 @@
                       </p>
                       <p class="setup-timeline__timestamp" data-passcode-set-at aria-live="polite"></p>
                     </div>
+                    <button type="button" class="setup-timeline-set-passcode">Set passcode</button>
                   </div>
                 </div>
               </div>
@@ -241,7 +242,22 @@
                   data-passcode-visibility
                   data-passcode-target="set-passcode-wallet-input"
                 >
-                  <img src="assets/icon_eye_closed_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+                  <img
+                    class="set-passcode-modal__eye set-passcode-modal__eye--closed"
+                    src="assets/icon_eye_closed_gray.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <img
+                    class="set-passcode-modal__eye set-passcode-modal__eye--open"
+                    src="assets/icon_eye_open_gray.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
               <ul class="set-passcode-modal__rules" aria-label="Passcode requirements">
@@ -345,7 +361,22 @@
                   data-passcode-visibility
                   data-passcode-target="set-passcode-confirm-input"
                 >
-                  <img src="assets/icon_eye_closed_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+                  <img
+                    class="set-passcode-modal__eye set-passcode-modal__eye--closed"
+                    src="assets/icon_eye_closed_gray.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <img
+                    class="set-passcode-modal__eye set-passcode-modal__eye--open"
+                    src="assets/icon_eye_open_gray.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
             </div>
