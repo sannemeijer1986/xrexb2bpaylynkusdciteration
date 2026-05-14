@@ -260,23 +260,33 @@
     el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
   }
 
-  function syncPickStablecoinUsdtDetails() {
+  function syncPickStablecoinExpandableDetails() {
     const root = document.querySelector("[data-pick-stablecoin-root]");
     if (!root) return;
-    const details = root.querySelector("[data-pick-stablecoin-usdt-details]");
+    const usdtDetails = root.querySelector("[data-pick-stablecoin-usdt-details]");
+    const usdcDetails = root.querySelector("[data-pick-stablecoin-usdc-details]");
     const usdt = root.querySelector('input[name="stablecoin-pick"][value="usdt"]');
-    if (!details || !usdt) return;
-    if (usdt.checked) {
-      details.removeAttribute("hidden");
-    } else {
-      details.setAttribute("hidden", "");
+    const usdc = root.querySelector('input[name="stablecoin-pick"][value="usdc"]');
+    if (usdtDetails && usdt) {
+      if (usdt.checked) {
+        usdtDetails.removeAttribute("hidden");
+      } else {
+        usdtDetails.setAttribute("hidden", "");
+      }
+    }
+    if (usdcDetails && usdc) {
+      if (usdc.checked) {
+        usdcDetails.removeAttribute("hidden");
+      } else {
+        usdcDetails.setAttribute("hidden", "");
+      }
     }
   }
 
   function syncPickStablecoinContinueFromSelection() {
     const root = document.querySelector("[data-pick-stablecoin-root]");
     if (!root) return;
-    syncPickStablecoinUsdtDetails();
+    syncPickStablecoinExpandableDetails();
     const continueBtn =
       document.getElementById("pick-stablecoin-continue") ||
       root.querySelector("[data-pick-stablecoin-continue]");
@@ -845,8 +855,10 @@
       inp.addEventListener("change", sync);
       inp.addEventListener("input", sync);
     });
-    root.querySelector("[data-pick-stablecoin-network-help]")?.addEventListener("click", (e) => {
-      e.preventDefault();
+    root.querySelectorAll("[data-pick-stablecoin-network-help]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+      });
     });
     root.addEventListener("click", (e) => {
       if (e.target.closest(".pick-stablecoin-option")) {

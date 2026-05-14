@@ -222,6 +222,13 @@
   pointer-events: none;
 }
 
+// Figma 32111:11191 — USDC fixed network row (soft border, gray icon, no radio)
+.pick-stablecoin-network--readonly {
+  border: 1px solid $border-soft;
+  background: $surface-card;
+  cursor: default;
+}
+
 .pick-stablecoin-network__input {
   position: absolute;
   width: 1px;
@@ -240,14 +247,32 @@
 
 .pick-stablecoin-network__chain {
   flex-shrink: 0;
+  display: flex;
+}
+
+.pick-stablecoin-network__chain-well {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
   width: 24px;
   height: 24px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.pick-stablecoin-network__chain-well--selectable {
+  background: $button-secondary;
+}
+
+.pick-stablecoin-network__chain-well--muted {
+  background: $surface-primary;
 }
 
 .pick-stablecoin-network__chain-img {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
 }
 
@@ -499,10 +524,14 @@
     padding: 24px 20px;
   }
 
-  .pick-stablecoin-network__chain,
-  .pick-stablecoin-network__chain-img {
+  .pick-stablecoin-network__chain-well {
     width: 32px;
     height: 32px;
+  }
+
+  .pick-stablecoin-network__chain-img {
+    width: 20px;
+    height: 20px;
   }
 
   .pick-stablecoin-network__title {
