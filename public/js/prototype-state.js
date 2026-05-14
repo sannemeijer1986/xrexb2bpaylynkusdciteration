@@ -312,6 +312,53 @@
     syncPasscodeTimestamp();
     syncWalletContinueButton();
     syncPickStablecoinContinueFromSelection();
+    syncActivatingStablecoinStatusFromProgress();
+  }
+
+  function syncActivatingStablecoinStatusFromProgress() {
+    if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
+    const p = states.setupProgress;
+    let pct = 0;
+    let title = "Generating payment address";
+    let desc =
+      "We’re generating your auto-debit payment address for payments to Halcyon Systems Corp. This may take a few minutes.";
+
+    if (p <= 5) {
+      pct = 0;
+      title = "Generating payment address";
+      desc =
+        "We’re generating your auto-debit payment address for payments to Halcyon Systems Corp. This may take a few minutes.";
+    } else if (p === 6) {
+      pct = 33;
+      title = "Preparing wallet";
+      desc = "We’re adding gas to your wallet to cover the fees needed to enable auto-debit. This may take a few minutes";
+    } else if (p === 7) {
+      pct = 66;
+      title = "Enable auto-debit";
+      desc = "Set up auto-debit for Halcyon Systems Corp. Approved payment requests will be automatically debited from a dedicated auto-debit wallet for this beneficiary.";
+    } else {
+      pct = 100;
+      title = "Auto-debit authed";
+      desc =
+        "[placeholder] Description for completed auto-debit authorization — replace with final copy.";
+    }
+
+    const fr = Math.max(0, Math.min(100, pct)) / 100;
+    const titleEl = document.querySelector("[data-activating-status-title]");
+    const descEl = document.querySelector("[data-activating-status-desc]");
+    const progressEl = document.querySelector("[data-activating-progress]");
+    const fillEl = progressEl?.querySelector(".activating-stablecoin-progress__fill");
+
+    if (titleEl) titleEl.textContent = title;
+    if (descEl) descEl.textContent = desc;
+    if (progressEl) {
+      progressEl.style.setProperty("--activating-progress-fr", String(fr));
+      progressEl.setAttribute("aria-valuenow", String(pct));
+    }
+    if (fillEl) {
+      fillEl.classList.toggle("activating-stablecoin-progress__fill--full", pct >= 100);
+      fillEl.classList.toggle("activating-stablecoin-progress__fill--empty", pct <= 0);
+    }
   }
 
   function getLabel(group, value) {
@@ -914,6 +961,8 @@
     } catch (_) {
       /* ignore */
     }
+
+    syncActivatingStablecoinStatusFromProgress();
 
     const ACTIVATING_WAIT_SLIDES = [
       {

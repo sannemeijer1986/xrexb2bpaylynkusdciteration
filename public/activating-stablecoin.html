@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=73" />
+  <link rel="stylesheet" href="css/main.css?v=77" />
   <script>
     (function () {
       try {
@@ -68,21 +68,23 @@
                       alt=""
                       aria-hidden="true"
                     />
-                    <p class="activating-stablecoin-status__title">Enabling auto-debit</p>
+                    <p class="activating-stablecoin-status__title" data-activating-status-title>Generating payment address</p>
                   </div>
-                  <p class="activating-stablecoin-status__desc">
-                    Your authorization is being confirmed onchain. This may take a few minutes...
+                  <p class="activating-stablecoin-status__desc" data-activating-status-desc>
+                    [placeholder] Description for generating payment address — replace with final copy.
                   </p>
                 </div>
                 <div
                   class="activating-stablecoin-progress"
+                  data-activating-progress
                   role="progressbar"
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  aria-valuenow="50"
+                  aria-valuenow="0"
                   aria-label="Setup progress"
+                  style="--activating-progress-fr: 0"
                 >
-                  <div class="activating-stablecoin-progress__fill"></div>
+                  <div class="activating-stablecoin-progress__fill activating-stablecoin-progress__fill--empty"></div>
                 </div>
                 <div class="activating-stablecoin-status__footer">
                   <div class="activating-stablecoin-hint">
@@ -101,7 +103,6 @@
                   </div>
                   <p class="activating-stablecoin-step"><span>Step 2 of 4</span> <span aria-hidden="true">·</span> <span>50%</span></p>
                 </div>
-              </div>
               </div>
 
               <div class="activating-stablecoin-wait">
