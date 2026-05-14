@@ -491,6 +491,8 @@
     const passcodeAck = document.getElementById("set-passcode-ack");
     const passcodeSubmit = document.getElementById("set-passcode-submit");
     let passcodePrototypeDemoApplied = false;
+    let passcodeSubmitTimer = null;
+    let passcodeSubmitPending = false;
 
     let lastFocus = null;
     let otpTimer = null;
@@ -520,6 +522,14 @@
     function clearOtpTimerOnly() {
       if (otpTimer) clearTimeout(otpTimer);
       otpTimer = null;
+    }
+
+    function abortPasscodeSubmit() {
+      if (passcodeSubmitTimer) window.clearTimeout(passcodeSubmitTimer);
+      passcodeSubmitTimer = null;
+      passcodeSubmitPending = false;
+      hideLoader();
+      updatePasscodeSubmitState();
     }
 
     function abortOtpVerification() {
@@ -554,6 +564,10 @@
 
     function updatePasscodeSubmitState() {
       if (!passcodeSubmit) return;
+      if (passcodeSubmitPending) {
+        passcodeSubmit.disabled = true;
+        return;
+      }
       const w = passcodeWalletInput?.value ?? "";
       const c = passcodeConfirmInput?.value ?? "";
       const ok =
@@ -572,10 +586,12 @@
       if (passcodeWalletInput) {
         passcodeWalletInput.value = "";
         passcodeWalletInput.type = "password";
+        passcodeWalletInput.readOnly = false;
       }
       if (passcodeConfirmInput) {
         passcodeConfirmInput.value = "";
         passcodeConfirmInput.type = "password";
+        passcodeConfirmInput.readOnly = false;
       }
       if (passcodeAck) passcodeAck.checked = false;
       document.querySelectorAll("[data-passcode-visibility]").forEach((btn) => {
@@ -591,8 +607,14 @@
       if (passcodePrototypeDemoApplied) return;
       passcodePrototypeDemoApplied = true;
       const demo = "Aa1!aaaa";
-      if (passcodeWalletInput) passcodeWalletInput.value = demo;
-      if (passcodeConfirmInput) passcodeConfirmInput.value = demo;
+      if (passcodeWalletInput) {
+        passcodeWalletInput.value = demo;
+        passcodeWalletInput.readOnly = true;
+      }
+      if (passcodeConfirmInput) {
+        passcodeConfirmInput.value = demo;
+        passcodeConfirmInput.readOnly = true;
+      }
       passcodeModal?.querySelector(".set-passcode-modal__rules")?.classList.add("is-complete");
       updatePasscodeSubmitState();
     }
@@ -608,6 +630,7 @@
     }
 
     function completeEmailVerification() {
+      abortPasscodeSubmit();
       clearOtpTimerOnly();
       otpPending = false;
       hideLoader();
@@ -645,6 +668,7 @@
       if (verifyDialog) verifyDialog.hidden = false;
       if (passcodeModal) passcodeModal.hidden = true;
       document.body.classList.add("wallet-modals-is-open");
+      abortPasscodeSubmit();
       abortOtpVerification();
       if (input) input.value = "";
       window.requestAnimationFrame(() => input?.focus());
@@ -659,11 +683,13 @@
         resetPasscodeForm();
       }
       document.body.classList.add("wallet-modals-is-open");
+      abortPasscodeSubmit();
       abortOtpVerification();
     }
 
     function closeWalletModals() {
       abortOtpVerification();
+      abortPasscodeSubmit();
       if (input) input.value = "";
       if (verifyDialog) verifyDialog.hidden = false;
       if (passcodeModal) passcodeModal.hidden = true;
@@ -722,6 +748,7 @@
     });
 
     function onPasscodeFieldInput() {
+      if (passcodePrototypeDemoApplied) return;
       const w = passcodeWalletInput?.value ?? "";
       const c = passcodeConfirmInput?.value ?? "";
       if (!w && !c) {
