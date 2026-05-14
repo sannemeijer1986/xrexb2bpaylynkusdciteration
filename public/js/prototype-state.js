@@ -260,6 +260,19 @@
     el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
   }
 
+  function syncPickStablecoinContinueFromSelection() {
+    const root = document.querySelector("[data-pick-stablecoin-root]");
+    if (!root) return;
+    const continueBtn =
+      document.getElementById("pick-stablecoin-continue") ||
+      root.querySelector("[data-pick-stablecoin-continue]");
+    if (!continueBtn || continueBtn.tagName !== "BUTTON") return;
+    const checked = root.querySelector('input[name="stablecoin-pick"]:checked');
+    const enabled = !!checked;
+    continueBtn.disabled = !enabled;
+    continueBtn.setAttribute("aria-disabled", enabled ? "false" : "true");
+  }
+
   function syncWalletContinueButton() {
     const btn = document.querySelector(".setup-actions--wallet .setup-button--primary");
     if (!btn || btn.tagName !== "BUTTON") return;
@@ -274,6 +287,7 @@
     syncEmailVerifiedTimestamp();
     syncPasscodeTimestamp();
     syncWalletContinueButton();
+    syncPickStablecoinContinueFromSelection();
   }
 
   function getLabel(group, value) {
@@ -486,6 +500,7 @@
     const emailDest = walletModals.querySelector(".verify-email-modal__email");
     const loader = document.getElementById("verify-email-loader");
     const toast = document.getElementById("wallet-toast");
+    const toastTextEl = toast?.querySelector(".wallet-toast__text");
     const passcodeWalletInput = document.getElementById("set-passcode-wallet-input");
     const passcodeConfirmInput = document.getElementById("set-passcode-confirm-input");
     const passcodeAck = document.getElementById("set-passcode-ack");
@@ -619,8 +634,13 @@
       updatePasscodeSubmitState();
     }
 
-    function showToast() {
+    function showToast(message) {
       if (!toast) return;
+      const text =
+        typeof message === "string" && message.trim()
+          ? message.trim()
+          : "E-mail verified";
+      if (toastTextEl) toastTextEl.textContent = text;
       clearTimeout(toastHideTimer);
       toast.hidden = false;
       window.requestAnimationFrame(() => {
@@ -783,7 +803,43 @@
         hideLoader();
         setState("setupProgress", 4, { force: true });
         closeWalletModals();
+        showToast("Wallet account ready");
       }, 3000);
+    });
+  }
+
+  function initWalletContinueToPickStablecoin() {
+    const btn = document.querySelector("[data-wallet-continue-next]");
+    if (!btn || btn.tagName !== "BUTTON") return;
+    btn.addEventListener("click", () => {
+      if (btn.disabled) return;
+      const href = btn.getAttribute("data-wallet-continue-next");
+      if (href) window.location.href = href;
+    });
+  }
+
+  function initPickStablecoinPage() {
+    const root = document.querySelector("[data-pick-stablecoin-root]");
+    if (!root) return;
+    const continueBtn =
+      document.getElementById("pick-stablecoin-continue") ||
+      root.querySelector("[data-pick-stablecoin-continue]");
+    const sync = () => {
+      syncPickStablecoinContinueFromSelection();
+    };
+    root.querySelectorAll('input[name="stablecoin-pick"]').forEach((inp) => {
+      inp.addEventListener("change", sync);
+      inp.addEventListener("input", sync);
+    });
+    root.addEventListener("click", (e) => {
+      if (e.target.closest(".pick-stablecoin-option")) {
+        window.requestAnimationFrame(sync);
+      }
+    });
+    sync();
+    continueBtn?.addEventListener("click", () => {
+      if (continueBtn.disabled) return;
+      window.location.href = "index.html";
     });
   }
 
@@ -849,6 +905,10 @@
           toastEl.classList.remove("is-visible");
         }
       }
+
+      if (document.body?.getAttribute("data-prototype-context") === "pick-stablecoin") {
+        window.location.href = "setup-wallet.html";
+      }
     });
   }
 
@@ -857,6 +917,8 @@
     initBadgeControls();
     initTimelineAgreeButton();
     initWalletModals();
+    initWalletContinueToPickStablecoin();
+    initPickStablecoinPage();
     initEmptyCheckbox();
     initLoggedInSelect();
     initAccountCreatedSelect();

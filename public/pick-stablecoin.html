@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XREX PayLynk - Pick a Stablecoin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=56" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v == null || v === "" || parseInt(v, 10) < 4) {
+          window.location.replace("setup-wallet.html");
+          return;
+        }
+        document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {
+        window.location.replace("setup-wallet.html");
+      }
+    })();
+  </script>
+</head>
+<body class="setup-page" data-prototype-context="pick-stablecoin">
+  <main class="setup-shell" aria-labelledby="pick-stablecoin-title">
+    <section class="setup-hero" aria-label="XREX Pay">
+      <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
+      <img class="setup-hero__logo" src="assets/logo-xrex-pay-white.svg" alt="XREX Pay" />
+    </section>
+
+    <section class="setup-panel">
+      <div class="setup-panel__body">
+        <div class="setup-panel__content">
+          <h1 id="pick-stablecoin-title" class="setup-wallet-title">Pick a Stablecoin</h1>
+
+          <div class="pick-stablecoin-card" data-pick-stablecoin-root>
+            <div class="pick-stablecoin-intro">
+              <p class="pick-stablecoin-lede">Choose your preferred Stablecoin for doing payments</p>
+              <div class="pick-stablecoin-hint">
+                <svg class="pick-stablecoin-hint__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.25" />
+                  <text x="8" y="11" text-anchor="middle" fill="currentColor" font-size="8" font-weight="700" font-family="Manrope, system-ui, sans-serif">i</text>
+                </svg>
+                <p class="pick-stablecoin-hint__text">You can add more stablecoins anytime</p>
+              </div>
+            </div>
+
+            <div class="pick-stablecoin-list" role="radiogroup" aria-labelledby="pick-stablecoin-title">
+              <label class="pick-stablecoin-option">
+                <input class="pick-stablecoin-option__input" type="radio" name="stablecoin-pick" value="usdt" aria-label="USDT, Tether USD" />
+                <img class="pick-stablecoin-option__icon" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
+                <div class="pick-stablecoin-option__main">
+                  <p class="pick-stablecoin-option__title">USDT</p>
+                  <p class="pick-stablecoin-option__subtitle">Tether USD</p>
+                </div>
+                <span class="pick-stablecoin-option__tag">Most used</span>
+                <span class="pick-stablecoin-option__radio" aria-hidden="true"></span>
+              </label>
+
+              <label class="pick-stablecoin-option">
+                <input class="pick-stablecoin-option__input" type="radio" name="stablecoin-pick" value="usdc" aria-label="USDC, Circle USD" />
+                <img class="pick-stablecoin-option__icon" src="assets/icon_usdc.svg" width="46" height="46" alt="" />
+                <div class="pick-stablecoin-option__main">
+                  <p class="pick-stablecoin-option__title">USDC</p>
+                  <p class="pick-stablecoin-option__subtitle">Circle USD</p>
+                </div>
+                <span class="pick-stablecoin-option__radio" aria-hidden="true"></span>
+              </label>
+            </div>
+
+            <div class="setup-actions pick-stablecoin-actions">
+              <a class="setup-button setup-button--secondary" href="setup-wallet.html">Cancel</a>
+              <button
+                class="setup-button setup-button--primary"
+                type="button"
+                id="pick-stablecoin-continue"
+                data-pick-stablecoin-continue
+                disabled
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="setup-footer">
+        <p>© XREX Pay Limited 2026</p>
+        <nav class="setup-footer__nav" aria-label="Footer">
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
+        </nav>
+      </footer>
+    </section>
+  </main>
+
+  <div class="build-badge" role="note" aria-label="Prototype state controls">
+    <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyPickStablecoin">
+      <span class="build-badge__title">Prototype controls</span>
+      <span class="build-badge__chevron" aria-hidden="true">
+        <img class="build-badge__chevron-icon" src="assets/icon_back.svg" alt="" />
+        <img class="build-badge__chevron-icon build-badge__chevron-icon--collapsed" src="assets/icon_prototypecontrols.svg" alt="" />
+      </span>
+    </button>
+    <div class="build-badge__body" id="prototypeStatesBodyPickStablecoin">
+      <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
+
+      <div class="build-badge__checkbox-stack" style="display: none !important;">
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-empty aria-label="Empty" />
+            <span>Empty</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Account created</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-account-created aria-label="Account created">
+            <option value="false">False</option>
+            <option value="true" selected>True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
+            <option value="false">False</option>
+            <option value="true" selected>True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__logged-in-timer-row">
+        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+      </div>
+
+      <div class="build-badge__group" data-state-group="setupProgress">
+        <div class="build-badge__group-label">Setup progress</div>
+        <div class="build-badge__state">
+          <button type="button" class="build-badge__state-btn" data-state-action="down" aria-label="Previous setup progress">−</button>
+          <span class="build-badge__state-value" data-state-value></span>
+          <button type="button" class="build-badge__state-btn" data-state-action="up" aria-label="Next setup progress">+</button>
+          <span class="build-badge__state-name" data-state-name></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/prototype-state.js"></script>
+</body>
+</html>
