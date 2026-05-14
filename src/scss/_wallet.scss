@@ -1165,10 +1165,142 @@ body.wallet-modals-is-open {
   }
 }
 
+// Mobile / tablet: full-viewport sheet — Figma 32108:10205, 32108:10281 ([M] B2B-PI modals)
+@media (max-width: $desktop-breakpoint - 1px) {
+  .wallet-modals {
+    align-items: stretch;
+    justify-content: stretch;
+    height: 100dvh;
+    max-height: 100dvh;
+    min-height: 100dvh;
+    padding: 0;
+  }
+
+  .wallet-modals__dialog {
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  .verify-email-dialog,
+  .set-passcode-modal {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .verify-email-modal__panel,
+  .set-passcode-modal__panel {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
+    flex: 1 1 auto;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .verify-email-modal__header,
+  .set-passcode-modal__header {
+    width: 100%;
+    max-width: none;
+  }
+
+  .verify-email-modal__body,
+  .verify-email-modal__footer,
+  .set-passcode-modal__body,
+  .set-passcode-modal__footer {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: $wallet-modal-mobile-inner-max;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .verify-email-modal__body,
+  .set-passcode-modal__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .verify-email-loader__card {
+    min-width: 0;
+    width: calc(100vw - 32px);
+    max-width: min(480px, 100vw - 32px);
+  }
+}
+
 @media (min-width: $desktop-breakpoint) {
+  .wallet-modals {
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .wallet-modals__dialog {
+    flex: none;
+    width: 100%;
+    max-width: 580px;
+    height: auto;
+  }
+
+  .verify-email-dialog,
+  .set-passcode-modal {
+    height: auto;
+  }
+
   .verify-email-modal__panel {
+    max-width: 580px;
+    min-height: 0;
+    max-height: calc(100dvh - 32px);
+    overflow: hidden auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 16px;
     background: $surface-card;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  }
+
+  .set-passcode-modal__panel {
+    min-height: 0;
+    max-height: calc(100dvh - 32px);
+    overflow: hidden auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 16px;
+    background: $surface-card;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  }
+
+  .verify-email-modal__header,
+  .verify-email-modal__body,
+  .verify-email-modal__footer,
+  .set-passcode-modal__header,
+  .set-passcode-modal__body,
+  .set-passcode-modal__footer {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .verify-email-modal__body,
+  .set-passcode-modal__body {
+    flex: none;
+    min-height: 0;
+    overflow: visible;
   }
 
   .verify-email-loader__card {
@@ -1230,11 +1362,6 @@ body.wallet-modals-is-open {
     height: 40px;
     border-radius: $radius-card;
     font-size: 14px;
-  }
-
-  .set-passcode-modal__panel {
-    background: $surface-card;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
   }
 
   .set-passcode-modal__header {

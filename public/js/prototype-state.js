@@ -616,10 +616,12 @@
       if (verifyDialog) verifyDialog.hidden = true;
       setState("setupProgress", 3, { force: true });
       setLoggedInValue(true);
-      if (passcodeModal) passcodeModal.hidden = true;
-      walletModals.hidden = true;
-      document.body.classList.remove("wallet-modals-is-open");
-      resetPasscodeForm();
+      walletModals.hidden = false;
+      document.body.classList.add("wallet-modals-is-open");
+      if (passcodeModal) {
+        passcodeModal.hidden = false;
+        resetPasscodeForm();
+      }
       showToast();
     }
 
