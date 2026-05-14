@@ -481,15 +481,69 @@
       hintEl.hidden = isSetupComplete;
       hintEl.setAttribute("aria-hidden", isSetupComplete ? "true" : "false");
     }
-    document.querySelectorAll("[data-activating-continue]").forEach((btn) => {
-      if (btn.tagName !== "BUTTON") return;
-      if (isContinueEnabled) {
-        btn.disabled = false;
-        btn.removeAttribute("aria-disabled");
-      } else {
-        btn.disabled = true;
-        btn.setAttribute("aria-disabled", "true");
+    document
+      .querySelectorAll("[data-activating-continue-card], [data-activating-continue-footer]")
+      .forEach((btn) => {
+        if (btn.tagName !== "BUTTON") return;
+        if (isContinueEnabled) {
+          btn.disabled = false;
+          btn.removeAttribute("aria-disabled");
+        } else {
+          btn.disabled = true;
+          btn.setAttribute("aria-disabled", "true");
+        }
+      });
+    const actionsCancel = document.querySelector("[data-activating-actions-cancel]");
+    if (actionsCancel) {
+      const hideCancel = p >= 9;
+      actionsCancel.hidden = hideCancel;
+      actionsCancel.setAttribute("aria-hidden", hideCancel ? "true" : "false");
+    }
+  }
+
+  function getActivatingReauthModalsRoot() {
+    return document.getElementById("activating-reauth-modals");
+  }
+
+  function openActivatingReauthModal() {
+    const root = getActivatingReauthModalsRoot();
+    if (!root || root.hidden === false) return;
+    root.hidden = false;
+    document.body.classList.add("wallet-modals-is-open");
+    const panel = root.querySelector(".activating-reauth-modal__panel");
+    window.requestAnimationFrame(() => {
+      panel?.focus({ preventScroll: true });
+    });
+  }
+
+  function closeActivatingReauthModal() {
+    const root = getActivatingReauthModalsRoot();
+    if (!root || root.hidden) return;
+    root.hidden = true;
+    document.body.classList.remove("wallet-modals-is-open");
+  }
+
+  function initActivatingReauthModal() {
+    const root = getActivatingReauthModalsRoot();
+    if (!root) return;
+
+    root.addEventListener("click", (e) => {
+      if (e.target.closest("[data-activating-reauth-dismiss]")) {
+        e.preventDefault();
+        closeActivatingReauthModal();
       }
+    });
+
+    const authorizeBtn = root.querySelector("[data-activating-reauth-authorize]");
+    authorizeBtn?.addEventListener("click", () => {
+      closeActivatingReauthModal();
+      setState("setupProgress", 8);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (!root || root.hidden) return;
+      closeActivatingReauthModal();
     });
   }
 
@@ -530,6 +584,9 @@
     if (group === "setupProgress") {
       cancelActivatingProgress7to8Anim();
       activatingProgress7to8AnimPending = prev === 7 && clamped === 8;
+      const openReauthFromControls =
+        document.body?.getAttribute("data-prototype-context") === "activating-stablecoin" &&
+        ((prev === 6 && clamped === 7) || (prev === 8 && clamped === 7));
       if (prev === 3 && clamped === 2) {
         setLoggedInValue(false);
         setAccountCreatedValue(false);
@@ -539,6 +596,9 @@
         setAccountCreatedValue(true);
       }
       applySetupProgressToUi();
+      if (openReauthFromControls) {
+        window.queueMicrotask(() => openActivatingReauthModal());
+      }
     }
     return clamped;
   }
@@ -1088,14 +1148,16 @@
 
     syncActivatingStablecoinStatusFromProgress();
 
-    document.querySelectorAll("[data-activating-continue]").forEach((btn) => {
-      if (btn.tagName !== "BUTTON") return;
-      btn.addEventListener("click", () => {
-        if (states.setupProgress === 7) {
-          setState("setupProgress", 8);
-        }
+    document
+      .querySelectorAll("[data-activating-continue-card], [data-activating-continue-footer]")
+      .forEach((btn) => {
+        if (btn.tagName !== "BUTTON") return;
+        btn.addEventListener("click", () => {
+          if (states.setupProgress === 7) {
+            openActivatingReauthModal();
+          }
+        });
       });
-    });
 
     const ACTIVATING_WAIT_SLIDES = [
       {
@@ -1234,6 +1296,7 @@
     initWalletContinueToPickStablecoin();
     initPickStablecoinPage();
     initActivatingStablecoinPage();
+    initActivatingReauthModal();
     initEmptyCheckbox();
     initLoggedInSelect();
     initAccountCreatedSelect();

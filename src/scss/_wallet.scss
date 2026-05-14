@@ -673,10 +673,6 @@
   }
 }
 
-.activating-stablecoin-card[data-setup-progress="7"] .activating-stablecoin-actions > .setup-button--primary {
-  display: none;
-}
-
 .activating-stablecoin-status__intro {
   display: flex;
   flex-direction: column;
@@ -1005,6 +1001,10 @@
 
 .activating-stablecoin-actions {
   margin-top: 0;
+}
+
+.activating-stablecoin-actions [data-activating-actions-cancel][hidden] {
+  display: none !important;
 }
 
 @media (min-width: $desktop-breakpoint) {
@@ -1523,6 +1523,260 @@ body.wallet-modals-is-open {
   width: 100%;
   max-width: 580px;
   box-sizing: border-box;
+}
+
+// Activating stablecoin — re-auth modal (Figma 32122:13252 desktop / 32122:13255 mobile)
+.activating-reauth-modal__dialog {
+  display: flex;
+  justify-content: center;
+}
+
+.activating-reauth-modal__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100dvh - 32px);
+  flex-direction: column;
+  overflow: hidden auto;
+  border-radius: 16px;
+  background: $surface-card;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.activating-reauth-modal__header {
+  position: relative;
+  flex-shrink: 0;
+  min-height: 64px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid $border-soft;
+}
+
+.activating-reauth-modal__close {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  place-items: center;
+  transform: translateY(-50%);
+
+  img {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba($text-clickable, 0.35);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+.activating-reauth-modal__title {
+  margin: 0;
+  padding: 0 44px;
+  color: $text-primary;
+  font-family: $font-sora;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
+}
+
+.activating-reauth-modal__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+  padding: 32px 16px 24px;
+  box-sizing: border-box;
+}
+
+.activating-reauth-modal__intro {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.activating-reauth-modal__marks {
+  position: relative;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+}
+
+.activating-reauth-modal__mark {
+  position: absolute;
+  display: grid;
+  overflow: hidden;
+  border-radius: 50%;
+  place-items: center;
+}
+
+.activating-reauth-modal__mark--xrex {
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  background: #2d2f2f;
+}
+
+.activating-reauth-modal__mark--xrex img {
+  display: block;
+  width: 22px;
+  height: auto;
+}
+
+.activating-reauth-modal__mark--dynamic {
+  right: 0;
+  bottom: 0;
+  width: 32px;
+  height: 32px;
+  background: #e8f0ff;
+}
+
+.activating-reauth-modal__mark--dynamic img {
+  display: block;
+  width: 22px;
+  height: auto;
+}
+
+.activating-reauth-modal__lede {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.activating-reauth-modal__card {
+  width: 100%;
+  padding: 16px 16px 24px;
+  border: 1px solid $border-soft;
+  border-radius: 8px;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.activating-reauth-modal__card-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.activating-reauth-modal__card-icon-wrap {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: $surface-primary;
+}
+
+.activating-reauth-modal__card-icon-inner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.activating-reauth-modal__chev {
+  display: block;
+  flex-shrink: 0;
+  transform: rotate(180deg);
+}
+
+.activating-reauth-modal__card-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.activating-reauth-modal__card-title {
+  margin: 0 0 4px;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.activating-reauth-modal__card-desc {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.activating-reauth-modal__divider {
+  height: 1px;
+  margin: 12px 0;
+  background: $border-soft;
+}
+
+.activating-reauth-modal__assurance {
+  margin: 0;
+  color: #3fae64;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.activating-reauth-modal__footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column-reverse;
+  gap: 12px;
+  padding: 16px 16px 32px;
+  box-sizing: border-box;
+}
+
+.activating-reauth-modal__btn {
+  display: inline-flex;
+  width: 100%;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  appearance: none;
+  box-sizing: border-box;
+}
+
+.activating-reauth-modal__btn--primary {
+  color: #fff;
+  background: $button-primary;
+}
+
+.activating-reauth-modal__btn--secondary {
+  color: $text-clickable;
+  background: $button-secondary;
+}
+
+.activating-reauth-modal__btn:focus-visible {
+  outline: 3px solid rgba($text-clickable, 0.35);
+  outline-offset: 2px;
 }
 
 // Wrappers only — do not set display on these nodes or `hidden` stops working (passcode would show next to verify in the flex row).
@@ -2267,13 +2521,15 @@ body.wallet-modals-is-open {
   }
 
   .verify-email-dialog,
-  .set-passcode-modal {
+  .set-passcode-modal,
+  .activating-reauth-modal__dialog {
     height: 100%;
     min-height: 0;
   }
 
   .verify-email-modal__panel,
-  .set-passcode-modal__panel {
+  .set-passcode-modal__panel,
+  .activating-reauth-modal__panel {
     width: 100%;
     max-width: none;
     height: 100%;
@@ -2288,7 +2544,8 @@ body.wallet-modals-is-open {
   }
 
   .verify-email-modal__header,
-  .set-passcode-modal__header {
+  .set-passcode-modal__header,
+  .activating-reauth-modal__header {
     width: 100%;
     max-width: none;
   }
@@ -2296,7 +2553,9 @@ body.wallet-modals-is-open {
   .verify-email-modal__body,
   .verify-email-modal__footer,
   .set-passcode-modal__body,
-  .set-passcode-modal__footer {
+  .set-passcode-modal__footer,
+  .activating-reauth-modal__body,
+  .activating-reauth-modal__footer {
     box-sizing: border-box;
     width: 100%;
     max-width: $wallet-modal-mobile-inner-max;
@@ -2305,7 +2564,8 @@ body.wallet-modals-is-open {
   }
 
   .verify-email-modal__body,
-  .set-passcode-modal__body {
+  .set-passcode-modal__body,
+  .activating-reauth-modal__body {
     flex: 1 1 auto;
     min-height: 0;
     overflow-x: hidden;
@@ -2338,7 +2598,8 @@ body.wallet-modals-is-open {
   }
 
   .verify-email-dialog,
-  .set-passcode-modal {
+  .set-passcode-modal,
+  .activating-reauth-modal__dialog {
     height: auto;
   }
 
@@ -2365,19 +2626,35 @@ body.wallet-modals-is-open {
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
   }
 
+  .activating-reauth-modal__panel {
+    max-width: 480px;
+    min-height: 0;
+    max-height: calc(100dvh - 32px);
+    overflow: hidden auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 16px;
+    background: $surface-card;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  }
+
   .verify-email-modal__header,
   .verify-email-modal__body,
   .verify-email-modal__footer,
   .set-passcode-modal__header,
   .set-passcode-modal__body,
-  .set-passcode-modal__footer {
+  .set-passcode-modal__footer,
+  .activating-reauth-modal__header,
+  .activating-reauth-modal__body,
+  .activating-reauth-modal__footer {
     max-width: none;
     margin-left: 0;
     margin-right: 0;
   }
 
   .verify-email-modal__body,
-  .set-passcode-modal__body {
+  .set-passcode-modal__body,
+  .activating-reauth-modal__body {
     flex: none;
     min-height: 0;
     overflow: visible;
@@ -2482,5 +2759,82 @@ body.wallet-modals-is-open {
     flex: 0 0 auto;
     width: 156px;
     min-height: 40px;
+  }
+
+  .activating-reauth-modal__header {
+    display: flex;
+    min-height: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 32px 16px;
+    border-bottom: 0;
+  }
+
+  .activating-reauth-modal__close {
+    position: static;
+    order: 2;
+    transform: none;
+  }
+
+  .activating-reauth-modal__title {
+    flex: 1;
+    order: 1;
+    padding: 0;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .activating-reauth-modal__body {
+    gap: 24px;
+    padding: 16px 32px 32px;
+  }
+
+  .activating-reauth-modal__intro {
+    gap: 16px;
+    align-items: center;
+  }
+
+  .activating-reauth-modal__lede {
+    font-size: 16px;
+  }
+
+  .activating-reauth-modal__marks {
+    width: 65px;
+    height: 65px;
+  }
+
+  .activating-reauth-modal__mark--xrex,
+  .activating-reauth-modal__mark--dynamic {
+    width: 40px;
+    height: 40px;
+  }
+
+  .activating-reauth-modal__card {
+    padding: 16px 24px 32px;
+  }
+
+  .activating-reauth-modal__card-icon-wrap {
+    width: 40px;
+    height: 40px;
+  }
+
+  .activating-reauth-modal__card-title {
+    font-size: 18px;
+  }
+
+  .activating-reauth-modal__footer {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 16px;
+    padding: 16px 32px 32px;
+  }
+
+  .activating-reauth-modal__btn {
+    flex: 0 0 auto;
+    width: 156px;
+    min-height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
   }
 }

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=81" />
+  <link rel="stylesheet" href="css/main.css?v=83" />
   <script>
     (function () {
       try {
@@ -78,7 +78,7 @@
                   <button
                     type="button"
                     class="setup-button setup-button--primary activating-stablecoin-status__continue-btn"
-                    data-activating-continue
+                    data-activating-continue-card
                     disabled
                     aria-disabled="true"
                   >
@@ -176,13 +176,19 @@
               <button
                 class="setup-button setup-button--primary"
                 type="button"
-                data-activating-continue
+                data-activating-continue-footer
                 disabled
                 aria-disabled="true"
               >
                 Continue
               </button>
-              <a class="setup-button setup-button--secondary" href="pick-stablecoin.html">Cancel</a>
+              <a
+                class="setup-button setup-button--secondary"
+                href="pick-stablecoin.html"
+                data-activating-actions-cancel
+              >
+                Cancel
+              </a>
             </div>
           </div>
         </div>
@@ -196,6 +202,65 @@
       </footer>
     </section>
   </main>
+
+  <div id="activating-reauth-modals" class="wallet-modals activating-reauth-modals" hidden>
+    <div class="wallet-modals__backdrop" data-activating-reauth-dismiss tabindex="-1" aria-hidden="true"></div>
+    <div class="wallet-modals__dialog activating-reauth-modal__dialog" role="presentation">
+      <div
+        class="activating-reauth-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="activating-reauth-title"
+        tabindex="-1"
+      >
+        <header class="activating-reauth-modal__header">
+          <button type="button" class="activating-reauth-modal__close" data-activating-reauth-dismiss aria-label="Close dialog">
+            <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+          </button>
+          <h2 id="activating-reauth-title" class="activating-reauth-modal__title">Authorization required</h2>
+        </header>
+        <div class="activating-reauth-modal__body">
+          <div class="activating-reauth-modal__intro">
+            <div class="activating-reauth-modal__marks" aria-hidden="true">
+              <div class="activating-reauth-modal__mark activating-reauth-modal__mark--xrex">
+                <img src="assets/logo-xrex-pay-white.svg" width="22" height="22" alt="" />
+              </div>
+              <div class="activating-reauth-modal__mark activating-reauth-modal__mark--dynamic">
+                <img src="assets/logo_dynamic.svg" width="22" height="22" alt="" />
+              </div>
+            </div>
+            <p class="activating-reauth-modal__lede">Review and authorize the following action to continue:</p>
+          </div>
+          <div class="activating-reauth-modal__card">
+            <div class="activating-reauth-modal__card-row">
+              <div class="activating-reauth-modal__card-icon-wrap" aria-hidden="true">
+                <span class="activating-reauth-modal__card-icon-inner">
+                  <img class="activating-reauth-modal__chev" src="assets/icon_carousel_chevron_left.svg" width="10" height="10" alt="" />
+                  <img class="activating-reauth-modal__chev" src="assets/icon_carousel_chevron_left.svg" width="10" height="10" alt="" />
+                </span>
+              </div>
+              <div class="activating-reauth-modal__card-copy">
+                <p class="activating-reauth-modal__card-title">Enable auto-debit</p>
+                <p class="activating-reauth-modal__card-desc">
+                  Allow funds credited to your auto-debit wallet for payments to Halcyon Systems Corp. to be automatically debited when you approve a payment request via PayLynk
+                </p>
+                <div class="activating-reauth-modal__divider" role="presentation"></div>
+                <p class="activating-reauth-modal__assurance">You stay in control. Auto-debit never applies without your approval.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="activating-reauth-modal__footer">
+          <button type="button" class="activating-reauth-modal__btn activating-reauth-modal__btn--secondary" data-activating-reauth-dismiss>
+            Cancel
+          </button>
+          <button type="button" class="activating-reauth-modal__btn activating-reauth-modal__btn--primary" data-activating-reauth-authorize>
+            Authorize
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
 
   <div class="build-badge" role="note" aria-label="Prototype state controls">
     <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyActivating">
