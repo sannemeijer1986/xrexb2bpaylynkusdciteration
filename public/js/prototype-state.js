@@ -721,10 +721,17 @@
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Escape" || walletModals.hidden) return;
       if (loader && !loader.hidden) {
-        abortOtpVerification();
-        if (input) input.value = "";
-        e.preventDefault();
-        return;
+        if (otpPending) {
+          abortOtpVerification();
+          if (input) input.value = "";
+          e.preventDefault();
+          return;
+        }
+        if (passcodeSubmitPending) {
+          abortPasscodeSubmit();
+          e.preventDefault();
+          return;
+        }
       }
       closeWalletModals();
     });
@@ -766,9 +773,17 @@
     passcodeAck?.addEventListener("change", updatePasscodeSubmitState);
 
     passcodeSubmit?.addEventListener("click", () => {
-      if (passcodeSubmit.disabled) return;
-      setState("setupProgress", 4, { force: true });
-      closeWalletModals();
+      if (passcodeSubmit.disabled || passcodeSubmitPending) return;
+      passcodeSubmitPending = true;
+      updatePasscodeSubmitState();
+      showLoader();
+      passcodeSubmitTimer = window.setTimeout(() => {
+        passcodeSubmitTimer = null;
+        passcodeSubmitPending = false;
+        hideLoader();
+        setState("setupProgress", 4, { force: true });
+        closeWalletModals();
+      }, 3000);
     });
   }
 
