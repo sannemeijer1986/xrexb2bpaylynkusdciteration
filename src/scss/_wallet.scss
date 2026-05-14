@@ -543,6 +543,496 @@
   }
 }
 
+// Activating stablecoin — Figma 32111:11365 (desktop), 32111:11530 (mobile)
+@keyframes activating-stablecoin-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes activating-stablecoin-progress-shimmer {
+  0% {
+    background-position: 200% 0, 0 0;
+  }
+
+  100% {
+    background-position: -200% 0, 0 0;
+  }
+}
+
+.activating-stablecoin-header {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.activating-stablecoin-header__title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  color: $text-primary;
+  font-family: $font-sora;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.activating-stablecoin-header__coin {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: block;
+  object-fit: contain;
+}
+
+.activating-stablecoin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px 20px;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-lede {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.activating-stablecoin-status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: 28px 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-shadow: 0 0 6px rgb(0 0 0 / 9%);
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-status__head {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 8px;
+}
+
+.activating-stablecoin-status__live-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: block;
+  object-fit: contain;
+  animation: activating-stablecoin-loader-spin 0.9s linear infinite;
+}
+
+.activating-stablecoin-status__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.activating-stablecoin-status__desc {
+  margin: 0;
+  max-width: 100%;
+  padding-bottom: 12px;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: center;
+}
+
+.activating-stablecoin-progress {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  padding: 0 3px;
+  border: 1px solid $border-hard;
+  border-radius: 100px;
+  background: $surface-primary;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-progress__fill {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: calc(50% - 3px);
+  max-width: calc(100% - 6px);
+  height: 19px;
+  margin-top: -9.5px;
+  border-radius: 100px 0 0 100px;
+  background-color: $text-email-highlight;
+  background-image:
+    linear-gradient(
+    90deg,
+      rgb(255 255 255 / 0%) 0%,
+      rgb(255 255 255 / 0%) 38%,
+      rgb(255 255 255 / 55%) 50%,
+      rgb(255 255 255 / 0%) 62%,
+      rgb(255 255 255 / 0%) 100%
+    ),
+    linear-gradient(90deg, #6598e8 0%, $text-email-highlight 45%, #8cb7ff 100%);
+  background-size: 200% 100%, 100% 100%;
+  background-position: 200% 0, 0 0;
+  background-repeat: no-repeat;
+  animation: activating-stablecoin-progress-shimmer 2.6s ease-in-out infinite;
+}
+
+.activating-stablecoin-status__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  width: 100%;
+  padding-top: 4px;
+}
+
+.activating-stablecoin-hint {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+.activating-stablecoin-hint__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 20px;
+  margin-top: 1px;
+  object-fit: contain;
+}
+
+.activating-stablecoin-hint__text {
+  margin: 0;
+  color: $text-email-highlight;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  text-align: center;
+}
+
+.activating-stablecoin-hint__text--desktop {
+  display: none;
+}
+
+.activating-stablecoin-hint__text--mobile {
+  display: inline;
+}
+
+.activating-stablecoin-step {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.activating-stablecoin-wait {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 24px;
+}
+
+.activating-stablecoin-wait__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.activating-stablecoin-carousel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.activating-stablecoin-carousel__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 16px 24px;
+  border: 1px solid $border-soft;
+  border-bottom: 0;
+  border-radius: $radius-card $radius-card 0 0;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-carousel__media {
+  flex-shrink: 0;
+  width: 62px;
+  height: 66px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.activating-stablecoin-carousel__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activating-stablecoin-carousel__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.activating-stablecoin-carousel__headline {
+  margin: 0;
+  color: $text-primary;
+  font-family: $font-sora;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.activating-stablecoin-carousel__body {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.activating-stablecoin-carousel__toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 16px;
+  border: 1px solid $border-soft;
+  border-radius: 0 0 $radius-card $radius-card;
+  background: $surface-secondary;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-carousel__index {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.activating-stablecoin-carousel__nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.activating-stablecoin-carousel__link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $button-primary;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.activating-stablecoin-carousel__link:hover {
+  text-decoration: underline;
+}
+
+.activating-stablecoin-carousel__next {
+  display: inline-flex;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  background: $button-primary;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.activating-stablecoin-carousel__next:hover {
+  filter: brightness(1.03);
+}
+
+.activating-stablecoin-actions {
+  margin-top: 0;
+}
+
+.activating-stablecoin-carousel__link:disabled,
+.activating-stablecoin-carousel__next:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.activating-stablecoin-carousel__next:disabled:hover {
+  filter: none;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .activating-stablecoin-header {
+    margin-bottom: 40px;
+  }
+
+  .activating-stablecoin-header__title {
+    font-size: 40px;
+    font-weight: 700;
+  }
+
+  .activating-stablecoin-header__coin {
+    width: 46px;
+    height: 46px;
+  }
+
+  .activating-stablecoin-card {
+    gap: 40px;
+    padding: 32px;
+  }
+
+  .activating-stablecoin-lede {
+    font-size: 20px;
+  }
+
+  .activating-stablecoin-status {
+    padding: 32px;
+  }
+
+  .activating-stablecoin-status__head {
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+
+  .activating-stablecoin-status__live-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .activating-stablecoin-status__title {
+    font-size: 18px;
+  }
+
+  .activating-stablecoin-progress {
+    height: 32px;
+  }
+
+  .activating-stablecoin-progress__fill {
+    height: 26px;
+    margin-top: -13px;
+  }
+
+  .activating-stablecoin-status__footer {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 0;
+  }
+
+  .activating-stablecoin-hint {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+    min-width: 0;
+  }
+
+  .activating-stablecoin-hint__text--desktop {
+    display: inline;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .activating-stablecoin-hint__text--mobile {
+    display: none;
+  }
+
+  .activating-stablecoin-step {
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .activating-stablecoin-wait {
+    gap: 12px;
+    padding-bottom: 16px;
+  }
+
+  .activating-stablecoin-wait__title {
+    font-size: 20px;
+  }
+
+  .activating-stablecoin-carousel__panel {
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+    padding: 32px;
+  }
+
+  .activating-stablecoin-carousel__copy {
+    flex: 1 1 auto;
+    gap: 12px;
+  }
+
+  .activating-stablecoin-carousel__media {
+    width: 140px;
+    height: 105px;
+  }
+
+  .activating-stablecoin-carousel__headline {
+    font-size: 22px;
+  }
+
+  .activating-stablecoin-carousel__toolbar {
+    padding: 16px 32px;
+  }
+
+  .activating-stablecoin-carousel__index {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .activating-stablecoin-carousel__link {
+    font-size: 14px;
+  }
+
+  .activating-stablecoin-carousel__next {
+    height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+    min-width: 120px;
+  }
+}
+
 .setup-timeline {
   display: flex;
   flex-direction: column;

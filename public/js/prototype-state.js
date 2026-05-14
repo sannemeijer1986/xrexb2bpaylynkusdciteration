@@ -868,8 +868,71 @@
     sync();
     continueBtn?.addEventListener("click", () => {
       if (continueBtn.disabled) return;
-      window.location.href = "index.html";
+      const checked = root.querySelector('input[name="stablecoin-pick"]:checked');
+      const coin =
+        checked && (checked.value === "usdc" || checked.value === "usdt") ? checked.value : "usdt";
+      try {
+        window.sessionStorage?.setItem(
+          "xrex.paylynk.prototype.activatingSelection.v1",
+          JSON.stringify({ coin }),
+        );
+      } catch (_) {
+        /* ignore */
+      }
+      window.location.href = "activating-stablecoin.html";
     });
+  }
+
+  function initActivatingStablecoinPage() {
+    if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
+    const KEY = "xrex.paylynk.prototype.activatingSelection.v1";
+    let coin = "usdt";
+    try {
+      const raw = window.sessionStorage?.getItem(KEY);
+      if (raw) {
+        const o = JSON.parse(raw);
+        if (o.coin === "usdc" || o.coin === "usdt") coin = o.coin;
+      }
+    } catch (_) {
+      /* ignore */
+    }
+    const sym = coin === "usdc" ? "USDC" : "USDT";
+    const iconSrc = coin === "usdc" ? "assets/icon_usdc.svg" : "assets/icon_usdt.svg";
+    const titleEl = document.querySelector("[data-activating-page-title]");
+    const iconEl = document.querySelector("[data-activating-coin-icon]");
+    const ledeEl = document.querySelector("[data-activating-lede]");
+    if (titleEl) titleEl.textContent = `Activating ${sym}`;
+    if (iconEl) {
+      iconEl.src = iconSrc;
+    }
+    if (ledeEl) {
+      ledeEl.textContent = `Setting up ${sym}: Ethereum network (ERC-20) for payments to [BeneficiaryCName]`;
+    }
+    try {
+      document.title = `XREX PayLynk - Activating ${sym}`;
+    } catch (_) {
+      /* ignore */
+    }
+
+    let idx = 1;
+    const max = 4;
+    const idxEl = document.querySelector("[data-activating-carousel-index]");
+    const prevBtn = document.querySelector("[data-activating-carousel-prev]");
+    const nextBtn = document.querySelector("[data-activating-carousel-next]");
+    const syncCarousel = () => {
+      if (idxEl) idxEl.textContent = `${idx}/${max}`;
+      if (prevBtn) prevBtn.disabled = idx <= 1;
+      if (nextBtn) nextBtn.disabled = idx >= max;
+    };
+    prevBtn?.addEventListener("click", () => {
+      if (idx > 1) idx -= 1;
+      syncCarousel();
+    });
+    nextBtn?.addEventListener("click", () => {
+      if (idx < max) idx += 1;
+      syncCarousel();
+    });
+    syncCarousel();
   }
 
   function initPrototypeReset() {
@@ -938,6 +1001,9 @@
       if (document.body?.getAttribute("data-prototype-context") === "pick-stablecoin") {
         window.location.href = "setup-wallet.html";
       }
+      if (document.body?.getAttribute("data-prototype-context") === "activating-stablecoin") {
+        window.location.href = "setup-wallet.html";
+      }
     });
   }
 
@@ -948,6 +1014,7 @@
     initWalletModals();
     initWalletContinueToPickStablecoin();
     initPickStablecoinPage();
+    initActivatingStablecoinPage();
     initEmptyCheckbox();
     initLoggedInSelect();
     initAccountCreatedSelect();

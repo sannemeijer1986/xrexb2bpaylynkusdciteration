@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script src="auth/auth-config.js"></script>
+  <script src="auth/auth-gate.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XREX PayLynk - Activating stablecoin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=67" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v == null || v === "" || parseInt(v, 10) < 4) {
+          window.location.replace("setup-wallet.html");
+          return;
+        }
+        document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {
+        window.location.replace("setup-wallet.html");
+      }
+    })();
+  </script>
+</head>
+<body class="setup-page" data-prototype-context="activating-stablecoin">
+  <main class="setup-shell" aria-labelledby="activating-stablecoin-title">
+    <section class="setup-hero" aria-label="XREX Pay">
+      <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
+      <img class="setup-hero__logo" src="assets/logo-xrex-pay-white.svg" alt="XREX Pay" />
+    </section>
+
+    <section class="setup-panel">
+      <div class="setup-panel__body">
+        <div class="setup-panel__content">
+          <div class="activating-stablecoin-header">
+            <h1 id="activating-stablecoin-title" class="activating-stablecoin-header__title" data-activating-page-title>
+              Activating USDT
+            </h1>
+            <img
+              class="activating-stablecoin-header__coin"
+              data-activating-coin-icon
+              src="assets/icon_usdt.svg"
+              width="46"
+              height="46"
+              alt=""
+            />
+          </div>
+
+          <div class="activating-stablecoin-card" data-activating-root>
+            <p class="activating-stablecoin-lede" data-activating-lede>
+              Setting up USDT: Ethereum network (ERC-20) for payments to [BeneficiaryCName]
+            </p>
+
+            <div class="activating-stablecoin-status">
+              <div class="activating-stablecoin-status__head">
+                <img
+                  class="activating-stablecoin-status__live-icon"
+                  src="assets/icon_loader_lightblue.svg"
+                  width="26"
+                  height="26"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <p class="activating-stablecoin-status__title">Enabling auto-debit</p>
+              </div>
+              <p class="activating-stablecoin-status__desc">
+                Your authorization is being confirmed onchain. This may take a few minutes...
+              </p>
+              <div
+                class="activating-stablecoin-progress"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="50"
+                aria-label="Setup progress"
+              >
+                <div class="activating-stablecoin-progress__fill"></div>
+              </div>
+              <div class="activating-stablecoin-status__footer">
+                <div class="activating-stablecoin-hint">
+                  <img
+                    class="activating-stablecoin-hint__icon"
+                    src="assets/icon_info_blue.svg"
+                    width="16"
+                    height="20"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <p class="activating-stablecoin-hint__text activating-stablecoin-hint__text--desktop">
+                    Please keep this page open during setup
+                  </p>
+                  <p class="activating-stablecoin-hint__text activating-stablecoin-hint__text--mobile">Please keep this page open</p>
+                </div>
+                <p class="activating-stablecoin-step"><span>Step 2 of 4</span> <span aria-hidden="true">·</span> <span>50%</span></p>
+              </div>
+            </div>
+
+            <div class="activating-stablecoin-wait">
+              <p class="activating-stablecoin-wait__title">While you wait</p>
+              <div class="activating-stablecoin-carousel" data-activating-carousel>
+                <div class="activating-stablecoin-carousel__panel">
+                  <div class="activating-stablecoin-carousel__media">
+                    <img src="assets/setup-stablecoin.png" alt="" class="activating-stablecoin-carousel__img" />
+                  </div>
+                  <div class="activating-stablecoin-carousel__copy">
+                    <p class="activating-stablecoin-carousel__headline">XREX PayLynk is MPI Licensed</p>
+                    <p class="activating-stablecoin-carousel__body">
+                      Nullam finibus, orci ac mollis sodales, magna lorem mollis nisl, et mattis eros metus nec orci.
+                    </p>
+                  </div>
+                </div>
+                <div class="activating-stablecoin-carousel__toolbar">
+                  <span class="activating-stablecoin-carousel__index" data-activating-carousel-index>1/4</span>
+                  <div class="activating-stablecoin-carousel__nav">
+                    <button type="button" class="activating-stablecoin-carousel__link" data-activating-carousel-prev>Previous</button>
+                    <button type="button" class="activating-stablecoin-carousel__next" data-activating-carousel-next>Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="setup-actions activating-stablecoin-actions">
+              <button class="setup-button setup-button--primary" type="button" disabled aria-disabled="true">Continue</button>
+              <a class="setup-button setup-button--secondary" href="pick-stablecoin.html">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="setup-footer">
+        <p>© XREX Pay Limited 2026</p>
+        <nav class="setup-footer__nav" aria-label="Footer">
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
+        </nav>
+      </footer>
+    </section>
+  </main>
+
+  <div class="build-badge" role="note" aria-label="Prototype state controls">
+    <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyActivating">
+      <span class="build-badge__title">Prototype controls</span>
+      <span class="build-badge__chevron" aria-hidden="true">
+        <img class="build-badge__chevron-icon" src="assets/icon_back.svg" alt="" />
+        <img class="build-badge__chevron-icon build-badge__chevron-icon--collapsed" src="assets/icon_prototypecontrols.svg" alt="" />
+      </span>
+    </button>
+    <div class="build-badge__body" id="prototypeStatesBodyActivating">
+      <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
+
+      <div class="build-badge__checkbox-stack" style="display: none !important;">
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-empty aria-label="Empty" />
+            <span>Empty</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Account created</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-account-created aria-label="Account created">
+            <option value="false">False</option>
+            <option value="true" selected>True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
+            <option value="false">False</option>
+            <option value="true" selected>True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__logged-in-timer-row">
+        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+      </div>
+
+      <div class="build-badge__group" data-state-group="setupProgress">
+        <div class="build-badge__group-label">Setup progress</div>
+        <div class="build-badge__state">
+          <button type="button" class="build-badge__state-btn" data-state-action="down" aria-label="Previous setup progress">−</button>
+          <span class="build-badge__state-value" data-state-value></span>
+          <button type="button" class="build-badge__state-btn" data-state-action="up" aria-label="Next setup progress">+</button>
+          <span class="build-badge__state-name" data-state-name></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/prototype-state.js"></script>
+</body>
+</html>
