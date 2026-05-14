@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=59" />
+  <link rel="stylesheet" href="css/main.css?v=61" />
   <script>
     (function () {
       try {
@@ -53,31 +53,93 @@
             </div>
 
             <div class="pick-stablecoin-list" role="radiogroup" aria-labelledby="pick-stablecoin-title">
-              <label class="pick-stablecoin-option">
-                <input class="pick-stablecoin-option__input" type="radio" name="stablecoin-pick" value="usdt" aria-label="USDT, Tether USD" />
-                <img class="pick-stablecoin-option__icon" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
-                <div class="pick-stablecoin-option__main">
-                  <p class="pick-stablecoin-option__title">USDT</p>
-                  <p class="pick-stablecoin-option__subtitle">Tether USD</p>
+              <div class="pick-stablecoin-expandable" data-pick-stablecoin-usdt-expandable>
+                <div class="pick-stablecoin-expandable__card">
+                  <label class="pick-stablecoin-option pick-stablecoin-option--in-expandable">
+                    <input class="pick-stablecoin-option__input" type="radio" name="stablecoin-pick" value="usdt" aria-label="USDT, Tether USD" />
+                    <img class="pick-stablecoin-option__icon" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
+                    <div class="pick-stablecoin-option__main">
+                      <p class="pick-stablecoin-option__title">USDT</p>
+                      <p class="pick-stablecoin-option__subtitle">Tether USD</p>
+                    </div>
+                    <span class="pick-stablecoin-option__tag">Most used</span>
+                    <span class="pick-stablecoin-option__radio" aria-hidden="true">
+                      <img
+                        class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--inactive"
+                        src="assets/radio_inactive.svg"
+                        width="24"
+                        height="24"
+                        alt=""
+                      />
+                      <img
+                        class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--active"
+                        src="assets/radio_active.svg"
+                        width="24"
+                        height="24"
+                        alt=""
+                      />
+                    </span>
+                  </label>
+                  <div class="pick-stablecoin-expandable__details" data-pick-stablecoin-usdt-details hidden>
+                    <div class="pick-stablecoin-expandable__divider" aria-hidden="true"></div>
+                    <div class="pick-stablecoin-expandable__network-block">
+                      <div class="pick-stablecoin-network-head">
+                        <p id="pick-usdt-network-title" class="pick-stablecoin-network-head__title">Choose USDT network</p>
+                        <button type="button" class="pick-stablecoin-network-head__link" data-pick-stablecoin-network-help>
+                          What’s a network?
+                        </button>
+                      </div>
+                      <div class="pick-stablecoin-network-list" role="radiogroup" aria-labelledby="pick-usdt-network-title">
+                        <label class="pick-stablecoin-network pick-stablecoin-network--selectable">
+                          <input
+                            class="pick-stablecoin-network__input"
+                            type="radio"
+                            name="usdt-network-pick"
+                            value="ethereum"
+                            checked
+                            aria-label="Ethereum network, ERC-20"
+                          />
+                          <span class="pick-stablecoin-network__chain" aria-hidden="true">
+                            <img class="pick-stablecoin-network__chain-img" src="assets/icon_network_blue.svg" width="24" height="24" alt="" />
+                          </span>
+                          <span class="pick-stablecoin-network__text">
+                            <span class="pick-stablecoin-network__title">Ethereum network</span>
+                            <span class="pick-stablecoin-network__subtitle">ERC-20</span>
+                          </span>
+                          <span class="pick-stablecoin-network__radio" aria-hidden="true">
+                            <img
+                              class="pick-stablecoin-network__radio-img pick-stablecoin-network__radio-img--inactive"
+                              src="assets/radio_inactive.svg"
+                              width="24"
+                              height="24"
+                              alt=""
+                            />
+                            <img
+                              class="pick-stablecoin-network__radio-img pick-stablecoin-network__radio-img--active"
+                              src="assets/radio_active.svg"
+                              width="24"
+                              height="24"
+                              alt=""
+                            />
+                          </span>
+                        </label>
+                        <div class="pick-stablecoin-network pick-stablecoin-network--disabled" aria-disabled="true">
+                          <span class="pick-stablecoin-network__chain" aria-hidden="true">
+                            <img class="pick-stablecoin-network__chain-img" src="assets/icon_network_disabled.svg" width="24" height="24" alt="" />
+                          </span>
+                          <span class="pick-stablecoin-network__text">
+                            <span class="pick-stablecoin-network__title">TRON network</span>
+                            <span class="pick-stablecoin-network__subtitle">TRC-20 · Coming soon</span>
+                          </span>
+                          <span class="pick-stablecoin-network__radio" aria-hidden="true">
+                            <img class="pick-stablecoin-network__radio-img pick-stablecoin-network__radio-img--disabled" src="assets/radio_inactive.svg" width="24" height="24" alt="" />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <span class="pick-stablecoin-option__tag">Most used</span>
-                <span class="pick-stablecoin-option__radio" aria-hidden="true">
-                  <img
-                    class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--inactive"
-                    src="assets/radio_inactive.svg"
-                    width="24"
-                    height="24"
-                    alt=""
-                  />
-                  <img
-                    class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--active"
-                    src="assets/radio_active.svg"
-                    width="24"
-                    height="24"
-                    alt=""
-                  />
-                </span>
-              </label>
+              </div>
 
               <label class="pick-stablecoin-option">
                 <input class="pick-stablecoin-option__input" type="radio" name="stablecoin-pick" value="usdc" aria-label="USDC, Circle USD" />

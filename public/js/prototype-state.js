@@ -260,9 +260,23 @@
     el.textContent = Number.isFinite(d.getTime()) ? formatConsentDate(d) : "";
   }
 
+  function syncPickStablecoinUsdtDetails() {
+    const root = document.querySelector("[data-pick-stablecoin-root]");
+    if (!root) return;
+    const details = root.querySelector("[data-pick-stablecoin-usdt-details]");
+    const usdt = root.querySelector('input[name="stablecoin-pick"][value="usdt"]');
+    if (!details || !usdt) return;
+    if (usdt.checked) {
+      details.removeAttribute("hidden");
+    } else {
+      details.setAttribute("hidden", "");
+    }
+  }
+
   function syncPickStablecoinContinueFromSelection() {
     const root = document.querySelector("[data-pick-stablecoin-root]");
     if (!root) return;
+    syncPickStablecoinUsdtDetails();
     const continueBtn =
       document.getElementById("pick-stablecoin-continue") ||
       root.querySelector("[data-pick-stablecoin-continue]");
@@ -830,6 +844,9 @@
     root.querySelectorAll('input[name="stablecoin-pick"]').forEach((inp) => {
       inp.addEventListener("change", sync);
       inp.addEventListener("input", sync);
+    });
+    root.querySelector("[data-pick-stablecoin-network-help]")?.addEventListener("click", (e) => {
+      e.preventDefault();
     });
     root.addEventListener("click", (e) => {
       if (e.target.closest(".pick-stablecoin-option")) {

@@ -109,6 +109,210 @@
   gap: 16px;
 }
 
+.pick-stablecoin-expandable__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 20px 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+  outline: none;
+  box-shadow: none;
+}
+
+// Figma 32111:11056 — border-hard + drop shadow when expanded (no blue outer ring on card)
+.pick-stablecoin-expandable:has(.pick-stablecoin-option__input:checked) .pick-stablecoin-expandable__card {
+  gap: 24px;
+  border: 1px solid $border-hard;
+  box-shadow: 0 0 6px rgb(0 0 0 / 9%);
+}
+
+.pick-stablecoin-expandable__details[hidden] {
+  display: none !important;
+}
+
+.pick-stablecoin-expandable__details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.pick-stablecoin-expandable__divider {
+  flex-shrink: 0;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: $border-hard;
+}
+
+.pick-stablecoin-expandable__network-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.pick-stablecoin-network-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.pick-stablecoin-network-head__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.pick-stablecoin-network-head__link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $text-clickable;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: right;
+}
+
+.pick-stablecoin-network-head__link:hover {
+  text-decoration: underline;
+}
+
+.pick-stablecoin-network-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.pick-stablecoin-network {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 74px;
+  padding: 16px;
+  border-radius: $radius-card;
+}
+
+.pick-stablecoin-network--selectable {
+  border: 1.5px solid $text-clickable;
+  background: $surface-secondary;
+  cursor: pointer;
+}
+
+.pick-stablecoin-network--disabled {
+  border: 1px solid $border-soft;
+  background: $surface-card;
+  pointer-events: none;
+}
+
+.pick-stablecoin-network__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pick-stablecoin-network__input:focus {
+  outline: none;
+}
+
+.pick-stablecoin-network__chain {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.pick-stablecoin-network__chain-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.pick-stablecoin-network__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+}
+
+.pick-stablecoin-network__title {
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.pick-stablecoin-network__subtitle {
+  color: $text-primary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.pick-stablecoin-network--disabled .pick-stablecoin-network__title,
+.pick-stablecoin-network--disabled .pick-stablecoin-network__subtitle {
+  color: $text-placeholder;
+}
+
+.pick-stablecoin-network__radio {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+}
+
+.pick-stablecoin-network__radio-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  grid-area: 1 / 1;
+  object-fit: contain;
+}
+
+.pick-stablecoin-network__radio-img--active {
+  display: none;
+}
+
+.pick-stablecoin-network--selectable:has(.pick-stablecoin-network__input:checked) .pick-stablecoin-network__radio-img--inactive {
+  display: none;
+}
+
+.pick-stablecoin-network--selectable:has(.pick-stablecoin-network__input:checked) .pick-stablecoin-network__radio-img--active {
+  display: block;
+}
+
+.pick-stablecoin-network__radio-img--disabled {
+  opacity: 0.55;
+}
+
 .pick-stablecoin-option {
   position: relative;
   display: flex;
@@ -120,6 +324,12 @@
   background: $surface-card;
   box-sizing: border-box;
   cursor: pointer;
+}
+
+.pick-stablecoin-option--in-expandable {
+  padding: 0;
+  outline: none;
+  background: transparent;
 }
 
 .pick-stablecoin-option__input {
@@ -134,8 +344,12 @@
   border: 0;
 }
 
-.pick-stablecoin-option:has(.pick-stablecoin-option__input:checked) {
+.pick-stablecoin-option:not(.pick-stablecoin-option--in-expandable):has(.pick-stablecoin-option__input:checked) {
   outline: 2px solid $text-clickable;
+}
+
+.pick-stablecoin-expandable:has(.pick-stablecoin-option__input:checked) .pick-stablecoin-option--in-expandable {
+  outline: none;
 }
 
 .pick-stablecoin-option__input:focus {
@@ -244,6 +458,10 @@
     padding: 24px;
   }
 
+  .pick-stablecoin-option--in-expandable {
+    padding: 0;
+  }
+
   .pick-stablecoin-option__icon {
     width: 46px;
     height: 46px;
@@ -257,6 +475,42 @@
     font-size: 16px;
     line-height: 23px;
     white-space: normal;
+  }
+
+  .pick-stablecoin-expandable__card {
+    padding: 24px;
+  }
+
+  .pick-stablecoin-expandable__network-block {
+    padding-left: 62px;
+  }
+
+  .pick-stablecoin-network-head__title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .pick-stablecoin-network-head__link {
+    font-size: 14px;
+  }
+
+  .pick-stablecoin-network {
+    gap: 16px;
+    padding: 24px 20px;
+  }
+
+  .pick-stablecoin-network__chain,
+  .pick-stablecoin-network__chain-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pick-stablecoin-network__title {
+    font-size: 18px;
+  }
+
+  .pick-stablecoin-network__subtitle {
+    font-size: 14px;
   }
 }
 
