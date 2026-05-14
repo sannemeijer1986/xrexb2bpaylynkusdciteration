@@ -812,7 +812,8 @@ a.setup-button--secondary {
 }
 
 .pick-stablecoin-network-head__link:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  opacity: 0.85;
 }
 
 .pick-stablecoin-network-list {
@@ -1216,7 +1217,7 @@ a.setup-button--secondary {
   padding: 28px 16px;
   border: 1px solid #dbdbdc;
   border-radius: 8px;
-  background: #F5F9FF;
+  background: #FCFCFC;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 }
@@ -1381,7 +1382,8 @@ a.setup-button--secondary {
   width: 62px;
   height: 66px;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 8px;
+  background: #bdbdbd;
 }
 
 .activating-stablecoin-carousel__img {
@@ -1421,7 +1423,9 @@ a.setup-button--secondary {
   align-items: center;
   justify-content: flex-end;
   padding: 8px 16px;
-  border: 1px solid #eeeeee;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: #eeeeee;
   border-radius: 0 0 8px 8px;
   background: #fcfcfc;
   box-sizing: border-box;
@@ -1457,7 +1461,8 @@ a.setup-button--secondary {
 }
 
 .activating-stablecoin-carousel__link:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  opacity: 0.85;
 }
 
 .activating-stablecoin-carousel__next {
@@ -1563,7 +1568,7 @@ a.setup-button--secondary {
     padding-bottom: 16px;
   }
   .activating-stablecoin-wait__title {
-    font-size: 20px;
+    font-size: 18px;
   }
   .activating-stablecoin-carousel__panel {
     flex-direction: row;

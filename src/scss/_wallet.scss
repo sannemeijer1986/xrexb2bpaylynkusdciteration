@@ -189,7 +189,8 @@
 }
 
 .pick-stablecoin-network-head__link:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  opacity: 0.85;
 }
 
 .pick-stablecoin-network-list {
@@ -615,7 +616,7 @@
   padding: 28px 16px;
   border: 1px solid $border-hard;
   border-radius: $radius-card;
-  background: #F5F9FF;
+  background: #FCFCFC;
   box-shadow: 0 0 6px rgb(0 0 0 / 9%);
   box-sizing: border-box;
 }
@@ -789,7 +790,8 @@
   width: 62px;
   height: 66px;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 8px;
+  background: #bdbdbd;
 }
 
 .activating-stablecoin-carousel__img {
@@ -829,7 +831,9 @@
   align-items: center;
   justify-content: flex-end;
   padding: 8px 16px;
-  border: 1px solid $border-soft;
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: $border-soft;
   border-radius: 0 0 $radius-card $radius-card;
   background: $surface-secondary;
   box-sizing: border-box;
@@ -865,7 +869,8 @@
 }
 
 .activating-stablecoin-carousel__link:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  opacity: 0.85;
 }
 
 .activating-stablecoin-carousel__next {
@@ -988,7 +993,7 @@
   }
 
   .activating-stablecoin-wait__title {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .activating-stablecoin-carousel__panel {

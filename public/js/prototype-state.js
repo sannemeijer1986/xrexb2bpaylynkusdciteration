@@ -914,15 +914,51 @@
       /* ignore */
     }
 
+    const ACTIVATING_WAIT_SLIDES = [
+      {
+        img: "assets/placeholder-wait-1.svg",
+        headline: "[Placeholder] What is stablecoin auto-debit?",
+        body:
+          "Short placeholder copy for slide 1 of 4. Replace with final marketing or education content when assets are ready.",
+      },
+      {
+        img: "assets/placeholder-wait-2.svg",
+        headline: "[Placeholder] Why we use the Ethereum network",
+        body:
+          "Placeholder copy for slide 2 of 4. This block can explain ERC-20, settlement time, or fees—swap in real copy later.",
+      },
+      {
+        img: "assets/placeholder-wait-3.svg",
+        headline: "[Placeholder] Keeping your authorization safe",
+        body:
+          "Placeholder copy for slide 3 of 4. Use this slot for security practices, limits, or what happens if activation pauses.",
+      },
+      {
+        img: "assets/placeholder-wait-4.svg",
+        headline: "[Placeholder] After activation finishes",
+        body:
+          "Placeholder copy for slide 4 of 4. Outline the next screen, email confirmation, or where to find payment history.",
+      },
+    ];
+
     let idx = 1;
-    const max = 4;
+    const max = ACTIVATING_WAIT_SLIDES.length;
     const idxEl = document.querySelector("[data-activating-carousel-index]");
     const prevBtn = document.querySelector("[data-activating-carousel-prev]");
     const nextBtn = document.querySelector("[data-activating-carousel-next]");
+    const carouselImg = document.querySelector("[data-activating-carousel-img]");
+    const carouselHeadline = document.querySelector("[data-activating-carousel-headline]");
+    const carouselBody = document.querySelector("[data-activating-carousel-body]");
     const syncCarousel = () => {
       if (idxEl) idxEl.textContent = `${idx}/${max}`;
       if (prevBtn) prevBtn.disabled = idx <= 1;
       if (nextBtn) nextBtn.disabled = idx >= max;
+      const slide = ACTIVATING_WAIT_SLIDES[idx - 1];
+      if (slide) {
+        if (carouselImg) carouselImg.src = slide.img;
+        if (carouselHeadline) carouselHeadline.textContent = slide.headline;
+        if (carouselBody) carouselBody.textContent = slide.body;
+      }
     };
     prevBtn?.addEventListener("click", () => {
       if (idx > 1) idx -= 1;
