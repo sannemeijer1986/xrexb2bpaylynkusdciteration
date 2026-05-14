@@ -87,10 +87,11 @@
 
 .pick-stablecoin-hint__icon {
   flex-shrink: 0;
+  display: block;
   width: 16px;
-  height: 16px;
-  margin-top: 2px;
-  color: $text-email-highlight;
+  height: 20px;
+  margin-top: 1px;
+  object-fit: contain;
 }
 
 .pick-stablecoin-hint__text {
@@ -114,16 +115,11 @@
   gap: 8px;
   align-items: center;
   padding: 20px 16px;
-  border: 1px solid $border-hard;
+  outline: 1px solid $border-hard;
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
   cursor: pointer;
-
-  &:focus-within {
-    outline: 2px solid rgba($text-clickable, 0.35);
-    outline-offset: 2px;
-  }
 }
 
 .pick-stablecoin-option__input {
@@ -139,8 +135,11 @@
 }
 
 .pick-stablecoin-option:has(.pick-stablecoin-option__input:checked) {
-  border-color: $text-clickable;
-  box-shadow: 0 0 0 1px $text-clickable;
+  outline: 2px solid $text-clickable;
+}
+
+.pick-stablecoin-option__input:focus {
+  outline: none;
 }
 
 .pick-stablecoin-option__icon {
@@ -195,19 +194,31 @@
 
 .pick-stablecoin-option__radio {
   position: relative;
+  display: grid;
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  border: 2px solid $border-hard;
-  border-radius: 50%;
-  box-sizing: border-box;
-  background: $surface-card;
+  place-items: center;
 }
 
-.pick-stablecoin-option__input:checked ~ .pick-stablecoin-option__radio {
-  border-color: $button-primary;
-  background: $button-primary;
-  box-shadow: inset 0 0 0 3px #fff;
+.pick-stablecoin-option__radio-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  grid-area: 1 / 1;
+  object-fit: contain;
+}
+
+.pick-stablecoin-option__radio-img--active {
+  display: none;
+}
+
+.pick-stablecoin-option:has(.pick-stablecoin-option__input:checked) .pick-stablecoin-option__radio-img--inactive {
+  display: none;
+}
+
+.pick-stablecoin-option:has(.pick-stablecoin-option__input:checked) .pick-stablecoin-option__radio-img--active {
+  display: block;
 }
 
 .pick-stablecoin-actions {

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=56" />
+  <link rel="stylesheet" href="css/main.css?v=59" />
   <script>
     (function () {
       try {
@@ -40,10 +40,14 @@
             <div class="pick-stablecoin-intro">
               <p class="pick-stablecoin-lede">Choose your preferred Stablecoin for doing payments</p>
               <div class="pick-stablecoin-hint">
-                <svg class="pick-stablecoin-hint__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                  <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.25" />
-                  <text x="8" y="11" text-anchor="middle" fill="currentColor" font-size="8" font-weight="700" font-family="Manrope, system-ui, sans-serif">i</text>
-                </svg>
+                <img
+                  class="pick-stablecoin-hint__icon"
+                  src="assets/icon_info_blue.svg"
+                  width="16"
+                  height="20"
+                  alt=""
+                  aria-hidden="true"
+                />
                 <p class="pick-stablecoin-hint__text">You can add more stablecoins anytime</p>
               </div>
             </div>
@@ -57,7 +61,22 @@
                   <p class="pick-stablecoin-option__subtitle">Tether USD</p>
                 </div>
                 <span class="pick-stablecoin-option__tag">Most used</span>
-                <span class="pick-stablecoin-option__radio" aria-hidden="true"></span>
+                <span class="pick-stablecoin-option__radio" aria-hidden="true">
+                  <img
+                    class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--inactive"
+                    src="assets/radio_inactive.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                  />
+                  <img
+                    class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--active"
+                    src="assets/radio_active.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                  />
+                </span>
               </label>
 
               <label class="pick-stablecoin-option">
@@ -67,7 +86,22 @@
                   <p class="pick-stablecoin-option__title">USDC</p>
                   <p class="pick-stablecoin-option__subtitle">Circle USD</p>
                 </div>
-                <span class="pick-stablecoin-option__radio" aria-hidden="true"></span>
+                <span class="pick-stablecoin-option__radio" aria-hidden="true">
+                  <img
+                    class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--inactive"
+                    src="assets/radio_inactive.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                  />
+                  <img
+                    class="pick-stablecoin-option__radio-img pick-stablecoin-option__radio-img--active"
+                    src="assets/radio_active.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                  />
+                </span>
               </label>
             </div>
 
