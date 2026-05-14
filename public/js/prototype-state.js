@@ -69,6 +69,27 @@
     }
   }
 
+  /** 6 → 7: animate progress 25% → 50%, then open re-auth modal (activating page only). */
+  let activatingReauth6to7AnimPending = false;
+  let activatingReauth6to7T1 = null;
+  let activatingReauth6to7T2 = null;
+
+  function cancelActivatingReauth6to7Timers() {
+    if (activatingReauth6to7T1 != null) {
+      window.clearTimeout(activatingReauth6to7T1);
+      activatingReauth6to7T1 = null;
+    }
+    if (activatingReauth6to7T2 != null) {
+      window.clearTimeout(activatingReauth6to7T2);
+      activatingReauth6to7T2 = null;
+    }
+  }
+
+  function cancelActivatingReauth6to7Anim() {
+    cancelActivatingReauth6to7Timers();
+    activatingReauth6to7AnimPending = false;
+  }
+
   function stopLoggedInTimerTick() {
     if (loggedInTickId != null) {
       window.clearInterval(loggedInTickId);
@@ -372,7 +393,7 @@
     } else if (p === 7) {
       pct = 50;
       stepLabel = "Step 3 of 4";
-      title = "Authorize auto-debit";
+      title = "Authorize auto-debit to continue";
       desc =
         "Set up auto-debit for Halcyon Systems Corp. Approved payment requests will be automatically debited from a dedicated auto-debit wallet for this beneficiary.";
     } else if (p === 8) {
@@ -388,7 +409,13 @@
       desc = `${sym}: Ethereum network (ERC-20) has been activated`;
     }
 
-    const isAuthorizeDebit = p === 7;
+    const in6to7ReauthAnim = activatingReauth6to7AnimPending && p === 7;
+    if (in6to7ReauthAnim) {
+      title = "Preparing wallet";
+      desc =
+        "We’re adding gas to your wallet to cover the fees needed to enable auto-debit. This may take a few minutes";
+    }
+    const isAuthorizeDebit = p === 7 && !in6to7ReauthAnim;
     const isContinueEnabled = isSetupComplete || isAuthorizeDebit;
 
     const runActivatingProgress7to8Anim = activatingProgress7to8AnimPending && p === 8;
@@ -417,12 +444,43 @@
     if (descEl) descEl.textContent = desc;
     if (stepLabelEl) stepLabelEl.textContent = stepLabel;
     if (stepPctEl) {
-      stepPctEl.textContent = runActivatingProgress7to8Anim ? "50%" : `${pct}%`;
+      if (in6to7ReauthAnim && activatingReauth6to7T1 == null && activatingReauth6to7T2 == null) {
+        stepPctEl.textContent = "25%";
+      } else if (!in6to7ReauthAnim) {
+        stepPctEl.textContent = runActivatingProgress7to8Anim ? "50%" : `${pct}%`;
+      }
     }
     if (progressEl) {
       progressEl.hidden = isAuthorizeDebit;
       progressEl.setAttribute("aria-hidden", isAuthorizeDebit ? "true" : "false");
-      if (runActivatingProgress7to8Anim) {
+      if (in6to7ReauthAnim && activatingReauth6to7T1 == null && activatingReauth6to7T2 == null) {
+        const delayMs = 140;
+        const transitionMs = 600;
+        progressEl.style.setProperty("--activating-progress-fr", "0.25");
+        progressEl.setAttribute("aria-valuenow", "25");
+        void progressEl.offsetWidth;
+        cancelActivatingReauth6to7Timers();
+        activatingReauth6to7T1 = window.setTimeout(() => {
+          activatingReauth6to7T1 = null;
+          if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
+          if (states.setupProgress !== 7 || !activatingReauth6to7AnimPending) return;
+          const pe = document.querySelector("[data-activating-progress]");
+          const spe = document.querySelector("[data-activating-step-pct]");
+          if (pe) {
+            pe.style.setProperty("--activating-progress-fr", "0.5");
+            pe.setAttribute("aria-valuenow", "50");
+          }
+          if (spe) spe.textContent = "50%";
+          activatingReauth6to7T2 = window.setTimeout(() => {
+            activatingReauth6to7T2 = null;
+            if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
+            if (states.setupProgress !== 7) return;
+            activatingReauth6to7AnimPending = false;
+            openActivatingReauthModal();
+            applySetupProgressToUi();
+          }, transitionMs);
+        }, delayMs);
+      } else if (runActivatingProgress7to8Anim) {
         const frStart = 0.5;
         const frEnd = 0.75;
         const pctEnd = 75;
@@ -518,7 +576,7 @@
     if (!root || root.hidden === false) return;
     root.hidden = false;
     document.body.classList.add("wallet-modals-is-open");
-    const panel = root.querySelector(".activating-reauth-modal__panel");
+    const panel = root.querySelector(".verify-email-modal__panel");
     window.requestAnimationFrame(() => {
       panel?.focus({ preventScroll: true });
     });
@@ -536,7 +594,7 @@
     if (!root) return;
 
     root.addEventListener("click", (e) => {
-      if (e.target.closest("[data-activating-reauth-dismiss]")) {
+      if (e.target.closest("[data-wallet-modals-dismiss]")) {
         e.preventDefault();
         closeActivatingReauthModal();
       }
@@ -591,7 +649,11 @@
     updateGroupUI(group);
     if (group === "setupProgress") {
       cancelActivatingProgress7to8Anim();
+      cancelActivatingReauth6to7Anim();
       activatingProgress7to8AnimPending = prev === 7 && clamped === 8;
+      if (prev === 6 && clamped === 7) {
+        activatingReauth6to7AnimPending = true;
+      }
       const openReauthFromControls =
         document.body?.getAttribute("data-prototype-context") === "activating-stablecoin" &&
         ((prev === 6 && clamped === 7) || (prev === 8 && clamped === 7));
@@ -604,7 +666,7 @@
         setAccountCreatedValue(true);
       }
       applySetupProgressToUi();
-      if (openReauthFromControls) {
+      if (openReauthFromControls && prev === 8 && clamped === 7) {
         window.queueMicrotask(() => openActivatingReauthModal());
       }
     }

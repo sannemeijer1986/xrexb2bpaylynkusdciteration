@@ -182,18 +182,42 @@
                           What’s a network?
                         </button>
                       </div>
-                      <div class="pick-stablecoin-network-list" role="group" aria-labelledby="pick-usdc-network-title">
-                        <div class="pick-stablecoin-network pick-stablecoin-network--readonly">
+                      <div class="pick-stablecoin-network-list" role="radiogroup" aria-labelledby="pick-usdc-network-title">
+                        <label class="pick-stablecoin-network pick-stablecoin-network--selectable">
+                          <input
+                            class="pick-stablecoin-network__input"
+                            type="radio"
+                            name="usdc-network-pick"
+                            value="ethereum"
+                            checked
+                            aria-label="Ethereum network, ERC-20"
+                          />
                           <span class="pick-stablecoin-network__chain" aria-hidden="true">
-                            <div class="pick-stablecoin-network__chain-well pick-stablecoin-network__chain-well--muted">
-                              <img class="pick-stablecoin-network__chain-img" src="assets/icon_network_gray.svg" width="20" height="20" alt="" />
+                            <div class="pick-stablecoin-network__chain-well pick-stablecoin-network__chain-well--selectable">
+                              <img class="pick-stablecoin-network__chain-img" src="assets/icon_network_blue.svg" width="20" height="20" alt="" />
                             </div>
                           </span>
                           <span class="pick-stablecoin-network__text">
                             <span class="pick-stablecoin-network__title">Ethereum network</span>
                             <span class="pick-stablecoin-network__subtitle">ERC-20</span>
                           </span>
-                        </div>
+                          <span class="pick-stablecoin-network__radio" aria-hidden="true">
+                            <img
+                              class="pick-stablecoin-network__radio-img pick-stablecoin-network__radio-img--inactive"
+                              src="assets/radio_inactive.svg"
+                              width="24"
+                              height="24"
+                              alt=""
+                            />
+                            <img
+                              class="pick-stablecoin-network__radio-img pick-stablecoin-network__radio-img--active"
+                              src="assets/radio_active.svg"
+                              width="24"
+                              height="24"
+                              alt=""
+                            />
+                          </span>
+                        </label>
                       </div>
                     </div>
                   </div>

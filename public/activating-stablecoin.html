@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=84" />
+  <link rel="stylesheet" href="css/main.css?v=86" />
   <script>
     (function () {
       try {
@@ -120,7 +120,7 @@
               </div>
 
               <div class="activating-stablecoin-wait">
-                <p class="activating-stablecoin-wait__title">While you wait</p>
+                <p class="activating-stablecoin-wait__title">Discover XREX PayLynk</p>
               <div class="activating-stablecoin-carousel" data-activating-carousel>
                 <div class="activating-stablecoin-carousel__panel">
                   <div class="activating-stablecoin-carousel__media">
@@ -204,22 +204,22 @@
   </main>
 
   <div id="activating-reauth-modals" class="wallet-modals activating-reauth-modals" hidden>
-    <div class="wallet-modals__backdrop" data-activating-reauth-dismiss tabindex="-1" aria-hidden="true"></div>
-    <div class="wallet-modals__dialog activating-reauth-modal__dialog" role="presentation">
+    <div class="wallet-modals__backdrop" data-wallet-modals-dismiss tabindex="-1" aria-hidden="true"></div>
+    <div id="activating-reauth-dialog" class="activating-reauth-dialog wallet-modals__dialog" role="presentation">
       <div
-        class="activating-reauth-modal__panel"
+        class="verify-email-modal__panel activating-reauth-modal__panel"
         role="dialog"
         aria-modal="true"
         aria-labelledby="activating-reauth-title"
         tabindex="-1"
       >
-        <header class="activating-reauth-modal__header">
-          <button type="button" class="activating-reauth-modal__close" data-activating-reauth-dismiss aria-label="Close dialog">
+        <header class="verify-email-modal__header">
+          <button type="button" class="verify-email-modal__close" data-wallet-modals-dismiss aria-label="Close dialog">
             <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
           </button>
-          <h2 id="activating-reauth-title" class="activating-reauth-modal__title">Authorization required</h2>
+          <h2 id="activating-reauth-title" class="verify-email-modal__title">Authorization required</h2>
         </header>
-        <div class="activating-reauth-modal__body">
+        <div class="verify-email-modal__body">
           <div class="activating-reauth-modal__intro">
             <div class="activating-reauth-modal__marks" aria-hidden="true">
               <div class="activating-reauth-modal__mark activating-reauth-modal__mark--xrex">
@@ -229,7 +229,7 @@
                 <img src="assets/logo_dynamic.svg" width="22" height="22" alt="" />
               </div>
             </div>
-            <p class="activating-reauth-modal__lede">Review and authorize the following action to continue:</p>
+            <p class="activating-reauth-modal__intro-text">Review and authorize the following action to continue:</p>
           </div>
           <div class="activating-reauth-modal__card">
             <div class="activating-reauth-modal__card-row">
@@ -250,11 +250,11 @@
             </div>
           </div>
         </div>
-        <footer class="activating-reauth-modal__footer">
-          <button type="button" class="activating-reauth-modal__btn activating-reauth-modal__btn--secondary" data-activating-reauth-dismiss>
+        <footer class="set-passcode-modal__footer">
+          <button type="button" class="set-passcode-modal__btn set-passcode-modal__btn--secondary" data-wallet-modals-dismiss>
             Cancel
           </button>
-          <button type="button" class="activating-reauth-modal__btn activating-reauth-modal__btn--primary" data-activating-reauth-authorize>
+          <button type="button" class="set-passcode-modal__btn set-passcode-modal__btn--primary" data-activating-reauth-authorize>
             Authorize
           </button>
         </footer>
