@@ -1216,7 +1216,7 @@ a.setup-button--secondary {
   padding: 28px 16px;
   border: 1px solid #dbdbdc;
   border-radius: 8px;
-  background: #ffffff;
+  background: #F5F9FF;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.09);
   box-sizing: border-box;
 }
@@ -1267,7 +1267,7 @@ a.setup-button--secondary {
   padding: 0 3px;
   border: 1px solid #dbdbdc;
   border-radius: 100px;
-  background: #f8f8f8;
+  background: #fff;
   box-sizing: border-box;
 }
 
