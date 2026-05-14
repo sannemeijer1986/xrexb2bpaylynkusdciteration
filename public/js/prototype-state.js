@@ -481,18 +481,26 @@
       hintEl.hidden = isSetupComplete;
       hintEl.setAttribute("aria-hidden", isSetupComplete ? "true" : "false");
     }
-    document
-      .querySelectorAll("[data-activating-continue-card], [data-activating-continue-footer]")
-      .forEach((btn) => {
-        if (btn.tagName !== "BUTTON") return;
-        if (isContinueEnabled) {
-          btn.disabled = false;
-          btn.removeAttribute("aria-disabled");
-        } else {
-          btn.disabled = true;
-          btn.setAttribute("aria-disabled", "true");
-        }
-      });
+    const cardContinue = document.querySelector("[data-activating-continue-card]");
+    if (cardContinue && cardContinue.tagName === "BUTTON") {
+      if (isContinueEnabled) {
+        cardContinue.disabled = false;
+        cardContinue.removeAttribute("aria-disabled");
+      } else {
+        cardContinue.disabled = true;
+        cardContinue.setAttribute("aria-disabled", "true");
+      }
+    }
+    const footerContinue = document.querySelector("[data-activating-continue-footer]");
+    if (footerContinue && footerContinue.tagName === "BUTTON") {
+      if (isSetupComplete) {
+        footerContinue.disabled = false;
+        footerContinue.removeAttribute("aria-disabled");
+      } else {
+        footerContinue.disabled = true;
+        footerContinue.setAttribute("aria-disabled", "true");
+      }
+    }
     const actionsCancel = document.querySelector("[data-activating-actions-cancel]");
     if (actionsCancel) {
       const hideCancel = p >= 9;
@@ -1148,16 +1156,14 @@
 
     syncActivatingStablecoinStatusFromProgress();
 
-    document
-      .querySelectorAll("[data-activating-continue-card], [data-activating-continue-footer]")
-      .forEach((btn) => {
-        if (btn.tagName !== "BUTTON") return;
-        btn.addEventListener("click", () => {
-          if (states.setupProgress === 7) {
-            openActivatingReauthModal();
-          }
-        });
+    document.querySelectorAll("[data-activating-continue-card]").forEach((btn) => {
+      if (btn.tagName !== "BUTTON") return;
+      btn.addEventListener("click", () => {
+        if (states.setupProgress === 7) {
+          openActivatingReauthModal();
+        }
       });
+    });
 
     const ACTIVATING_WAIT_SLIDES = [
       {
