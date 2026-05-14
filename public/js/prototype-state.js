@@ -906,7 +906,7 @@
       iconEl.src = iconSrc;
     }
     if (ledeEl) {
-      ledeEl.textContent = `Setting up ${sym}: Ethereum network (ERC-20) for payments to [BeneficiaryCName]`;
+      ledeEl.textContent = `Setting up ${sym}: Ethereum network (ERC-20) for payments to SanCorp`;
     }
     try {
       document.title = `XREX PayLynk - Activating ${sym}`;
@@ -919,25 +919,25 @@
         img: "assets/placeholder-wait-1.svg",
         headline: "[Placeholder] What is stablecoin auto-debit?",
         body:
-          "Short placeholder copy for slide 1 of 4. Replace with final marketing or education content when assets are ready.",
+          "Short placeholder copy for slide 1 of 4. Replace with final marketing or education content when assets are ready. Short placeholder copy for slide 1 of 4. Replace with final marketing or education content when assets are ready. ",
       },
       {
         img: "assets/placeholder-wait-2.svg",
         headline: "[Placeholder] Why we use the Ethereum network",
         body:
-          "Placeholder copy for slide 2 of 4. This block can explain ERC-20, settlement time, or fees—swap in real copy later.",
+          "Placeholder copy for slide 2 of 4. This block can explain ERC-20, settlement time, or fees—swap in real copy later. Placeholder copy for slide 2 of 4. This block can explain ERC-20, settlement time, or fees—swap in real copy later. ",
       },
       {
         img: "assets/placeholder-wait-3.svg",
         headline: "[Placeholder] Keeping your authorization safe",
         body:
-          "Placeholder copy for slide 3 of 4. Use this slot for security practices, limits, or what happens if activation pauses.",
+          "Placeholder copy for slide 3 of 4. Use this slot for security practices, limits, or what happens if activation pauses. Placeholder copy for slide 3 of 4. Use this slot for security practices, limits, or what happens if activation pauses. ",
       },
       {
         img: "assets/placeholder-wait-4.svg",
         headline: "[Placeholder] After activation finishes",
         body:
-          "Placeholder copy for slide 4 of 4. Outline the next screen, email confirmation, or where to find payment history.",
+          "Placeholder copy for slide 4 of 4. Outline the next screen, email confirmation, or where to find payment history. Placeholder copy for slide 4 of 4. Outline the next screen, email confirmation, or where to find payment history. ",
       },
     ];
 

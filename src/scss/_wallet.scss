@@ -621,13 +621,22 @@
   box-sizing: border-box;
 }
 
+.activating-stablecoin-status__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 12px;
+  box-sizing: border-box;
+}
+
 .activating-stablecoin-status__head {
   display: flex;
   gap: 6px;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding-bottom: 8px;
 }
 
 .activating-stablecoin-status__live-icon {
@@ -652,7 +661,6 @@
 .activating-stablecoin-status__desc {
   margin: 0;
   max-width: 100%;
-  padding-bottom: 12px;
   color: $text-secondary;
   font-size: 14px;
   font-weight: 400;
@@ -752,6 +760,11 @@
   white-space: nowrap;
 }
 
+.activating-stablecoin-step span:first-of-type,
+.activating-stablecoin-step span:last-of-type {
+  color: $text-primary;
+}
+
 .activating-stablecoin-wait {
   display: flex;
   flex-direction: column;
@@ -776,7 +789,7 @@
 .activating-stablecoin-carousel__panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
   padding: 16px 16px 24px;
   border: 1px solid $border-soft;
   border-bottom: 0;
@@ -938,7 +951,6 @@
 
   .activating-stablecoin-status__head {
     gap: 8px;
-    padding-bottom: 6px;
   }
 
   .activating-stablecoin-status__live-icon {
@@ -998,8 +1010,8 @@
 
   .activating-stablecoin-carousel__panel {
     flex-direction: row;
-    gap: 12px;
-    align-items: center;
+    gap: 24px;
+    align-items: flex-start;
     padding: 32px;
   }
 

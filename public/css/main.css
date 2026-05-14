@@ -1222,13 +1222,22 @@ a.setup-button--secondary {
   box-sizing: border-box;
 }
 
+.activating-stablecoin-status__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 12px;
+  box-sizing: border-box;
+}
+
 .activating-stablecoin-status__head {
   display: flex;
   gap: 6px;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding-bottom: 8px;
 }
 
 .activating-stablecoin-status__live-icon {
@@ -1253,7 +1262,6 @@ a.setup-button--secondary {
 .activating-stablecoin-status__desc {
   margin: 0;
   max-width: 100%;
-  padding-bottom: 12px;
   color: #797a7b;
   font-size: 14px;
   font-weight: 400;
@@ -1344,6 +1352,11 @@ a.setup-button--secondary {
   white-space: nowrap;
 }
 
+.activating-stablecoin-step span:first-of-type,
+.activating-stablecoin-step span:last-of-type {
+  color: #2d2f2f;
+}
+
 .activating-stablecoin-wait {
   display: flex;
   flex-direction: column;
@@ -1368,7 +1381,7 @@ a.setup-button--secondary {
 .activating-stablecoin-carousel__panel {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
   padding: 16px 16px 24px;
   border: 1px solid #eeeeee;
   border-bottom: 0;
@@ -1524,7 +1537,6 @@ a.setup-button--secondary {
   }
   .activating-stablecoin-status__head {
     gap: 8px;
-    padding-bottom: 6px;
   }
   .activating-stablecoin-status__live-icon {
     width: 26px;
@@ -1572,8 +1584,8 @@ a.setup-button--secondary {
   }
   .activating-stablecoin-carousel__panel {
     flex-direction: row;
-    gap: 12px;
-    align-items: center;
+    gap: 24px;
+    align-items: flex-start;
     padding: 32px;
   }
   .activating-stablecoin-carousel__copy {
@@ -2916,7 +2928,7 @@ body.wallet-modals-is-open {
 
 @media (max-width: 640px) {
   .build-badge {
-    bottom: 84px;
+    bottom: 16px;
   }
 }
 .build-badge__header {
