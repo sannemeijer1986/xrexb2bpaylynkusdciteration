@@ -879,6 +879,7 @@
       } catch (_) {
         /* ignore */
       }
+      setState("setupProgress", 5, { force: true });
       window.location.href = "activating-stablecoin.html";
     });
   }
