@@ -907,7 +907,7 @@
       iconEl.src = iconSrc;
     }
     if (ledeEl) {
-      ledeEl.textContent = `Setting up ${sym}: Ethereum network (ERC-20) for payments to SanCorp`;
+      ledeEl.textContent = `Setting up ${sym}: Ethereum network (ERC-20) for payments to Halcyon Systems Corp.`;
     }
     try {
       document.title = `XREX PayLynk - Activating ${sym}`;

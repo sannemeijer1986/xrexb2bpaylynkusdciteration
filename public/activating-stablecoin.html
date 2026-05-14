@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=72" />
+  <link rel="stylesheet" href="css/main.css?v=73" />
   <script>
     (function () {
       try {
@@ -52,56 +52,59 @@
 
           <div class="activating-stablecoin-card" data-activating-root>
             <p class="activating-stablecoin-lede" data-activating-lede>
-              Setting up USDT: Ethereum network (ERC-20) for payments to SanCorp
+              Setting up USDT: Ethereum network (ERC-20) for payments to Halcyon Systems Corp.
             </p>
 
-            <div class="activating-stablecoin-status">
-              <div class="activating-stablecoin-status__intro">
-                <div class="activating-stablecoin-status__head">
-                  <img
-                    class="activating-stablecoin-status__live-icon"
-                    src="assets/icon_loader_lightblue.svg"
-                    width="26"
-                    height="26"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                  <p class="activating-stablecoin-status__title">Enabling auto-debit</p>
-                </div>
-                <p class="activating-stablecoin-status__desc">
-                  Your authorization is being confirmed onchain. This may take a few minutes...
-                </p>
-              </div>
-              <div
-                class="activating-stablecoin-progress"
-                role="progressbar"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow="50"
-                aria-label="Setup progress"
-              >
-                <div class="activating-stablecoin-progress__fill"></div>
-              </div>
-              <div class="activating-stablecoin-status__footer">
-                <div class="activating-stablecoin-hint">
-                  <img
-                    class="activating-stablecoin-hint__icon"
-                    src="assets/icon_info_blue.svg"
-                    width="16"
-                    height="20"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                  <p class="activating-stablecoin-hint__text activating-stablecoin-hint__text--desktop">
-                    Please keep this page open
+            <div class="activating-stablecoin-wrapper">
+              <p class="activating-stablecoin-wait__title">Progress</p>
+              <div class="activating-stablecoin-status">
+                <div class="activating-stablecoin-status__intro">
+                  <div class="activating-stablecoin-status__head">
+                    <img
+                      class="activating-stablecoin-status__live-icon"
+                      src="assets/icon_loader_lightblue.svg"
+                      width="26"
+                      height="26"
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    <p class="activating-stablecoin-status__title">Enabling auto-debit</p>
+                  </div>
+                  <p class="activating-stablecoin-status__desc">
+                    Your authorization is being confirmed onchain. This may take a few minutes...
                   </p>
-                  <p class="activating-stablecoin-hint__text activating-stablecoin-hint__text--mobile">Please keep this page open</p>
                 </div>
-                <p class="activating-stablecoin-step"><span>Step 2 of 4</span> <span aria-hidden="true">·</span> <span>50%</span></p>
+                <div
+                  class="activating-stablecoin-progress"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="50"
+                  aria-label="Setup progress"
+                >
+                  <div class="activating-stablecoin-progress__fill"></div>
+                </div>
+                <div class="activating-stablecoin-status__footer">
+                  <div class="activating-stablecoin-hint">
+                    <img
+                      class="activating-stablecoin-hint__icon"
+                      src="assets/icon_info_blue.svg"
+                      width="16"
+                      height="20"
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    <p class="activating-stablecoin-hint__text activating-stablecoin-hint__text--desktop">
+                      Please keep this page open
+                    </p>
+                    <p class="activating-stablecoin-hint__text activating-stablecoin-hint__text--mobile">Please keep this page open</p>
+                  </div>
+                  <p class="activating-stablecoin-step"><span>Step 2 of 4</span> <span aria-hidden="true">·</span> <span>50%</span></p>
+                </div>
               </div>
-            </div>
+              </div>
 
-            <div class="activating-stablecoin-wait">
+              <div class="activating-stablecoin-wait">
               <p class="activating-stablecoin-wait__title">While you wait</p>
               <div class="activating-stablecoin-carousel" data-activating-carousel>
                 <div class="activating-stablecoin-carousel__panel">
@@ -151,6 +154,7 @@
                   </div>
                 </div>
               </div>
+            </div>
             </div>
 
             <div class="setup-actions activating-stablecoin-actions">

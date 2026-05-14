@@ -608,6 +608,14 @@
   line-height: normal;
 }
 
+.activating-stablecoin-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .activating-stablecoin-status {
   display: flex;
   flex-direction: column;
@@ -948,6 +956,10 @@
 
   .activating-stablecoin-lede {
     font-size: 20px;
+  }
+
+  .activating-stablecoin-wrapper {
+    gap: 12px;
   }
 
   .activating-stablecoin-status {
