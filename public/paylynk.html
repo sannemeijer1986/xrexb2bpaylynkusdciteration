@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script src="auth/auth-config.js"></script>
+  <script src="auth/auth-gate.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XREX PayLynk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=96" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v != null && v !== "") document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="setup-page" data-prototype-context="paylynk">
+  <main class="setup-shell" aria-labelledby="paylynk-title">
+    <section class="setup-hero" aria-label="XREX Pay">
+      <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
+      <img class="setup-hero__logo" src="assets/logo-xrex-pay-white.svg" alt="XREX Pay" />
+    </section>
+
+    <section class="setup-panel">
+      <div class="setup-panel__body">
+        <div class="setup-panel__content">
+          <h1 id="paylynk-title" class="setup-wallet-title">PayLynk</h1>
+          <p class="pick-stablecoin-lede">PayLynk journey placeholder — wire screens here.</p>
+        </div>
+      </div>
+
+      <footer class="setup-footer">
+        <p>© XREX Pay Limited 2026</p>
+      </footer>
+    </section>
+  </main>
+
+  <div class="build-badge" role="note" aria-label="Prototype state controls">
+    <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyPaylynk">
+      <span class="build-badge__title">Prototype controls</span>
+      <span class="build-badge__chevron" aria-hidden="true">
+        <img class="build-badge__chevron-icon" src="assets/icon_back.svg" alt="" />
+        <img class="build-badge__chevron-icon build-badge__chevron-icon--collapsed" src="assets/icon_prototypecontrols.svg" alt="" />
+      </span>
+    </button>
+    <div class="build-badge__body" id="prototypeStatesBodyPaylynk">
+      <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
+
+      <div class="build-badge__checkbox-stack" style="display: none !important;">
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-empty aria-label="Empty" />
+            <span>Empty</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="build-badge__section-row">
+        <label class="build-badge__checkbox">
+          <input type="checkbox" data-prototype-use-default-stablecoin aria-label="Use default stablecoin" />
+          <span>Use default stablecoin</span>
+        </label>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Journey</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-journey aria-label="Journey">
+            <option value="setup">Set up</option>
+            <option value="paylynk" selected>PayLynk</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Account created</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-account-created aria-label="Account created">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__logged-in-timer-row">
+        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+      </div>
+
+      <div class="build-badge__group" data-state-group="setupProgress">
+        <div class="build-badge__group-label">Setup progress</div>
+        <div class="build-badge__state">
+          <button type="button" class="build-badge__state-btn" data-state-action="down" aria-label="Previous setup progress">−</button>
+          <span class="build-badge__state-value" data-state-value></span>
+          <button type="button" class="build-badge__state-btn" data-state-action="up" aria-label="Next setup progress">+</button>
+          <span class="build-badge__state-name" data-state-name></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/prototype-state.js"></script>
+</body>
+</html>

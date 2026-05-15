@@ -40,8 +40,8 @@
 
           <div class="pick-stablecoin-card" data-pick-stablecoin-root>
             <div class="pick-stablecoin-intro">
-              <p class="pick-stablecoin-lede">Choose your preferred USD stablecoin for doing payments</p>
-              <div class="pick-stablecoin-hint">
+              <p class="pick-stablecoin-lede" data-pick-stablecoin-lede>Choose your preferred USD stablecoin for doing payments</p>
+              <div class="pick-stablecoin-hint" data-pick-stablecoin-hint>
                 <img
                   class="pick-stablecoin-hint__icon"
                   src="assets/icon_info_blue.svg"
@@ -183,7 +183,10 @@
                         </button>
                       </div>
                       <div class="pick-stablecoin-network-list" role="radiogroup" aria-labelledby="pick-usdc-network-title">
-                        <label class="pick-stablecoin-network pick-stablecoin-network--selectable">
+                        <label
+                          class="pick-stablecoin-network pick-stablecoin-network--selectable"
+                          data-pick-stablecoin-usdc-network-selectable
+                        >
                           <input
                             class="pick-stablecoin-network__input"
                             type="radio"
@@ -218,6 +221,21 @@
                             />
                           </span>
                         </label>
+                        <div
+                          class="pick-stablecoin-network pick-stablecoin-network--readonly"
+                          data-pick-stablecoin-usdc-network-readonly
+                          hidden
+                        >
+                          <span class="pick-stablecoin-network__chain" aria-hidden="true">
+                            <div class="pick-stablecoin-network__chain-well pick-stablecoin-network__chain-well--muted">
+                              <img class="pick-stablecoin-network__chain-img" src="assets/icon_network_disabled.svg" width="20" height="20" alt="" />
+                            </div>
+                          </span>
+                          <span class="pick-stablecoin-network__text">
+                            <span class="pick-stablecoin-network__title">Ethereum network</span>
+                            <span class="pick-stablecoin-network__subtitle">ERC-20</span>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -301,6 +319,21 @@
         </div>
       </div>
 
+      <div class="build-badge__section-row">
+        <label class="build-badge__checkbox">
+          <input type="checkbox" data-prototype-use-default-stablecoin aria-label="Use default stablecoin" />
+          <span>Use default stablecoin</span>
+        </label>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Journey</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-journey aria-label="Journey">
+            <option value="setup" selected>Set up</option>
+            <option value="paylynk">PayLynk</option>
+          </select>
+        </div>
+      </div>
       <div class="build-badge__section-row">
         <div class="build-badge__section-title">Account created</div>
         <div class="build-badge__checkbox-group">

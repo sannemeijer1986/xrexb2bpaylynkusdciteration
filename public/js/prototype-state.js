@@ -13,6 +13,29 @@
   const LOGGED_IN_SESSION_MS = 5 * 60 * 1000;
   const ACTIVATING_SELECTION_KEY = `${STORAGE_PREFIX}activatingSelection.v1`;
   const PAYMENT_METHOD_ADDED_TOAST_KEY = `${STORAGE_PREFIX}showPaymentMethodAddedToast.v1`;
+  const USE_DEFAULT_STABLECOIN_KEY = `${STORAGE_PREFIX}useDefaultStablecoin.v1`;
+  const JOURNEY_KEY = `${STORAGE_PREFIX}journey.v1`;
+
+  function readUseDefaultStablecoin() {
+    try {
+      return window.localStorage?.getItem(USE_DEFAULT_STABLECOIN_KEY) === "1";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function readJourneyFromStorage() {
+    try {
+      const v = window.localStorage?.getItem(JOURNEY_KEY);
+      return v === "paylynk" ? "paylynk" : "setup";
+    } catch (_) {
+      return "setup";
+    }
+  }
+
+  function journeyHref(journey) {
+    return journey === "paylynk" ? "paylynk.html" : "index.html";
+  }
 
   function readActivatingSelectionCoin() {
     let coin = "usdt";
@@ -466,9 +489,50 @@
     syncPasscodeTimestamp();
     syncWalletContinueButton();
     syncPickStablecoinContinueFromSelection();
+    syncPickStablecoinDefaultStablecoinUi();
     syncActivatingStablecoinStatusFromProgress();
     syncPaymentSetupFromProgress();
     syncAccountCreatedPrototypeControl();
+  }
+
+  function syncPickStablecoinDefaultStablecoinUi() {
+    if (document.body?.getAttribute("data-prototype-context") !== "pick-stablecoin") return;
+    const root = document.querySelector("[data-pick-stablecoin-root]");
+    if (!root) return;
+
+    const useDefault = readUseDefaultStablecoin();
+    root.classList.toggle("pick-stablecoin-root--default-stablecoin", useDefault);
+    document.documentElement.toggleAttribute("data-prototype-use-default-stablecoin", useDefault);
+
+    const lede = root.querySelector("[data-pick-stablecoin-lede]");
+    if (lede) {
+      lede.textContent = useDefault
+        ? "USDT on Ethereum (ERC-20) is your default for payments"
+        : "Choose your preferred USD stablecoin for doing payments";
+    }
+
+    const hint = root.querySelector("[data-pick-stablecoin-hint]");
+    if (hint) hint.hidden = useDefault;
+
+    const usdtTag = root.querySelector(
+      '[data-pick-stablecoin-usdt-expandable] .pick-stablecoin-option__tag',
+    );
+    if (usdtTag) usdtTag.textContent = useDefault ? "Default" : "Most used";
+
+    const usdcSelectable = root.querySelector("[data-pick-stablecoin-usdc-network-selectable]");
+    const usdcReadonly = root.querySelector("[data-pick-stablecoin-usdc-network-readonly]");
+    if (usdcSelectable) usdcSelectable.hidden = useDefault;
+    if (usdcReadonly) usdcReadonly.hidden = !useDefault;
+
+    if (useDefault) {
+      const usdt = root.querySelector('input[name="stablecoin-pick"][value="usdt"]');
+      if (usdt && !usdt.checked) {
+        usdt.checked = true;
+        usdt.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+
+    syncPickStablecoinContinueFromSelection();
   }
 
   /** When setup progress is 3+, account creation is implied — lock control to True. */
@@ -999,6 +1063,57 @@
     });
   }
 
+  function initUseDefaultStablecoinCheckbox() {
+    const inputs = document.querySelectorAll("[data-prototype-use-default-stablecoin]");
+    if (!inputs.length) return;
+
+    inputs.forEach((input) => {
+      input.checked = readUseDefaultStablecoin();
+    });
+
+    inputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        const checked = !!input.checked;
+        try {
+          window.localStorage?.setItem(USE_DEFAULT_STABLECOIN_KEY, checked ? "1" : "0");
+        } catch (_) {
+          /* ignore */
+        }
+        document.querySelectorAll("[data-prototype-use-default-stablecoin]").forEach((el) => {
+          if (el !== input) el.checked = checked;
+        });
+        syncPickStablecoinDefaultStablecoinUi();
+      });
+    });
+  }
+
+  function initJourneySelect() {
+    const selects = document.querySelectorAll("[data-prototype-journey]");
+    if (!selects.length) return;
+
+    const stored = readJourneyFromStorage();
+    selects.forEach((sel) => {
+      sel.value = stored;
+    });
+
+    selects.forEach((select) => {
+      select.addEventListener("change", () => {
+        const journey = select.value === "paylynk" ? "paylynk" : "setup";
+        try {
+          window.localStorage?.setItem(JOURNEY_KEY, journey);
+        } catch (_) {
+          /* ignore */
+        }
+        document.querySelectorAll("[data-prototype-journey]").forEach((el) => {
+          if (el !== select) el.value = journey;
+        });
+        const target = journeyHref(journey);
+        const current = window.location.pathname.split("/").pop() || "index.html";
+        if (current !== target) window.location.href = target;
+      });
+    });
+  }
+
   /** Account created dropdown (prototype controls). */
   function initAccountCreatedSelect() {
     const selects = document.querySelectorAll("[data-prototype-account-created]");
@@ -1463,6 +1578,7 @@
       }
     });
     sync();
+    syncPickStablecoinDefaultStablecoinUi();
     continueBtn?.addEventListener("click", () => {
       if (continueBtn.disabled) return;
       const checked = root.querySelector('input[name="stablecoin-pick"]:checked');
@@ -1613,6 +1729,25 @@
       setLoggedInValue(false);
       setAccountCreatedValue(false);
 
+      document.querySelectorAll("[data-prototype-use-default-stablecoin]").forEach((input) => {
+        input.checked = false;
+      });
+      try {
+        window.localStorage?.setItem(USE_DEFAULT_STABLECOIN_KEY, "0");
+      } catch (_) {
+        /* ignore */
+      }
+      syncPickStablecoinDefaultStablecoinUi();
+
+      document.querySelectorAll("[data-prototype-journey]").forEach((sel) => {
+        sel.value = "setup";
+      });
+      try {
+        window.localStorage?.setItem(JOURNEY_KEY, "setup");
+      } catch (_) {
+        /* ignore */
+      }
+
       try {
         window.localStorage?.removeItem(CONSENT_AT_KEY);
       } catch (_) {
@@ -1670,6 +1805,9 @@
       if (document.body?.getAttribute("data-prototype-context") === "activating-stablecoin") {
         window.location.href = "setup-wallet.html";
       }
+      if (document.body?.getAttribute("data-prototype-context") === "paylynk") {
+        window.location.href = "index.html";
+      }
     });
   }
 
@@ -1684,6 +1822,8 @@
     initActivatingStablecoinPage();
     initActivatingReauthModal();
     initSetupLeaveCancelDialog();
+    initUseDefaultStablecoinCheckbox();
+    initJourneySelect();
     initEmptyCheckbox();
     initLoggedInSelect();
     initAccountCreatedSelect();
