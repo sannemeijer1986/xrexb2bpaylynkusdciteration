@@ -1306,6 +1306,25 @@ html:not([data-prototype-setup-progress="3"])
   color: $text-email-highlight;
 }
 
+.setup-timeline__desc--consent .setup-timeline__terms-link {
+  font-weight: 700;
+  color: $text-clickable;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    color: $text-clickable;
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba($text-clickable, 0.28);
+    outline-offset: 2px;
+  }
+}
+
 .setup-timeline__desc--verify .setup-timeline__email {
   font-weight: 600;
 }
