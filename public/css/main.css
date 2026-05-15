@@ -1225,11 +1225,17 @@ a.setup-button--secondary {
   display: inline;
 }
 
-.pick-stablecoin-choice-view,
-.pick-stablecoin-default-view {
+.pick-stablecoin-choice-view {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 100%;
+}
+
+.pick-stablecoin-default-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   width: 100%;
 }
 
@@ -1237,77 +1243,81 @@ a.setup-button--secondary {
 .pick-stablecoin-default-view[hidden],
 .pick-stablecoin-default-footer[hidden],
 .pick-stablecoin-actions[hidden],
+.pick-stablecoin-change-btn[hidden],
 [data-pick-stablecoin-title-choice][hidden],
 [data-pick-stablecoin-title-default][hidden] {
   display: none !important;
 }
 
-.pick-stablecoin-default-card {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-  padding: 20px 16px;
-  border: 1px solid #dbdbdc;
-  border-radius: 8px;
-  background: #ffffff;
-  box-sizing: border-box;
-}
-
-.pick-stablecoin-default-card__coin {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  width: 100%;
-}
-
-.pick-stablecoin-default-card__icon {
-  flex-shrink: 0;
+.pick-stablecoin-default-view__page-title {
   display: block;
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-}
-
-.pick-stablecoin-default-card__coin-text {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.pick-stablecoin-default-card__title {
   margin: 0;
   color: #2d2f2f;
-  font-size: 18px;
-  font-weight: 700;
+  font-family: "Sora", "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
   line-height: normal;
 }
 
-.pick-stablecoin-default-card__subtitle {
-  margin: 0;
-  color: #797a7b;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
+.pick-stablecoin-lede--default {
+  font-size: 16px;
+}
+
+.pick-stablecoin-default-card-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.pick-stablecoin-default-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  min-height: 212px;
+  padding: 24px;
+  border: 1px solid #dbdbdc;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.09);
+  box-sizing: border-box;
+}
+
+.pick-stablecoin-default-card__top {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+.pick-stablecoin-default-card__spacer {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.pick-stablecoin-default-card__icon {
+  flex: 1 1 auto;
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 .pick-stablecoin-default-edit {
   display: none;
   flex-shrink: 0;
-  gap: 4px;
   align-items: center;
   justify-content: center;
-  height: 36px;
-  padding: 0 12px;
-  border: 1px solid #dbdbdc;
-  border-radius: 12px;
-  background: #ffffff;
-  color: #3f78ff;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 42px;
+  background: #ebf2ff;
   cursor: pointer;
 }
 .pick-stablecoin-default-edit img {
@@ -1317,52 +1327,42 @@ a.setup-button--secondary {
   object-fit: contain;
 }
 .pick-stablecoin-default-edit:hover {
-  background: #fcfcfc;
+  opacity: 0.9;
 }
 
-.pick-stablecoin-default-card__divider {
-  flex-shrink: 0;
-  width: 100%;
-  height: 1px;
-  margin: 0;
-  background: #dbdbdc;
-}
-
-.pick-stablecoin-default-card__network {
+.pick-stablecoin-default-card__coin-text {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  width: 100%;
-}
-
-.pick-stablecoin-default-card__network-chain {
-  flex-shrink: 0;
-}
-
-.pick-stablecoin-default-card__network-text {
-  display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
   gap: 4px;
-  min-width: 0;
+  align-items: center;
+  width: 100%;
+  text-align: center;
 }
 
-.pick-stablecoin-default-card__network-title {
+.pick-stablecoin-default-card__title {
+  margin: 0;
   color: #2d2f2f;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   line-height: normal;
 }
 
-.pick-stablecoin-default-card__network-subtitle {
+.pick-stablecoin-default-card__subtitle {
+  margin: 0;
   color: #797a7b;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 20px;
 }
 
+.pick-stablecoin-default-card__network-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
 .pick-stablecoin-default-card__network-tag {
-  flex-shrink: 0;
   padding: 2px 6px;
   border-radius: 30px;
   background: #dbfbaa;
@@ -1373,35 +1373,60 @@ a.setup-button--secondary {
   white-space: nowrap;
 }
 
-.pick-stablecoin-default-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.pick-stablecoin-default-card__network-link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #336aff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pick-stablecoin-default-card__network-link:hover {
+  opacity: 0.85;
 }
 
 .pick-stablecoin-change-btn {
-  display: flex;
-  width: 100%;
-  height: 52px;
+  display: inline-flex;
+  align-self: center;
+  min-width: 100px;
+  height: 32px;
   align-items: center;
   justify-content: center;
-  border: 1px solid #dbdbdc;
-  border-radius: 12px;
-  background: #ffffff;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  background: #ebf2ff;
   color: #3f78ff;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
 }
 .pick-stablecoin-change-btn:hover {
-  background: #fcfcfc;
+  opacity: 0.9;
+}
+
+.pick-stablecoin-default-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 }
 
 .pick-stablecoin-actions--default {
   margin-top: 0;
 }
 
+@media (max-width: 1279px) {
+  .setup-panel__content:has(.pick-stablecoin-root--default-stablecoin) [data-pick-stablecoin-title-default] {
+    display: none !important;
+  }
+}
 @media (min-width: 1280px) {
   .pick-stablecoin-card {
     gap: 40px;
@@ -1416,29 +1441,39 @@ a.setup-button--secondary {
   .pick-stablecoin-page-title--default .pick-stablecoin-page-title__mobile {
     display: none;
   }
-  .pick-stablecoin-choice-view,
+  .pick-stablecoin-choice-view {
+    gap: 32px;
+  }
   .pick-stablecoin-default-view {
-    gap: 40px;
+    gap: 32px;
+  }
+  .pick-stablecoin-default-view__page-title {
+    display: none;
+  }
+  .pick-stablecoin-lede--default {
+    font-size: 20px;
   }
   .pick-stablecoin-default-card {
-    max-width: 400px;
-    padding: 24px;
+    width: 400px;
+    min-height: 222px;
+  }
+  .pick-stablecoin-default-card__icon {
+    width: 56px;
+    height: 56px;
   }
   .pick-stablecoin-default-edit {
     display: inline-flex;
   }
   .pick-stablecoin-default-card__title {
-    font-size: 20px;
+    font-size: 22px;
   }
   .pick-stablecoin-default-card__subtitle {
     font-size: 16px;
     line-height: 23px;
   }
-  .pick-stablecoin-default-card__network-title {
-    font-size: 18px;
-  }
   .pick-stablecoin-default-footer {
-    gap: 24px;
+    gap: 0;
+    margin-top: 40px;
   }
   .pick-stablecoin-change-btn {
     display: none;

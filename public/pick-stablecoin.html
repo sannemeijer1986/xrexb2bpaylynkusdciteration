@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=98" />
+  <link rel="stylesheet" href="css/main.css?v=99" />
   <script>
     (function () {
       try {
@@ -254,8 +254,9 @@
             </div>
 
             <div class="pick-stablecoin-default-view" data-pick-stablecoin-default hidden>
-              <div class="pick-stablecoin-intro">
-                <p class="pick-stablecoin-lede">
+              <h2 class="pick-stablecoin-default-view__page-title">USDT payments</h2>
+              <div class="pick-stablecoin-intro pick-stablecoin-intro--default">
+                <p class="pick-stablecoin-lede pick-stablecoin-lede--default">
                   The following USD stablecoin and network will be set up for doing payments.
                 </p>
                 <div class="pick-stablecoin-hint">
@@ -271,56 +272,50 @@
                 </div>
               </div>
 
-              <article class="pick-stablecoin-default-card" aria-label="USDT on Ethereum ERC-20">
-                <div class="pick-stablecoin-default-card__coin">
-                  <img
-                    class="pick-stablecoin-default-card__icon"
-                    src="assets/icon_usdt.svg"
-                    width="46"
-                    height="46"
-                    alt=""
-                  />
+              <div class="pick-stablecoin-default-card-wrap">
+                <article class="pick-stablecoin-default-card" aria-label="USDT on Ethereum ERC-20">
+                  <div class="pick-stablecoin-default-card__top">
+                    <span class="pick-stablecoin-default-card__spacer" aria-hidden="true"></span>
+                    <img
+                      class="pick-stablecoin-default-card__icon"
+                      src="assets/icon_usdt.svg"
+                      width="46"
+                      height="46"
+                      alt=""
+                    />
+                    <button
+                      type="button"
+                      class="pick-stablecoin-default-edit"
+                      data-pick-stablecoin-change
+                      aria-label="Change stablecoin and network"
+                    >
+                      <img src="assets/icon_edit_blue.svg" width="20" height="20" alt="" aria-hidden="true" />
+                    </button>
+                  </div>
                   <div class="pick-stablecoin-default-card__coin-text">
                     <p class="pick-stablecoin-default-card__title">USDT</p>
                     <p class="pick-stablecoin-default-card__subtitle">Tether USD</p>
                   </div>
-                  <button
-                    type="button"
-                    class="pick-stablecoin-default-edit"
-                    data-pick-stablecoin-change
-                    aria-label="Change stablecoin and network"
-                  >
-                    <img src="assets/icon_edit_blue.svg" width="20" height="20" alt="" aria-hidden="true" />
-                    <span>Edit</span>
-                  </button>
-                </div>
-                <div class="pick-stablecoin-default-card__divider" aria-hidden="true"></div>
-                <div class="pick-stablecoin-default-card__network">
-                  <span class="pick-stablecoin-default-card__network-chain" aria-hidden="true">
-                    <span class="pick-stablecoin-network__chain-well pick-stablecoin-network__chain-well--selectable">
-                      <img
-                        class="pick-stablecoin-network__chain-img"
-                        src="assets/icon_network_blue.svg"
-                        width="20"
-                        height="20"
-                        alt=""
-                      />
-                    </span>
-                  </span>
-                  <span class="pick-stablecoin-default-card__network-text">
-                    <span class="pick-stablecoin-default-card__network-title">Ethereum network</span>
-                    <span class="pick-stablecoin-default-card__network-subtitle">ERC-20</span>
-                  </span>
-                  <span class="pick-stablecoin-default-card__network-tag">Ethereum ERC-20</span>
-                </div>
-              </article>
+                  <div class="pick-stablecoin-default-card__network-block">
+                    <span class="pick-stablecoin-default-card__network-tag">Ethereum Network (ERC-20)</span>
+                    <button
+                      type="button"
+                      class="pick-stablecoin-default-card__network-link"
+                      data-pick-stablecoin-network-help
+                    >
+                      What’s a network?
+                    </button>
+                  </div>
+                </article>
+              </div>
+
+              <button type="button" class="pick-stablecoin-change-btn" data-pick-stablecoin-change>
+                Change stablecoin and/or network
+              </button>
             </div>
           </div>
 
           <div class="pick-stablecoin-default-footer" data-pick-stablecoin-default-footer hidden>
-            <button type="button" class="pick-stablecoin-change-btn" data-pick-stablecoin-change>
-              Change stablecoin and/or network
-            </button>
             <div class="setup-actions pick-stablecoin-actions pick-stablecoin-actions--default">
               <button type="button" class="setup-button setup-button--secondary" data-setup-leave-cancel>Cancel</button>
               <button
