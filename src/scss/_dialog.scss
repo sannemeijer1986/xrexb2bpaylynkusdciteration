@@ -1,0 +1,205 @@
+// Setup flow — leave confirmation dialog (Figma B2B Pay-in 2.0 Dialog: Cancel)
+// Distinct from wallet-modals; optimized for short copy + compact actions.
+
+$button-negative: #eb5347;
+$dialog-radius: 16px;
+
+body.setup-dialog-is-open {
+  overflow: hidden;
+}
+
+.setup-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.setup-dialog__backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.setup-dialog__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 480px;
+  flex-direction: column;
+  padding: 32px;
+  border: 1px solid $border-soft;
+  border-radius: $dialog-radius;
+  background: $surface-card;
+  box-sizing: border-box;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+}
+
+.setup-dialog__mobile-close {
+  display: none;
+}
+
+.setup-dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.setup-dialog__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setup-dialog__title {
+  margin: 0;
+  font-family: $font-sora;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: normal;
+  color: $text-primary;
+}
+
+.setup-dialog__desc {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  color: $text-primary;
+}
+
+.setup-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.setup-dialog__btn {
+  display: inline-flex;
+  min-width: 100px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  font-family: $font-family-sans;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:focus-visible {
+    outline: 3px solid rgba($text-clickable, 0.28);
+    outline-offset: 2px;
+  }
+}
+
+.setup-dialog__btn--secondary {
+  color: $button-primary;
+  background: $button-secondary;
+}
+
+.setup-dialog__btn--danger {
+  color: #fff;
+  font-weight: 600;
+  background: $button-negative;
+}
+
+@media (max-width: $desktop-breakpoint - 1px) {
+  .setup-dialog {
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .setup-dialog__mobile-close {
+    position: fixed;
+    z-index: 2;
+    top: 24px;
+    left: 20px;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    place-items: center;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 8px;
+
+    &:focus-visible {
+      outline: 3px solid rgba($text-clickable, 0.28);
+      outline-offset: 2px;
+    }
+
+    img {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .setup-dialog__panel {
+    max-width: none;
+    padding: 48px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .setup-dialog__content {
+    gap: 32px;
+    align-items: stretch;
+  }
+
+  .setup-dialog__copy {
+    gap: 8px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .setup-dialog__title {
+    text-align: center;
+  }
+
+  .setup-dialog__desc {
+    text-align: center;
+  }
+
+  .setup-dialog__actions {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .setup-dialog__btn {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .setup-dialog__btn--danger {
+    order: -1;
+  }
+
+  .setup-dialog__btn--secondary {
+    order: 0;
+  }
+}

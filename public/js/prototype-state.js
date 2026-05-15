@@ -710,6 +710,63 @@
     document.body.classList.remove("wallet-modals-is-open");
   }
 
+  function getSetupLeaveDialog() {
+    return document.getElementById("setup-leave-dialog");
+  }
+
+  function openSetupLeaveDialog() {
+    const dialog = getSetupLeaveDialog();
+    if (!dialog || !dialog.hidden) return;
+    dialog.hidden = false;
+    document.body.classList.add("setup-dialog-is-open");
+    const panel = dialog.querySelector(".setup-dialog__panel");
+    window.requestAnimationFrame(() => {
+      panel?.focus({ preventScroll: true });
+    });
+  }
+
+  function closeSetupLeaveDialog() {
+    const dialog = getSetupLeaveDialog();
+    if (!dialog || dialog.hidden) return;
+    dialog.hidden = true;
+    document.body.classList.remove("setup-dialog-is-open");
+  }
+
+  function initSetupLeaveCancelDialog() {
+    const dialog = getSetupLeaveDialog();
+    if (!dialog) return;
+
+    document.querySelectorAll("[data-setup-leave-cancel]").forEach((trigger) => {
+      trigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        openSetupLeaveDialog();
+      });
+    });
+
+    dialog.querySelectorAll("[data-setup-leave-dialog-dismiss]").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeSetupLeaveDialog();
+      });
+    });
+
+    dialog.querySelector("[data-setup-leave-dialog-continue]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeSetupLeaveDialog();
+    });
+
+    dialog.querySelector("[data-setup-leave-dialog-leave]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "index.html";
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (!dialog || dialog.hidden) return;
+      closeSetupLeaveDialog();
+    });
+  }
+
   function initActivatingReauthModal() {
     const root = getActivatingReauthModalsRoot();
     if (!root) return;
@@ -1579,6 +1636,7 @@
     initPickStablecoinPage();
     initActivatingStablecoinPage();
     initActivatingReauthModal();
+    initSetupLeaveCancelDialog();
     initEmptyCheckbox();
     initLoggedInSelect();
     initAccountCreatedSelect();

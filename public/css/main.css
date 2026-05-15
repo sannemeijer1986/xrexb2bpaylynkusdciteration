@@ -731,7 +731,7 @@ a.setup-button--secondary {
   }
   .setup-panel {
     display: grid;
-    grid-template-rows: minmax(880px, 1fr) auto;
+    grid-template-rows: minmax(1000px, 1fr) auto;
     grid-template-columns: 100%;
     flex: 1 1 50%;
     min-width: 900px;
@@ -3319,6 +3319,191 @@ body.wallet-modals-is-open {
     min-height: 40px;
     border-radius: 8px;
     font-size: 14px;
+  }
+}
+body.setup-dialog-is-open {
+  overflow: hidden;
+}
+
+.setup-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 1350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.setup-dialog[hidden] {
+  display: none !important;
+}
+
+.setup-dialog__backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.setup-dialog__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 480px;
+  flex-direction: column;
+  padding: 32px;
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+  background: #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+}
+
+.setup-dialog__mobile-close {
+  display: none;
+}
+
+.setup-dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.setup-dialog__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setup-dialog__title {
+  margin: 0;
+  font-family: "Sora", "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: normal;
+  color: #2d2f2f;
+}
+
+.setup-dialog__desc {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  color: #2d2f2f;
+}
+
+.setup-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.setup-dialog__btn {
+  display: inline-flex;
+  min-width: 100px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.setup-dialog__btn:focus-visible {
+  outline: 3px solid rgba(51, 106, 255, 0.28);
+  outline-offset: 2px;
+}
+
+.setup-dialog__btn--secondary {
+  color: #3f78ff;
+  background: #ebf2ff;
+}
+
+.setup-dialog__btn--danger {
+  color: #fff;
+  font-weight: 600;
+  background: #eb5347;
+}
+
+@media (max-width: 1279px) {
+  .setup-dialog {
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .setup-dialog__mobile-close {
+    position: fixed;
+    z-index: 2;
+    top: 24px;
+    left: 20px;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    place-items: center;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 8px;
+  }
+  .setup-dialog__mobile-close:focus-visible {
+    outline: 3px solid rgba(51, 106, 255, 0.28);
+    outline-offset: 2px;
+  }
+  .setup-dialog__mobile-close img {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+  .setup-dialog__panel {
+    max-width: none;
+    padding: 48px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .setup-dialog__content {
+    gap: 32px;
+    align-items: stretch;
+  }
+  .setup-dialog__copy {
+    gap: 8px;
+    align-items: center;
+    text-align: center;
+  }
+  .setup-dialog__title {
+    text-align: center;
+  }
+  .setup-dialog__desc {
+    text-align: center;
+  }
+  .setup-dialog__actions {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+  .setup-dialog__btn {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .setup-dialog__btn--danger {
+    order: -1;
+  }
+  .setup-dialog__btn--secondary {
+    order: 0;
   }
 }
 /* Floating build badge */

@@ -182,13 +182,14 @@
             >
               Continue
             </button>
-            <a
+            <button
+              type="button"
               class="setup-button setup-button--secondary"
-              href="pick-stablecoin.html"
+              data-setup-leave-cancel
               data-activating-actions-cancel
             >
               Cancel
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -258,6 +259,45 @@
           </button>
         </footer>
       </div>
+    </div>
+  </div>
+
+  <div id="setup-leave-dialog" class="setup-dialog" hidden>
+    <div class="setup-dialog__backdrop" data-setup-leave-dialog-dismiss tabindex="-1" aria-hidden="true"></div>
+    <button type="button" class="setup-dialog__mobile-close" data-setup-leave-dialog-dismiss aria-label="Close dialog">
+      <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+    </button>
+    <div
+      class="setup-dialog__panel"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="setup-leave-dialog-title"
+      aria-describedby="setup-leave-dialog-desc"
+      tabindex="-1"
+    >
+      <div class="setup-dialog__content">
+        <div class="setup-dialog__copy">
+          <h2 id="setup-leave-dialog-title" class="setup-dialog__title">Leave payment method configuration?</h2>
+          <p id="setup-leave-dialog-desc" class="setup-dialog__desc">
+            Your payment method won’t be activated until setup is complete. Come back anytime to finish.
+          </p>
+        </div>
+        <div class="setup-dialog__actions">
+          <button type="button" class="setup-dialog__btn setup-dialog__btn--secondary" data-setup-leave-dialog-continue>
+            Continue setup
+          </button>
+          <button type="button" class="setup-dialog__btn setup-dialog__btn--danger" data-setup-leave-dialog-leave>
+            Leave anyway
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="wallet-toast" class="wallet-toast" hidden aria-live="polite">
+    <div class="wallet-toast__inner">
+      <img class="wallet-toast__icon" src="assets/icon_success.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <p class="wallet-toast__text">E-mail verified</p>
     </div>
   </div>
 

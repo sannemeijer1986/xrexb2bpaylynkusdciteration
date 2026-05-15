@@ -226,7 +226,7 @@
             </div>
           </div>
           <div class="setup-actions pick-stablecoin-actions">
-            <a class="setup-button setup-button--secondary" href="setup-wallet.html">Cancel</a>
+            <button type="button" class="setup-button setup-button--secondary" data-setup-leave-cancel>Cancel</button>
             <button
               class="setup-button setup-button--primary"
               type="button"
@@ -248,6 +248,38 @@
       </footer>
     </section>
   </main>
+
+  <div id="setup-leave-dialog" class="setup-dialog" hidden>
+    <div class="setup-dialog__backdrop" data-setup-leave-dialog-dismiss tabindex="-1" aria-hidden="true"></div>
+    <button type="button" class="setup-dialog__mobile-close" data-setup-leave-dialog-dismiss aria-label="Close dialog">
+      <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+    </button>
+    <div
+      class="setup-dialog__panel"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="setup-leave-dialog-title"
+      aria-describedby="setup-leave-dialog-desc"
+      tabindex="-1"
+    >
+      <div class="setup-dialog__content">
+        <div class="setup-dialog__copy">
+          <h2 id="setup-leave-dialog-title" class="setup-dialog__title">Leave payment method configuration?</h2>
+          <p id="setup-leave-dialog-desc" class="setup-dialog__desc">
+            Your payment method won’t be activated until setup is complete. Come back anytime to finish.
+          </p>
+        </div>
+        <div class="setup-dialog__actions">
+          <button type="button" class="setup-dialog__btn setup-dialog__btn--secondary" data-setup-leave-dialog-continue>
+            Continue setup
+          </button>
+          <button type="button" class="setup-dialog__btn setup-dialog__btn--danger" data-setup-leave-dialog-leave>
+            Leave anyway
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="build-badge" role="note" aria-label="Prototype state controls">
     <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyPickStablecoin">
