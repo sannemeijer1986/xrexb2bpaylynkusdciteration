@@ -16,8 +16,6 @@
   const USE_DEFAULT_STABLECOIN_KEY = `${STORAGE_PREFIX}useDefaultStablecoin.v1`;
   const JOURNEY_KEY = `${STORAGE_PREFIX}journey.v1`;
 
-  let syncingUseDefaultStablecoin = false;
-
   function readUseDefaultStablecoin() {
     try {
       return window.localStorage?.getItem(USE_DEFAULT_STABLECOIN_KEY) === "1";
@@ -27,16 +25,18 @@
   }
 
   function syncUseDefaultStablecoinCheckboxes(enabled) {
-    syncingUseDefaultStablecoin = true;
-    try {
-      document.querySelectorAll("[data-prototype-use-default-stablecoin]").forEach((el) => {
-        if (el.checked !== enabled) {
-          el.checked = enabled;
-        }
-      });
-    } finally {
-      syncingUseDefaultStablecoin = false;
-    }
+    document.querySelectorAll("[data-prototype-use-default-stablecoin]").forEach((el) => {
+      el.checked = enabled;
+    });
+  }
+
+  /** Only user-driven toggles; programmatic .checked updates are not trusted. */
+  function onUseDefaultStablecoinCheckboxChange(e) {
+    const input = e.target;
+    if (!(input instanceof HTMLInputElement)) return;
+    if (!input.matches("[data-prototype-use-default-stablecoin]")) return;
+    if (!e.isTrusted) return;
+    setUseDefaultStablecoin(input.checked);
   }
 
   function clearPickStablecoinSelection() {
@@ -1115,8 +1115,7 @@
   }
 
   function initUseDefaultStablecoinCheckbox() {
-    const inputs = document.querySelectorAll("[data-prototype-use-default-stablecoin]");
-    if (!inputs.length) return;
+    if (!document.querySelector("[data-prototype-use-default-stablecoin]")) return;
 
     try {
       const raw = window.localStorage?.getItem(USE_DEFAULT_STABLECOIN_KEY);
@@ -1129,12 +1128,11 @@
 
     syncUseDefaultStablecoinCheckboxes(readUseDefaultStablecoin());
 
-    inputs.forEach((input) => {
-      input.addEventListener("change", () => {
-        if (syncingUseDefaultStablecoin) return;
-        setUseDefaultStablecoin(!!input.checked);
-      });
-    });
+    if (document.documentElement.hasAttribute("data-prototype-use-default-stablecoin-bound")) {
+      return;
+    }
+    document.documentElement.setAttribute("data-prototype-use-default-stablecoin-bound", "");
+    document.addEventListener("change", onUseDefaultStablecoinCheckboxChange);
   }
 
   function initJourneySelect() {

@@ -1473,7 +1473,6 @@ a.setup-button--secondary {
   }
   .pick-stablecoin-default-footer {
     gap: 0;
-    margin-top: 40px;
   }
   .pick-stablecoin-change-btn {
     display: none;
