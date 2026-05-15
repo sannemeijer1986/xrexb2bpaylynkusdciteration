@@ -49,8 +49,7 @@
     const loggedIn = readLoggedInFromStorage();
     if (p <= 2) return "setup-wallet.html";
     if (p <= 3 && loggedIn) return "setup-wallet.html";
-    if (p === 4 && loggedIn) return "pick-stablecoin.html";
-    if (p >= 5 && loggedIn) return "activating-stablecoin.html";
+    if (p >= 4 && loggedIn) return "pick-stablecoin.html";
     return "setup-wallet.html";
   }
 
@@ -1428,6 +1427,9 @@
       const checked = root.querySelector('input[name="stablecoin-pick"]:checked');
       const coin =
         checked && (checked.value === "usdc" || checked.value === "usdt") ? checked.value : "usdt";
+      const previousCoin = readActivatingSelectionCoin();
+      const sameSelection = coin === previousCoin;
+      const preserveProgress = states.setupProgress > 5 && sameSelection;
       try {
         window.sessionStorage?.setItem(
           ACTIVATING_SELECTION_KEY,
@@ -1436,7 +1438,9 @@
       } catch (_) {
         /* ignore */
       }
-      setState("setupProgress", 5, { force: true });
+      if (!preserveProgress) {
+        setState("setupProgress", 5, { force: true });
+      }
       window.location.href = "activating-stablecoin.html";
     });
   }
