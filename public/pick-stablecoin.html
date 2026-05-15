@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=92" />
+  <link rel="stylesheet" href="css/main.css?v=98" />
   <script>
     (function () {
       try {
@@ -36,12 +36,21 @@
     <section class="setup-panel">
       <div class="setup-panel__body">
         <div class="setup-panel__content">
-          <h1 id="pick-stablecoin-title" class="setup-wallet-title">Pick a stablecoin</h1>
+          <h1 id="pick-stablecoin-title" class="setup-wallet-title" data-pick-stablecoin-title-choice>Pick a stablecoin</h1>
+          <h1
+            class="setup-wallet-title pick-stablecoin-page-title pick-stablecoin-page-title--default"
+            data-pick-stablecoin-title-default
+            hidden
+          >
+            <span class="pick-stablecoin-page-title__desktop">USD stablecoin payments</span>
+            <span class="pick-stablecoin-page-title__mobile">USDT payments</span>
+          </h1>
 
           <div class="pick-stablecoin-card" data-pick-stablecoin-root>
+            <div class="pick-stablecoin-choice-view" data-pick-stablecoin-choice>
             <div class="pick-stablecoin-intro">
-              <p class="pick-stablecoin-lede" data-pick-stablecoin-lede>Choose your preferred USD stablecoin for doing payments</p>
-              <div class="pick-stablecoin-hint" data-pick-stablecoin-hint>
+              <p class="pick-stablecoin-lede">Choose your preferred USD stablecoin for doing payments</p>
+              <div class="pick-stablecoin-hint">
                 <img
                   class="pick-stablecoin-hint__icon"
                   src="assets/icon_info_blue.svg"
@@ -242,8 +251,90 @@
                 </div>
               </div>
             </div>
+            </div>
+
+            <div class="pick-stablecoin-default-view" data-pick-stablecoin-default hidden>
+              <div class="pick-stablecoin-intro">
+                <p class="pick-stablecoin-lede">
+                  The following USD stablecoin and network will be set up for doing payments.
+                </p>
+                <div class="pick-stablecoin-hint">
+                  <img
+                    class="pick-stablecoin-hint__icon"
+                    src="assets/icon_info_blue.svg"
+                    width="16"
+                    height="20"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <p class="pick-stablecoin-hint__text">You can add more stablecoins and networks anytime</p>
+                </div>
+              </div>
+
+              <article class="pick-stablecoin-default-card" aria-label="USDT on Ethereum ERC-20">
+                <div class="pick-stablecoin-default-card__coin">
+                  <img
+                    class="pick-stablecoin-default-card__icon"
+                    src="assets/icon_usdt.svg"
+                    width="46"
+                    height="46"
+                    alt=""
+                  />
+                  <div class="pick-stablecoin-default-card__coin-text">
+                    <p class="pick-stablecoin-default-card__title">USDT</p>
+                    <p class="pick-stablecoin-default-card__subtitle">Tether USD</p>
+                  </div>
+                  <button
+                    type="button"
+                    class="pick-stablecoin-default-edit"
+                    data-pick-stablecoin-change
+                    aria-label="Change stablecoin and network"
+                  >
+                    <img src="assets/icon_edit_blue.svg" width="20" height="20" alt="" aria-hidden="true" />
+                    <span>Edit</span>
+                  </button>
+                </div>
+                <div class="pick-stablecoin-default-card__divider" aria-hidden="true"></div>
+                <div class="pick-stablecoin-default-card__network">
+                  <span class="pick-stablecoin-default-card__network-chain" aria-hidden="true">
+                    <span class="pick-stablecoin-network__chain-well pick-stablecoin-network__chain-well--selectable">
+                      <img
+                        class="pick-stablecoin-network__chain-img"
+                        src="assets/icon_network_blue.svg"
+                        width="20"
+                        height="20"
+                        alt=""
+                      />
+                    </span>
+                  </span>
+                  <span class="pick-stablecoin-default-card__network-text">
+                    <span class="pick-stablecoin-default-card__network-title">Ethereum network</span>
+                    <span class="pick-stablecoin-default-card__network-subtitle">ERC-20</span>
+                  </span>
+                  <span class="pick-stablecoin-default-card__network-tag">Ethereum ERC-20</span>
+                </div>
+              </article>
+            </div>
           </div>
-          <div class="setup-actions pick-stablecoin-actions">
+
+          <div class="pick-stablecoin-default-footer" data-pick-stablecoin-default-footer hidden>
+            <button type="button" class="pick-stablecoin-change-btn" data-pick-stablecoin-change>
+              Change stablecoin and/or network
+            </button>
+            <div class="setup-actions pick-stablecoin-actions pick-stablecoin-actions--default">
+              <button type="button" class="setup-button setup-button--secondary" data-setup-leave-cancel>Cancel</button>
+              <button
+                class="setup-button setup-button--primary"
+                type="button"
+                id="pick-stablecoin-continue-default"
+                data-pick-stablecoin-continue
+              >
+                Ok, continue
+              </button>
+            </div>
+          </div>
+
+          <div class="setup-actions pick-stablecoin-actions" data-pick-stablecoin-actions-choice>
             <button type="button" class="setup-button setup-button--secondary" data-setup-leave-cancel>Cancel</button>
             <button
               class="setup-button setup-button--primary"

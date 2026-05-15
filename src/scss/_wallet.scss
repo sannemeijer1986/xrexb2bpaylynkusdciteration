@@ -465,6 +465,197 @@
   margin-top: 32px;
 }
 
+.pick-stablecoin-page-title--default {
+  .pick-stablecoin-page-title__desktop {
+    display: none;
+  }
+
+  .pick-stablecoin-page-title__mobile {
+    display: inline;
+  }
+}
+
+.pick-stablecoin-choice-view,
+.pick-stablecoin-default-view {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}
+
+// Author display:flex overrides the UA [hidden] rule — keep toggled views/actions off-DOM visually
+.pick-stablecoin-choice-view[hidden],
+.pick-stablecoin-default-view[hidden],
+.pick-stablecoin-default-footer[hidden],
+.pick-stablecoin-actions[hidden],
+[data-pick-stablecoin-title-choice][hidden],
+[data-pick-stablecoin-title-default][hidden] {
+  display: none !important;
+}
+
+.pick-stablecoin-default-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 20px 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.pick-stablecoin-default-card__coin {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.pick-stablecoin-default-card__icon {
+  flex-shrink: 0;
+  display: block;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.pick-stablecoin-default-card__coin-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pick-stablecoin-default-card__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.pick-stablecoin-default-card__subtitle {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.pick-stablecoin-default-edit {
+  display: none;
+  flex-shrink: 0;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-button;
+  background: $surface-card;
+  color: $button-primary;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  &:hover {
+    background: $surface-secondary;
+  }
+}
+
+.pick-stablecoin-default-card__divider {
+  flex-shrink: 0;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  background: $border-hard;
+}
+
+.pick-stablecoin-default-card__network {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.pick-stablecoin-default-card__network-chain {
+  flex-shrink: 0;
+}
+
+.pick-stablecoin-default-card__network-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pick-stablecoin-default-card__network-title {
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.pick-stablecoin-default-card__network-subtitle {
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.pick-stablecoin-default-card__network-tag {
+  flex-shrink: 0;
+  padding: 2px 6px;
+  border-radius: 30px;
+  background: $tag-cyan-surface;
+  color: $tag-cyan-text;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.pick-stablecoin-default-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pick-stablecoin-change-btn {
+  display: flex;
+  width: 100%;
+  height: 52px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $border-hard;
+  border-radius: $radius-button;
+  background: $surface-card;
+  color: $button-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: $surface-secondary;
+  }
+}
+
+.pick-stablecoin-actions--default {
+  margin-top: 0;
+}
+
 @media (min-width: $desktop-breakpoint) {
   .pick-stablecoin-card {
     gap: 40px;
@@ -473,6 +664,51 @@
 
   .pick-stablecoin-actions {
     margin-top: 40px;
+  }
+
+  .pick-stablecoin-page-title--default {
+    .pick-stablecoin-page-title__desktop {
+      display: inline;
+    }
+
+    .pick-stablecoin-page-title__mobile {
+      display: none;
+    }
+  }
+
+  .pick-stablecoin-choice-view,
+  .pick-stablecoin-default-view {
+    gap: 40px;
+  }
+
+  .pick-stablecoin-default-card {
+    max-width: 400px;
+    padding: 24px;
+  }
+
+  .pick-stablecoin-default-edit {
+    display: inline-flex;
+  }
+
+  .pick-stablecoin-default-card__title {
+    font-size: 20px;
+  }
+
+  .pick-stablecoin-default-card__subtitle {
+    font-size: 16px;
+    line-height: 23px;
+  }
+
+  .pick-stablecoin-default-card__network-title {
+    font-size: 18px;
+  }
+
+  .pick-stablecoin-default-footer {
+    gap: 24px;
+  }
+
+  .pick-stablecoin-change-btn {
+    display: none;
   }
 
   .pick-stablecoin-list {

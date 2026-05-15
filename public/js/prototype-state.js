@@ -16,12 +16,50 @@
   const USE_DEFAULT_STABLECOIN_KEY = `${STORAGE_PREFIX}useDefaultStablecoin.v1`;
   const JOURNEY_KEY = `${STORAGE_PREFIX}journey.v1`;
 
+  let syncingUseDefaultStablecoin = false;
+
   function readUseDefaultStablecoin() {
     try {
       return window.localStorage?.getItem(USE_DEFAULT_STABLECOIN_KEY) === "1";
     } catch (_) {
       return false;
     }
+  }
+
+  function syncUseDefaultStablecoinCheckboxes(enabled) {
+    syncingUseDefaultStablecoin = true;
+    try {
+      document.querySelectorAll("[data-prototype-use-default-stablecoin]").forEach((el) => {
+        if (el.checked !== enabled) {
+          el.checked = enabled;
+        }
+      });
+    } finally {
+      syncingUseDefaultStablecoin = false;
+    }
+  }
+
+  function clearPickStablecoinSelection() {
+    const root = document.querySelector("[data-pick-stablecoin-root]");
+    if (!root) return;
+    root.querySelectorAll('input[name="stablecoin-pick"]').forEach((inp) => {
+      inp.checked = false;
+    });
+    syncPickStablecoinExpandableDetails();
+    syncPickStablecoinContinueFromSelection();
+  }
+
+  function setUseDefaultStablecoin(enabled) {
+    try {
+      window.localStorage?.setItem(USE_DEFAULT_STABLECOIN_KEY, enabled ? "1" : "0");
+    } catch (_) {
+      /* ignore */
+    }
+    syncUseDefaultStablecoinCheckboxes(enabled);
+    if (!enabled) {
+      clearPickStablecoinSelection();
+    }
+    syncPickStablecoinDefaultStablecoinUi();
   }
 
   function readJourneyFromStorage() {
@@ -463,10 +501,22 @@
   function syncPickStablecoinContinueFromSelection() {
     const root = document.querySelector("[data-pick-stablecoin-root]");
     if (!root) return;
+
+    const useDefault = readUseDefaultStablecoin();
+    const continueBtnDefault = document.getElementById("pick-stablecoin-continue-default");
+
+    if (useDefault) {
+      if (continueBtnDefault && continueBtnDefault.tagName === "BUTTON") {
+        continueBtnDefault.disabled = false;
+        continueBtnDefault.setAttribute("aria-disabled", "false");
+      }
+      return;
+    }
+
     syncPickStablecoinExpandableDetails();
     const continueBtn =
       document.getElementById("pick-stablecoin-continue") ||
-      root.querySelector("[data-pick-stablecoin-continue]");
+      root.querySelector('[data-pick-stablecoin-continue]:not(#pick-stablecoin-continue-default)');
     if (!continueBtn || continueBtn.tagName !== "BUTTON") return;
     const checked = root.querySelector('input[name="stablecoin-pick"]:checked');
     const enabled = !!checked;
@@ -504,31 +554,32 @@
     root.classList.toggle("pick-stablecoin-root--default-stablecoin", useDefault);
     document.documentElement.toggleAttribute("data-prototype-use-default-stablecoin", useDefault);
 
-    const lede = root.querySelector("[data-pick-stablecoin-lede]");
-    if (lede) {
-      lede.textContent = useDefault
-        ? "USDT on Ethereum (ERC-20) is your default for payments"
-        : "Choose your preferred USD stablecoin for doing payments";
+    const choiceView = root.querySelector("[data-pick-stablecoin-choice]");
+    const defaultView = root.querySelector("[data-pick-stablecoin-default]");
+    const actionsChoice = document.querySelector("[data-pick-stablecoin-actions-choice]");
+    const defaultFooter = document.querySelector("[data-pick-stablecoin-default-footer]");
+    const titleChoice = document.querySelector("[data-pick-stablecoin-title-choice]");
+    const titleDefault = document.querySelector("[data-pick-stablecoin-title-default]");
+
+    if (choiceView) choiceView.hidden = useDefault;
+    if (defaultView) defaultView.hidden = !useDefault;
+    if (actionsChoice) actionsChoice.hidden = useDefault;
+    if (defaultFooter) defaultFooter.hidden = !useDefault;
+    if (titleChoice) titleChoice.hidden = useDefault;
+    if (titleDefault) titleDefault.hidden = !useDefault;
+
+    try {
+      document.title = useDefault
+        ? "XREX PayLynk - USD stablecoin payments"
+        : "XREX PayLynk - Pick a stablecoin";
+    } catch (_) {
+      /* ignore */
     }
-
-    const hint = root.querySelector("[data-pick-stablecoin-hint]");
-    if (hint) hint.hidden = useDefault;
-
-    const usdtTag = root.querySelector(
-      '[data-pick-stablecoin-usdt-expandable] .pick-stablecoin-option__tag',
-    );
-    if (usdtTag) usdtTag.textContent = useDefault ? "Default" : "Most used";
-
-    const usdcSelectable = root.querySelector("[data-pick-stablecoin-usdc-network-selectable]");
-    const usdcReadonly = root.querySelector("[data-pick-stablecoin-usdc-network-readonly]");
-    if (usdcSelectable) usdcSelectable.hidden = useDefault;
-    if (usdcReadonly) usdcReadonly.hidden = !useDefault;
 
     if (useDefault) {
       const usdt = root.querySelector('input[name="stablecoin-pick"][value="usdt"]');
       if (usdt && !usdt.checked) {
         usdt.checked = true;
-        usdt.dispatchEvent(new Event("change", { bubbles: true }));
       }
     }
 
@@ -1067,22 +1118,21 @@
     const inputs = document.querySelectorAll("[data-prototype-use-default-stablecoin]");
     if (!inputs.length) return;
 
-    inputs.forEach((input) => {
-      input.checked = readUseDefaultStablecoin();
-    });
+    try {
+      const raw = window.localStorage?.getItem(USE_DEFAULT_STABLECOIN_KEY);
+      if (raw !== "1" && raw !== "0") {
+        window.localStorage?.setItem(USE_DEFAULT_STABLECOIN_KEY, "0");
+      }
+    } catch (_) {
+      /* ignore */
+    }
+
+    syncUseDefaultStablecoinCheckboxes(readUseDefaultStablecoin());
 
     inputs.forEach((input) => {
       input.addEventListener("change", () => {
-        const checked = !!input.checked;
-        try {
-          window.localStorage?.setItem(USE_DEFAULT_STABLECOIN_KEY, checked ? "1" : "0");
-        } catch (_) {
-          /* ignore */
-        }
-        document.querySelectorAll("[data-prototype-use-default-stablecoin]").forEach((el) => {
-          if (el !== input) el.checked = checked;
-        });
-        syncPickStablecoinDefaultStablecoinUi();
+        if (syncingUseDefaultStablecoin) return;
+        setUseDefaultStablecoin(!!input.checked);
       });
     });
   }
@@ -1557,9 +1607,6 @@
   function initPickStablecoinPage() {
     const root = document.querySelector("[data-pick-stablecoin-root]");
     if (!root) return;
-    const continueBtn =
-      document.getElementById("pick-stablecoin-continue") ||
-      root.querySelector("[data-pick-stablecoin-continue]");
     const sync = () => {
       syncPickStablecoinContinueFromSelection();
     };
@@ -1579,11 +1626,16 @@
     });
     sync();
     syncPickStablecoinDefaultStablecoinUi();
-    continueBtn?.addEventListener("click", () => {
-      if (continueBtn.disabled) return;
-      const checked = root.querySelector('input[name="stablecoin-pick"]:checked');
-      const coin =
-        checked && (checked.value === "usdc" || checked.value === "usdt") ? checked.value : "usdt";
+
+    const goToActivating = () => {
+      const useDefault = readUseDefaultStablecoin();
+      let coin = "usdt";
+      if (!useDefault) {
+        const checked = root.querySelector('input[name="stablecoin-pick"]:checked');
+        if (checked && (checked.value === "usdc" || checked.value === "usdt")) {
+          coin = checked.value;
+        }
+      }
       const previousCoin = readActivatingSelectionCoin();
       const sameSelection = coin === previousCoin;
       const preserveProgress = states.setupProgress > 5 && sameSelection;
@@ -1599,6 +1651,20 @@
         setState("setupProgress", 5, { force: true });
       }
       window.location.href = "activating-stablecoin.html";
+    };
+
+    document.querySelectorAll("[data-pick-stablecoin-continue]").forEach((btn) => {
+      if (btn.tagName !== "BUTTON") return;
+      btn.addEventListener("click", () => {
+        if (btn.disabled) return;
+        goToActivating();
+      });
+    });
+
+    document.querySelectorAll("[data-pick-stablecoin-change]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        setUseDefaultStablecoin(false);
+      });
     });
   }
 
@@ -1707,15 +1773,39 @@
     syncCarousel();
   }
 
+  function resetPrototypeControlsState() {
+    setUseDefaultStablecoin(false);
+
+    document.querySelectorAll("[data-prototype-journey]").forEach((sel) => {
+      sel.value = "setup";
+    });
+    try {
+      window.localStorage?.setItem(JOURNEY_KEY, "setup");
+    } catch (_) {
+      /* ignore */
+    }
+
+    setLoggedInValue(false);
+    setAccountCreatedValue(false);
+
+    setState("setupProgress", 1, { force: true });
+
+    document.querySelectorAll("[data-prototype-account-created]").forEach((sel) => {
+      sel.disabled = false;
+      sel.removeAttribute("aria-disabled");
+      sel.value = "false";
+    });
+    try {
+      window.localStorage?.setItem(ACCOUNT_CREATED_KEY, "false");
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
   function initPrototypeReset() {
     const resetBtn = document.querySelector("[data-prototype-reset]");
     if (!resetBtn) return;
     resetBtn.addEventListener("click", () => {
-      const config = STATE_CONFIGS.setupProgress;
-      const base =
-        typeof config.initial === "number" ? config.initial : config.min;
-      setState("setupProgress", base, { force: true });
-
       const emptyInput = document.querySelector("[data-prototype-empty]");
       if (emptyInput) {
         emptyInput.checked = false;
@@ -1726,27 +1816,7 @@
         }
       }
 
-      setLoggedInValue(false);
-      setAccountCreatedValue(false);
-
-      document.querySelectorAll("[data-prototype-use-default-stablecoin]").forEach((input) => {
-        input.checked = false;
-      });
-      try {
-        window.localStorage?.setItem(USE_DEFAULT_STABLECOIN_KEY, "0");
-      } catch (_) {
-        /* ignore */
-      }
-      syncPickStablecoinDefaultStablecoinUi();
-
-      document.querySelectorAll("[data-prototype-journey]").forEach((sel) => {
-        sel.value = "setup";
-      });
-      try {
-        window.localStorage?.setItem(JOURNEY_KEY, "setup");
-      } catch (_) {
-        /* ignore */
-      }
+      resetPrototypeControlsState();
 
       try {
         window.localStorage?.removeItem(CONSENT_AT_KEY);
