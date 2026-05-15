@@ -184,6 +184,7 @@ a.setup-option {
   display: none;
   align-self: stretch;
   width: 100%;
+  gap: 16px;
   margin-top: 16px;
   box-sizing: border-box;
 }
@@ -262,7 +263,8 @@ html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
   }
 
   .setup-option--stablecoin .setup-option__incomplete {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -334,7 +336,7 @@ html[data-prototype-setup-progress="10"] .setup-option--stablecoin .setup-option
   flex: 1 1 auto;
   min-width: 0;
   flex-direction: column;
-  gap: 4px;
+  gap: 1px;
   align-items: flex-start;
   text-align: left;
 }
@@ -604,7 +606,7 @@ a.setup-button--secondary {
 
   .setup-option--stablecoin .setup-option__top {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     gap: 24px;
   }
