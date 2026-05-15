@@ -1046,6 +1046,8 @@
     const input = walletModals.querySelector("#verify-email-code-input");
     const emailDest = walletModals.querySelector(".verify-email-modal__email");
     const loader = document.getElementById("verify-email-loader");
+    const loaderOtp = loader?.querySelector("[data-verify-email-loader-otp]");
+    const loaderPreparing = loader?.querySelector("[data-wallet-preparing-loader]");
     const toast = document.getElementById("wallet-toast");
     const toastTextEl = toast?.querySelector(".wallet-toast__text");
     const passcodeWalletInput = document.getElementById("set-passcode-wallet-input");
@@ -1075,10 +1077,17 @@
       if (!loader) return;
       loader.hidden = true;
       loader.setAttribute("aria-hidden", "true");
+      loader.classList.remove("verify-email-loader--passcode");
+      if (loaderOtp) loaderOtp.hidden = false;
+      if (loaderPreparing) loaderPreparing.hidden = true;
     }
 
-    function showLoader() {
+    function showLoader(mode = "otp") {
       if (!loader) return;
+      const isPasscode = mode === "passcode";
+      loader.classList.toggle("verify-email-loader--passcode", isPasscode);
+      if (loaderOtp) loaderOtp.hidden = isPasscode;
+      if (loaderPreparing) loaderPreparing.hidden = !isPasscode;
       loader.hidden = false;
       loader.setAttribute("aria-hidden", "false");
     }
@@ -1364,7 +1373,7 @@
       if (passcodeSubmit.disabled || passcodeSubmitPending) return;
       passcodeSubmitPending = true;
       updatePasscodeSubmitState();
-      showLoader();
+      showLoader("passcode");
       passcodeSubmitTimer = window.setTimeout(() => {
         passcodeSubmitTimer = null;
         passcodeSubmitPending = false;

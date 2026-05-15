@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=89" />
+  <link rel="stylesheet" href="css/main.css?v=96" />
   <script>
     (function () {
       try {
@@ -194,7 +194,13 @@
 
     <div id="verify-email-loader" class="verify-email-loader" hidden aria-hidden="true">
       <div class="verify-email-loader__scrim" aria-hidden="true"></div>
-      <div class="verify-email-loader__card" role="status" aria-live="polite" aria-busy="true">
+      <div
+        class="verify-email-loader__card verify-email-loader__card--otp"
+        data-verify-email-loader-otp
+        role="status"
+        aria-live="polite"
+        aria-busy="true"
+      >
         <div class="verify-email-loader__icon-ring">
           <img
             class="verify-email-loader__icon"
@@ -203,6 +209,44 @@
             height="76"
             alt=""
           />
+        </div>
+      </div>
+      <div class="wallet-preparing-loader" data-wallet-preparing-loader hidden>
+        <div class="wallet-preparing-loader__card" role="status" aria-live="polite" aria-busy="true">
+          <div class="wallet-preparing-loader__content">
+            <div class="wallet-preparing-loader__brands" aria-hidden="true">
+              <div class="wallet-preparing-loader__brand-wrap">
+                <div class="wallet-preparing-loader__brand-card">
+                  <img
+                    class="wallet-preparing-loader__logo wallet-preparing-loader__logo--xrex"
+                    src="assets/loader_xrexlogo.svg"
+                    width="103"
+                    height="57"
+                    alt="XREX Pay"
+                  />
+                </div>
+              </div>
+              <div class="wallet-preparing-loader__bridge">
+                <span class="wallet-preparing-loader__dot"></span>
+                <span class="wallet-preparing-loader__dot"></span>
+                <span class="wallet-preparing-loader__dot"></span>
+                <span class="wallet-preparing-loader__dot"></span>
+                <span class="wallet-preparing-loader__dot"></span>
+              </div>
+              <div class="wallet-preparing-loader__brand-wrap">
+                <div class="wallet-preparing-loader__brand-card">
+                  <img
+                    class="wallet-preparing-loader__logo wallet-preparing-loader__logo--dynamic"
+                    src="assets/loader_dynamiclogo.svg"
+                    width="104"
+                    height="57"
+                    alt="Dynamic by Fireblocks"
+                  />
+                </div>
+              </div>
+            </div>
+            <p class="wallet-preparing-loader__title">Preparing your wallet....</p>
+          </div>
         </div>
       </div>
     </div>

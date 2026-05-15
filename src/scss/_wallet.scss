@@ -2434,6 +2434,147 @@ body.wallet-modals-is-open {
   }
 }
 
+// Set passcode submit — Figma 6606:29876 (desktop) / 6606:29879 (mobile)
+.verify-email-loader--passcode {
+  .verify-email-loader__scrim {
+    background: rgba(0, 0, 0, 0.25);
+  }
+}
+
+.verify-email-loader__card--otp[hidden],
+.wallet-preparing-loader[hidden] {
+  display: none !important;
+}
+
+.wallet-preparing-loader {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 480px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.wallet-preparing-loader__card {
+  width: 100%;
+  border: 1px solid $border-soft;
+  border-radius: 16px;
+  background: $surface-card;
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+.wallet-preparing-loader__content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  padding: 48px 32px;
+}
+
+.wallet-preparing-loader__brands {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.wallet-preparing-loader__brand-wrap {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid $border-soft;
+  border-radius: 24px;
+  box-sizing: border-box;
+}
+
+.wallet-preparing-loader__brand-card {
+  display: flex;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border: 1px solid $border-soft;
+  border-radius: 16px;
+  background: $surface-card;
+  box-shadow: 2.5px 2.5px 7.5px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+.wallet-preparing-loader__logo {
+  display: block;
+  width: 88px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.wallet-preparing-loader__bridge {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  height: 9px;
+}
+
+.wallet-preparing-loader__dot {
+  display: block;
+  width: 12px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  background: $text-clickable;
+  animation: wallet-preparing-dot-flow 1.4s ease-in-out infinite;
+
+  &:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.24s;
+  }
+
+  &:nth-child(4) {
+    animation-delay: 0.36s;
+  }
+
+  &:nth-child(5) {
+    animation-delay: 0.48s;
+  }
+}
+
+@keyframes wallet-preparing-dot-flow {
+  0%,
+  100% {
+    background: $text-clickable;
+    opacity: 1;
+  }
+
+  50% {
+    background: $text-secondary;
+    opacity: 0.15;
+  }
+}
+
+.wallet-preparing-loader__title {
+  margin: 0;
+  font-family: $font-family-sans;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  color: $text-primary;
+  text-align: center;
+}
+
 // Mobile / tablet: full-viewport sheet — Figma 32108:10205, 32108:10281 ([M] B2B-PI modals)
 @media (max-width: $desktop-breakpoint - 1px) {
   .wallet-modals {
@@ -2511,6 +2652,52 @@ body.wallet-modals-is-open {
     width: calc(100vw - 32px);
     max-width: min(480px, 100vw - 32px);
   }
+
+  .verify-email-loader--passcode {
+    padding: 20px;
+  }
+
+  .wallet-preparing-loader {
+    max-width: none;
+  }
+
+  .wallet-preparing-loader__card {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .wallet-preparing-loader__content {
+    gap: 32px;
+    padding: 48px 0;
+  }
+
+  .wallet-preparing-loader__brand-wrap {
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  .wallet-preparing-loader__brand-card {
+    width: 100px;
+    height: 100px;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .wallet-preparing-loader__logo {
+    width: 76px;
+  }
+
+  .wallet-preparing-loader__bridge {
+    gap: 4px;
+    height: 9px;
+  }
+
+  .wallet-preparing-loader__dot {
+    width: 10px;
+    height: 6px;
+    border-radius: 2px;
+  }
 }
 
 @media (min-width: $desktop-breakpoint) {
@@ -2583,6 +2770,10 @@ body.wallet-modals-is-open {
 
   .verify-email-loader__card {
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
+  }
+
+  .wallet-preparing-loader__card {
+    box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.08);
   }
 
   .verify-email-modal__header {
