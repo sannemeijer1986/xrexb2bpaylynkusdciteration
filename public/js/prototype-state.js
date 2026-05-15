@@ -90,7 +90,42 @@
     activatingReauth6to7AnimPending = false;
   }
 
-  function stopLoggedInTimerTick() {
+  let prototypeToastHideTimer = null;
+
+  function hidePrototypeToast() {
+    const toast = document.getElementById("prototype-toast");
+    if (!toast) return;
+    window.clearTimeout(prototypeToastHideTimer);
+    prototypeToastHideTimer = null;
+    toast.classList.remove("is-visible");
+    const fallback = window.setTimeout(() => {
+      if (!toast.classList.contains("is-visible")) toast.hidden = true;
+    }, 400);
+    const onEnd = () => {
+      window.clearTimeout(fallback);
+      if (!toast.classList.contains("is-visible")) toast.hidden = true;
+      toast.removeEventListener("transitionend", onEnd);
+    };
+    toast.addEventListener("transitionend", onEnd);
+  }
+
+  function showPrototypeToast(message) {
+    const toast = document.getElementById("prototype-toast");
+    if (!toast) return;
+    const textEl = toast.querySelector(".wallet-toast__text");
+    const text =
+      typeof message === "string" && message.trim() ? message.trim() : "Not in prototype";
+    if (textEl) textEl.textContent = text;
+    window.clearTimeout(prototypeToastHideTimer);
+    prototypeToastHideTimer = null;
+    toast.hidden = false;
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => toast.classList.add("is-visible"));
+    });
+    prototypeToastHideTimer = window.setTimeout(() => hidePrototypeToast(), 4500);
+  }
+
+  function syncPaymentSetupFromProgress() {
     if (loggedInTickId != null) {
       window.clearInterval(loggedInTickId);
       loggedInTickId = null;
@@ -365,6 +400,32 @@
     syncWalletContinueButton();
     syncPickStablecoinContinueFromSelection();
     syncActivatingStablecoinStatusFromProgress();
+    syncPaymentSetupFromProgress();
+  }
+
+  function syncPaymentSetupFromProgress() {
+    if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
+    const p = states.setupProgress;
+    const finalized = p >= 9;
+    const nextBtn = document.querySelector("[data-payment-setup-next]");
+    if (nextBtn && nextBtn.tagName === "BUTTON") {
+      nextBtn.disabled = !finalized;
+      nextBtn.setAttribute("aria-disabled", finalized ? "false" : "true");
+    }
+    const link = document.querySelector("[data-payment-setup-stablecoin-link]");
+    if (link) {
+      if (finalized) {
+        link.setAttribute("tabindex", "-1");
+        link.setAttribute("aria-disabled", "true");
+      } else {
+        link.removeAttribute("tabindex");
+        link.removeAttribute("aria-disabled");
+      }
+    }
+    const linked = document.querySelector("[data-payment-setup-linked]");
+    if (linked) {
+      linked.setAttribute("aria-hidden", finalized ? "false" : "true");
+    }
   }
 
   function syncActivatingStablecoinStatusFromProgress() {
@@ -1153,6 +1214,28 @@
     });
   }
 
+  function initPaymentSetupPage() {
+    if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
+    const nextBtn = document.querySelector("[data-payment-setup-next]");
+    nextBtn?.addEventListener("click", () => {
+      if (nextBtn.disabled) return;
+      showPrototypeToast("Not in prototype");
+    });
+    const showMenuToast = () => showPrototypeToast("Not in prototype");
+    const menu = document.querySelector("[data-payment-setup-linked-menu]");
+    menu?.addEventListener("click", showMenuToast);
+    menu?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        showMenuToast();
+      }
+    });
+    const link = document.querySelector("[data-payment-setup-stablecoin-link]");
+    link?.addEventListener("click", (e) => {
+      if (states.setupProgress >= 9) e.preventDefault();
+    });
+  }
+
   function initPickStablecoinPage() {
     const root = document.querySelector("[data-pick-stablecoin-root]");
     if (!root) return;
@@ -1218,12 +1301,26 @@
 
     syncActivatingStablecoinStatusFromProgress();
 
+    const goToPaymentSetupFromActivating = () => {
+      if (states.setupProgress < 9) return;
+      window.location.href = "index.html";
+    };
+
     document.querySelectorAll("[data-activating-continue-card]").forEach((btn) => {
       if (btn.tagName !== "BUTTON") return;
       btn.addEventListener("click", () => {
         if (states.setupProgress === 7) {
           openActivatingReauthModal();
+          return;
         }
+        goToPaymentSetupFromActivating();
+      });
+    });
+
+    document.querySelectorAll("[data-activating-continue-footer]").forEach((btn) => {
+      if (btn.tagName !== "BUTTON") return;
+      btn.addEventListener("click", () => {
+        goToPaymentSetupFromActivating();
       });
     });
 
@@ -1347,6 +1444,16 @@
         }
       }
 
+      if (prototypeToastHideTimer != null) {
+        window.clearTimeout(prototypeToastHideTimer);
+        prototypeToastHideTimer = null;
+      }
+      const protoToast = document.getElementById("prototype-toast");
+      if (protoToast) {
+        protoToast.hidden = true;
+        protoToast.classList.remove("is-visible");
+      }
+
       if (document.body?.getAttribute("data-prototype-context") === "pick-stablecoin") {
         window.location.href = "setup-wallet.html";
       }
@@ -1362,6 +1469,7 @@
     initTimelineAgreeButton();
     initWalletModals();
     initWalletContinueToPickStablecoin();
+    initPaymentSetupPage();
     initPickStablecoinPage();
     initActivatingStablecoinPage();
     initActivatingReauthModal();
