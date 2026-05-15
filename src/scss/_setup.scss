@@ -387,7 +387,7 @@ html[data-prototype-setup-progress="10"] .setup-option--stablecoin .setup-option
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 26px;
+  margin-top: 32px;
 
   // Next above Back (matches Figma mobile); desktop overrides order in @media (min-width: $desktop-breakpoint)
   .setup-button--primary {
@@ -679,7 +679,7 @@ a.setup-button--secondary {
     flex-direction: row;
     justify-content: flex-end;
     gap: 16px;
-    margin-top: 28px;
+    margin-top: 40px;
 
     .setup-button--secondary {
       order: 1;

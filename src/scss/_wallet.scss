@@ -462,13 +462,17 @@
 }
 
 .pick-stablecoin-actions {
-  margin-top: 0;
+  margin-top: 32px;
 }
 
 @media (min-width: $desktop-breakpoint) {
   .pick-stablecoin-card {
     gap: 40px;
     padding: 32px;
+  }
+
+  .pick-stablecoin-actions {
+    margin-top: 40px;
   }
 
   .pick-stablecoin-list {
@@ -598,7 +602,6 @@
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
-  margin-bottom: 80px;
 }
 
 .activating-stablecoin-lede {
@@ -1000,7 +1003,7 @@
 }
 
 .activating-stablecoin-actions {
-  margin-top: 0;
+  margin-top: 32px;
 }
 
 .activating-stablecoin-actions [data-activating-actions-cancel][hidden] {
@@ -1011,6 +1014,11 @@
   .activating-stablecoin-header {
     margin-bottom: 40px;
   }
+
+
+.activating-stablecoin-actions {
+  margin-top: 40px;
+}
 
   .activating-stablecoin-header__title {
     font-size: 40px;
@@ -1429,7 +1437,7 @@ html[data-prototype-setup-progress="2"] {
 }
 
 .setup-actions--wallet {
-  margin-top: 0;
+  margin-top: 32px;
 }
 
 @media (min-width: $desktop-breakpoint) {
@@ -1473,6 +1481,7 @@ html[data-prototype-setup-progress="2"] {
   }
 
   .setup-actions--wallet {
+    margin-top: 40px;
     flex-direction: row;
     justify-content: flex-end;
 
