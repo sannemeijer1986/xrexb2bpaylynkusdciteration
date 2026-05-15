@@ -1262,7 +1262,7 @@
 // Done and active steps omit this so title + timestamp stack tightly like Figma.
 
 html:not([data-prototype-setup-progress="2"])
-  .setup-timeline__step:nth-child(2).setup-timeline__step--pending
+  .setup-timeline > .setup-timeline__step:nth-of-type(2).setup-timeline__step--pending
   .setup-timeline__heading-row {
   display: flex;
   align-items: center;
@@ -1270,7 +1270,7 @@ html:not([data-prototype-setup-progress="2"])
 }
 
 html:not([data-prototype-setup-progress="3"])
-  .setup-timeline__step:nth-child(3).setup-timeline__step--pending
+  .setup-timeline > .setup-timeline__step:nth-of-type(3).setup-timeline__step--pending
   .setup-timeline__heading-row {
   display: flex;
   align-items: center;
@@ -1327,7 +1327,7 @@ html:not([data-prototype-setup-progress="3"])
 
 // State 3 only: step 3 shows passcode description + Set passcode (Figma-style gated copy)
 html[data-prototype-setup-progress="3"] {
-  .setup-timeline__step:nth-child(3) .setup-timeline__desc--passcode {
+  .setup-timeline > .setup-timeline__step:nth-of-type(3) .setup-timeline__desc--passcode {
     display: block;
   }
 
@@ -1362,7 +1362,7 @@ html[data-prototype-setup-progress="3"] {
 
 // State ≥2 Consented: step 1 shows timestamp, hides Agree + consent copy
 html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
-  .setup-timeline__step:nth-child(1) {
+  .setup-timeline > .setup-timeline__step:nth-of-type(1) {
     .setup-timeline__desc--consent,
     .setup-timeline-agree {
       display: none;
@@ -1376,7 +1376,7 @@ html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
 
 // State 2 only: step 2 shows OTP copy + Verify email (Figma Consented)
 html[data-prototype-setup-progress="2"] {
-  .setup-timeline__step:nth-child(2) {
+  .setup-timeline > .setup-timeline__step:nth-of-type(2) {
     .setup-timeline__desc--verify {
       display: block;
     }
@@ -1390,7 +1390,7 @@ html[data-prototype-setup-progress="2"] {
 // State ≥3: step 2 shows email-verified timestamp (same treatment as consent on step 1)
 @for $p from 3 through 10 {
   html[data-prototype-setup-progress="#{$p}"] {
-    .setup-timeline__step:nth-child(2) .setup-timeline__timestamp[data-email-verified-at] {
+    .setup-timeline > .setup-timeline__step:nth-of-type(2) .setup-timeline__timestamp[data-email-verified-at] {
       display: block;
     }
   }
@@ -1399,7 +1399,7 @@ html[data-prototype-setup-progress="2"] {
 // State ≥4: step 3 shows passcode-set timestamp
 @for $p from 4 through 10 {
   html[data-prototype-setup-progress="#{$p}"] {
-    .setup-timeline__step:nth-child(3) .setup-timeline__timestamp[data-passcode-set-at] {
+    .setup-timeline > .setup-timeline__step:nth-of-type(3) .setup-timeline__timestamp[data-passcode-set-at] {
       display: block;
     }
   }

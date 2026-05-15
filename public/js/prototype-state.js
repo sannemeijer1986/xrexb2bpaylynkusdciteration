@@ -32,6 +32,32 @@
     return coin === "usdc" ? "USDC" : "USDT";
   }
 
+  function readLoggedInFromStorage() {
+    try {
+      return window.localStorage?.getItem(LOGGED_IN_KEY) === "true";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /**
+   * Resume URL for stablecoin setup from payment-setup (expects logged-in when p>=3,
+   * except p<=2 which always goes to wallet creation).
+   */
+  function resolvePaymentSetupStablecoinResumeHref() {
+    const p = states.setupProgress;
+    const loggedIn = readLoggedInFromStorage();
+    if (p <= 2) return "setup-wallet.html";
+    if (p <= 3 && loggedIn) return "setup-wallet.html";
+    if (p === 4 && loggedIn) return "pick-stablecoin.html";
+    if (p >= 5 && loggedIn) return "activating-stablecoin.html";
+    return "setup-wallet.html";
+  }
+
+  function paymentSetupIncompleteNeedsVerifyModal() {
+    return states.setupProgress >= 3 && !readLoggedInFromStorage();
+  }
+
   const STATE_CONFIGS = {
     setupProgress: {
       storageKey: `${STORAGE_PREFIX}setupProgress.v1`,
@@ -55,6 +81,9 @@
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const states = {};
+
+  /** Set by initWalletModals so payment-setup can open verify email from index. */
+  let openVerifyEmailModalRef = null;
 
   let loggedInTickId = null;
 
@@ -125,7 +154,7 @@
     prototypeToastHideTimer = window.setTimeout(() => hidePrototypeToast(), 4500);
   }
 
-  function syncPaymentSetupFromProgress() {
+  function stopLoggedInTimerTick() {
     if (loggedInTickId != null) {
       window.clearInterval(loggedInTickId);
       loggedInTickId = null;
@@ -228,12 +257,24 @@
       /* ignore */
     }
     document.querySelectorAll("[data-prototype-account-created]").forEach((sel) => {
+      const wasDisabled = sel.disabled;
+      // Must be mutable: assigning .value while disabled can throw / be ignored (breaks 3→2 setup
+      // progress before applySetupProgressToUi runs).
+      sel.disabled = false;
       sel.value = v;
+      sel.disabled = wasDisabled;
     });
   }
 
   function syncWalletTimelineFromProgress(p) {
-    const steps = document.querySelectorAll(".setup-timeline__step");
+    const root =
+      document.querySelector('[data-prototype-context="wallet-setup"] .setup-timeline') ||
+      document.querySelector(".setup-wallet-card .setup-timeline") ||
+      document.querySelector(".setup-timeline");
+    if (!root) return;
+    const steps = Array.from(root.children).filter((el) =>
+      el.classList.contains("setup-timeline__step"),
+    );
     if (!steps.length) return;
 
     if (p >= 4) {
@@ -392,7 +433,7 @@
 
   function applySetupProgressToUi() {
     const p = states.setupProgress;
-    document.documentElement.dataset.prototypeSetupProgress = String(p);
+    document.documentElement.setAttribute("data-prototype-setup-progress", String(p));
     syncWalletTimelineFromProgress(p);
     syncConsentTimestamp();
     syncEmailVerifiedTimestamp();
@@ -401,6 +442,25 @@
     syncPickStablecoinContinueFromSelection();
     syncActivatingStablecoinStatusFromProgress();
     syncPaymentSetupFromProgress();
+    syncAccountCreatedPrototypeControl();
+  }
+
+  /** When setup progress is 3+, account creation is implied — lock control to True. */
+  function syncAccountCreatedPrototypeControl() {
+    const locked = states.setupProgress >= 3;
+    if (locked) {
+      setAccountCreatedValue(true);
+    }
+    document.querySelectorAll("[data-prototype-account-created]").forEach((sel) => {
+      if (locked) {
+        sel.value = "true";
+        sel.disabled = true;
+        sel.setAttribute("aria-disabled", "true");
+      } else {
+        sel.disabled = false;
+        sel.removeAttribute("aria-disabled");
+      }
+    });
   }
 
   function syncPaymentSetupFromProgress() {
@@ -873,9 +933,16 @@
 
     selects.forEach((select) => {
       select.addEventListener("change", () => {
+        if (states.setupProgress >= 3) {
+          setAccountCreatedValue(true);
+          select.value = "true";
+          return;
+        }
         setAccountCreatedValue(select.value === "true");
       });
     });
+
+    syncAccountCreatedPrototypeControl();
   }
 
   function initTimelineAgreeButton() {
@@ -887,6 +954,7 @@
   }
 
   function initWalletModals() {
+    openVerifyEmailModalRef = null;
     const walletModals = document.getElementById("wallet-modals");
     if (!walletModals) return;
 
@@ -914,7 +982,9 @@
       const src =
         document.querySelector(
           ".setup-timeline__desc--verify .setup-timeline__email",
-        ) || document.querySelector(".setup-timeline__email");
+        ) ||
+        document.querySelector("[data-payment-setup-verify-email-source] .setup-timeline__email") ||
+        document.querySelector(".setup-timeline__email");
       if (src && emailDest) emailDest.textContent = src.textContent.trim();
     }
 
@@ -1050,6 +1120,19 @@
       clearOtpTimerOnly();
       otpPending = false;
       hideLoader();
+
+      const isPaymentSetup = document.body?.getAttribute("data-prototype-context") === "payment-setup";
+      if (isPaymentSetup) {
+        setLoggedInValue(true);
+        if (input) input.value = "";
+        if (verifyDialog) verifyDialog.hidden = true;
+        walletModals.hidden = true;
+        document.body.classList.remove("wallet-modals-is-open");
+        hideToastImmediate();
+        window.location.href = resolvePaymentSetupStablecoinResumeHref();
+        return;
+      }
+
       setAccountCreatedValue(true);
       if (input) input.value = "";
       if (verifyDialog) verifyDialog.hidden = true;
@@ -1058,8 +1141,14 @@
       walletModals.hidden = false;
       document.body.classList.add("wallet-modals-is-open");
       if (passcodeModal) {
-        passcodeModal.hidden = false;
-        resetPasscodeForm();
+        window.requestAnimationFrame(() => {
+          if (document.body?.getAttribute("data-prototype-context") !== "wallet-setup") return;
+          walletModals.hidden = false;
+          if (verifyDialog) verifyDialog.hidden = true;
+          passcodeModal.hidden = false;
+          document.body.classList.add("wallet-modals-is-open");
+          resetPasscodeForm();
+        });
       }
       showToast();
     }
@@ -1202,6 +1291,8 @@
         showToast("Wallet account ready");
       }, 3000);
     });
+
+    openVerifyEmailModalRef = openVerifyModal;
   }
 
   function initWalletContinueToPickStablecoin() {
@@ -1232,7 +1323,22 @@
     });
     const link = document.querySelector("[data-payment-setup-stablecoin-link]");
     link?.addEventListener("click", (e) => {
-      if (states.setupProgress >= 9) e.preventDefault();
+      if (states.setupProgress >= 9) {
+        e.preventDefault();
+        return;
+      }
+      if (e.target.closest(".setup-option__incomplete")) {
+        e.preventDefault();
+        if (paymentSetupIncompleteNeedsVerifyModal()) {
+          if (typeof openVerifyEmailModalRef === "function") {
+            openVerifyEmailModalRef();
+          } else {
+            window.location.href = "setup-wallet.html";
+          }
+          return;
+        }
+        window.location.href = resolvePaymentSetupStablecoinResumeHref();
+      }
     });
   }
 
