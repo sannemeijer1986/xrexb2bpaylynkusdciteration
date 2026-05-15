@@ -12,6 +12,7 @@
   const LOGGED_IN_SESSION_END_KEY = `${STORAGE_PREFIX}loggedInSessionEndsAtIso.v1`;
   const LOGGED_IN_SESSION_MS = 5 * 60 * 1000;
   const ACTIVATING_SELECTION_KEY = `${STORAGE_PREFIX}activatingSelection.v1`;
+  const PAYMENT_METHOD_ADDED_TOAST_KEY = `${STORAGE_PREFIX}showPaymentMethodAddedToast.v1`;
 
   function readActivatingSelectionCoin() {
     let coin = "usdt";
@@ -120,9 +121,31 @@
 
   let prototypeToastHideTimer = null;
 
+  const PROTOTYPE_TOAST_DEFAULT_ICON = "assets/icon_info_blue.svg";
+
+  function queuePaymentMethodAddedToast() {
+    try {
+      window.sessionStorage?.setItem(PAYMENT_METHOD_ADDED_TOAST_KEY, "1");
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  function consumePaymentMethodAddedToast() {
+    try {
+      const queued = window.sessionStorage?.getItem(PAYMENT_METHOD_ADDED_TOAST_KEY) === "1";
+      window.sessionStorage?.removeItem(PAYMENT_METHOD_ADDED_TOAST_KEY);
+      return queued;
+    } catch (_) {
+      return false;
+    }
+  }
+
   function hidePrototypeToast() {
     const toast = document.getElementById("prototype-toast");
     if (!toast) return;
+    const iconEl = toast.querySelector(".wallet-toast__icon");
+    if (iconEl) iconEl.src = PROTOTYPE_TOAST_DEFAULT_ICON;
     window.clearTimeout(prototypeToastHideTimer);
     prototypeToastHideTimer = null;
     toast.classList.remove("is-visible");
@@ -137,13 +160,17 @@
     toast.addEventListener("transitionend", onEnd);
   }
 
-  function showPrototypeToast(message) {
+  function showPrototypeToast(message, opts = {}) {
     const toast = document.getElementById("prototype-toast");
     if (!toast) return;
     const textEl = toast.querySelector(".wallet-toast__text");
+    const iconEl = toast.querySelector(".wallet-toast__icon");
     const text =
       typeof message === "string" && message.trim() ? message.trim() : "Not in prototype";
     if (textEl) textEl.textContent = text;
+    if (iconEl) {
+      iconEl.src = opts.success ? "assets/icon_success.svg" : PROTOTYPE_TOAST_DEFAULT_ICON;
+    }
     window.clearTimeout(prototypeToastHideTimer);
     prototypeToastHideTimer = null;
     toast.hidden = false;
@@ -1363,6 +1390,11 @@
 
   function initPaymentSetupPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
+    if (consumePaymentMethodAddedToast()) {
+      window.requestAnimationFrame(() => {
+        showPrototypeToast("Payment method added", { success: true });
+      });
+    }
     const nextBtn = document.querySelector("[data-payment-setup-next]");
     nextBtn?.addEventListener("click", () => {
       if (nextBtn.disabled) return;
@@ -1487,6 +1519,8 @@
     document.querySelectorAll("[data-activating-continue-footer]").forEach((btn) => {
       if (btn.tagName !== "BUTTON") return;
       btn.addEventListener("click", () => {
+        if (states.setupProgress < 9) return;
+        queuePaymentMethodAddedToast();
         goToPaymentSetupFromActivating();
       });
     });
