@@ -2755,7 +2755,7 @@ body.wallet-modals-is-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 16px;
 }
 
 .wallet-preparing-loader__brand-wrap {
@@ -2775,7 +2775,7 @@ body.wallet-modals-is-open {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 12px;
   border: 1px solid $border-soft;
   border-radius: 16px;
   background: $surface-card;
@@ -2785,7 +2785,7 @@ body.wallet-modals-is-open {
 
 .wallet-preparing-loader__logo {
   display: block;
-  width: 88px;
+  width: 120px;
   max-width: 100%;
   height: auto;
   object-fit: contain;
@@ -2962,7 +2962,7 @@ body.wallet-modals-is-open {
   }
 
   .wallet-preparing-loader__logo {
-    width: 76px;
+    width: 100px;
   }
 
   .wallet-preparing-loader__bridge {
