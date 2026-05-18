@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@300;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=111" />
+  <link rel="stylesheet" href="css/main.css?v=114" />
   <script>
     (function () {
       try {
@@ -279,31 +279,32 @@
 
               <ul class="paylynk-network-list">
                 <li class="paylynk-network-card">
-                  <span class="paylynk-network-card__chain" aria-hidden="true">
-                    <span class="paylynk-network-card__chain-well">
-                      <img class="paylynk-network-card__chain-img" src="assets/icon_network_blue.svg" width="20" height="20" alt="" />
+                  <span class="paylynk-network-card__icon-wrap" aria-hidden="true">
+                    <img class="paylynk-network-card__icon" src="assets/icon_network_blue.svg" width="32" height="32" alt="" />
+                  </span>
+                  <span class="paylynk-network-card__main">
+                    <span class="paylynk-network-card__text">
+                      <span class="paylynk-network-card__title">Ethereum network</span>
+                      <span class="paylynk-network-card__subtitle paylynk-network-card__subtitle--desktop">ERC-20</span>
+                      <span class="paylynk-network-card__subtitle paylynk-network-card__subtitle--mobile">Ethereum</span>
                     </span>
+                    <span class="paylynk-network-card__status paylynk-network-card__status--mobile">Not activated for this beneficiary</span>
                   </span>
-                  <span class="paylynk-network-card__text">
-                    <span class="paylynk-network-card__title">Ethereum network</span>
-                    <span class="paylynk-network-card__subtitle paylynk-network-card__subtitle--desktop">ERC-20</span>
-                    <span class="paylynk-network-card__subtitle paylynk-network-card__subtitle--mobile">Ethereum</span>
-                  </span>
-                  <span class="paylynk-network-card__status">Not activated for this beneficiary</span>
-                  <button type="button" class="paylynk-network-card__setup" data-paylynk-network-setup>
+                  <span class="paylynk-network-card__status paylynk-network-card__status--desktop">Not activated for this beneficiary</span>
+                  <button type="button" class="paylynk-network-card__setup" data-paylynk-network-setup aria-label="Set up Ethereum network">
                     <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                    Set up
+                    <span class="paylynk-network-card__setup-label">Set up</span>
                   </button>
                 </li>
                 <li class="paylynk-network-card paylynk-network-card--disabled" data-paylynk-usdt-only>
-                  <span class="paylynk-network-card__chain" aria-hidden="true">
-                    <span class="paylynk-network-card__chain-well paylynk-network-card__chain-well--muted">
-                      <img class="paylynk-network-card__chain-img" src="assets/icon_network_disabled.svg" width="20" height="20" alt="" />
-                    </span>
+                  <span class="paylynk-network-card__icon-wrap paylynk-network-card__icon-wrap--muted" aria-hidden="true">
+                    <img class="paylynk-network-card__icon" src="assets/icon_network_disabled.svg" width="32" height="32" alt="" />
                   </span>
-                  <span class="paylynk-network-card__text">
-                    <span class="paylynk-network-card__title">Tron network</span>
-                    <span class="paylynk-network-card__subtitle">TRC-20 · Coming soon</span>
+                  <span class="paylynk-network-card__main">
+                    <span class="paylynk-network-card__text">
+                      <span class="paylynk-network-card__title">Tron network</span>
+                      <span class="paylynk-network-card__subtitle">TRC-20 · Coming soon</span>
+                    </span>
                   </span>
                   <span class="paylynk-network-card__radio" aria-hidden="true">
                     <img src="assets/radio_inactive.svg" width="24" height="24" alt="" />
@@ -313,8 +314,8 @@
             </div>
 
             <div class="paylynk-network-actions">
-              <button type="button" class="setup-button setup-button--primary" disabled data-paylynk-network-continue>Continue</button>
               <button type="button" class="setup-button setup-button--secondary" data-paylynk-network-back>Back</button>
+              <button type="button" class="setup-button setup-button--primary" disabled data-paylynk-network-continue>Continue</button>
             </div>
           </section>
 

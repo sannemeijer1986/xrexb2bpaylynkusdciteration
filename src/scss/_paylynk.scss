@@ -136,7 +136,17 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  width: 100%;
+  min-width: 0;
   min-height: 0;
+}
+
+// Fills the left column up to 900px; stays centered when the column is wider (Figma max-w constraint).
+%paylynk-main-panel {
+  box-sizing: border-box;
+  width: min(100%, 900px);
+  max-width: 900px;
+  margin-inline: auto;
 }
 
 .paylynk-content {
@@ -145,14 +155,15 @@ $paylynk-doc-icon-bg: #a8e8bd;
   flex-direction: column;
   align-items: center;
   min-width: 0;
+  width: 100%;
   padding: 32px 20px 120px;
   box-sizing: border-box;
 }
 
 .paylynk-intro {
+  @extend %paylynk-main-panel;
+
   display: flex;
-  width: 100%;
-  max-width: 900px;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 32px;
@@ -181,11 +192,11 @@ $paylynk-doc-icon-bg: #a8e8bd;
 }
 
 .paylynk-methods {
+  @extend %paylynk-main-panel;
+
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 100%;
-  max-width: 900px;
 }
 
 .paylynk-methods__heading {
@@ -822,14 +833,23 @@ $paylynk-doc-icon-bg: #a8e8bd;
 }
 
 // Network selection step — Figma 6710:54437 / 54471 (USDC), 54508 / 54550 (USDT)
-.paylynk-network-content {
-  gap: 32px;
+.paylynk-content.paylynk-network-content {
+  align-items: stretch;
   width: 100%;
-  max-width: 900px;
+  max-width: none;
+}
+
+.paylynk-network-content__title,
+.paylynk-network-section,
+.paylynk-network-actions {
+  @extend %paylynk-main-panel;
+}
+
+.paylynk-network-content {
+  gap: 40px;
 }
 
 .paylynk-network-content__title {
-  width: 100%;
   margin: 0;
   color: $text-primary;
   font-family: $font-sora;
@@ -847,14 +867,14 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-network-section__head {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 8px;
-  align-items: flex-end;
-  justify-content: space-between;
+  gap: 2px;
+  align-items: center;
   width: 100%;
 }
 
 .paylynk-network-section__title {
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   color: $text-primary;
   font-size: 14px;
@@ -863,6 +883,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
 }
 
 .paylynk-network-section__link {
+  flex-shrink: 0;
   margin: 0;
   padding: 0;
   border: 0;
@@ -874,12 +895,13 @@ $paylynk-doc-icon-bg: #a8e8bd;
   line-height: normal;
   white-space: nowrap;
   cursor: pointer;
+  text-align: right;
 }
 
 .paylynk-network-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -887,49 +909,48 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-network-card {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
-  min-height: 74px;
-  padding: 16px;
-  border: 1px solid $border-soft;
+  padding: 20px 16px;
+  border: 1px solid $border-hard;
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
 }
 
-.paylynk-network-card__chain {
+.paylynk-network-card__icon-wrap {
+  display: grid;
   flex-shrink: 0;
-  display: flex;
-}
-
-.paylynk-network-card__chain-well {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: $button-secondary;
-  box-sizing: border-box;
+  place-items: center;
 }
 
-.paylynk-network-card__chain-well--muted {
+.paylynk-network-card__icon-wrap--muted {
   background: $surface-primary;
 }
 
-.paylynk-network-card__chain-img {
+.paylynk-network-card__icon {
   display: block;
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
+}
+
+.paylynk-network-card__main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
 
 .paylynk-network-card__text {
   display: flex;
-  flex: 1 1 120px;
   flex-direction: column;
-  gap: 0;
+  gap: 2px;
   min-width: 0;
 }
 
@@ -942,7 +963,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-network-card__subtitle {
   color: $text-primary;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   line-height: normal;
 }
@@ -952,30 +973,29 @@ $paylynk-doc-icon-bg: #a8e8bd;
 }
 
 .paylynk-network-card__status {
-  flex: 1 1 100%;
-  color: $text-secondary;
+  color: $text-email-highlight;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
+}
+
+.paylynk-network-card__status--desktop {
+  display: none;
 }
 
 .paylynk-network-card__setup {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  width: 32px;
   height: 32px;
-  padding: 0 16px;
+  padding: 0;
   border: 0;
-  border-radius: 16px;
+  border-radius: 50%;
   background: $button-primary;
   color: $surface-card;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
   cursor: pointer;
-  white-space: nowrap;
 
   img {
     display: block;
@@ -983,6 +1003,10 @@ $paylynk-doc-icon-bg: #a8e8bd;
     height: 16px;
     object-fit: contain;
   }
+}
+
+.paylynk-network-card__setup-label {
+  display: none;
 }
 
 .paylynk-network-card__radio {
@@ -1007,26 +1031,42 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
   .paylynk-network-card__title,
   .paylynk-network-card__subtitle {
-    color: $text-placeholder;
+    color: $text-secondary;
   }
 }
 
 .paylynk-network-actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 900px;
-  margin-top: 8px;
+  gap: 16px;
+  align-items: stretch;
 
   .setup-button {
     width: 100%;
   }
+
+  .setup-button--primary {
+    order: -1;
+  }
 }
 
 // Expanded summary (network step sidebar)
+.paylynk-sidebar--network {
+  .paylynk-summary-row__value {
+    flex: 1 1 auto;
+    width: auto;
+    max-width: 191px;
+  }
+
+  .paylynk-summary-row__value-col {
+    flex: 1 1 auto;
+    width: auto;
+    max-width: 191px;
+  }
+}
+
 .paylynk-summary__body--expanded .paylynk-summary-card {
-  gap: 20px;
+  gap: 24px;
 }
 
 .paylynk-summary-row--fee {
@@ -1037,7 +1077,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex: 0 0 140px;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   align-items: flex-end;
   width: 140px;
 }
@@ -1049,47 +1089,49 @@ $paylynk-doc-icon-bg: #a8e8bd;
   background: none;
   color: $text-clickable;
   font-family: inherit;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   line-height: normal;
   cursor: pointer;
   white-space: nowrap;
 }
 
+.paylynk-summary-fee {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
 .paylynk-summary-fee__breakdown {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: -8px 0 0;
-  padding: 0 0 0 16px;
+  gap: 0;
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
 .paylynk-summary-fee__line {
   display: flex;
   gap: 16px;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   color: $text-secondary;
   font-size: 14px;
   font-weight: 600;
   line-height: normal;
 
-  span:last-child {
-    flex-shrink: 0;
-    width: 120px;
-    color: $text-primary;
-    text-align: right;
+  span:first-child {
+    flex: 1 1 auto;
+    padding-left: 21px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Ccircle cx='2' cy='2' r='2' fill='%23797a7b'/%3E%3C/svg%3E") no-repeat left center;
   }
 
-  &::before {
+  span:last-child {
     flex-shrink: 0;
-    width: 4px;
-    height: 4px;
-    margin-top: 7px;
-    border-radius: 50%;
-    background: $text-secondary;
-    content: "";
+    color: $text-primary;
+    text-align: right;
   }
 }
 
@@ -1106,19 +1148,20 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-summary-row__label--strong {
   color: $text-primary;
+  font-size: 18px;
   font-weight: 700;
 }
 
 .paylynk-summary-row__value-total {
   display: flex;
-  flex: 0 0 auto;
-  gap: 6px;
+  flex: 1 1 auto;
+  gap: 4px;
   align-items: center;
   justify-content: flex-end;
   width: auto;
   max-width: none;
   color: $text-primary;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   line-height: normal;
   text-align: right;
@@ -1221,8 +1264,14 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-content {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    align-items: center;
+    min-width: 0;
     padding: 70px 70px 80px;
+  }
+
+  .paylynk-content.paylynk-network-content {
+    align-items: stretch;
   }
 
   .paylynk-intro {
@@ -1319,32 +1368,77 @@ $paylynk-doc-icon-bg: #a8e8bd;
     display: none;
   }
 
+  .paylynk-network-content {
+    gap: 48px;
+  }
+
   .paylynk-network-content__title {
     font-size: 40px;
   }
 
+  .paylynk-network-section {
+    gap: 24px;
+  }
+
+  .paylynk-network-section__head {
+    gap: 6px;
+    align-items: center;
+  }
+
   .paylynk-network-section__title {
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 700;
   }
 
   .paylynk-network-section__link {
-    font-size: 14px;
+    font-size: 16px;
+  }
+
+  .paylynk-network-list {
+    gap: 24px;
   }
 
   .paylynk-network-card {
-    flex-wrap: nowrap;
     gap: 16px;
-    padding: 20px 24px;
+    align-items: center;
+    padding: 24px;
+  }
+
+  .paylynk-network-card__icon-wrap {
+    width: 46px;
+    height: 46px;
+  }
+
+  .paylynk-network-card__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .paylynk-network-card__main {
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
   }
 
   .paylynk-network-card__text {
-    flex: 1 1 auto;
+    gap: 4px;
   }
 
-  .paylynk-network-card__status {
+  .paylynk-network-card__title {
+    font-size: 20px;
+  }
+
+  .paylynk-network-card__status--mobile {
+    display: none;
+  }
+
+  .paylynk-network-card__status--desktop {
+    display: block;
     flex: 1 1 auto;
     font-size: 14px;
     text-align: right;
+    white-space: nowrap;
   }
 
   .paylynk-network-card__subtitle--desktop {
@@ -1356,22 +1450,36 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-network-card__setup {
-    height: 40px;
-    padding: 0 20px;
-    border-radius: 20px;
-    font-size: 14px;
+    width: auto;
+    min-width: 100px;
+    height: 32px;
+    padding: 0 16px;
+    border-radius: 16px;
+    gap: 4px;
+  }
+
+  .paylynk-network-card__setup-label {
+    display: inline;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: normal;
+    white-space: nowrap;
   }
 
   .paylynk-network-actions {
-    flex-direction: row-reverse;
+    flex-direction: row;
     gap: 16px;
-    justify-content: flex-start;
-    max-width: 496px;
-    margin-top: 16px;
+    justify-content: flex-end;
+    max-width: none;
+    margin-top: 0;
 
     .setup-button {
       flex: 0 0 240px;
       width: 240px;
+    }
+
+    .setup-button--primary {
+      order: 0;
     }
   }
 }
