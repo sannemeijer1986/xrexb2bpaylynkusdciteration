@@ -796,6 +796,342 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 }
 
+.paylynk-sticky-panel[hidden] {
+  display: none !important;
+}
+
+// In-page views (method selection vs network selection)
+.paylynk-view {
+  display: none;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.paylynk-view.paylynk-view--active:not([hidden]) {
+  display: flex;
+}
+
+.paylynk-view[hidden] {
+  display: none !important;
+}
+
+.paylynk-view[data-paylynk-coin="usdc"] [data-paylynk-usdt-only] {
+  display: none;
+}
+
+// Network selection step — Figma 6710:54437 / 54471 (USDC), 54508 / 54550 (USDT)
+.paylynk-network-content {
+  gap: 32px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.paylynk-network-content__title {
+  width: 100%;
+  margin: 0;
+  color: $text-primary;
+  font-family: $font-sora;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.paylynk-network-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.paylynk-network-section__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.paylynk-network-section__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-network-section__link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $text-clickable;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.paylynk-network-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.paylynk-network-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  min-height: 74px;
+  padding: 16px;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.paylynk-network-card__chain {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.paylynk-network-card__chain-well {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: $button-secondary;
+  box-sizing: border-box;
+}
+
+.paylynk-network-card__chain-well--muted {
+  background: $surface-primary;
+}
+
+.paylynk-network-card__chain-img {
+  display: block;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.paylynk-network-card__text {
+  display: flex;
+  flex: 1 1 120px;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.paylynk-network-card__title {
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.paylynk-network-card__subtitle {
+  color: $text-primary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-network-card__subtitle--desktop {
+  display: none;
+}
+
+.paylynk-network-card__status {
+  flex: 1 1 100%;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-network-card__setup {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  background: $button-primary;
+  color: $surface-card;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+
+  img {
+    display: block;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+}
+
+.paylynk-network-card__radio {
+  flex-shrink: 0;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  margin-left: auto;
+  place-items: center;
+
+  img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    opacity: 0.55;
+  }
+}
+
+.paylynk-network-card--disabled {
+  pointer-events: none;
+
+  .paylynk-network-card__title,
+  .paylynk-network-card__subtitle {
+    color: $text-placeholder;
+  }
+}
+
+.paylynk-network-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 8px;
+
+  .setup-button {
+    width: 100%;
+  }
+}
+
+// Expanded summary (network step sidebar)
+.paylynk-summary__body--expanded .paylynk-summary-card {
+  gap: 20px;
+}
+
+.paylynk-summary-row--fee {
+  align-items: flex-start;
+}
+
+.paylynk-summary-row__value-col {
+  display: flex;
+  flex: 0 0 140px;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  width: 140px;
+}
+
+.paylynk-summary-fee__link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $text-clickable;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.paylynk-summary-fee__breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: -8px 0 0;
+  padding: 0 0 0 16px;
+  list-style: none;
+}
+
+.paylynk-summary-fee__line {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+
+  span:last-child {
+    flex-shrink: 0;
+    width: 120px;
+    color: $text-primary;
+    text-align: right;
+  }
+
+  &::before {
+    flex-shrink: 0;
+    width: 4px;
+    height: 4px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: $text-secondary;
+    content: "";
+  }
+}
+
+.paylynk-summary-card__divider {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: $border-soft;
+}
+
+.paylynk-summary-row--total {
+  align-items: center;
+}
+
+.paylynk-summary-row__label--strong {
+  color: $text-primary;
+  font-weight: 700;
+}
+
+.paylynk-summary-row__value-total {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
+  width: auto;
+  max-width: none;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  text-align: right;
+}
+
+.paylynk-summary-row__coin {
+  flex-shrink: 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 // Desktop
 @media (min-width: $desktop-breakpoint) {
   .paylynk-header {
@@ -981,5 +1317,61 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
   .paylynk-sticky-panel {
     display: none;
+  }
+
+  .paylynk-network-content__title {
+    font-size: 40px;
+  }
+
+  .paylynk-network-section__title {
+    font-size: 16px;
+  }
+
+  .paylynk-network-section__link {
+    font-size: 14px;
+  }
+
+  .paylynk-network-card {
+    flex-wrap: nowrap;
+    gap: 16px;
+    padding: 20px 24px;
+  }
+
+  .paylynk-network-card__text {
+    flex: 1 1 auto;
+  }
+
+  .paylynk-network-card__status {
+    flex: 1 1 auto;
+    font-size: 14px;
+    text-align: right;
+  }
+
+  .paylynk-network-card__subtitle--desktop {
+    display: block;
+  }
+
+  .paylynk-network-card__subtitle--mobile {
+    display: none;
+  }
+
+  .paylynk-network-card__setup {
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+
+  .paylynk-network-actions {
+    flex-direction: row-reverse;
+    gap: 16px;
+    justify-content: flex-start;
+    max-width: 496px;
+    margin-top: 16px;
+
+    .setup-button {
+      flex: 0 0 240px;
+      width: 240px;
+    }
   }
 }

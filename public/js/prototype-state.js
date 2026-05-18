@@ -1771,6 +1771,82 @@
     syncCarousel();
   }
 
+  const PAYLYNK_STABLECOIN_KEY = `${STORAGE_PREFIX}selectedStablecoin.v1`;
+
+  const PAYLYNK_STABLECOIN_COPY = {
+    usdt: {
+      title: "Which network will you use to pay USDT?",
+      methodLabel: "USDT stablecoin network",
+      rate: "1 USDT = 1 USD",
+      total: "251,125.00 USDT",
+      icon: "assets/icon_usdt.svg",
+    },
+    usdc: {
+      title: "Which network will you use to pay USDC?",
+      methodLabel: "USDC stablecoin network",
+      rate: "1 USDC = 1 USD",
+      total: "251,125.00 USDC",
+      icon: "assets/icon_usdc.svg",
+    },
+  };
+
+  function syncPaylynkNetworkCopy(coin) {
+    const copy = PAYLYNK_STABLECOIN_COPY[coin];
+    if (!copy) return;
+
+    const networkView = document.querySelector('[data-paylynk-view="network"]');
+    networkView?.setAttribute("data-paylynk-coin", coin);
+
+    const titleEl = document.querySelector("[data-paylynk-network-title]");
+    if (titleEl) titleEl.textContent = copy.title;
+
+    const methodEl = document.querySelector("[data-paylynk-summary-method]");
+    if (methodEl) methodEl.textContent = copy.methodLabel;
+
+    const rateEl = document.querySelector("[data-paylynk-summary-rate]");
+    if (rateEl) rateEl.textContent = copy.rate;
+
+    const totalEl = document.querySelector("[data-paylynk-summary-total]");
+    if (totalEl) totalEl.textContent = copy.total;
+
+    document.querySelectorAll("[data-paylynk-summary-coin], [data-paylynk-sticky-coin]").forEach((img) => {
+      if (img instanceof HTMLImageElement) img.src = copy.icon;
+    });
+
+    const stickyTotal = document.querySelector("[data-paylynk-sticky-total]");
+    if (stickyTotal) stickyTotal.textContent = copy.total;
+  }
+
+  function setPaylynkView(view) {
+    document.querySelectorAll("[data-paylynk-view]").forEach((el) => {
+      const name = el.getAttribute("data-paylynk-view");
+      const active = name === view;
+      if (active) {
+        el.removeAttribute("hidden");
+        el.classList.add("paylynk-view--active");
+      } else {
+        el.setAttribute("hidden", "");
+        el.classList.remove("paylynk-view--active");
+      }
+    });
+    document.querySelectorAll("[data-paylynk-sticky-view]").forEach((el) => {
+      const name = el.getAttribute("data-paylynk-sticky-view");
+      if (name === view) el.removeAttribute("hidden");
+      else el.setAttribute("hidden", "");
+    });
+  }
+
+  function showPaylynkNetworkStep(coin) {
+    syncPaylynkNetworkCopy(coin);
+    try {
+      window.localStorage?.setItem(PAYLYNK_STABLECOIN_KEY, coin);
+    } catch (_) {
+      /* ignore */
+    }
+    setPaylynkView("network");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function syncPaylynkMethodExpandableDetails() {
     const root = document.querySelector("[data-paylynk-methods]");
     if (!root) return;
@@ -1811,10 +1887,43 @@
         btn.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
-          showPrototypeToast("Not in prototype");
+          const expandable = btn.closest("[data-paylynk-method-expandable]");
+          const coin = expandable?.getAttribute("data-paylynk-method-expandable");
+          if (coin === "usdt" || coin === "usdc") showPaylynkNetworkStep(coin);
         });
       });
     }
+
+    document.querySelector("[data-paylynk-network-back]")?.addEventListener("click", () => {
+      setPaylynkView("method");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.querySelector("[data-paylynk-network-help]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      showPrototypeToast("Not in prototype");
+    });
+
+    document.querySelector("[data-paylynk-network-setup]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      showPrototypeToast("Not in prototype");
+    });
+
+    document.querySelector("[data-paylynk-network-continue]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      showPrototypeToast("Not in prototype");
+    });
+
+    document
+      .querySelector('[data-paylynk-view="network"]')
+      ?.querySelectorAll("[data-paylynk-fee-details]")
+      .forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          showPrototypeToast("Not in prototype");
+        });
+      });
 
     const swiftLabel = document.querySelector("[data-paylynk-method-swift]");
     swiftLabel?.addEventListener("click", (e) => {
