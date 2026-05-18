@@ -841,6 +841,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-network-content__title,
 .paylynk-network-section,
+.paylynk-network-consent,
 .paylynk-network-actions {
   @extend %paylynk-main-panel;
 }
@@ -1082,6 +1083,66 @@ $paylynk-doc-icon-bg: #a8e8bd;
   .paylynk-network-card__subtitle {
     color: $text-secondary;
   }
+}
+
+.paylynk-network-consent {
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.paylynk-network-consent__label {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  cursor: pointer;
+}
+
+.paylynk-network-consent__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.paylynk-network-consent__box {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.paylynk-network-consent__img {
+  display: block;
+  width: 24px;
+  height: 24px;
+
+  &--active {
+    display: none;
+  }
+}
+
+.paylynk-network-consent__input:checked ~ .paylynk-network-consent__box .paylynk-network-consent__img--inactive {
+  display: none;
+}
+
+.paylynk-network-consent__input:checked ~ .paylynk-network-consent__box .paylynk-network-consent__img--active {
+  display: block;
+}
+
+.paylynk-network-consent__text {
+  flex: 1 1 auto;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .paylynk-network-actions {
@@ -1445,6 +1506,10 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
   .paylynk-network-list {
     gap: 24px;
+  }
+
+  .paylynk-network-consent__text {
+    font-size: 16px;
   }
 
   .paylynk-network-card {

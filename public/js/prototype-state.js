@@ -1724,6 +1724,7 @@
         if (readJourneyFromStorage() === "paylynk") {
           const coin = readActivatingSelectionCoin() === "usdc" ? "usdc" : "usdt";
           setPaylynkErc20Activated(coin, true);
+          queuePaymentMethodAddedToast();
           navigatePaylynkToNetworkSelect();
           return;
         }
@@ -1859,13 +1860,16 @@
 
     const coin = networkView.getAttribute("data-paylynk-coin") || readPaylynkSelectedStablecoin();
     const activated = readPaylynkErc20Activated(coin);
+    const consentInput = document.querySelector("[data-paylynk-network-consent-input]");
     const radio = document.querySelector("[data-paylynk-network-radio]");
 
-    if (activated && radio instanceof HTMLInputElement) {
-      continueBtn.disabled = !radio.checked;
+    if (activated) {
+      const consentOk = consentInput instanceof HTMLInputElement && consentInput.checked;
+      continueBtn.disabled = !consentOk;
     } else {
       continueBtn.disabled = true;
       if (radio instanceof HTMLInputElement) radio.checked = false;
+      if (consentInput instanceof HTMLInputElement) consentInput.checked = false;
     }
   }
 
@@ -1894,6 +1898,18 @@
       }
     });
 
+    const consentBlock = document.querySelector("[data-paylynk-network-consent-block]");
+    const consentInput = document.querySelector("[data-paylynk-network-consent-input]");
+    const radio = document.querySelector("[data-paylynk-network-radio]");
+
+    if (activated) {
+      if (radio instanceof HTMLInputElement) radio.checked = true;
+      consentBlock?.removeAttribute("hidden");
+    } else {
+      consentBlock?.setAttribute("hidden", "");
+      if (consentInput instanceof HTMLInputElement) consentInput.checked = false;
+    }
+
     syncPaylynkNetworkContinue();
   }
 
@@ -1904,9 +1920,7 @@
     } catch (_) {
       /* ignore */
     }
-    if (states.setupProgress < 5) {
-      setState("setupProgress", 5, { force: true });
-    }
+    setState("setupProgress", 5, { force: true });
     window.location.href = "activating-stablecoin.html";
   }
 
@@ -2029,6 +2043,12 @@
   function initPaylynkPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "paylynk") return;
 
+    if (consumePaymentMethodAddedToast()) {
+      window.requestAnimationFrame(() => {
+        showPrototypeToast("Payment method added", { success: true });
+      });
+    }
+
     initPaylynkErc20ActivatedCheckboxes();
 
     const methodsRoot = document.querySelector("[data-paylynk-methods]");
@@ -2074,6 +2094,10 @@
     });
 
     document.querySelector("[data-paylynk-network-radio]")?.addEventListener("change", () => {
+      syncPaylynkNetworkContinue();
+    });
+
+    document.querySelector("[data-paylynk-network-consent-input]")?.addEventListener("change", () => {
       syncPaylynkNetworkContinue();
     });
 

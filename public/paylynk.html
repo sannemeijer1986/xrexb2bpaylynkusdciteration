@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@300;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=115" />
+  <link rel="stylesheet" href="css/main.css?v=116" />
   <script>
     (function () {
       try {
@@ -349,6 +349,35 @@
                   </span>
                 </li>
               </ul>
+            </div>
+
+            <div class="paylynk-network-consent" data-paylynk-network-consent-block hidden>
+              <label class="paylynk-network-consent__label">
+                <input
+                  type="checkbox"
+                  class="paylynk-network-consent__input"
+                  data-paylynk-network-consent-input
+                />
+                <span class="paylynk-network-consent__box" aria-hidden="true">
+                  <img
+                    class="paylynk-network-consent__img paylynk-network-consent__img--inactive"
+                    src="assets/checkbox_inactive.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                  />
+                  <img
+                    class="paylynk-network-consent__img paylynk-network-consent__img--active"
+                    src="assets/checkbox_active.svg"
+                    width="24"
+                    height="24"
+                    alt=""
+                  />
+                </span>
+                <span class="paylynk-network-consent__text">
+                  By continuing, I understand this payment will be locked to the network I selected (ERC-20 / Ethereum).
+                </span>
+              </label>
             </div>
 
             <div class="paylynk-network-actions">
