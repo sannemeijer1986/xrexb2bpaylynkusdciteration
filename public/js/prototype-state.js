@@ -898,7 +898,7 @@
 
     dialog.querySelector("[data-setup-leave-dialog-leave]")?.addEventListener("click", (e) => {
       e.preventDefault();
-      window.location.href = "index.html";
+      window.location.href = journeyHref(readJourneyFromStorage());
     });
 
     document.addEventListener("keydown", (e) => {
@@ -1771,6 +1771,18 @@
     syncCarousel();
   }
 
+  function initPaylynkPage() {
+    if (document.body?.getAttribute("data-prototype-context") !== "paylynk") return;
+
+    const swiftLabel = document.querySelector("[data-paylynk-method-swift]");
+    if (!swiftLabel) return;
+
+    swiftLabel.addEventListener("click", (e) => {
+      e.preventDefault();
+      showPrototypeToast("Not in prototype");
+    });
+  }
+
   function resetPrototypeControlsState() {
     setUseDefaultStablecoin(false);
 
@@ -1888,6 +1900,7 @@
     initPaymentSetupPage();
     initPickStablecoinPage();
     initActivatingStablecoinPage();
+    initPaylynkPage();
     initActivatingReauthModal();
     initSetupLeaveCancelDialog();
     initUseDefaultStablecoinCheckbox();

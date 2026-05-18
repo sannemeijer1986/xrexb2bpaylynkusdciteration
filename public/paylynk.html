@@ -5,11 +5,11 @@
   <script src="auth/auth-config.js"></script>
   <script src="auth/auth-gate.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>XREX PayLynk</title>
+  <title>XREX PayLynk - Payment request</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=96" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@300;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=106" />
   <script>
     (function () {
       try {
@@ -20,26 +20,226 @@
     })();
   </script>
 </head>
-<body class="setup-page" data-prototype-context="paylynk">
-  <main class="setup-shell" aria-labelledby="paylynk-title">
-    <section class="setup-hero" aria-label="XREX Pay">
-      <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
-      <img class="setup-hero__logo" src="assets/logo-xrex-pay-white.svg" alt="XREX Pay" />
-    </section>
+<body class="paylynk-page" data-prototype-context="paylynk">
+  <div class="paylynk-shell">
+    <header class="paylynk-header" aria-label="XREX Pay">
+      <img class="paylynk-header__logo" src="assets/logo_xrexpay.svg" alt="XREX Pay" width="118" height="22" />
+      <span class="paylynk-header__divider" aria-hidden="true"></span>
 
-    <section class="setup-panel">
-      <div class="setup-panel__body">
-        <div class="setup-panel__content">
-          <h1 id="paylynk-title" class="setup-wallet-title">PayLynk</h1>
-          <p class="pick-stablecoin-lede">PayLynk journey placeholder — wire screens here.</p>
-        </div>
+      <nav class="paylynk-header__nav" aria-label="Payments">
+        <a class="paylynk-header__nav-link" href="paylynk.html">
+          All payments with AGP Technology
+          <span class="paylynk-header__nav-badge" aria-label="5 pending">5</span>
+        </a>
+      </nav>
+
+      <button class="paylynk-header__requests" type="button" aria-label="Payment requests, 5 pending">
+        <img src="assets/icon_payment_requests.svg" width="20" height="20" alt="" />
+        <span class="paylynk-header__requests-badge" aria-hidden="true">5</span>
+      </button>
+
+      <div class="paylynk-header__account">
+        <span class="paylynk-header__account-avatar" aria-hidden="true">C</span>
+        <span class="paylynk-header__account-name">[Company legal name]</span>
+        <img
+          class="paylynk-header__account-chevron"
+          src="assets/icon_carousel_chevron_left.svg"
+          width="24"
+          height="24"
+          alt=""
+          aria-hidden="true"
+        />
       </div>
+    </header>
 
-      <footer class="setup-footer">
-        <p>© XREX Pay Limited 2026</p>
-      </footer>
-    </section>
-  </main>
+    <main class="paylynk-main">
+      <div class="paylynk-layout">
+        <section class="paylynk-content" aria-labelledby="paylynk-request-title">
+          <header class="paylynk-intro">
+            <h1 id="paylynk-request-title" class="paylynk-intro__title">Payment request from AGP Technology</h1>
+            <p class="paylynk-intro__amount"><strong>250,000 USD</strong> via Direct PayLynk</p>
+          </header>
+
+          <div class="paylynk-methods">
+            <h2 class="paylynk-methods__heading" id="paylynk-methods-heading">How would you like to pay?</h2>
+            <ul class="paylynk-methods__list" role="radiogroup" aria-labelledby="paylynk-methods-heading" data-paylynk-methods>
+              <li>
+                <label class="paylynk-method">
+                  <input
+                    class="paylynk-method__input"
+                    type="radio"
+                    name="paylynk-payment-method"
+                    value="usdt"
+                    checked
+                    data-paylynk-method-input
+                  />
+                  <img class="paylynk-method__icon" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
+                  <span class="paylynk-method__label">USDT</span>
+                  <span class="paylynk-method__radio" aria-hidden="true">
+                    <img class="paylynk-method__radio-img paylynk-method__radio-img--inactive" src="assets/radio_inactive.svg" width="24" height="24" alt="" />
+                    <img class="paylynk-method__radio-img paylynk-method__radio-img--active" src="assets/radio_active.svg" width="24" height="24" alt="" />
+                  </span>
+                </label>
+              </li>
+              <li>
+                <label class="paylynk-method">
+                  <input
+                    class="paylynk-method__input"
+                    type="radio"
+                    name="paylynk-payment-method"
+                    value="usdc"
+                    data-paylynk-method-input
+                  />
+                  <img class="paylynk-method__icon" src="assets/icon_usdc.svg" width="46" height="46" alt="" />
+                  <span class="paylynk-method__label">USDC</span>
+                  <span class="paylynk-method__radio" aria-hidden="true">
+                    <img class="paylynk-method__radio-img paylynk-method__radio-img--inactive" src="assets/radio_inactive.svg" width="24" height="24" alt="" />
+                    <img class="paylynk-method__radio-img paylynk-method__radio-img--active" src="assets/radio_active.svg" width="24" height="24" alt="" />
+                  </span>
+                </label>
+              </li>
+              <li>
+                <label class="paylynk-method" data-paylynk-method-swift>
+                  <input
+                    class="paylynk-method__input"
+                    type="radio"
+                    name="paylynk-payment-method"
+                    value="swift"
+                    disabled
+                    tabindex="-1"
+                    data-paylynk-method-input
+                  />
+                  <img class="paylynk-method__icon" src="assets/icon_usd.svg" width="46" height="46" alt="" />
+                  <span class="paylynk-method__label">Bank transfer (SWIFT)</span>
+                  <span class="paylynk-method__radio" aria-hidden="true">
+                    <img class="paylynk-method__radio-img paylynk-method__radio-img--inactive" src="assets/radio_inactive.svg" width="24" height="24" alt="" />
+                    <img class="paylynk-method__radio-img paylynk-method__radio-img--active" src="assets/radio_active.svg" width="24" height="24" alt="" />
+                  </span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <aside class="paylynk-sidebar" aria-label="Payment request details">
+          <section class="paylynk-summary" aria-labelledby="paylynk-summary-heading">
+            <div class="paylynk-summary__head">
+              <h2 id="paylynk-summary-heading" class="paylynk-sidebar__section-title">Summary</h2>
+              <p class="paylynk-summary__title">250,000 USD</p>
+              <p class="paylynk-summary__beneficiary">AGP Technology</p>
+            </div>
+
+            <div class="paylynk-summary-card">
+              <div class="paylynk-summary-row">
+                <span class="paylynk-summary-row__label">PayLynk type</span>
+                <span class="paylynk-summary-row__value">Direct PayLynk</span>
+              </div>
+              <div class="paylynk-summary-row">
+                <span class="paylynk-summary-row__label">Amount</span>
+                <span class="paylynk-summary-row__value">250,000 USD</span>
+              </div>
+              <div class="paylynk-summary-row">
+                <span class="paylynk-summary-row__label">Expires on</span>
+                <p class="paylynk-summary__expires">31 Dec 2026, 23:59 (UTC+8)</p>
+              </div>
+            </div>
+          </section>
+
+          <hr class="paylynk-sidebar__divider" />
+
+          <section class="paylynk-documents" aria-labelledby="paylynk-documents-heading">
+            <h2 id="paylynk-documents-heading" class="paylynk-sidebar__section-title">Attached documents</h2>
+            <ul class="paylynk-documents__list">
+              <li class="paylynk-document">
+                <span class="paylynk-document__icon-wrap" aria-hidden="true">
+                  <img src="assets/icon_attacheddoc.svg" width="32" height="32" alt="" />
+                </span>
+                <p class="paylynk-document__name">Invoice_2026_Q1.pdf</p>
+                <button class="paylynk-document__download" type="button">Download</button>
+              </li>
+              <li class="paylynk-document">
+                <span class="paylynk-document__icon-wrap" aria-hidden="true">
+                  <img src="assets/icon_attacheddoc.svg" width="32" height="32" alt="" />
+                </span>
+                <p class="paylynk-document__name">Purchase_order_AGP.pdf</p>
+                <button class="paylynk-document__download" type="button">Download</button>
+              </li>
+              <li class="paylynk-document">
+                <span class="paylynk-document__icon-wrap" aria-hidden="true">
+                  <img src="assets/icon_attacheddoc.svg" width="32" height="32" alt="" />
+                </span>
+                <p class="paylynk-document__name">Supporting_docs.zip</p>
+                <button class="paylynk-document__download" type="button">Download</button>
+              </li>
+            </ul>
+          </section>
+
+          <section class="paylynk-info" aria-labelledby="paylynk-info-heading">
+            <h2 id="paylynk-info-heading" class="paylynk-sidebar__section-title">Other information</h2>
+            <ul class="paylynk-info__list">
+              <li>
+                <button class="paylynk-info-row" type="button">
+                  <span class="paylynk-info-row__main">
+                    <span class="paylynk-info-row__label">
+                      <img src="assets/icon_oi_beneficiary.svg" width="20" height="20" alt="" />
+                      Beneficiary
+                    </span>
+                    <span class="paylynk-info-row__value">AGP Technology</span>
+                  </span>
+                  <img class="paylynk-info-row__chevron" src="assets/icon_carousel_chevron_left.svg" width="24" height="24" alt="" />
+                </button>
+              </li>
+              <li>
+                <button class="paylynk-info-row" type="button">
+                  <span class="paylynk-info-row__main">
+                    <span class="paylynk-info-row__label">
+                      <img src="assets/icon_oi_payer.svg" width="20" height="20" alt="" />
+                      Payer
+                    </span>
+                    <span class="paylynk-info-row__value">aloha Corporation</span>
+                  </span>
+                  <img class="paylynk-info-row__chevron" src="assets/icon_carousel_chevron_left.svg" width="24" height="24" alt="" />
+                </button>
+              </li>
+              <li>
+                <button class="paylynk-info-row" type="button">
+                  <span class="paylynk-info-row__main">
+                    <span class="paylynk-info-row__label">
+                      <img src="assets/icon_oi_paymentdetails.svg" width="20" height="20" alt="" />
+                      Payment details
+                    </span>
+                    <span class="paylynk-info-row__value">Ref: INV-2026-0042</span>
+                  </span>
+                  <img class="paylynk-info-row__chevron" src="assets/icon_carousel_chevron_left.svg" width="24" height="24" alt="" />
+                </button>
+              </li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <aside class="paylynk-sticky-panel" aria-label="Payment summary">
+      <span class="paylynk-sticky-panel__expand" aria-hidden="true">
+        <img src="assets/icon_arrow_blue_up.svg" width="24" height="24" alt="" />
+      </span>
+      <div class="paylynk-sticky-panel__amount-block">
+        <p class="paylynk-sticky-panel__label">Payment amount</p>
+        <div class="paylynk-sticky-panel__amount-row">
+          <img class="paylynk-sticky-panel__amount-icon" src="assets/icon_usd.svg" width="28" height="28" alt="" />
+          <p class="paylynk-sticky-panel__amount">250,000.00 USD</p>
+        </div>
+        <p class="paylynk-sticky-panel__beneficiary">AGP Technology</p>
+      </div>
+    </aside>
+  </div>
+
+  <div id="prototype-toast" class="wallet-toast" hidden aria-live="polite">
+    <div class="wallet-toast__inner">
+      <img class="wallet-toast__icon" src="assets/icon_info_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <p class="wallet-toast__text">Not in prototype</p>
+    </div>
+  </div>
 
   <div class="build-badge" role="note" aria-label="Prototype state controls">
     <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyPaylynk">

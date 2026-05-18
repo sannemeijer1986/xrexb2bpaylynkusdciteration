@@ -1,0 +1,758 @@
+// PayLynk payment request — Figma 6710:53514 (desktop), 6710:53561 (mobile)
+
+$paylynk-header-height-mobile: 88px;
+$paylynk-header-height-desktop: 96px;
+$paylynk-sidebar-width: 500px;
+$paylynk-negative: #dd483c;
+$paylynk-avatar: #85a84d;
+$paylynk-doc-icon-bg: #a8e8bd;
+
+.paylynk-page {
+  min-height: 100vh;
+  background: $surface-card;
+}
+
+.paylynk-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: $surface-card;
+}
+
+// Header
+.paylynk-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 24px;
+  min-height: $paylynk-header-height-mobile;
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid $border-soft;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.paylynk-header__logo {
+  display: block;
+  flex-shrink: 0;
+  width: 86px;
+  height: 16px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.paylynk-header__nav {
+  display: none;
+}
+
+.paylynk-header__divider {
+  display: none;
+  flex-shrink: 0;
+  width: 1px;
+  height: 22px;
+  background: $border-hard;
+}
+
+.paylynk-header__account {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.paylynk-header__account-avatar {
+  display: grid;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $paylynk-avatar;
+  color: $surface-card;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  place-items: center;
+}
+
+.paylynk-header__account-name {
+  display: none;
+}
+
+.paylynk-header__account-chevron {
+  display: none;
+}
+
+.paylynk-header__requests {
+  display: flex;
+  position: relative;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  border: 0;
+  border-radius: 50%;
+  background: $button-secondary;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+}
+
+.paylynk-header__requests-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  display: grid;
+  min-width: 12px;
+  height: 12px;
+  padding: 0 3px;
+  border-radius: 100px;
+  background: $paylynk-negative;
+  color: $surface-card;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 12px;
+  place-items: center;
+}
+
+// Main layout
+.paylynk-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.paylynk-layout {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.paylynk-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  padding: 32px 20px 120px;
+  box-sizing: border-box;
+}
+
+.paylynk-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.paylynk-intro__title {
+  margin: 0;
+  color: $text-primary;
+  font-family: $font-sora;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.paylynk-intro__amount {
+  margin: 0;
+  color: $text-primary;
+  font-family: $font-sora;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: normal;
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+.paylynk-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.paylynk-methods__heading {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-methods__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+
+// Payment method option (radio card)
+.paylynk-method {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:has(.paylynk-method__input:checked) {
+    border-color: $border-hard;
+    box-shadow: 0 0 6px rgb(0 0 0 / 9%);
+  }
+}
+
+.paylynk-method__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.paylynk-method__icon {
+  flex-shrink: 0;
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.paylynk-method__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  text-align: left;
+}
+
+.paylynk-method__radio {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+}
+
+.paylynk-method__radio-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  grid-area: 1 / 1;
+  object-fit: contain;
+
+  &--active {
+    display: none;
+  }
+}
+
+.paylynk-method:has(.paylynk-method__input:checked) .paylynk-method__radio-img--inactive {
+  display: none;
+}
+
+.paylynk-method:has(.paylynk-method__input:checked) .paylynk-method__radio-img--active {
+  display: block;
+}
+
+.paylynk-method[data-paylynk-method-swift] {
+  cursor: pointer;
+}
+
+// Sidebar (desktop)
+.paylynk-sidebar {
+  display: none;
+}
+
+.paylynk-sidebar__section-title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.paylynk-sidebar__divider {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: $border-hard;
+}
+
+.paylynk-summary__head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paylynk-summary__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.paylynk-summary__beneficiary {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+}
+
+.paylynk-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 20px;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.paylynk-summary-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.paylynk-summary-row__label {
+  flex: 1 1 auto;
+  color: $text-secondary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-summary-row__value {
+  flex-shrink: 0;
+  max-width: 55%;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  text-align: right;
+}
+
+.paylynk-summary__expires {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  text-align: right;
+}
+
+.paylynk-documents {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.paylynk-documents__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.paylynk-document {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 74px;
+  padding: 16px;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.paylynk-document__icon-wrap {
+  display: block;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+
+  img {
+    display: block;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+}
+
+.paylynk-document__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-document__download {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  background: $button-secondary;
+  color: $button-primary;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.paylynk-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 32px;
+}
+
+.paylynk-info__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-card;
+  list-style: none;
+  overflow: hidden;
+}
+
+.paylynk-info-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border: 0;
+  border-bottom: 1px solid $border-soft;
+  background: $surface-card;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.paylynk-info-row__main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.paylynk-info-row__label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin: 0;
+  color: $text-clickable;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+
+  img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+}
+
+.paylynk-info-row__value {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-info-row__chevron {
+  flex-shrink: 0;
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  transform: rotate(180deg);
+}
+
+// Mobile sticky summary bar
+.paylynk-sticky-panel {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px 24px;
+  border-top: 1px solid $border-soft;
+  background: $surface-primary;
+  box-sizing: border-box;
+}
+
+.paylynk-sticky-panel__amount-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paylynk-sticky-panel__label {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-sticky-panel__amount-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.paylynk-sticky-panel__amount-icon {
+  flex-shrink: 0;
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.paylynk-sticky-panel__amount {
+  margin: 0;
+  color: $text-primary;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.paylynk-sticky-panel__beneficiary {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-sticky-panel__expand {
+  position: absolute;
+  top: -24px;
+  right: 20px;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: $button-secondary;
+  pointer-events: none;
+  place-items: center;
+
+  img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+}
+
+// Desktop
+@media (min-width: $desktop-breakpoint) {
+  .paylynk-header {
+    gap: 32px;
+    min-height: $paylynk-header-height-desktop;
+    padding: 32px 48px;
+  }
+
+  .paylynk-header__logo {
+    width: 118px;
+    height: 22px;
+  }
+
+  .paylynk-header__nav {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .paylynk-header__divider {
+    display: block;
+  }
+
+  .paylynk-header__nav-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $text-primary;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .paylynk-header__nav-badge {
+    display: grid;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 100px;
+    background: $paylynk-negative;
+    color: $surface-card;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    place-items: center;
+  }
+
+  .paylynk-header__requests {
+    display: none;
+  }
+
+  .paylynk-header__account {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    margin-left: 0;
+  }
+
+  .paylynk-header__account-name {
+    display: block;
+    color: $text-primary;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    white-space: nowrap;
+  }
+
+  .paylynk-header__account-chevron {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transform: rotate(180deg);
+  }
+
+  .paylynk-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .paylynk-content {
+    flex: 1 1 auto;
+    align-items: center;
+    padding: 70px 70px 80px;
+  }
+
+  .paylynk-intro {
+    width: 100%;
+    max-width: 900px;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .paylynk-intro__title {
+    font-size: 40px;
+  }
+
+  .paylynk-intro__amount {
+    font-size: 24px;
+  }
+
+  .paylynk-methods {
+    gap: 24px;
+  }
+
+  .paylynk-methods__heading {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .paylynk-methods__list {
+    gap: 24px;
+  }
+
+  .paylynk-method {
+    gap: 16px;
+    padding: 24px;
+  }
+
+  .paylynk-method__icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .paylynk-method__label {
+    font-size: 20px;
+  }
+
+  .paylynk-sidebar {
+    display: flex;
+    flex: 0 0 $paylynk-sidebar-width;
+    flex-direction: column;
+    gap: 24px;
+    width: $paylynk-sidebar-width;
+    padding: 70px 48px;
+    background: $surface-primary;
+    box-sizing: border-box;
+  }
+
+  .paylynk-sticky-panel {
+    display: none;
+  }
+}
