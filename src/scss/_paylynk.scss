@@ -1055,6 +1055,10 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 }
 
+.paylynk-network-card--activated:has(.paylynk-network-card__input:checked) {
+  box-shadow: 0 0 6px rgb(0 0 0 / 9%);
+}
+
 .paylynk-network-card--activated:has(.paylynk-network-card__input:checked) .paylynk-network-card__radio-img--inactive {
   display: none;
 }
