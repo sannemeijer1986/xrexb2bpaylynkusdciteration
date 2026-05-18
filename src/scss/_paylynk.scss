@@ -1,6 +1,6 @@
 // PayLynk payment request — Figma 6710:53514 (desktop), 6710:53561 (mobile)
 
-$paylynk-header-height-mobile: 88px;
+$paylynk-header-height-mobile: 80px;
 $paylynk-header-height-desktop: 96px;
 $paylynk-sidebar-width: 500px;
 $paylynk-negative: #dd483c;
@@ -29,7 +29,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   align-items: center;
   gap: 24px;
   min-height: $paylynk-header-height-mobile;
-  padding: 24px 20px 16px;
+  padding: 16px 20px 8px 20px;
   border-bottom: 1px solid $border-soft;
   background: $surface-card;
   box-sizing: border-box;
@@ -143,6 +143,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  align-items: center;
   min-width: 0;
   padding: 32px 20px 120px;
   box-sizing: border-box;
@@ -150,6 +151,8 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-intro {
   display: flex;
+  width: 100%;
+  max-width: 900px;
   flex-direction: column;
   gap: 8px;
   margin-bottom: 32px;
@@ -286,6 +289,158 @@ $paylynk-doc-icon-bg: #a8e8bd;
   cursor: pointer;
 }
 
+// Expandable stablecoin options (USDT / USDC)
+.paylynk-method-expandable {
+  list-style: none;
+}
+
+.paylynk-method-expandable__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method-expandable__card {
+  gap: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 0 6px rgb(0 0 0 / 9%);
+}
+
+.paylynk-method--in-expandable {
+  padding: 20px 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  &:has(.paylynk-method__input:checked) {
+    box-shadow: none;
+  }
+}
+
+.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method--in-expandable {
+  padding: 0;
+}
+
+.paylynk-method__label--expanded {
+  display: none;
+}
+
+.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--compact {
+  display: none;
+}
+
+.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--expanded {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.paylynk-method-expandable__details[hidden] {
+  display: none !important;
+}
+
+.paylynk-method-expandable__details {
+  display: flex;
+  width: 100%;
+}
+
+.paylynk-method-expandable__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-primary;
+  box-sizing: border-box;
+}
+
+.paylynk-method-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.paylynk-method-stat__label {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.paylynk-method-stat__value-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.paylynk-method-stat__value {
+  margin: 0;
+  color: $text-primary;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.paylynk-method-stat__link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $text-clickable;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.paylynk-method-stat__hint {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.paylynk-method-select {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  border: 0;
+  border-radius: $radius-card;
+  background: $button-primary;
+  color: $surface-card;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  &:hover {
+    opacity: 0.92;
+  }
+}
+
 // Sidebar (desktop)
 .paylynk-sidebar {
   display: none;
@@ -299,6 +454,13 @@ $paylynk-doc-icon-bg: #a8e8bd;
   line-height: normal;
 }
 
+.paylynk-sidebar__section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
 .paylynk-sidebar__divider {
   height: 1px;
   margin: 0;
@@ -306,13 +468,21 @@ $paylynk-doc-icon-bg: #a8e8bd;
   background: $border-hard;
 }
 
+.paylynk-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
 .paylynk-summary__head {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
 }
 
-.paylynk-summary__title {
+.paylynk-summary__heading {
   margin: 0;
   color: $text-primary;
   font-size: 22px;
@@ -320,12 +490,19 @@ $paylynk-doc-icon-bg: #a8e8bd;
   line-height: normal;
 }
 
-.paylynk-summary__beneficiary {
+.paylynk-summary__beneficiary-line {
   margin: 0;
   color: $text-primary;
   font-size: 16px;
   font-weight: 400;
   line-height: 23px;
+}
+
+.paylynk-summary__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 }
 
 .paylynk-summary-card {
@@ -356,7 +533,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-summary-row__value {
   flex-shrink: 0;
-  max-width: 55%;
+  width: 140px;
   color: $text-primary;
   font-size: 16px;
   font-weight: 600;
@@ -377,6 +554,8 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+  padding-top: 32px;
 }
 
 .paylynk-documents__list {
@@ -450,6 +629,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
   padding-top: 32px;
 }
 
@@ -458,11 +638,15 @@ $paylynk-doc-icon-bg: #a8e8bd;
   flex-direction: column;
   margin: 0;
   padding: 0;
-  border: 1px solid $border-soft;
-  border-radius: $radius-card;
-  background: $surface-card;
   list-style: none;
-  overflow: hidden;
+}
+
+.paylynk-info__item {
+  margin-bottom: -1px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .paylynk-info-row {
@@ -471,16 +655,23 @@ $paylynk-doc-icon-bg: #a8e8bd;
   align-items: center;
   gap: 12px;
   padding: 20px;
-  border: 0;
-  border-bottom: 1px solid $border-soft;
+  border: 1px solid $border-soft;
   background: $surface-card;
   text-align: left;
   cursor: pointer;
   box-sizing: border-box;
+}
 
-  &:last-child {
-    border-bottom: 0;
-  }
+.paylynk-info__item:first-child .paylynk-info-row {
+  border-radius: $radius-card $radius-card 0 0;
+}
+
+.paylynk-info__item:last-child .paylynk-info-row {
+  border-radius: 0 0 $radius-card $radius-card;
+}
+
+.paylynk-info__item:only-child .paylynk-info-row {
+  border-radius: $radius-card;
 }
 
 .paylynk-info-row__main {
@@ -523,7 +714,6 @@ $paylynk-doc-icon-bg: #a8e8bd;
   width: 24px;
   height: 24px;
   object-fit: contain;
-  transform: rotate(180deg);
 }
 
 // Mobile sticky summary bar
@@ -685,23 +875,21 @@ $paylynk-doc-icon-bg: #a8e8bd;
     width: 24px;
     height: 24px;
     object-fit: contain;
-    transform: rotate(180deg);
   }
 
   .paylynk-layout {
+    flex: 1 1 auto;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
+    min-height: 100%;
   }
 
   .paylynk-content {
     flex: 1 1 auto;
-    align-items: center;
     padding: 70px 70px 80px;
   }
 
   .paylynk-intro {
-    width: 100%;
-    max-width: 900px;
     gap: 12px;
     margin-bottom: 48px;
   }
@@ -727,7 +915,12 @@ $paylynk-doc-icon-bg: #a8e8bd;
     gap: 24px;
   }
 
-  .paylynk-method {
+  .paylynk-method:not(.paylynk-method--in-expandable) {
+    gap: 16px;
+    padding: 24px;
+  }
+
+  .paylynk-method--in-expandable:not(:has(.paylynk-method__input:checked)) {
     gap: 16px;
     padding: 24px;
   }
@@ -741,12 +934,46 @@ $paylynk-doc-icon-bg: #a8e8bd;
     font-size: 20px;
   }
 
+  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method-expandable__card {
+    gap: 20px;
+    padding: 24px;
+  }
+
+  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--expanded {
+    font-size: 20px;
+  }
+
+  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .paylynk-method-expandable__panel {
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px 24px;
+  }
+
+  .paylynk-method-stat {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .paylynk-method-select {
+    flex: 0 0 200px;
+    width: 200px;
+  }
+
   .paylynk-sidebar {
     display: flex;
     flex: 0 0 $paylynk-sidebar-width;
     flex-direction: column;
-    gap: 24px;
+    align-self: stretch;
+    gap: 0;
     width: $paylynk-sidebar-width;
+    min-height: 100%;
     padding: 70px 48px;
     background: $surface-primary;
     box-sizing: border-box;

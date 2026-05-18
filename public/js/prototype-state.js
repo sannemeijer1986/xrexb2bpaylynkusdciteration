@@ -1771,13 +1771,53 @@
     syncCarousel();
   }
 
+  function syncPaylynkMethodExpandableDetails() {
+    const root = document.querySelector("[data-paylynk-methods]");
+    if (!root) return;
+
+    const usdtDetails = root.querySelector("[data-paylynk-method-usdt-details]");
+    const usdcDetails = root.querySelector("[data-paylynk-method-usdc-details]");
+    const usdt = root.querySelector('input[name="paylynk-payment-method"][value="usdt"]');
+    const usdc = root.querySelector('input[name="paylynk-payment-method"][value="usdc"]');
+
+    if (usdtDetails && usdt) {
+      if (usdt.checked) usdtDetails.removeAttribute("hidden");
+      else usdtDetails.setAttribute("hidden", "");
+    }
+    if (usdcDetails && usdc) {
+      if (usdc.checked) usdcDetails.removeAttribute("hidden");
+      else usdcDetails.setAttribute("hidden", "");
+    }
+  }
+
   function initPaylynkPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "paylynk") return;
 
-    const swiftLabel = document.querySelector("[data-paylynk-method-swift]");
-    if (!swiftLabel) return;
+    const methodsRoot = document.querySelector("[data-paylynk-methods]");
+    if (methodsRoot) {
+      const syncExpandables = () => syncPaylynkMethodExpandableDetails();
+      methodsRoot.addEventListener("change", syncExpandables);
+      syncExpandables();
 
-    swiftLabel.addEventListener("click", (e) => {
+      methodsRoot.querySelectorAll("[data-paylynk-fee-details]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          showPrototypeToast("Not in prototype");
+        });
+      });
+
+      methodsRoot.querySelectorAll("[data-paylynk-method-select]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          showPrototypeToast("Not in prototype");
+        });
+      });
+    }
+
+    const swiftLabel = document.querySelector("[data-paylynk-method-swift]");
+    swiftLabel?.addEventListener("click", (e) => {
       e.preventDefault();
       showPrototypeToast("Not in prototype");
     });
