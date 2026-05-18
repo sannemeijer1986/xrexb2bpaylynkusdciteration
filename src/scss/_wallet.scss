@@ -1870,38 +1870,43 @@ body.wallet-modals-is-open {
 
 .activating-reauth-modal__mark {
   position: absolute;
-  display: grid;
-  overflow: hidden;
-  border-radius: 50%;
-  place-items: center;
+  display: block;
+  overflow: visible;
 }
 
 .activating-reauth-modal__mark--xrex {
   top: 0;
   left: 0;
-  width: 32px;
-  height: 32px;
-  background: #2d2f2f;
-}
-
-.activating-reauth-modal__mark--xrex img {
-  display: block;
-  width: 22px;
-  height: auto;
 }
 
 .activating-reauth-modal__mark--dynamic {
   right: 0;
   bottom: 0;
-  width: 32px;
-  height: 32px;
-  background: #e8f0ff;
 }
 
-.activating-reauth-modal__mark--dynamic img {
+.activating-reauth-modal__mark-well {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.activating-reauth-modal__mark-well--xrex {
+  background: #2d2f2f;
+}
+
+.activating-reauth-modal__mark-well--dynamic {
+  background: #c2daff;
+}
+
+.activating-reauth-modal__mark-well img {
   display: block;
-  width: 22px;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .activating-reauth-modal__intro-text {
@@ -1930,26 +1935,21 @@ body.wallet-modals-is-open {
 }
 
 .activating-reauth-modal__card-icon-wrap {
+  display: flex;
   flex-shrink: 0;
   width: 36px;
   height: 36px;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   background: $surface-primary;
 }
 
-.activating-reauth-modal__card-icon-inner {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-}
-
-.activating-reauth-modal__chev {
+.activating-reauth-modal__card-icon {
   display: block;
-  flex-shrink: 0;
-  transform: rotate(180deg);
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .activating-reauth-modal__card-copy {
@@ -3164,10 +3164,14 @@ body.wallet-modals-is-open {
     height: 65px;
   }
 
-  .activating-reauth-dialog .activating-reauth-modal__mark--xrex,
-  .activating-reauth-dialog .activating-reauth-modal__mark--dynamic {
+  .activating-reauth-dialog .activating-reauth-modal__mark-well {
     width: 40px;
     height: 40px;
+  }
+
+  .activating-reauth-dialog .activating-reauth-modal__card-icon {
+    width: 28px;
+    height: 28px;
   }
 
   .activating-reauth-dialog .activating-reauth-modal__card {

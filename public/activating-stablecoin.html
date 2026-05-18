@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=92" />
+  <link rel="stylesheet" href="css/main.css?v=101" />
   <script>
     (function () {
       try {
@@ -223,10 +223,14 @@
           <div class="activating-reauth-modal__intro">
             <div class="activating-reauth-modal__marks" aria-hidden="true">
               <div class="activating-reauth-modal__mark activating-reauth-modal__mark--xrex">
-                <img src="assets/logo-xrex-pay-white.svg" width="22" height="22" alt="" />
+                <div class="activating-reauth-modal__mark-well activating-reauth-modal__mark-well--xrex">
+                  <img src="assets/icon_auth_logo_xrex.svg" width="32" height="32" alt="" />
+                </div>
               </div>
               <div class="activating-reauth-modal__mark activating-reauth-modal__mark--dynamic">
-                <img src="assets/logo_dynamic.svg" width="22" height="22" alt="" />
+                <div class="activating-reauth-modal__mark-well activating-reauth-modal__mark-well--dynamic">
+                  <img src="assets/icon_auth_logo_dynamic.svg" width="32" height="32" alt="" />
+                </div>
               </div>
             </div>
             <p class="activating-reauth-modal__intro-text">Review and authorize the following action to continue:</p>
@@ -234,10 +238,13 @@
           <div class="activating-reauth-modal__card">
             <div class="activating-reauth-modal__card-row">
               <div class="activating-reauth-modal__card-icon-wrap" aria-hidden="true">
-                <span class="activating-reauth-modal__card-icon-inner">
-                  <img class="activating-reauth-modal__chev" src="assets/icon_carousel_chevron_left.svg" width="10" height="10" alt="" />
-                  <img class="activating-reauth-modal__chev" src="assets/icon_carousel_chevron_left.svg" width="10" height="10" alt="" />
-                </span>
+                <img
+                  class="activating-reauth-modal__card-icon"
+                  src="assets/icon_auth_autodebit.svg"
+                  width="28"
+                  height="28"
+                  alt=""
+                />
               </div>
               <div class="activating-reauth-modal__card-copy">
                 <p class="activating-reauth-modal__card-title">Enable auto-debit</p>
