@@ -851,10 +851,11 @@ $paylynk-doc-icon-bg: #a8e8bd;
 }
 
 .paylynk-network-content__title {
-  margin: 0;
+  margin: 0 auto;
   color: $text-primary;
   font-family: $font-sora;
   font-size: 20px;
+  max-width: 900px;
   font-weight: 300;
   line-height: normal;
 }
