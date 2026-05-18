@@ -1009,21 +1009,70 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: none;
 }
 
-.paylynk-network-card__radio {
+.paylynk-network-card__select {
+  display: inline-flex;
   flex-shrink: 0;
+  align-items: center;
+  margin-left: auto;
+  cursor: pointer;
+
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.paylynk-network-card__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.paylynk-network-card__radio {
+  position: relative;
   display: grid;
+  flex-shrink: 0;
   width: 24px;
   height: 24px;
-  margin-left: auto;
   place-items: center;
+}
 
-  img {
-    display: block;
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    opacity: 0.55;
+.paylynk-network-card__radio-img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  grid-area: 1 / 1;
+  object-fit: contain;
+
+  &--active {
+    display: none;
   }
+}
+
+.paylynk-network-card--activated:has(.paylynk-network-card__input:checked) .paylynk-network-card__radio-img--inactive {
+  display: none;
+}
+
+.paylynk-network-card--activated:has(.paylynk-network-card__input:checked) .paylynk-network-card__radio-img--active {
+  display: block;
+}
+
+.paylynk-network-card--activated .paylynk-network-card__status--mobile {
+  display: none;
+}
+
+.paylynk-network-card[data-paylynk-network-when-inactive][hidden],
+.paylynk-network-card [data-paylynk-network-when-inactive][hidden] {
+  display: none !important;
+}
+
+.paylynk-network-card--disabled .paylynk-network-card__radio img {
+  opacity: 0.55;
 }
 
 .paylynk-network-card--disabled {
