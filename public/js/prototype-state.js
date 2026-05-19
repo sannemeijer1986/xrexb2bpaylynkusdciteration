@@ -571,7 +571,7 @@
     try {
       document.title = useDefault
         ? "XREX PayLynk - USD stablecoin payments"
-        : "XREX PayLynk - Pick a stablecoin";
+        : "XREX PayLynk - Select a stablecoin";
     } catch (_) {
       /* ignore */
     }
