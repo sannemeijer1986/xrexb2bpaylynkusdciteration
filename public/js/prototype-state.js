@@ -649,7 +649,7 @@
     } else if (p === 6) {
       pct = 25;
       stepLabel = "Step 2 of 4";
-      title = "Preparing wallet";
+      title = "Preparing your wallet";
       desc =
         "We’re adding gas to your wallet to cover the fees needed to enable auto-debit. This may take a few minutes";
     } else if (p === 7) {
@@ -668,12 +668,12 @@
       pct = 100;
       stepLabel = "All steps completed";
       title = "Setup finished";
-      desc = `${sym}: Ethereum network (ERC-20) has been activated`;
+      desc = `${sym}: Ethereum network (ERC-20) is now active for payments.`;
     }
 
     const in6to7ReauthAnim = activatingReauth6to7AnimPending && p === 7;
     if (in6to7ReauthAnim) {
-      title = "Preparing wallet";
+      title = "Preparing your wallet";
       desc =
         "We’re adding gas to your wallet to cover the fees needed to enable auto-debit. This may take a few minutes";
     }
