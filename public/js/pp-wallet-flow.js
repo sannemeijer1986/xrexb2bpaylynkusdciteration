@@ -262,6 +262,11 @@
                 }
             }
 
+            function openWalletFromEntry(entry, moreBtn, moreMenu) {
+                closeWalletMenu(entry, moreBtn, moreMenu);
+                openModal();
+            }
+
             function bindWalletEntry(entry) {
                 var moreBtn = entry.querySelector("[data-pp-wallet-menu]");
                 var moreMenu = entry.querySelector("[data-pp-wallet-menu-dropdown]");
@@ -274,13 +279,14 @@
                     if (e.target.closest("[data-pp-wallet-menu]") || e.target.closest("[data-pp-wallet-menu-dropdown]")) return;
                     e.stopPropagation();
                     e.preventDefault();
-                    toggleWalletMenu(entry, moreBtn, moreMenu);
+                    openWalletFromEntry(entry, moreBtn, moreMenu);
                 });
                 entry.addEventListener("keydown", function (e) {
                     if (e.key === "Enter" || e.key === " ") {
+                        if (e.target.closest("[data-pp-wallet-menu]")) return;
                         e.preventDefault();
                         e.stopPropagation();
-                        toggleWalletMenu(entry, moreBtn, moreMenu);
+                        openWalletFromEntry(entry, moreBtn, moreMenu);
                     }
                 });
 
@@ -288,6 +294,13 @@
                     e.stopPropagation();
                     e.preventDefault();
                     toggleWalletMenu(entry, moreBtn, moreMenu);
+                });
+                moreBtn.addEventListener("keydown", function (e) {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleWalletMenu(entry, moreBtn, moreMenu);
+                    }
                 });
 
                 moreBtn.addEventListener("mouseenter", function () {
