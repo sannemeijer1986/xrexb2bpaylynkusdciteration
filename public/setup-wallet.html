@@ -463,47 +463,25 @@
           />
         </div>
       </div>
-      <div class="wallet-preparing-loader" data-wallet-preparing-loader hidden>
-        <div class="wallet-preparing-loader__card" role="status" aria-live="polite" aria-busy="true">
-          <div class="wallet-preparing-loader__content">
-            <div class="wallet-preparing-loader__brands" aria-hidden="true">
-              <div class="wallet-preparing-loader__brand-wrap">
-                <div class="wallet-preparing-loader__brand-card">
-                  <img
-                    class="wallet-preparing-loader__logo wallet-preparing-loader__logo--xrex"
-                    src="assets/loader_xrexlogo.svg"
-                    width="103"
-                    height="57"
-                    alt="XREX Pay"
-                  />
-                </div>
-              </div>
-              <div class="wallet-preparing-loader__bridge">
-                <span class="wallet-preparing-loader__dot"></span>
-                <span class="wallet-preparing-loader__dot"></span>
-                <span class="wallet-preparing-loader__dot"></span>
-                <span class="wallet-preparing-loader__dot"></span>
-                <span class="wallet-preparing-loader__dot"></span>
-              </div>
-              <div class="wallet-preparing-loader__brand-wrap">
-                <div class="wallet-preparing-loader__brand-card">
-                  <img
-                    class="wallet-preparing-loader__logo wallet-preparing-loader__logo--dynamic"
-                    src="assets/loader_dynamiclogo.svg"
-                    width="104"
-                    height="57"
-                    alt="Dynamic by Fireblocks"
-                  />
-                </div>
-              </div>
-            </div>
-            <p class="wallet-preparing-loader__title">Preparing your wallet....</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
+  <div class="pp-loading-modal" id="walletLoadingModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Preparing wallet">
+    <div class="pp-loading-modal__dialog">
+      <div class="pp-loading-modal__logos">
+        <div class="pp-loading-modal__logo_wrapper"><div class="pp-loading-modal__logo"><img src="assets/loading_left.svg" alt="XREX Pay" /></div></div>
+        <div class="pp-loading-modal__progress" aria-hidden="true">
+          <span class="pp-loading-modal__progress-bar"></span>
+          <span class="pp-loading-modal__progress-bar"></span>
+          <span class="pp-loading-modal__progress-bar"></span>
+          <span class="pp-loading-modal__progress-bar"></span>
+          <span class="pp-loading-modal__progress-bar"></span>
+        </div>
+        <div class="pp-loading-modal__logo_wrapper"><div class="pp-loading-modal__logo"><img src="assets/loading_rigth.svg" alt="dynamic by Fireblocks" /></div></div>
+      </div>
+      <p class="pp-loading-modal__message" id="walletLoadingMessage">Launching your wallet...</p>
+    </div>
+  </div>
   <div id="setup-leave-dialog" class="setup-dialog" hidden>
     <div class="setup-dialog__backdrop" data-setup-leave-dialog-dismiss tabindex="-1" aria-hidden="true"></div>
     <button type="button" class="setup-dialog__mobile-close" data-setup-leave-dialog-dismiss aria-label="Close dialog">
@@ -598,6 +576,19 @@
       </div>
       <div class="build-badge__logged-in-timer-row">
         <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+      </div>
+
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Wallet passcode</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-wallet-passcode aria-label="Wallet passcode">
+            <option value="inactive" selected>Inactive</option>
+            <option value="active">Active</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__wallet-passcode-timer-row">
+        <div class="build-badge__wallet-passcode-timer" data-prototype-wallet-passcode-timer aria-live="polite">0:00</div>
       </div>
 
       <div class="build-badge__group" data-state-group="setupProgress">

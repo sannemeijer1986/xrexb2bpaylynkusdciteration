@@ -11,6 +11,10 @@
   const PASSCODE_SET_AT_KEY = `${STORAGE_PREFIX}passcodeSetAtIso.v1`;
   const LOGGED_IN_SESSION_END_KEY = `${STORAGE_PREFIX}loggedInSessionEndsAtIso.v1`;
   const LOGGED_IN_SESSION_MS = 5 * 60 * 1000;
+  const WALLET_PASSCODE_KEY = `${STORAGE_PREFIX}walletPasscode.v1`;
+  const WALLET_PASSCODE_SESSION_END_KEY = `${STORAGE_PREFIX}walletPasscodeSessionEndsAtIso.v1`;
+  const WALLET_PASSCODE_SESSION_MS = 15 * 60 * 1000;
+  const LEGACY_WALLET_SESSION_KEY = "xrex.paylynk.ppWalletSessionExpiresAt";
   const ACTIVATING_SELECTION_KEY = `${STORAGE_PREFIX}activatingSelection.v1`;
   const PAYMENT_METHOD_ADDED_TOAST_KEY = `${STORAGE_PREFIX}showPaymentMethodAddedToast.v1`;
   const USE_DEFAULT_STABLECOIN_KEY = `${STORAGE_PREFIX}useDefaultStablecoin.v1`;
@@ -102,6 +106,19 @@
     }
   }
 
+  /** True when prototype “Logged in” is on and the 5:00 session timer has not reached 0:00. */
+  function isPrototypeLoggedInSessionActive() {
+    if (!readLoggedInFromStorage()) return false;
+    try {
+      const iso = window.localStorage?.getItem(LOGGED_IN_SESSION_END_KEY);
+      if (!iso) return false;
+      const endMs = new Date(iso).getTime();
+      return Number.isFinite(endMs) && endMs > Date.now();
+    } catch (_) {
+      return false;
+    }
+  }
+
   /**
    * Resume URL for stablecoin setup from payment-setup (expects logged-in when p>=3,
    * except p<=2 which always goes to wallet creation).
@@ -147,6 +164,7 @@
   let openVerifyEmailModalRef = null;
 
   let loggedInTickId = null;
+  let walletPasscodeTickId = null;
 
   /** One-shot: after 7 → 8, progress bar animates 50% → 75% instead of jumping. */
   let activatingProgress7to8AnimPending = false;
@@ -333,6 +351,176 @@
       stopLoggedInTimerTick();
       updateLoggedInTimerDisplay();
     }
+  }
+
+  function readWalletPasscodeActiveFromStorage() {
+    try {
+      return window.localStorage?.getItem(WALLET_PASSCODE_KEY) === "active";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function isWalletPasscodeSessionActive() {
+    if (!readWalletPasscodeActiveFromStorage()) return false;
+    try {
+      const iso = window.localStorage?.getItem(WALLET_PASSCODE_SESSION_END_KEY);
+      if (!iso) return false;
+      const endMs = new Date(iso).getTime();
+      return Number.isFinite(endMs) && endMs > Date.now();
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function stopWalletPasscodeTimerTick() {
+    if (walletPasscodeTickId != null) {
+      window.clearInterval(walletPasscodeTickId);
+      walletPasscodeTickId = null;
+    }
+  }
+
+  function updateWalletPasscodeTimerDisplay() {
+    const els = document.querySelectorAll("[data-prototype-wallet-passcode-timer]");
+    if (!readWalletPasscodeActiveFromStorage()) {
+      els.forEach((el) => {
+        el.textContent = "0:00";
+      });
+      return;
+    }
+    let endMs = NaN;
+    try {
+      const iso = window.localStorage?.getItem(WALLET_PASSCODE_SESSION_END_KEY);
+      if (iso) endMs = new Date(iso).getTime();
+    } catch (_) {
+      /* ignore */
+    }
+    if (!Number.isFinite(endMs)) {
+      els.forEach((el) => {
+        el.textContent = "0:00";
+      });
+      return;
+    }
+    const remain = Math.max(0, endMs - Date.now());
+    if (remain <= 0) {
+      if (readWalletPasscodeActiveFromStorage()) {
+        setWalletPasscodeValue("inactive");
+      }
+      return;
+    }
+    const totalSec = Math.floor(remain / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    const text = `${m}:${String(s).padStart(2, "0")}`;
+    els.forEach((el) => {
+      el.textContent = text;
+    });
+  }
+
+  function startWalletPasscodeTimerTick() {
+    stopWalletPasscodeTimerTick();
+    updateWalletPasscodeTimerDisplay();
+    let endMs = NaN;
+    try {
+      const iso = window.localStorage?.getItem(WALLET_PASSCODE_SESSION_END_KEY);
+      if (iso) endMs = new Date(iso).getTime();
+    } catch (_) {
+      /* ignore */
+    }
+    if (!Number.isFinite(endMs)) return;
+    const remain = Math.max(0, endMs - Date.now());
+    if (remain <= 0) return;
+    walletPasscodeTickId = window.setInterval(updateWalletPasscodeTimerDisplay, 1000);
+  }
+
+  function migrateLegacyWalletSessionStorage() {
+    try {
+      const legacy = parseInt(window.sessionStorage?.getItem(LEGACY_WALLET_SESSION_KEY) || "0", 10);
+      if (legacy > Date.now() && !readWalletPasscodeActiveFromStorage()) {
+        window.localStorage?.setItem(WALLET_PASSCODE_KEY, "active");
+        window.localStorage?.setItem(
+          WALLET_PASSCODE_SESSION_END_KEY,
+          new Date(legacy).toISOString(),
+        );
+      }
+      window.sessionStorage?.removeItem(LEGACY_WALLET_SESSION_KEY);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  /** Wallet passcode session (prototype): Active / Inactive + 15:00 countdown in controls. */
+  function setWalletPasscodeValue(value) {
+    const isActive = value === "active";
+    const v = isActive ? "active" : "inactive";
+    try {
+      window.localStorage?.setItem(WALLET_PASSCODE_KEY, v);
+    } catch (_) {
+      /* ignore */
+    }
+    document.querySelectorAll("[data-prototype-wallet-passcode]").forEach((sel) => {
+      sel.value = v;
+    });
+    if (isActive) {
+      const end = new Date(Date.now() + WALLET_PASSCODE_SESSION_MS).toISOString();
+      try {
+        window.localStorage?.setItem(WALLET_PASSCODE_SESSION_END_KEY, end);
+      } catch (_) {
+        /* ignore */
+      }
+      startWalletPasscodeTimerTick();
+    } else {
+      try {
+        window.localStorage?.removeItem(WALLET_PASSCODE_SESSION_END_KEY);
+        window.sessionStorage?.removeItem(LEGACY_WALLET_SESSION_KEY);
+      } catch (_) {
+        /* ignore */
+      }
+      stopWalletPasscodeTimerTick();
+      updateWalletPasscodeTimerDisplay();
+    }
+  }
+
+  function activateWalletPasscodeSession() {
+    setWalletPasscodeValue("active");
+  }
+
+  function initWalletPasscodeSelect() {
+    migrateLegacyWalletSessionStorage();
+
+    const selects = document.querySelectorAll("[data-prototype-wallet-passcode]");
+    if (!selects.length) return;
+
+    let stored = "inactive";
+    try {
+      stored = readWalletPasscodeActiveFromStorage() ? "active" : "inactive";
+    } catch (_) {
+      /* ignore */
+    }
+    selects.forEach((sel) => {
+      sel.value = stored;
+    });
+
+    if (stored === "active") {
+      // Fresh 15:00 on every page load while wallet passcode stays active.
+      try {
+        window.localStorage?.setItem(
+          WALLET_PASSCODE_SESSION_END_KEY,
+          new Date(Date.now() + WALLET_PASSCODE_SESSION_MS).toISOString(),
+        );
+      } catch (_) {
+        /* ignore */
+      }
+      startWalletPasscodeTimerTick();
+    } else {
+      updateWalletPasscodeTimerDisplay();
+    }
+
+    selects.forEach((select) => {
+      select.addEventListener("change", () => {
+        setWalletPasscodeValue(select.value === "active" ? "active" : "inactive");
+      });
+    });
   }
 
   /** Account created (prototype): persisted; auto-true when verify-email loader finishes. */
@@ -541,6 +729,7 @@
     syncPickStablecoinContinueFromSelection();
     syncPickStablecoinDefaultStablecoinUi();
     syncActivatingStablecoinStatusFromProgress();
+    syncActivatingErc20ActivatedFromProgress();
     syncPaymentSetupFromProgress();
     syncReviewSubmitFromProgress();
     syncAccountCreatedPrototypeControl();
@@ -1237,7 +1426,8 @@
     const emailDest = walletModals.querySelector(".verify-email-modal__email");
     const loader = document.getElementById("verify-email-loader");
     const loaderOtp = loader?.querySelector("[data-verify-email-loader-otp]");
-    const loaderPreparing = loader?.querySelector("[data-wallet-preparing-loader]");
+    const walletLoadingModal = document.getElementById("walletLoadingModal");
+    const walletLoadingMessage = document.getElementById("walletLoadingMessage");
     const toast = document.getElementById("wallet-toast");
     const toastTextEl = toast?.querySelector(".wallet-toast__text");
     const passcodeWalletInput = document.getElementById("set-passcode-wallet-input");
@@ -1245,6 +1435,7 @@
     const passcodeAck = document.getElementById("set-passcode-ack");
     const passcodeSubmit = document.getElementById("set-passcode-submit");
     let passcodePrototypeDemoApplied = false;
+    let verifyEmailPrototypeDemoApplied = false;
     let passcodeSubmitTimer = null;
     let passcodeSubmitPending = false;
 
@@ -1263,21 +1454,37 @@
       if (src && emailDest) emailDest.textContent = src.textContent.trim();
     }
 
+    function isPrototypeLoaderVisible() {
+      return (
+        (loader && !loader.hidden) ||
+        walletLoadingModal?.getAttribute("aria-hidden") === "false"
+      );
+    }
+
     function hideLoader() {
-      if (!loader) return;
-      loader.hidden = true;
-      loader.setAttribute("aria-hidden", "true");
-      loader.classList.remove("verify-email-loader--passcode");
-      if (loaderOtp) loaderOtp.hidden = false;
-      if (loaderPreparing) loaderPreparing.hidden = true;
+      if (loader) {
+        loader.hidden = true;
+        loader.setAttribute("aria-hidden", "true");
+        if (loaderOtp) loaderOtp.hidden = false;
+      }
+      walletLoadingModal?.setAttribute("aria-hidden", "true");
     }
 
     function showLoader(mode = "otp") {
+      if (mode === "passcode") {
+        if (loader) {
+          loader.hidden = true;
+          loader.setAttribute("aria-hidden", "true");
+        }
+        if (walletLoadingMessage) {
+          walletLoadingMessage.textContent = "Preparing your wallet...";
+        }
+        walletLoadingModal?.setAttribute("aria-hidden", "false");
+        return;
+      }
+      walletLoadingModal?.setAttribute("aria-hidden", "true");
       if (!loader) return;
-      const isPasscode = mode === "passcode";
-      loader.classList.toggle("verify-email-loader--passcode", isPasscode);
-      if (loaderOtp) loaderOtp.hidden = isPasscode;
-      if (loaderPreparing) loaderPreparing.hidden = !isPasscode;
+      if (loaderOtp) loaderOtp.hidden = false;
       loader.hidden = false;
       loader.setAttribute("aria-hidden", "false");
     }
@@ -1299,6 +1506,7 @@
       clearOtpTimerOnly();
       otpPending = false;
       hideLoader();
+      resetVerifyEmailInput();
     }
 
     function hideToast() {
@@ -1366,6 +1574,24 @@
       updatePasscodeSubmitState();
     }
 
+    function resetVerifyEmailInput() {
+      verifyEmailPrototypeDemoApplied = false;
+      if (input) {
+        input.value = "";
+        input.readOnly = false;
+      }
+    }
+
+    function applyVerifyEmailPrototypeDemo() {
+      if (!input || verifyEmailPrototypeDemoApplied || otpPending) return;
+      verifyEmailPrototypeDemoApplied = true;
+      const len = Math.max(1, parseInt(input.getAttribute("maxlength") || "6", 10) || 6);
+      const demoDigits = "1234567890";
+      input.value = demoDigits.slice(0, len);
+      input.readOnly = true;
+      updateLoaderFromInput();
+    }
+
     function applyPasscodePrototypeDemo() {
       if (passcodePrototypeDemoApplied) return;
       passcodePrototypeDemoApplied = true;
@@ -1406,7 +1632,7 @@
       const isPaymentSetup = document.body?.getAttribute("data-prototype-context") === "payment-setup";
       if (isPaymentSetup) {
         setLoggedInValue(true);
-        if (input) input.value = "";
+        resetVerifyEmailInput();
         if (verifyDialog) verifyDialog.hidden = true;
         walletModals.hidden = true;
         document.body.classList.remove("wallet-modals-is-open");
@@ -1416,7 +1642,7 @@
       }
 
       setAccountCreatedValue(true);
-      if (input) input.value = "";
+      resetVerifyEmailInput();
       if (verifyDialog) verifyDialog.hidden = true;
       setState("setupProgress", 3, { force: true });
       setLoggedInValue(true);
@@ -1457,7 +1683,7 @@
       document.body.classList.add("wallet-modals-is-open");
       abortPasscodeSubmit();
       abortOtpVerification();
-      if (input) input.value = "";
+      resetVerifyEmailInput();
       window.requestAnimationFrame(() => input?.focus());
     }
 
@@ -1477,7 +1703,7 @@
     function closeWalletModals() {
       abortOtpVerification();
       abortPasscodeSubmit();
-      if (input) input.value = "";
+      resetVerifyEmailInput();
       if (verifyDialog) verifyDialog.hidden = false;
       if (passcodeModal) passcodeModal.hidden = true;
       walletModals.hidden = true;
@@ -1499,18 +1725,18 @@
     });
 
     input?.addEventListener("input", () => updateLoaderFromInput());
+    input?.addEventListener("click", applyVerifyEmailPrototypeDemo);
 
     walletModals.addEventListener("click", (e) => {
-      if (loader && !loader.hidden) return;
+      if (isPrototypeLoaderVisible()) return;
       if (e.target.closest("[data-wallet-modals-dismiss]")) closeWalletModals();
     });
 
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Escape" || walletModals.hidden) return;
-      if (loader && !loader.hidden) {
+      if (isPrototypeLoaderVisible()) {
         if (otpPending) {
           abortOtpVerification();
-          if (input) input.value = "";
           e.preventDefault();
           return;
         }
@@ -1728,6 +1954,7 @@
     }
 
     syncActivatingStablecoinStatusFromProgress();
+    syncActivatingErc20ActivatedFromProgress();
 
     const goToPaymentSetupFromActivating = () => {
       if (states.setupProgress < 9) return;
@@ -1873,6 +2100,20 @@
     document.querySelectorAll("[data-prototype-usdc-erc20-activated]").forEach((el) => {
       if (el instanceof HTMLInputElement) el.checked = readPaylynkErc20Activated("usdc");
     });
+  }
+
+  /** Activating page at progress 9+: reflect pick-stablecoin choice in ERC-20 prototype checkboxes. */
+  function syncActivatingErc20ActivatedFromProgress() {
+    if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
+    if (states.setupProgress < 9) {
+      setPaylynkErc20Activated("usdt", false);
+      setPaylynkErc20Activated("usdc", false);
+      return;
+    }
+    const coin = readActivatingSelectionCoin() === "usdc" ? "usdc" : "usdt";
+    const other = coin === "usdc" ? "usdt" : "usdc";
+    setPaylynkErc20Activated(coin, true);
+    setPaylynkErc20Activated(other, false);
   }
 
   function setPaylynkErc20Activated(coin, enabled) {
@@ -2206,6 +2447,7 @@
     }
 
     setLoggedInValue(false);
+    setWalletPasscodeValue("inactive");
     setAccountCreatedValue(false);
 
     setState("setupProgress", 1, { force: true });
@@ -2268,11 +2510,15 @@
         const toastEl = document.getElementById("wallet-toast");
         if (v) v.hidden = false;
         if (p) p.hidden = true;
-        if (inp) inp.value = "";
+        if (inp) {
+          inp.value = "";
+          inp.readOnly = false;
+        }
         if (ld) {
           ld.hidden = true;
           ld.setAttribute("aria-hidden", "true");
         }
+        document.getElementById("walletLoadingModal")?.setAttribute("aria-hidden", "true");
         if (toastEl) {
           toastEl.hidden = true;
           toastEl.classList.remove("is-visible");
@@ -2319,9 +2565,18 @@
     initJourneySelect();
     initEmptyCheckbox();
     initLoggedInSelect();
+    initWalletPasscodeSelect();
     initAccountCreatedSelect();
     initPrototypeReset();
   }
+
+  window.PaylynkPrototype = Object.assign(window.PaylynkPrototype || {}, {
+    isLoggedInSessionActive: isPrototypeLoggedInSessionActive,
+    isWalletPasscodeSessionActive,
+    setWalletPasscodeValue,
+    activateWalletPasscodeSession,
+    clearWalletSession: () => setWalletPasscodeValue("inactive"),
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

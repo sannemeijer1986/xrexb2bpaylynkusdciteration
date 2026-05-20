@@ -20,89 +20,34 @@
             const walletModalClose = document.getElementById("walletModalClose");
             const walletLoadingMessage = document.getElementById("walletLoadingMessage");
             let verifyFlowRunning = false;
-            var ppSessionCountdownTimer = null;
-            var PP_SESSION_KEY = "xrex.paylynk.ppWalletSessionExpiresAt";
-            var PP_SESSION_DURATION_MS = 15 * 60 * 1000;
             var walletPasscodeNextAction = null;
 
-            function getSessionExpiresAt() {
-                try {
-                    return parseInt(sessionStorage.getItem(PP_SESSION_KEY) || "0", 10);
-                } catch (_) { return 0; }
-            }
             function isSessionActive() {
-                var exp = getSessionExpiresAt();
-                return exp > 0 && Date.now() < exp;
+                if (typeof window.PaylynkPrototype?.isWalletPasscodeSessionActive === "function") {
+                    return window.PaylynkPrototype.isWalletPasscodeSessionActive();
+                }
+                try {
+                    if (window.localStorage?.getItem("xrex.paylynk.prototype.walletPasscode.v1") !== "active") return false;
+                    var iso = window.localStorage?.getItem("xrex.paylynk.prototype.walletPasscodeSessionEndsAtIso.v1");
+                    if (!iso) return false;
+                    var endMs = new Date(iso).getTime();
+                    return Number.isFinite(endMs) && endMs > Date.now();
+                } catch (_) {
+                    return false;
+                }
             }
             function setSession() {
-                try {
-                    sessionStorage.setItem(PP_SESSION_KEY, String(Date.now() + PP_SESSION_DURATION_MS));
-                    startSessionTimer();
-                } catch (_) {}
+                if (typeof window.PaylynkPrototype?.activateWalletPasscodeSession === "function") {
+                    window.PaylynkPrototype.activateWalletPasscodeSession();
+                } else if (typeof window.PaylynkPrototype?.setWalletPasscodeValue === "function") {
+                    window.PaylynkPrototype.setWalletPasscodeValue("active");
+                }
             }
             function clearSession() {
-                try {
-                    sessionStorage.removeItem(PP_SESSION_KEY);
-                    stopSessionTimer();
-                } catch (_) {}
-            }
-            function startSessionTimer() {
-                var el = document.getElementById("ppSessionTimerTool");
-                if (!el) {
-                    el = document.createElement("div");
-                    el.id = "ppSessionTimerTool";
-                    el.setAttribute("role", "status");
-                    var row = document.createElement("div");
-                    row.className = "pp-session-timer__row";
-                    var label = document.createElement("span");
-                    label.className = "pp-session-timer__label";
-                    label.textContent = "Expires in:";
-                    var val = document.createElement("strong");
-                    val.id = "ppSessionTimerValue";
-                    row.appendChild(label);
-                    row.appendChild(val);
-                    el.appendChild(row);
-                    var killLink = document.createElement("a");
-                    killLink.href = "#";
-                    killLink.className = "pp-session-timer__kill";
-                    killLink.textContent = "Kill session";
-                    killLink.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        clearSession();
-                        if (typeof closeWalletModal === "function") closeWalletModal();
-                    });
-                    el.appendChild(killLink);
-                    document.body.appendChild(el);
+                if (typeof window.PaylynkPrototype?.setWalletPasscodeValue === "function") {
+                    window.PaylynkPrototype.setWalletPasscodeValue("inactive");
                 }
-                var valueEl = document.getElementById("ppSessionTimerValue");
-                function fmt(ms) {
-                    var sec = Math.max(0, Math.floor(ms / 1000));
-                    var m = Math.floor(sec / 60);
-                    var s = sec % 60;
-                    return m + ":" + (s < 10 ? "0" + s : s);
-                }
-                function tick() {
-                    var exp = getSessionExpiresAt();
-                    var now = Date.now();
-                    if (exp > now) {
-                        if (valueEl) valueEl.textContent = fmt(exp - now);
-                        el.style.display = "flex";
-                    } else {
-                        el.style.display = "none";
-                        clearSession();
-                        if (ppSessionCountdownTimer) { clearInterval(ppSessionCountdownTimer); ppSessionCountdownTimer = null; }
-                    }
-                }
-                if (ppSessionCountdownTimer) { clearInterval(ppSessionCountdownTimer); }
-                tick();
-                ppSessionCountdownTimer = setInterval(tick, 1000);
             }
-            function stopSessionTimer() {
-                if (ppSessionCountdownTimer) { clearInterval(ppSessionCountdownTimer); ppSessionCountdownTimer = null; }
-                var el = document.getElementById("ppSessionTimerTool");
-                if (el) el.style.display = "none";
-            }
-
             function enableWalletSkeleton() {
                 if (walletModal) walletModal.classList.add("pp-wallet-modal--skeleton");
             }
@@ -163,24 +108,64 @@
                 window.scrollTo(0, y);
             }
 
+            function isPrototypeLoggedInSessionActive() {
+                if (typeof window.PaylynkPrototype?.isLoggedInSessionActive === "function") {
+                    return window.PaylynkPrototype.isLoggedInSessionActive();
+                }
+                try {
+                    if (window.localStorage?.getItem("xrex.paylynk.prototype.loggedIn.v1") !== "true") return false;
+                    var iso = window.localStorage?.getItem("xrex.paylynk.prototype.loggedInSessionEndsAtIso.v1");
+                    if (!iso) return false;
+                    var endMs = new Date(iso).getTime();
+                    return Number.isFinite(endMs) && endMs > Date.now();
+                } catch (_) {
+                    return false;
+                }
+            }
+
+            function prepareWalletAssetsView() {
+                if (typeof showAssetsView === "function") {
+                    showAssetsView();
+                } else if (typeof setActiveTab === "function") {
+                    setActiveTab("assets");
+                }
+            }
+
+            function revealWalletAfterLogin() {
+                prepareWalletAssetsView();
+                if (walletModal) walletModal.setAttribute("aria-hidden", "false");
+                enableWalletSkeleton();
+                disableWalletSkeletonWithDelay(1500);
+            }
+
+            function openWalletWithLoadingTransition(opts) {
+                opts = opts || {};
+                if (walletLoadingMessage) walletLoadingMessage.textContent = "Launching your wallet...";
+                lockBackgroundScroll();
+                walletLoadingModal.setAttribute("aria-hidden", "false");
+                setTimeout(function () {
+                    walletLoadingModal.setAttribute("aria-hidden", "true");
+                    if (opts.requirePasscode) {
+                        prepareWalletAssetsView();
+                        if (walletModal) walletModal.setAttribute("aria-hidden", "true");
+                        openWalletPasscodeModal();
+                        return;
+                    }
+                    revealWalletAfterLogin();
+                }, 900);
+            }
+
             function openModal() {
-                if (isSessionActive()) {
-                    if (walletLoadingMessage) walletLoadingMessage.textContent = "Opening your wallet...";
-                    lockBackgroundScroll();
-                    walletLoadingModal.setAttribute("aria-hidden", "false");
-                    setTimeout(function () {
-                        walletLoadingModal.setAttribute("aria-hidden", "true");
-                        if (typeof showAssetsView === "function") {
-                            showAssetsView();
-                        } else if (typeof setActiveTab === "function") {
-                            setActiveTab("assets");
-                        }
-                        if (walletModal) walletModal.setAttribute("aria-hidden", "false");
-                        enableWalletSkeleton();
-                        disableWalletSkeletonWithDelay(1500);
-                    }, 900);
+                // Prototype “Logged in” + timer: skip email OTP only; passcode unless wallet session exists.
+                if (isPrototypeLoggedInSessionActive()) {
+                    if (isSessionActive()) {
+                        openWalletWithLoadingTransition();
+                    } else {
+                        openWalletWithLoadingTransition({ requirePasscode: true });
+                    }
                     return;
                 }
+                // Logged out or timer at 0:00 — full flow (OTP → code → loading → passcode).
                 if (requestOtpModal) {
                     requestOtpModal.setAttribute("aria-hidden", "false");
                     lockBackgroundScroll();
@@ -223,6 +208,12 @@
                 }
                 modal.setAttribute("aria-hidden", "false");
                 lockBackgroundScroll();
+                window.setTimeout(function () {
+                    if (verifyInput) {
+                        verifyInput.focus();
+                        runVerifyInputFlow();
+                    }
+                }, 150);
             }
 
             function closeModal() {
@@ -370,20 +361,15 @@
                 verifyInput.value = "123456";
                 verifyInput.readOnly = true;
 
-                if (walletLoadingMessage) walletLoadingMessage.textContent = "Opening your wallet...";
+                if (walletLoadingMessage) walletLoadingMessage.textContent = "Launching your wallet...";
                 setTimeout(function () {
                     modal.setAttribute("aria-hidden", "true");
                     if (loadingEl) loadingEl.setAttribute("aria-hidden", "true");
                     walletLoadingModal.setAttribute("aria-hidden", "false");
                     setTimeout(function () {
                         walletLoadingModal.setAttribute("aria-hidden", "true");
-                        if (typeof showAssetsView === "function") {
-                            showAssetsView();
-                        } else if (typeof setActiveTab === "function") {
-                            setActiveTab("assets");
-                        }
-                        if (walletModal) walletModal.setAttribute("aria-hidden", "false");
-                        enableWalletSkeleton();
+                        prepareWalletAssetsView();
+                        if (walletModal) walletModal.setAttribute("aria-hidden", "true");
                         openWalletPasscodeModal();
                         verifyFlowRunning = false;
                     }, 900);
@@ -399,6 +385,9 @@
 
             function openWalletPasscodeModal(nextAction) {
                 if (!walletPasscodeModal) return;
+                if (walletPasscodeModal.parentElement !== document.body) {
+                    document.body.appendChild(walletPasscodeModal);
+                }
                 walletPasscodeNextAction = typeof nextAction === "function" ? nextAction : null;
                 if (walletPasscodeInput) {
                     walletPasscodeInput.value = "";
@@ -406,6 +395,9 @@
                 updateWalletPasscodeVerifyState();
                 walletPasscodeModal.classList.remove("pp-wallet-passcode-modal--closing");
                 walletPasscodeModal.setAttribute("aria-hidden", "false");
+                window.requestAnimationFrame(function () {
+                    if (walletPasscodeInput) walletPasscodeInput.focus();
+                });
             }
 
             function closeWalletPasscodeModal() {
@@ -460,7 +452,7 @@
                     } else {
                         // Login flow: OTP + wallet passcode = full login.
                         setSession();
-                        disableWalletSkeletonWithDelay(1500);
+                        revealWalletAfterLogin();
                     }
                 });
             }
@@ -2306,10 +2298,9 @@
                 }
                 closeEwDropdown();
             });
-            if (isSessionActive()) startSessionTimer();
-
             window.PpWalletFlow = {
                 open: openModal,
                 openDirect: openWalletDirect,
+                clearSession: clearSession,
             };
         })();

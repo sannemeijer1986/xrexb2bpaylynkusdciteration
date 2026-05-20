@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=102" />
+  <link rel="stylesheet" href="css/main.css?v=103" />
   <script>
     (function () {
       try {
@@ -233,6 +233,19 @@
         <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
       </div>
 
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Wallet passcode</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-wallet-passcode aria-label="Wallet passcode">
+            <option value="inactive" selected>Inactive</option>
+            <option value="active">Active</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__wallet-passcode-timer-row">
+        <div class="build-badge__wallet-passcode-timer" data-prototype-wallet-passcode-timer aria-live="polite">0:00</div>
+      </div>
+
       <div class="build-badge__group" data-state-group="setupProgress">
         <div class="build-badge__group-label">Setup progress</div>
         <div class="build-badge__state">
@@ -308,7 +321,7 @@
                 </div>
                 <div class="pp-loading-modal__logo_wrapper"><div class="pp-loading-modal__logo"><img src="assets/loading_rigth.svg" alt="dynamic by Fireblocks" /></div></div>
             </div>
-            <p class="pp-loading-modal__message" id="walletLoadingMessage">Opening your wallet...</p>
+            <p class="pp-loading-modal__message" id="walletLoadingMessage">Launching your wallet...</p>
         </div>
     </div>
 

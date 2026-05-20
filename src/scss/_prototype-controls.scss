@@ -212,14 +212,16 @@
   justify-content: flex-end;
 }
 
-.build-badge__logged-in-timer-row {
+.build-badge__logged-in-timer-row,
+.build-badge__wallet-passcode-timer-row {
   display: flex;
   justify-content: flex-end;
   width: 100%;
   box-sizing: border-box;
 }
 
-.build-badge__logged-in-timer {
+.build-badge__logged-in-timer,
+.build-badge__wallet-passcode-timer {
   width: 124px;
   max-width: 100%;
   box-sizing: border-box;

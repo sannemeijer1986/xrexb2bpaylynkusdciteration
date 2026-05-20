@@ -404,7 +404,8 @@
 .pp-loading-modal {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  // Above .wallet-modals (1300) when shown during setup passcode flow.
+  z-index: 1350;
   display: none;
   align-items: center;
   justify-content: center;
@@ -539,7 +540,8 @@
 .pp-wallet-passcode-modal {
   position: fixed;
   inset: 0;
-  z-index: 85;
+  // Above prototype controls (.build-badge z-index: 1201) and wallet shell (80–90).
+  z-index: 1400;
   display: none;
   align-items: center;
   justify-content: center;
@@ -4017,51 +4019,5 @@ $wallet-accent: $ew-text-link;
 
   &__label {
     flex: 1 1 auto;
-  }
-}
-
-// Session timer (bottom left) – countdown + Kill session link
-#ppSessionTimerTool {
-  position: fixed;
-  left: 16px;
-  bottom: 56px;
-  z-index: 1200;
-  background: rgba(17, 24, 39, 0.8);
-  color: #fff;
-  font-family: $font-family-sans;
-  font-size: 12px;
-  width: 145px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  margin: 0;
-  display: none;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.pp-session-timer__row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  .pp-session-timer__label {
-    opacity: 0.9;
-    flex: 1;
-  }
-
-  #ppSessionTimerValue {
-    min-width: 40px;
-    text-align: right;
-  }
-}
-
-.pp-session-timer__kill {
-  color: #93C5FD !important;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 12px;
-
-  &:hover {
-    text-decoration: none;
   }
 }
