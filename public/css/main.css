@@ -905,7 +905,7 @@ a.setup-button--secondary {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  gap: 4px;
+  gap: 1px;
   min-width: 0;
 }
 
@@ -1005,7 +1005,7 @@ a.setup-button--secondary {
     gap: 32px;
   }
   .review-submit-wallet-group {
-    gap: 8px;
+    gap: 16px;
   }
   .review-submit-wallet__heading {
     font-size: 14px;

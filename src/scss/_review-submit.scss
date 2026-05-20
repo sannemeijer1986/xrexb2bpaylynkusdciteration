@@ -155,7 +155,7 @@ $review-alert-text: #4d88ff;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  gap: 4px;
+  gap: 1px;
   min-width: 0;
 }
 
@@ -263,7 +263,7 @@ $review-alert-text: #4d88ff;
   }
 
   .review-submit-wallet-group {
-    gap: 8px;
+    gap: 16px;
   }
 
   .review-submit-wallet__heading {
