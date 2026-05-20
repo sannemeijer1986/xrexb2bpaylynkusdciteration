@@ -2060,7 +2060,7 @@
       {
         layout: "demo",
         img: "assets/activating-wait-slide-05.png",
-        eyebrow: "XREX Pay · Request a demo",
+        eyebrow: "XREX Pay",
         headline: "Have someone walk you through",
         paragraphs: [
           "Our team can walk you through XREX Pay — from stablecoin pay-in to unlocking your full multi-currency account.",
