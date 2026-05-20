@@ -1942,7 +1942,7 @@
                         e.preventDefault();
                         var name = beneficiaryItem.getAttribute("data-beneficiary-name") || "";
                         var initials = beneficiaryItem.getAttribute("data-beneficiary-initials") || "";
-                        var balance = beneficiaryItem.getAttribute("data-beneficiary-balance") || "$131.01 ≈";
+                        var balance = beneficiaryItem.getAttribute("data-beneficiary-balance") || "$0.00";
                         var balanceEmpty = beneficiaryItem.getAttribute("data-beneficiary-balance-empty") === "true";
                         showBeneficiaryView(name, initials, balance, balanceEmpty);
                         return;
