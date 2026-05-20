@@ -542,7 +542,15 @@
     syncPickStablecoinDefaultStablecoinUi();
     syncActivatingStablecoinStatusFromProgress();
     syncPaymentSetupFromProgress();
+    syncReviewSubmitFromProgress();
     syncAccountCreatedPrototypeControl();
+  }
+
+  function syncReviewSubmitFromProgress() {
+    if (document.body?.getAttribute("data-prototype-context") !== "review-submit") return;
+    if (states.setupProgress < 9) {
+      window.location.href = "index.html";
+    }
   }
 
   function syncPickStablecoinDefaultStablecoinUi() {
@@ -1596,7 +1604,7 @@
     const nextBtn = document.querySelector("[data-payment-setup-next]");
     nextBtn?.addEventListener("click", () => {
       if (nextBtn.disabled) return;
-      showPrototypeToast("Not in prototype");
+      window.location.href = "review-submit.html";
     });
     const showMenuToast = () => showPrototypeToast("Not in prototype");
     const menu = document.querySelector("[data-payment-setup-linked-menu]");
@@ -1626,6 +1634,21 @@
         window.location.href = resolvePaymentSetupStablecoinResumeHref();
       }
     });
+  }
+
+  function initReviewSubmitPage() {
+    if (document.body?.getAttribute("data-prototype-context") !== "review-submit") return;
+
+    const showStubToast = () => showPrototypeToast("Not in prototype");
+
+    document.querySelector("[data-review-submit-back]")?.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+    document.querySelector("[data-review-submit-submit]")?.addEventListener("click", showStubToast);
+    document.querySelectorAll("[data-review-submit-edit]").forEach((btn) => {
+      btn.addEventListener("click", showStubToast);
+    });
+    document.querySelector("[data-review-submit-wallet-menu]")?.addEventListener("click", showStubToast);
   }
 
   function initPickStablecoinPage() {
@@ -2264,6 +2287,7 @@
     initWalletModals();
     initWalletContinueToPickStablecoin();
     initPaymentSetupPage();
+    initReviewSubmitPage();
     initPickStablecoinPage();
     initActivatingStablecoinPage();
     initPaylynkPage();

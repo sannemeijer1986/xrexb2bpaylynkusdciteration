@@ -1,0 +1,295 @@
+// Review & submit — Figma 6936:29147 (desktop), 6936:29124 (mobile)
+
+$review-alert-bg: rgba(77, 136, 255, 0.15);
+$review-alert-text: #4d88ff;
+
+.review-submit__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-submit-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.review-submit-card__header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.review-submit-card__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.review-submit-card__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.review-submit-card__edit {
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $text-clickable;
+  font-family: $font-family-sans;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:focus-visible {
+    outline: 3px solid rgba($text-clickable, 0.28);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.review-submit-card__eyebrow {
+  margin: -16px 0 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.review-submit-card--payments {
+  gap: 16px;
+}
+
+.review-submit-wallet-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.review-submit-wallet__heading {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.review-submit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+}
+
+.review-submit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+
+  dt {
+    margin: 0;
+    color: $text-secondary;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  dd {
+    margin: 0;
+    color: $text-primary;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+  }
+}
+
+.review-submit-wallet {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 74px;
+  padding: 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.review-submit-wallet__icon-wrap {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $button-secondary;
+}
+
+.review-submit-wallet__icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.review-submit-wallet__main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.review-submit-wallet__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.review-submit-wallet__email {
+  margin: 0;
+  overflow: hidden;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review-submit-wallet__menu {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid rgba($text-clickable, 0.28);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.review-submit-alert {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px;
+  border-radius: $radius-card;
+  background: $review-alert-bg;
+  box-sizing: border-box;
+}
+
+.review-submit-alert__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  object-fit: contain;
+}
+
+.review-submit-alert__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: $review-alert-text;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.review-submit-actions {
+  margin-top: 16px;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .review-submit__sections {
+    gap: 24px;
+  }
+
+  .review-submit-card {
+    gap: 32px;
+    padding: 32px;
+    border-color: $border-soft;
+  }
+
+  .review-submit-card__icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .review-submit-card__title {
+    font-size: 18px;
+  }
+
+  .review-submit-card__edit {
+    font-size: 16px;
+  }
+
+  .review-submit-card__eyebrow {
+    margin: -24px 0 0;
+    font-size: 14px;
+  }
+
+  .review-submit-card--payments {
+    gap: 32px;
+  }
+
+  .review-submit-wallet-group {
+    gap: 8px;
+  }
+
+  .review-submit-wallet__heading {
+    font-size: 14px;
+  }
+
+  .review-submit-fields--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .review-submit-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .review-submit-wallet {
+    gap: 16px;
+    min-height: 78px;
+  }
+
+  .review-submit-wallet__email {
+    font-size: 14px;
+  }
+
+  .review-submit-actions {
+    margin-top: 24px;
+  }
+}

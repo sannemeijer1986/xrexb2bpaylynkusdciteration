@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script src="auth/auth-config.js"></script>
+  <script src="auth/auth-gate.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XREX PayLynk - Review &amp; submit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=102" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v == null || v === "" || parseInt(v, 10) < 9) {
+          window.location.replace("index.html");
+          return;
+        }
+        document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {
+        window.location.replace("index.html");
+      }
+    })();
+  </script>
+</head>
+<body class="setup-page" data-prototype-context="review-submit">
+  <main class="setup-shell" aria-labelledby="review-submit-title">
+    <section class="setup-hero" aria-label="XREX Pay">
+      <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
+      <img class="setup-hero__logo" src="assets/logo-xrex-pay-white.svg" alt="XREX Pay" />
+    </section>
+
+    <section class="setup-panel">
+      <div class="setup-panel__body">
+        <div class="setup-panel__content review-submit">
+          <header class="setup-header">
+            <div class="setup-steps" aria-label="Step 3 of 3">
+              <span class="setup-steps__track setup-steps__track--done"></span>
+              <span class="setup-steps__track setup-steps__track--done"></span>
+              <span class="setup-steps__item setup-steps__item--done">1</span>
+              <span class="setup-steps__item setup-steps__item--done">2</span>
+              <span class="setup-steps__item setup-steps__item--current">3</span>
+            </div>
+            <h1 id="review-submit-title">Review &amp; submit</h1>
+          </header>
+
+          <div class="review-submit__sections">
+            <section class="review-submit-card" aria-labelledby="review-company-heading">
+              <header class="review-submit-card__header">
+                <img
+                  class="review-submit-card__icon"
+                  src="assets/icon_review_company.svg"
+                  width="32"
+                  height="32"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <h2 id="review-company-heading" class="review-submit-card__title">Company information</h2>
+                <button type="button" class="review-submit-card__edit" data-review-submit-edit>Edit</button>
+              </header>
+              <dl class="review-submit-fields review-submit-fields--grid">
+                <div class="review-submit-field">
+                  <dt>Company legal name</dt>
+                  <dd>NovaQuill Ltd</dd>
+                </div>
+                <div class="review-submit-field">
+                  <dt>Registration date</dt>
+                  <dd>30/11/2025</dd>
+                </div>
+                <div class="review-submit-field">
+                  <dt>Registration number</dt>
+                  <dd>202018765Z</dd>
+                </div>
+                <div class="review-submit-field">
+                  <dt>Country of registration</dt>
+                  <dd>Singapore</dd>
+                </div>
+                <div class="review-submit-field">
+                  <dt>Registered address</dt>
+                  <dd>6 Battery Road, Singapore 049909</dd>
+                </div>
+                <div class="review-submit-field">
+                  <dt>Operating address</dt>
+                  <dd>6 Battery Road, Singapore 049909</dd>
+                </div>
+                <div class="review-submit-field review-submit-field--full">
+                  <dt>Contact email address</dt>
+                  <dd>abc1234@gmail.com</dd>
+                </div>
+              </dl>
+            </section>
+
+            <section class="review-submit-card review-submit-card--payments" aria-labelledby="review-payments-heading">
+              <header class="review-submit-card__header">
+                <img
+                  class="review-submit-card__icon"
+                  src="assets/icon_review_paymentmethod.svg"
+                  width="32"
+                  height="32"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <h2 id="review-payments-heading" class="review-submit-card__title">Payment methods</h2>
+              </header>
+              <p class="review-submit-card__eyebrow">Stablecoin payments</p>
+              <div class="review-submit-wallet-group">
+                <p class="review-submit-wallet__heading">Your wallet</p>
+                <div class="review-submit-wallet">
+                <div class="review-submit-wallet__icon-wrap" aria-hidden="true">
+                  <img class="review-submit-wallet__icon" src="assets/icon_wallet_blue.svg" width="20" height="20" alt="" />
+                </div>
+                <div class="review-submit-wallet__main">
+                  <p class="review-submit-wallet__title">Stablecoin wallet</p>
+                  <p class="review-submit-wallet__email">abc1234@gmail.com</p>
+                </div>
+                <button
+                  type="button"
+                  class="review-submit-wallet__menu"
+                  data-review-submit-wallet-menu
+                  aria-label="Wallet options"
+                >
+                  <img src="assets/icon_more_vert_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
+                </button>
+                </div>
+              </div>
+            </section>
+
+            <div class="review-submit-alert" role="note">
+              <img
+                class="review-submit-alert__icon"
+                src="assets/icon_info_blue.svg"
+                width="16"
+                height="16"
+                alt=""
+                aria-hidden="true"
+              />
+              <p class="review-submit-alert__text">
+                Verification takes 1-4 business days. Once it’s complete, you’ll be able to send payments to this
+                account.
+              </p>
+            </div>
+          </div>
+
+          <div class="setup-actions review-submit-actions">
+            <button type="button" class="setup-button setup-button--secondary" data-review-submit-back>Back</button>
+            <button type="button" class="setup-button setup-button--primary" data-review-submit-submit>Submit</button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="setup-footer">
+        <p>© XREX Pay Limited 2026</p>
+        <nav class="setup-footer__nav" aria-label="Footer">
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Support</a>
+          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
+          <span class="setup-footer__sep setup-footer__link--desktop-only" aria-hidden="true">|</span>
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Privacy Policy</a>
+        </nav>
+      </footer>
+    </section>
+  </main>
+
+  <div id="prototype-toast" class="wallet-toast" hidden aria-live="polite">
+    <div class="wallet-toast__inner">
+      <img class="wallet-toast__icon" src="assets/icon_info_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <p class="wallet-toast__text">Not in prototype</p>
+    </div>
+  </div>
+
+  <div class="build-badge" role="note" aria-label="Prototype state controls">
+    <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyReview">
+      <span class="build-badge__title">Prototype controls</span>
+      <span class="build-badge__chevron" aria-hidden="true">
+        <img class="build-badge__chevron-icon" src="assets/icon_back.svg" alt="" />
+        <img class="build-badge__chevron-icon build-badge__chevron-icon--collapsed" src="assets/icon_prototypecontrols.svg" alt="" />
+      </span>
+    </button>
+    <div class="build-badge__body" id="prototypeStatesBodyReview">
+      <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
+
+      <div class="build-badge__section-row" style="display: none !important;">
+        <label class="build-badge__checkbox">
+          <input type="checkbox" data-prototype-empty aria-label="Empty" />
+          <span>Empty</span>
+        </label>
+      </div>
+
+      <div class="build-badge__section-row">
+        <label class="build-badge__checkbox">
+          <input type="checkbox" data-prototype-use-default-stablecoin aria-label="Use default stablecoin" />
+          <span>Use default stablecoin</span>
+        </label>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Journey</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-journey aria-label="Journey">
+            <option value="setup" selected>Set up</option>
+            <option value="paylynk">PayLynk</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Account created</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-account-created aria-label="Account created">
+            <option value="false">False</option>
+            <option value="true" selected>True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
+            <option value="false">False</option>
+            <option value="true" selected>True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__logged-in-timer-row">
+        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+      </div>
+
+      <div class="build-badge__group" data-state-group="setupProgress">
+        <div class="build-badge__group-label">Setup progress</div>
+        <div class="build-badge__state">
+          <button type="button" class="build-badge__state-btn" data-state-action="down" aria-label="Previous setup progress">−</button>
+          <span class="build-badge__state-value" data-state-value></span>
+          <button type="button" class="build-badge__state-btn" data-state-action="up" aria-label="Next setup progress">+</button>
+          <span class="build-badge__state-name" data-state-name></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/prototype-state.js"></script>
+</body>
+</html>
