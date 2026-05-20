@@ -1117,9 +1117,43 @@
   white-space: nowrap;
 }
 
-.activating-stablecoin-step span:first-of-type,
-.activating-stablecoin-step span:last-of-type {
+.activating-stablecoin-step [data-activating-step-label] {
   color: $text-primary;
+}
+
+.activating-stablecoin-step__sep {
+  color: $text-secondary;
+}
+
+.activating-stablecoin-step:has([data-activating-step-cancel][hidden]) .activating-stablecoin-step__sep {
+  display: none;
+}
+
+.activating-stablecoin-step__cancel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #dd483c;
+  font: inherit;
+  font-weight: 600;
+  line-height: normal;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:focus-visible {
+    outline: 3px solid rgba(#dd483c, 0.28);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &[hidden] {
+    display: none !important;
+  }
 }
 
 .activating-stablecoin-wait {
@@ -1280,10 +1314,6 @@
 }
 
 .activating-stablecoin-actions {
-  margin-top: 32px;
-}
-
-.activating-stablecoin-actions [data-activating-actions-cancel][hidden] {
   display: none !important;
 }
 
@@ -1292,10 +1322,6 @@
     margin-bottom: 40px;
   }
 
-
-.activating-stablecoin-actions {
-  margin-top: 40px;
-}
 
   .activating-stablecoin-header__title {
     font-size: 40px;
@@ -1375,6 +1401,7 @@
 
   .activating-stablecoin-step {
     flex-shrink: 0;
+    justify-content: flex-end;
     font-size: 14px;
   }
 

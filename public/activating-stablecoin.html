@@ -113,8 +113,16 @@
                     <p class="activating-stablecoin-hint__text activating-stablecoin-hint__text--mobile">Keep this page open</p>
                   </div>
                   <p class="activating-stablecoin-step">
-                    <span data-activating-step-label>Step 1 of 4</span> <span aria-hidden="true">·</span>
-                    <span data-activating-step-pct>0%</span>
+                    <span data-activating-step-label>Step 1 of 4 (0%)</span>
+                    <span class="activating-stablecoin-step__sep" aria-hidden="true">·</span>
+                    <button
+                      type="button"
+                      class="activating-stablecoin-step__cancel"
+                      data-setup-leave-cancel
+                      data-activating-step-cancel
+                    >
+                      Cancel
+                    </button>
                   </p>
                 </div>
               </div>
@@ -172,7 +180,7 @@
             </div>
             </div>
           </div>
-          <div class="setup-actions activating-stablecoin-actions">
+          <div class="setup-actions activating-stablecoin-actions" hidden>
             <button
               class="setup-button setup-button--primary"
               type="button"

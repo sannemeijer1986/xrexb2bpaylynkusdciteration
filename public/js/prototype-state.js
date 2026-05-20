@@ -629,6 +629,17 @@
     }
   }
 
+  function formatActivatingStepLabel(stepLabel, pct) {
+    const n = Math.max(0, Math.min(100, Math.round(pct)));
+    if (stepLabel === "All steps completed") return `${stepLabel} (100%)`;
+    return `${stepLabel} (${n}%)`;
+  }
+
+  function setActivatingStepLabelDisplay(stepLabelEl, stepLabel, pct) {
+    if (!stepLabelEl) return;
+    stepLabelEl.textContent = formatActivatingStepLabel(stepLabel, pct);
+  }
+
   function syncActivatingStablecoinStatusFromProgress() {
     if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
     const p = states.setupProgress;
@@ -691,7 +702,6 @@
     const progressEl = document.querySelector("[data-activating-progress]");
     const fillEl = progressEl?.querySelector(".activating-stablecoin-progress__fill");
     const stepLabelEl = document.querySelector("[data-activating-step-label]");
-    const stepPctEl = document.querySelector("[data-activating-step-pct]");
     const liveIcon = document.querySelector("[data-activating-status-live-icon]");
     const hintEl = document.querySelector("[data-activating-hint]");
     const footerEl = document.querySelector(".activating-stablecoin-status__footer");
@@ -704,12 +714,11 @@
 
     if (titleEl) titleEl.textContent = title;
     if (descEl) descEl.textContent = desc;
-    if (stepLabelEl) stepLabelEl.textContent = stepLabel;
-    if (stepPctEl) {
+    if (stepLabelEl) {
       if (in6to7ReauthAnim && activatingReauth6to7T1 == null && activatingReauth6to7T2 == null) {
-        stepPctEl.textContent = "25%";
+        setActivatingStepLabelDisplay(stepLabelEl, stepLabel, 25);
       } else if (!in6to7ReauthAnim) {
-        stepPctEl.textContent = runActivatingProgress7to8Anim ? "50%" : `${pct}%`;
+        setActivatingStepLabelDisplay(stepLabelEl, stepLabel, runActivatingProgress7to8Anim ? 50 : pct);
       }
     }
     if (progressEl) {
@@ -727,12 +736,12 @@
           if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
           if (states.setupProgress !== 7 || !activatingReauth6to7AnimPending) return;
           const pe = document.querySelector("[data-activating-progress]");
-          const spe = document.querySelector("[data-activating-step-pct]");
+          const sle = document.querySelector("[data-activating-step-label]");
           if (pe) {
             pe.style.setProperty("--activating-progress-fr", "0.5");
             pe.setAttribute("aria-valuenow", "50");
           }
-          if (spe) spe.textContent = "50%";
+          if (sle) setActivatingStepLabelDisplay(sle, "Step 3 of 4", 50);
           activatingReauth6to7T2 = window.setTimeout(() => {
             activatingReauth6to7T2 = null;
             if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
@@ -756,12 +765,12 @@
           if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
           if (states.setupProgress !== 8) return;
           const pe = document.querySelector("[data-activating-progress]");
-          const spe = document.querySelector("[data-activating-step-pct]");
+          const sle = document.querySelector("[data-activating-step-label]");
           if (pe) {
             pe.style.setProperty("--activating-progress-fr", String(frEnd));
             pe.setAttribute("aria-valuenow", String(pctEnd));
           }
-          if (spe) spe.textContent = `${pctEnd}%`;
+          if (sle) setActivatingStepLabelDisplay(sle, "Step 4 of 4", pctEnd);
         }, delayMs);
       } else {
         progressEl.style.setProperty("--activating-progress-fr", String(fr));
@@ -790,8 +799,8 @@
       }
     }
     if (footerEl) {
-      footerEl.hidden = isAuthorizeDebit;
-      footerEl.setAttribute("aria-hidden", isAuthorizeDebit ? "true" : "false");
+      footerEl.hidden = false;
+      footerEl.setAttribute("aria-hidden", "false");
     }
     if (ctaWrap) {
       ctaWrap.hidden = !isAuthorizeDebit;
@@ -821,11 +830,11 @@
         footerContinue.setAttribute("aria-disabled", "true");
       }
     }
-    const actionsCancel = document.querySelector("[data-activating-actions-cancel]");
-    if (actionsCancel) {
+    const stepCancel = document.querySelector("[data-activating-step-cancel]");
+    if (stepCancel) {
       const hideCancel = p >= 9;
-      actionsCancel.hidden = hideCancel;
-      actionsCancel.setAttribute("aria-hidden", hideCancel ? "true" : "false");
+      stepCancel.hidden = hideCancel;
+      stepCancel.setAttribute("aria-hidden", hideCancel ? "true" : "false");
     }
   }
 
