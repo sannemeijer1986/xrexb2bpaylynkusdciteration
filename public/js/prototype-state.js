@@ -678,7 +678,7 @@
       isSetupComplete = true;
       pct = 100;
       stepLabel = "All steps completed";
-      title = "Setup finished";
+      title = `${sym} activated`;
       desc = `${sym}: Ethereum network (ERC-20) is now active for payments.`;
     }
 
