@@ -623,6 +623,34 @@
             if (walletExportInfoDialogUnderstood) walletExportInfoDialogUnderstood.addEventListener("click", closeWalletExportInfoDialog);
             if (walletExportInfoDialogDismiss) walletExportInfoDialogDismiss.addEventListener("click", closeWalletExportInfoDialog);
 
+            var walletBalanceInfoDialog = document.getElementById("walletBalanceInfoDialog");
+            var walletBalanceInfoDialogUnderstood = document.getElementById("walletBalanceInfoDialogUnderstood");
+            var walletBalanceInfoDialogDismiss = document.getElementById("walletBalanceInfoDialogDismiss");
+            function openWalletBalanceInfoDialog() {
+                if (walletBalanceInfoDialog) walletBalanceInfoDialog.setAttribute("aria-hidden", "false");
+            }
+            function closeWalletBalanceInfoDialog() {
+                if (walletBalanceInfoDialog) walletBalanceInfoDialog.setAttribute("aria-hidden", "true");
+            }
+            if (walletBalanceInfoDialog) {
+                var balanceInfoBackdrop = walletBalanceInfoDialog.querySelector(".pp-wallet-close-confirm__backdrop");
+                if (balanceInfoBackdrop) balanceInfoBackdrop.addEventListener("click", closeWalletBalanceInfoDialog);
+            }
+            if (walletBalanceInfoDialogUnderstood) {
+                walletBalanceInfoDialogUnderstood.addEventListener("click", closeWalletBalanceInfoDialog);
+            }
+            if (walletBalanceInfoDialogDismiss) {
+                walletBalanceInfoDialogDismiss.addEventListener("click", closeWalletBalanceInfoDialog);
+            }
+            if (walletModal) {
+                walletModal.querySelectorAll(".pp-wallet-modal__balance-info").forEach(function (btn) {
+                    btn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        openWalletBalanceInfoDialog();
+                    });
+                });
+            }
+
             // Beneficiary detail + Address detail views
             var walletModalBack = document.getElementById("walletModalBack");
             var walletModalDialog = walletModal && walletModal.querySelector(".pp-wallet-modal__dialog");

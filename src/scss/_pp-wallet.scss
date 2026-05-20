@@ -2110,6 +2110,11 @@ $wallet-accent: $ew-text-link;
   color: $ew-text-brand;
   cursor: pointer;
 
+  img,
+  span {
+    pointer-events: none;
+  }
+
   img {
     display: block;
     flex-shrink: 0;
@@ -2119,10 +2124,6 @@ $wallet-accent: $ew-text-link;
 
   span {
     white-space: nowrap;
-  }
-
-  &:hover span {
-    text-decoration: underline;
   }
 }
 
