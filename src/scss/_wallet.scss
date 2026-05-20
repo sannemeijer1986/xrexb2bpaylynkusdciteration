@@ -892,7 +892,7 @@
 .activating-stablecoin-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 40px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -1099,8 +1099,8 @@
 
 .activating-stablecoin-hint {
   display: flex;
-  gap: 8px;
-  align-items: flex-start;
+  gap: 4px;
+  align-items: center;
   justify-content: center;
   width: 100%;
 }
@@ -1190,7 +1190,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-bottom: 24px;
 }
 
 .activating-stablecoin-wait__title {
@@ -1210,8 +1209,9 @@
 .activating-stablecoin-carousel__panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 16px 16px 24px;
+  height: 380px;
+  overflow: hidden;
+  padding: 20px 16px 24px;
   border: 1px solid $border-soft;
   border-bottom: 0;
   border-radius: $radius-card $radius-card 0 0;
@@ -1219,12 +1219,66 @@
   box-sizing: border-box;
 }
 
-.activating-stablecoin-carousel__media {
-  flex-shrink: 0;
-  width: 62px;
-  height: 66px;
+// Match native [hidden] semantics — our display:flex rules otherwise keep inactive
+// slide layers (video demo, bullets) visibly stacked on the current slide.
+.activating-stablecoin-carousel__standard[hidden],
+.activating-stablecoin-carousel__video-block[hidden],
+.activating-stablecoin-carousel__demo[hidden],
+.activating-stablecoin-carousel__bullet-list[hidden],
+.activating-stablecoin-carousel__demo-btn[hidden],
+.activating-stablecoin-carousel__demo-hint[hidden] {
+  display: none !important;
+}
+
+.activating-stablecoin-carousel__standard {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.activating-stablecoin-carousel__video-block {
+  display: flex;
+  width: 100%;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.activating-stablecoin-carousel__video-frame {
   overflow: hidden;
-  border-radius: 8px;
+  width: 100%;
+  border-radius: 16px;
+  line-height: 0;
+}
+
+.activating-stablecoin-carousel__video-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.activating-stablecoin-carousel__row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 0;
+}
+
+.activating-stablecoin-carousel__media {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 .activating-stablecoin-carousel__img {
@@ -1239,6 +1293,15 @@
   flex-direction: column;
   gap: 10px;
   min-width: 0;
+  width: 100%;
+}
+
+.activating-stablecoin-carousel__eyebrow {
+  margin: 0;
+  color: $text-email-highlight;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .activating-stablecoin-carousel__headline {
@@ -1251,17 +1314,113 @@
 }
 
 .activating-stablecoin-carousel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.activating-stablecoin-carousel__body-para {
   margin: 0;
   color: $text-secondary;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  white-space: pre-line;
+}
+
+.activating-stablecoin-carousel__body-para + .activating-stablecoin-carousel__body-para {
+  margin-top: 12px;
+}
+
+.activating-stablecoin-carousel__body + .activating-stablecoin-carousel__bullet-list {
+  margin-top: 16px;
+}
+
+.activating-stablecoin-carousel__bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activating-stablecoin-carousel__bullet-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+
+  img {
+    flex-shrink: 0;
+    display: block;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.activating-stablecoin-carousel__demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 16px;
+}
+
+.activating-stablecoin-carousel__demo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.activating-stablecoin-carousel__demo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  min-height: 32px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  background: $button-secondary;
+  color: $button-primary;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-carousel__demo-btn--requested {
+  gap: 4px;
+  min-width: 160px;
+  min-height: 32px;
+  padding: 0 18px 0 14px;
+  border: 1px solid #a8e8bd;
+  border-radius: 16px;
+  background: $surface-card;
+  color: #2f9752;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: default;
+}
+
+.activating-stablecoin-carousel__demo-hint {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .activating-stablecoin-carousel__toolbar {
   display: flex;
-  gap: 10px;
+  gap: 4px;
   align-items: center;
   justify-content: flex-end;
   padding: 12px 16px;
@@ -1274,12 +1433,48 @@
 }
 
 .activating-stablecoin-carousel__index {
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: 0 0 28px;
   color: $text-secondary;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   line-height: normal;
+}
+
+.activating-stablecoin-carousel__segments {
+  display: flex;
+  flex: 0 0 131px;
+  gap: 4px;
+  align-items: center;
+  padding: 16px 0;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-carousel__segment {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 100px;
+  background: #eee;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.activating-stablecoin-carousel__segment--active {
+  background: $button-primary;
+}
+
+.activating-stablecoin-carousel__segment:focus-visible {
+  outline: 2px solid $button-primary;
+  outline-offset: 2px;
+}
+
+.activating-stablecoin-carousel__toolbar-nav {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  min-width: 0;
 }
 
 .activating-stablecoin-carousel__nav {
@@ -1373,7 +1568,7 @@
   }
 
   .activating-stablecoin-wrapper {
-    gap: 32px;
+    gap: 48px;
   }
 
   .activating-stablecoin-status {
@@ -1452,7 +1647,6 @@
 
   .activating-stablecoin-wait {
     gap: 12px;
-    padding-bottom: 16px;
   }
 
   .activating-stablecoin-wait__title {
@@ -1460,33 +1654,84 @@
   }
 
   .activating-stablecoin-carousel__panel {
-    flex-direction: row;
-    gap: 24px;
-    align-items: flex-start;
+    height: 340px;
     padding: 32px;
+  }
+
+  .activating-stablecoin-carousel__video-block {
+    gap: 12px;
+  }
+
+  .activating-stablecoin-carousel__row {
+    flex-direction: row;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .activating-stablecoin-carousel__media {
+    width: 100px;
+    height: 100px;
+  }
+
+  .activating-stablecoin-carousel__eyebrow {
+    font-size: 14px;
+  }
+
+  .activating-stablecoin-carousel__headline {
+    font-size: 20px;
+  }
+
+  .activating-stablecoin-carousel__body-para {
+    font-size: 16px;
+    line-height: 23px;
+  }
+
+  .activating-stablecoin-carousel__body-para + .activating-stablecoin-carousel__body-para {
+    margin-top: 12px;
   }
 
   .activating-stablecoin-carousel__copy {
     flex: 1 1 auto;
-    gap: 12px;
+    gap: 8px;
   }
 
-  .activating-stablecoin-carousel__media {
-    width: 140px;
-    height: 105px;
+  .activating-stablecoin-carousel__demo-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
   }
 
-  .activating-stablecoin-carousel__headline {
-    font-size: 22px;
+  .activating-stablecoin-carousel__demo-btn {
+    min-width: 180px;
+    min-height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  .activating-stablecoin-carousel__demo-btn--requested {
+    min-width: 180px;
+    min-height: 40px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: default;
+    padding: 0 20px 0 12px;
   }
 
   .activating-stablecoin-carousel__toolbar {
-    padding: 16px 32px;
+    gap: 6px;
+    padding: 16px 24px;
   }
 
   .activating-stablecoin-carousel__index {
+    flex: 0 0 32px;
     font-size: 16px;
     font-weight: 700;
+  }
+
+  .activating-stablecoin-carousel__segments {
+    flex: 0 0 240px;
+    padding: 16px 12px;
   }
 }
 

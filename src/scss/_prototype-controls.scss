@@ -171,7 +171,7 @@
 .build-badge__checkbox-stack {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
 }
 
 .build-badge__checkbox-stack .build-badge__section-row {
@@ -189,6 +189,10 @@
     margin-top: 0;
     flex-shrink: 0;
   }
+}
+
+.build-badge__body > .build-badge__section-row {
+  margin-top: 0;
 }
 
 .build-badge__checkbox {

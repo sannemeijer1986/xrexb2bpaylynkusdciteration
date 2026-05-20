@@ -19,6 +19,36 @@
   const PAYMENT_METHOD_ADDED_TOAST_KEY = `${STORAGE_PREFIX}showPaymentMethodAddedToast.v1`;
   const USE_DEFAULT_STABLECOIN_KEY = `${STORAGE_PREFIX}useDefaultStablecoin.v1`;
   const JOURNEY_KEY = `${STORAGE_PREFIX}journey.v1`;
+  const ACTIVATING_WAIT_DEMO_KEY = `${STORAGE_PREFIX}activatingWaitDemoRequested.v1`;
+  /** True only until refresh — "I need a demo" does not persist (prototype checkbox does). */
+  let activatingDemoSessionRequested = false;
+
+  function readActivatingWaitDemoStored() {
+    try {
+      return window.localStorage?.getItem(ACTIVATING_WAIT_DEMO_KEY) === "1";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function writeActivatingWaitDemoStored(enabled) {
+    try {
+      if (enabled) window.localStorage?.setItem(ACTIVATING_WAIT_DEMO_KEY, "1");
+      else window.localStorage?.removeItem(ACTIVATING_WAIT_DEMO_KEY);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  function readActivatingWaitDemoRequested() {
+    return readActivatingWaitDemoStored() || activatingDemoSessionRequested;
+  }
+
+  function setActivatingDemoPrototypeCheckboxes(checked) {
+    document.querySelectorAll("[data-prototype-activating-demo-requested]").forEach((el) => {
+      if (el instanceof HTMLInputElement) el.checked = checked;
+    });
+  }
 
   function readUseDefaultStablecoin() {
     try {
@@ -1994,50 +2024,168 @@
 
     const ACTIVATING_WAIT_SLIDES = [
       {
-        img: "assets/placeholder-wait-1.svg",
-        headline: "Placeholder title number one",
-        body:
-          "Nullam finibus, orci ac mollis sodales, magna lorem mollis nisl, et mattis eros metus nec orci.\n\nVestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; donec velit neque, auctor sit amet aliquam vel.",
+        layout: "standard",
+        img: "assets/activating-wait-slide-01.png",
+        eyebrow: "XREX · Regulated",
+        headline: "XREX is MPI licensed: Build on a regulated foundation",
+        paragraphs: [
+          "XREX PayLynk is operated under a Major Payment Institution (MPI) license — your funds and transactions are handled by a regulated financial institution.",
+          "Nullam finibus, orci ac mollis sodales, magna lorem mollis nisl, et mattis eros metus nec orci.",
+        ],
       },
       {
-        img: "assets/placeholder-wait-2.svg",
-        headline: "Placeholder title number two",
-        body:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero sed cursus ante dapibus diam.\n\nSuspendisse potenti. Cras dapibus vivamus elementum semper nisi aenean vulputate eleifend tellus aenean leo ligula, porttitor eu consequat vitae.",
+        layout: "standard",
+        img: "assets/activating-wait-slide-02.png",
+        eyebrow: "XREX Pay · Receive payments",
+        headline: "Create your own PayLynk to get paid in USD or USD stablecoins",
+        paragraphs: [
+          "Receive, hold and pay in USD from a single account that supports both USD and USD stablecoins.",
+          "Nullam finibus, orci ac mollis sodales, magna lorem mollis nisl, et mattis eros metus nec orci. Nullam finibus, orci ac mollis sodales, magna lorem mollis nisl, et mattis eros metus nec orci.",
+        ],
       },
       {
-        img: "assets/placeholder-wait-3.svg",
-        headline: "Placeholder title number three",
-        body:
-          "Curabitur ullamcorper ultricies nisi nam eget dui etiam rhoncus maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero.\n\nEtiam sit amet orci eget eros faucibus tincidunt duis leo sed fringilla mauris sit amet nibh donec sodales sagittis magna.",
+        layout: "bullets",
+        img: "assets/activating-wait-slide-03.png",
+        eyebrow: "XREX Pay · MCBA",
+        headline: "A multi-currency business account made for cross-border payments",
+        intro:
+          "Easily move between USD and USD stablecoins from one account, with fast conversion at optimal rates.",
+        bullets: ["Hold USD directly", "Move between currencies", "Access to professional OTC services"],
       },
       {
-        img: "assets/placeholder-wait-4.svg",
-        headline: "Placeholder title number four",
-        body:
-          "Phasellus viverra nulla ut metus varius laoreet quisque rutrum aenean imperdiet etiam ultricies nisi vel augue curabitur ullamcorper.\n\nNam quam nunc, blandit vel luctus pulvinar hendrerit id lorem maecenas nec odio et ante tincidunt tempus donec vitae sapien.",
+        layout: "video",
+        videoImg: "assets/activating-wait-slide-04-video.svg",
+        eyebrow: "XREX Pay · Video intro",
+      },
+      {
+        layout: "demo",
+        img: "assets/activating-wait-slide-05.png",
+        eyebrow: "XREX Pay · Request a demo",
+        headline: "Have someone walk you through",
+        paragraphs: [
+          "Our team can walk you through XREX Pay — from stablecoin pay-in to unlocking your full multi-currency account.",
+        ],
       },
     ];
+
+    function renderBodyParagraphs(container, paragraphs) {
+      if (!container) return;
+      container.textContent = "";
+      (paragraphs || []).forEach((text) => {
+        const p = document.createElement("p");
+        p.className = "activating-stablecoin-carousel__body-para";
+        p.textContent = text;
+        container.appendChild(p);
+      });
+    }
 
     let idx = 1;
     const max = ACTIVATING_WAIT_SLIDES.length;
     const idxEl = document.querySelector("[data-activating-carousel-index]");
     const prevBtn = document.querySelector("[data-activating-carousel-prev]");
     const nextBtn = document.querySelector("[data-activating-carousel-next]");
+    const segmentBtns = document.querySelectorAll("[data-activating-carousel-segment]");
+    const carouselPanel = document.querySelector("[data-activating-carousel-panel]");
+    const standardBlock = document.querySelector("[data-activating-carousel-standard]");
+    const videoBlock = document.querySelector("[data-activating-carousel-video-block]");
     const carouselImg = document.querySelector("[data-activating-carousel-img]");
+    const carouselEyebrow = document.querySelector("[data-activating-carousel-eyebrow]");
     const carouselHeadline = document.querySelector("[data-activating-carousel-headline]");
     const carouselBody = document.querySelector("[data-activating-carousel-body]");
+    const carouselBullets = document.querySelector("[data-activating-carousel-bullets]");
+    const videoEyebrow = document.querySelector("[data-activating-carousel-video-eyebrow]");
+    const videoImg = document.querySelector("[data-activating-carousel-video-img]");
+    const demoWrap = document.querySelector("[data-activating-carousel-demo]");
+    const demoRequestBtn = document.querySelector("[data-activating-carousel-demo-request]");
+    const demoRequestedBtn = document.querySelector("[data-activating-carousel-demo-requested]");
+    const demoHint = document.querySelector("[data-activating-carousel-demo-hint]");
+
+    function syncDemoUi(requested) {
+      if (!demoRequestBtn || !demoRequestedBtn || !demoHint) return;
+      if (requested) {
+        demoRequestBtn.hidden = true;
+        demoRequestedBtn.hidden = false;
+        demoHint.hidden = false;
+      } else {
+        demoRequestBtn.hidden = false;
+        demoRequestedBtn.hidden = true;
+        demoHint.hidden = true;
+      }
+    }
+
     const syncCarousel = () => {
       if (idxEl) idxEl.textContent = `${idx}/${max}`;
       if (prevBtn) prevBtn.disabled = idx <= 1;
       if (nextBtn) nextBtn.disabled = idx >= max;
+      segmentBtns.forEach((btn, i) => {
+        const on = i === idx - 1;
+        btn.setAttribute("aria-selected", on ? "true" : "false");
+        btn.classList.toggle("activating-stablecoin-carousel__segment--active", on);
+      });
+
       const slide = ACTIVATING_WAIT_SLIDES[idx - 1];
-      if (slide) {
-        if (carouselImg) carouselImg.src = slide.img;
-        if (carouselHeadline) carouselHeadline.textContent = slide.headline;
-        if (carouselBody) carouselBody.textContent = slide.body;
+      if (!slide) return;
+
+      if (slide.layout === "video") {
+        carouselPanel?.classList.add("activating-stablecoin-carousel__panel--video");
+        standardBlock?.setAttribute("hidden", "");
+        videoBlock?.removeAttribute("hidden");
+        if (videoEyebrow) videoEyebrow.textContent = slide.eyebrow || "";
+        if (videoImg && slide.videoImg) videoImg.src = slide.videoImg;
+        if (demoWrap) demoWrap.setAttribute("hidden", "");
+        syncDemoUi(false);
+      } else {
+        carouselPanel?.classList.remove("activating-stablecoin-carousel__panel--video");
+        standardBlock?.removeAttribute("hidden");
+        videoBlock?.setAttribute("hidden", "");
+        if (carouselEyebrow) carouselEyebrow.textContent = slide.eyebrow || "";
+        if (carouselImg && slide.img) carouselImg.src = slide.img;
+        if (carouselHeadline) {
+          if (slide.headline) {
+            carouselHeadline.textContent = slide.headline;
+            carouselHeadline.removeAttribute("hidden");
+          } else {
+            carouselHeadline.textContent = "";
+            carouselHeadline.setAttribute("hidden", "");
+          }
+        }
+        if (slide.layout === "bullets") {
+          renderBodyParagraphs(carouselBody, slide.intro ? [slide.intro] : []);
+          if (carouselBullets) {
+            carouselBullets.textContent = "";
+            (slide.bullets || []).forEach((label) => {
+              const li = document.createElement("li");
+              li.className = "activating-stablecoin-carousel__bullet-item";
+              const icon = document.createElement("img");
+              icon.src = "assets/activating-wait-bullet-dot.svg";
+              icon.alt = "";
+              icon.width = 28;
+              icon.height = 28;
+              const span = document.createElement("span");
+              span.textContent = label;
+              li.appendChild(icon);
+              li.appendChild(span);
+              carouselBullets.appendChild(li);
+            });
+            carouselBullets.removeAttribute("hidden");
+          }
+        } else {
+          if (carouselBullets) {
+            carouselBullets.textContent = "";
+            carouselBullets.setAttribute("hidden", "");
+          }
+          renderBodyParagraphs(carouselBody, slide.paragraphs || []);
+        }
+        if (slide.layout === "demo") {
+          demoWrap?.removeAttribute("hidden");
+          syncDemoUi(readActivatingWaitDemoRequested());
+        } else if (demoWrap) {
+          demoWrap.setAttribute("hidden", "");
+          syncDemoUi(false);
+        }
       }
     };
+
     prevBtn?.addEventListener("click", () => {
       if (idx > 1) idx -= 1;
       syncCarousel();
@@ -2046,6 +2194,37 @@
       if (idx < max) idx += 1;
       syncCarousel();
     });
+
+    segmentBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const raw = btn.getAttribute("data-activating-carousel-segment");
+        const i = raw == null ? NaN : Number.parseInt(raw, 10);
+        if (!Number.isFinite(i)) return;
+        idx = i + 1;
+        if (idx < 1) idx = 1;
+        if (idx > max) idx = max;
+        syncCarousel();
+      });
+    });
+
+    demoRequestBtn?.addEventListener("click", () => {
+      activatingDemoSessionRequested = true;
+      setActivatingDemoPrototypeCheckboxes(true);
+      syncDemoUi(true);
+    });
+
+    const demoProtoCheckbox = document.querySelector("[data-prototype-activating-demo-requested]");
+    if (demoProtoCheckbox instanceof HTMLInputElement) {
+      demoProtoCheckbox.checked = readActivatingWaitDemoStored();
+      demoProtoCheckbox.addEventListener("change", () => {
+        writeActivatingWaitDemoStored(demoProtoCheckbox.checked);
+        if (!demoProtoCheckbox.checked) activatingDemoSessionRequested = false;
+        syncCarousel();
+      });
+    }
+
+    document.addEventListener("paylynk:activating-wait-demo-reset", syncCarousel);
+
     syncCarousel();
   }
 
@@ -2495,6 +2674,20 @@
       }
       try {
         window.localStorage?.removeItem(PASSCODE_SET_AT_KEY);
+      } catch (_) {
+        /* ignore */
+      }
+      activatingDemoSessionRequested = false;
+      try {
+        window.localStorage?.removeItem(ACTIVATING_WAIT_DEMO_KEY);
+      } catch (_) {
+        /* ignore */
+      }
+      document.querySelectorAll("[data-prototype-activating-demo-requested]").forEach((el) => {
+        if (el instanceof HTMLInputElement) el.checked = false;
+      });
+      try {
+        document.dispatchEvent(new CustomEvent("paylynk:activating-wait-demo-reset"));
       } catch (_) {
         /* ignore */
       }
