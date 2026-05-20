@@ -411,11 +411,11 @@
                                 <span class="pp-wallet-modal__section-count">(1)</span>
                             </h3>
                             <ul class="pp-wallet-modal__list">
-                                <li class="pp-wallet-modal__item pp-wallet-modal__item--active" data-beneficiary-initials="MC" data-beneficiary-name="Micro Corp" data-beneficiary-balance="$0.00" data-beneficiary-balance-empty="true">
-                                    <span class="pp-wallet-modal__avatar">MC</span>
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--active" data-beneficiary-initials="HC" data-beneficiary-name="Halcyon Systems Corp." data-beneficiary-balance="$0.00" data-beneficiary-balance-empty="true">
+                                    <span class="pp-wallet-modal__avatar">HC</span>
                                     <div class="pp-wallet-modal__item-content">
                                         <span class="pp-wallet-modal__item-label">Beneficiary</span>
-                                        <span class="pp-wallet-modal__item-name">Micro Corp</span>
+                                        <span class="pp-wallet-modal__item-name">Halcyon Systems Corp.</span>
                                     </div>
                                     <div class="pp-wallet-modal__item-right">
                                         <span class="pp-wallet-modal__item-balance pp-wallet-modal__item-balance--empty">$0.00</span>
@@ -462,12 +462,12 @@
                                 <div class="pp-wallet-modal__balance-block">
                                     <div class="pp-wallet-modal__balance-main">
                                         <div class="pp-wallet-modal__balance-header">
-                                            <p class="pp-wallet-modal__balance-label">Balance</p>
+                                            <p class="pp-wallet-modal__balance-label">USD stablecoin balance</p>
                                             <button type="button" class="pp-wallet-modal__balance-info" aria-label="Balance information">
                                                 <img src="assets/icon_ew_info.svg" width="24" height="24" alt="" />
                                             </button>
                                         </div>
-                                        <p class="pp-wallet-modal__balance-amount" id="walletAddressDetailBalance">$131.01</p>
+                                        <p class="pp-wallet-modal__balance-amount pp-wallet-modal__balance-amount--empty" id="walletAddressDetailBalance">$0.00</p>
                                     </div>
                                     <button type="button" class="pp-wallet-modal__balance-refresh pp-wallet-modal__refresh">
                                         <img src="assets/icon_ew_refresh.svg" width="16" height="16" alt="" />
@@ -501,13 +501,27 @@
                                 <h3 class="pp-wallet-modal__section-title">Assets</h3>
                                 <div id="walletAddressDetailAssetsList">
                                     <ul class="pp-wallet-modal__list">
-                                        <li class="pp-wallet-modal__item">
+                                        <li class="pp-wallet-modal__item" data-wallet-address-asset="usdt" hidden>
                                             <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-USDT.svg" alt="" width="40" height="40" /></span>
                                             <div class="pp-wallet-modal__item-content">
                                                 <span class="pp-wallet-modal__item-name">USDT</span>
-                                                <span class="pp-wallet-modal__item-label">USD Tether</span>
+                                                <span class="pp-wallet-modal__item-label pp-wallet-modal__item-label--autodebit">
+                                                    <span class="pp-wallet-modal__item-label-text">USD Tether · Auto-debit</span>
+                                                    <img src="assets/icon_ew_darkbluecheck.svg" alt="" width="16" height="16" class="pp-wallet-modal__item-label-check" aria-hidden="true" />
+                                                </span>
                                             </div>
-                                            <span class="pp-wallet-modal__item-balance">32.41 USDT</span>
+                                            <span class="pp-wallet-modal__item-balance pp-wallet-modal__item-balance--empty">0.00 USDT</span>
+                                        </li>
+                                        <li class="pp-wallet-modal__item" data-wallet-address-asset="usdc" hidden>
+                                            <span class="pp-wallet-modal__asset-icon"><img src="assets/icon_usdc.svg" alt="" width="40" height="40" /></span>
+                                            <div class="pp-wallet-modal__item-content">
+                                                <span class="pp-wallet-modal__item-name">USDC</span>
+                                                <span class="pp-wallet-modal__item-label pp-wallet-modal__item-label--autodebit">
+                                                    <span class="pp-wallet-modal__item-label-text">USD Coin · Auto-debit</span>
+                                                    <img src="assets/icon_ew_darkbluecheck.svg" alt="" width="16" height="16" class="pp-wallet-modal__item-label-check" aria-hidden="true" />
+                                                </span>
+                                            </div>
+                                            <span class="pp-wallet-modal__item-balance pp-wallet-modal__item-balance--empty">0.00 USDC</span>
                                         </li>
                                         <li class="pp-wallet-modal__item">
                                             <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-ETH.svg" alt="" width="40" height="40" /></span>

@@ -776,6 +776,41 @@
 
             var walletAddressDetailBalance = document.getElementById("walletAddressDetailBalance");
 
+            function isPaylynkErc20Activated(coin) {
+                if (typeof window.PaylynkPrototype?.isPaylynkErc20Activated === "function") {
+                    return window.PaylynkPrototype.isPaylynkErc20Activated(coin);
+                }
+                try {
+                    var key = coin === "usdc"
+                        ? "xrex.paylynk.prototype.usdcErc20Activated.v1"
+                        : "xrex.paylynk.prototype.usdtErc20Activated.v1";
+                    return window.localStorage?.getItem(key) === "1";
+                } catch (_) {
+                    return false;
+                }
+            }
+
+            function syncAddressDetailStablecoinAssets(beneficiaryName) {
+                var assetsList = document.getElementById("walletAddressDetailAssetsList");
+                if (!assetsList) return;
+                var isNovaQuill = (beneficiaryName || "").trim() === "NovaQuill Ltd";
+                var usdtItem = assetsList.querySelector('[data-wallet-address-asset="usdt"]');
+                var usdcItem = assetsList.querySelector('[data-wallet-address-asset="usdc"]');
+                if (isNovaQuill) {
+                    if (usdtItem) usdtItem.setAttribute("hidden", "");
+                    if (usdcItem) usdcItem.setAttribute("hidden", "");
+                    return;
+                }
+                if (usdtItem) {
+                    if (isPaylynkErc20Activated("usdt")) usdtItem.removeAttribute("hidden");
+                    else usdtItem.setAttribute("hidden", "");
+                }
+                if (usdcItem) {
+                    if (isPaylynkErc20Activated("usdc")) usdcItem.removeAttribute("hidden");
+                    else usdcItem.setAttribute("hidden", "");
+                }
+            }
+
             function triggerWalletFooterFadeIn() {
                 if (!walletModal) return;
                 walletModal.classList.remove("pp-wallet-modal--footer-fade-in");
@@ -824,9 +859,8 @@
                 if (walletModalHeaderLabel) walletModalHeaderLabel.textContent = beneficiaryName || "";
                 if (walletModalTitle) walletModalTitle.textContent = networkName || "";
                 if (walletAddressDetailBalance) {
-                    var isNovaQuill = (beneficiaryName || "").trim() === "NovaQuill Ltd";
-                    walletAddressDetailBalance.textContent = isNovaQuill ? "$0.00" : "$131.01";
-                    walletAddressDetailBalance.classList.toggle("pp-wallet-modal__balance-amount--empty", isNovaQuill);
+                    walletAddressDetailBalance.textContent = "$0.00";
+                    walletAddressDetailBalance.classList.add("pp-wallet-modal__balance-amount--empty");
                 }
                 var assetsList = document.getElementById("walletAddressDetailAssetsList");
                 var assetsEmpty = document.getElementById("walletAddressDetailAssetsEmpty");
@@ -835,6 +869,7 @@
                     assetsList.hidden = isEmpty;
                     assetsEmpty.hidden = !isEmpty;
                     assetsEmpty.setAttribute("aria-hidden", isEmpty ? "false" : "true");
+                    if (!isEmpty) syncAddressDetailStablecoinAssets(beneficiaryName);
                 }
                 var addressValueRow = walletModal.querySelector(".pp-wallet-modal__address-value-row");
                 var addressValueEl = document.getElementById("walletAddressDetailValue");
@@ -1706,6 +1741,19 @@
                         showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
                     });
                 }
+                var walletModalMoreBtn = document.getElementById("walletModalMoreBtn");
+                if (walletModalMoreBtn) {
+                    walletModalMoreBtn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
+                    });
+                }
+                document.addEventListener("paylynk:erc20-activated-changed", function () {
+                    if (walletModal && walletModal.classList.contains("pp-wallet-modal--address-detail-view")) {
+                        syncAddressDetailStablecoinAssets(currentBeneficiaryName);
+                    }
+                });
                 var walletPrototypeToast = document.getElementById("walletPrototypeToast");
                 var walletPrototypeToastText = document.getElementById("walletPrototypeToastText");
                 function showWalletPrototypeToast(message) {
@@ -1735,6 +1783,11 @@
                 if (walletModalWithdrawBtn && walletSnackbar) {
                     walletModalWithdrawBtn.addEventListener("click", function (e) {
                         e.preventDefault();
+                        e.stopPropagation();
+                        if (walletModal && walletModal.classList.contains("pp-wallet-modal--address-detail-view")) {
+                            showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
+                            return;
+                        }
                         if ((currentBeneficiaryName || "").trim() === "NovaQuill Ltd") {
                             showWalletSnackbar("No available assets", "assets/icon-ew-warning.svg");
                         } else {
@@ -1954,18 +2007,7 @@
                         showAddressDetailView(currentBeneficiaryName, currentBeneficiaryInitials, networkName);
                         return;
                     }
-                    // More button on address-detail view: show dropdown with Export private key / Disable auto-debit
-                    var moreBtn = e.target && e.target.closest && e.target.closest("#walletModalMoreBtn");
-                    if (moreBtn) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openEwDropdown([
-                            { iconSrc: "assets/icon-ew-exportkeys.svg", label: "Export private key", action: "export-private-key" },
-                            { iconSrc: "assets/icon-ew-stop.svg", label: "Disable auto-debit", action: "disable-auto-debit" }
-                        ], e);
-                        return;
-                    }
-                    // Asset row (USDT / ETH) on address-detail view: show dropdown near the row
+                    // Asset row on address-detail view: USDT/USDC → prototype snackbar; ETH → withdraw dropdown
                     var addressDetailView = document.getElementById("walletViewAddressDetail");
                     var assetItem = e.target && e.target.closest && e.target.closest(".pp-wallet-modal__item");
                     if (addressDetailView && assetItem && addressDetailView.contains(assetItem) && assetItem.querySelector(".pp-wallet-modal__asset-icon")) {
@@ -1973,6 +2015,10 @@
                         e.stopPropagation();
                         var nameEl = assetItem.querySelector(".pp-wallet-modal__item-name");
                         var assetName = (nameEl && nameEl.textContent) ? nameEl.textContent.trim() : "";
+                        if (assetName === "USDT" || assetName === "USDC") {
+                            showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
+                            return;
+                        }
                         if (assetName) openEwDropdown([{ iconSrc: "assets/icon-ew-withdraw.svg", label: "Withdraw " + assetName, action: "withdraw" }], e);
                         return;
                     }

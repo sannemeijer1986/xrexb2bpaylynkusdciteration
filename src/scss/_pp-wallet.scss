@@ -2196,6 +2196,10 @@ $wallet-accent: $ew-text-link;
     );
   }
 
+  &[hidden] {
+    display: none !important;
+  }
+
   &--hidden-by-export {
     display: none;
   }
@@ -2364,6 +2368,7 @@ $wallet-accent: $ew-text-link;
   font-size: $ew-size-xs;
   font-weight: $ew-subtitle-weight;
   color: $ew-text-positive;
+  display: none;
 }
 
 .pp-wallet-modal__action-buttons {
@@ -3556,6 +3561,22 @@ $wallet-accent: $ew-text-link;
   font-size: $ew-size-s;
   font-weight: $ew-subtitle-weight;
   color: $wallet-text-muted;
+
+  &--autodebit {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+  }
+}
+
+.pp-wallet-modal__item-label-text {
+  min-width: 0;
+}
+
+.pp-wallet-modal__item-label-check {
+  flex-shrink: 0;
+  display: block;
 }
 
 .pp-wallet-modal__item-name {

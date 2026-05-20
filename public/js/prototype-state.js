@@ -2124,6 +2124,9 @@
     }
     syncPaylynkErc20ActivatedCheckboxes();
     syncPaylynkEthereumNetworkCard();
+    document.dispatchEvent(
+      new CustomEvent("paylynk:erc20-activated-changed", { detail: { coin, enabled } }),
+    );
   }
 
   function syncPaylynkNetworkContinue() {
@@ -2576,6 +2579,7 @@
     setWalletPasscodeValue,
     activateWalletPasscodeSession,
     clearWalletSession: () => setWalletPasscodeValue("inactive"),
+    isPaylynkErc20Activated: readPaylynkErc20Activated,
   });
 
   if (document.readyState === "loading") {
