@@ -708,9 +708,13 @@
     const statusCard = document.querySelector(".activating-stablecoin-status");
     const cardRoot = document.querySelector("[data-activating-root]");
     const ctaWrap = document.querySelector("[data-activating-status-cta]");
+    const doneCtaWrap = document.querySelector("[data-activating-done-cta]");
 
     if (cardRoot) cardRoot.setAttribute("data-setup-progress", String(p));
-    if (statusCard) statusCard.classList.toggle("activating-stablecoin-status--authorize", isAuthorizeDebit);
+    if (statusCard) {
+      statusCard.classList.toggle("activating-stablecoin-status--authorize", isAuthorizeDebit);
+      statusCard.classList.toggle("activating-stablecoin-status--complete", isSetupComplete);
+    }
 
     if (titleEl) titleEl.textContent = title;
     if (descEl) descEl.textContent = desc;
@@ -799,12 +803,17 @@
       }
     }
     if (footerEl) {
-      footerEl.hidden = isAuthorizeDebit;
-      footerEl.setAttribute("aria-hidden", isAuthorizeDebit ? "true" : "false");
+      const hideFooter = isAuthorizeDebit || isSetupComplete;
+      footerEl.hidden = hideFooter;
+      footerEl.setAttribute("aria-hidden", hideFooter ? "true" : "false");
     }
     if (ctaWrap) {
       ctaWrap.hidden = !isAuthorizeDebit;
       ctaWrap.setAttribute("aria-hidden", isAuthorizeDebit ? "false" : "true");
+    }
+    if (doneCtaWrap) {
+      doneCtaWrap.hidden = !isSetupComplete;
+      doneCtaWrap.setAttribute("aria-hidden", isSetupComplete ? "false" : "true");
     }
     if (hintEl) {
       hintEl.hidden = isSetupComplete;
