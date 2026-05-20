@@ -812,9 +812,18 @@ $wallet-accent: $ew-text-link;
   }
 
   .pp-wallet-modal__balance-amount {
-    min-height: 32px;
+    min-height: 42px;
     display: inline-block;
     width: 30%;
+
+    @media (min-width: $desktop-breakpoint) {
+      min-height: 50px;
+    }
+  }
+
+  .pp-wallet-modal__balance-info,
+  .pp-wallet-modal__balance-refresh {
+    visibility: hidden;
   }
 
   // Hide count while loading
@@ -1993,41 +2002,128 @@ $wallet-accent: $ew-text-link;
   }
 }
 
-.pp-wallet-modal__balance {
-  padding: 32px;
+.pp-wallet-modal__balance,
+.pp-wallet-modal__balance-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 20px;
   background-color: $ew-bg-base-primary;
+  box-sizing: border-box;
+
+  @media (min-width: $desktop-breakpoint) {
+    padding: 32px;
+  }
+}
+
+.pp-wallet-modal__balance-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  width: 100%;
+
+  @media (min-width: $desktop-breakpoint) {
+    gap: 0;
+  }
+}
+
+.pp-wallet-modal__balance-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
 }
 
 .pp-wallet-modal__balance-label {
-  margin: 0 0 8px 0;
+  margin: 0;
   font-family: $font-ew;
-  font-size: $ew-size-l;
+  font-size: $ew-size-s;
+  font-weight: $ew-subtitle-weight;
+  line-height: normal;
   color: $ew-text-secondary;
-  font-weight: $ew-subtitle-weight;
+  white-space: nowrap;
+
+  @media (min-width: $desktop-breakpoint) {
+    font-size: $ew-size-l;
+  }
 }
 
-.pp-wallet-modal__balance-approx {
-  opacity: 0.8;
-}
+.pp-wallet-modal__balance-info {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 
-.pp-wallet-modal__refresh {
-  color: $wallet-accent;
-  text-decoration: none;
-  font-weight: $ew-subtitle-weight;
-  font-size: $ew-size-m;
+  img {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
 
-  &:hover {
-    text-decoration: underline;
+  @media (min-width: $desktop-breakpoint) {
+    width: 24px;
+    height: 24px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 
 .pp-wallet-modal__balance-amount {
   margin: 0;
   font-family: $font-ew;
-  font-size: $ew-size-5xl;
+  font-size: $ew-size-4xl;
   font-weight: $ew-headline-weight;
+  line-height: normal;
   color: $ew-text-primary;
-  line-height: 1;
+  white-space: nowrap;
+
+  @media (min-width: $desktop-breakpoint) {
+    font-size: $ew-size-5xl;
+  }
+}
+
+.pp-wallet-modal__balance-refresh,
+.pp-wallet-modal__refresh.pp-wallet-modal__balance-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  font-family: $font-ew;
+  font-size: $ew-size-s;
+  font-weight: $ew-body-weight;
+  line-height: normal;
+  color: $ew-text-brand;
+  cursor: pointer;
+
+  img {
+    display: block;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  span {
+    white-space: nowrap;
+  }
+
+  &:hover span {
+    text-decoration: underline;
+  }
 }
 
 .pp-wallet-modal__section {
@@ -2203,11 +2299,10 @@ $wallet-accent: $ew-text-link;
 
 .pp-wallet-modal__address-detail .pp-wallet-modal__balance-block {
   padding: 0;
+  background-color: transparent;
 }
 
 .pp-wallet-modal__address-detail .pp-wallet-modal__balance-block .pp-wallet-modal__balance-amount {
-  font-size: $ew-size-4xl;
-
   &--empty {
     color: $ew-text-placeholder;
   }

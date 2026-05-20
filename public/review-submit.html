@@ -391,8 +391,19 @@
                 <div class="pp-wallet-modal__views">
                     <div class="pp-wallet-modal__view pp-wallet-modal__view--list" id="walletViewList">
                         <div class="pp-wallet-modal__balance">
-                            <p class="pp-wallet-modal__balance-label">Total balance <span class="pp-wallet-modal__balance-approx">≈</span> <a href="#" class="pp-wallet-modal__refresh">Refresh</a></p>
-                            <p class="pp-wallet-modal__balance-amount">$131.01</p>
+                            <div class="pp-wallet-modal__balance-main">
+                                <div class="pp-wallet-modal__balance-header">
+                                    <p class="pp-wallet-modal__balance-label">Total USD stablecoin balance</p>
+                                    <button type="button" class="pp-wallet-modal__balance-info" aria-label="Balance information">
+                                        <img src="assets/icon_ew_info.svg" width="24" height="24" alt="" />
+                                    </button>
+                                </div>
+                                <p class="pp-wallet-modal__balance-amount">$131.01</p>
+                            </div>
+                            <button type="button" class="pp-wallet-modal__balance-refresh pp-wallet-modal__refresh">
+                                <img src="assets/icon_ew_refresh.svg" width="16" height="16" alt="" />
+                                <span>Refresh</span>
+                            </button>
                         </div>
                         <section class="pp-wallet-modal__section">
                             <h3 class="pp-wallet-modal__section-title">
@@ -449,8 +460,19 @@
                         <div class="pp-wallet-modal__address-detail">
                             <div class="pp-wallet-modal__balance-address-row">
                                 <div class="pp-wallet-modal__balance-block">
-                                    <p class="pp-wallet-modal__balance-label">Balance <span class="pp-wallet-modal__balance-approx">≈</span> <a href="#" class="pp-wallet-modal__refresh">Refresh</a></p>
-                                    <p class="pp-wallet-modal__balance-amount" id="walletAddressDetailBalance">$131.01</p>
+                                    <div class="pp-wallet-modal__balance-main">
+                                        <div class="pp-wallet-modal__balance-header">
+                                            <p class="pp-wallet-modal__balance-label">Balance</p>
+                                            <button type="button" class="pp-wallet-modal__balance-info" aria-label="Balance information">
+                                                <img src="assets/icon_ew_info.svg" width="24" height="24" alt="" />
+                                            </button>
+                                        </div>
+                                        <p class="pp-wallet-modal__balance-amount" id="walletAddressDetailBalance">$131.01</p>
+                                    </div>
+                                    <button type="button" class="pp-wallet-modal__balance-refresh pp-wallet-modal__refresh">
+                                        <img src="assets/icon_ew_refresh.svg" width="16" height="16" alt="" />
+                                        <span>Refresh</span>
+                                    </button>
                                 </div>
                                 <div class="pp-wallet-modal__address-block">
                                     <span class="pp-wallet-modal__address-label">Address</span>
