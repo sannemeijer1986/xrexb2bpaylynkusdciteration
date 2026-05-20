@@ -81,7 +81,8 @@
 }
 
 button.setup-option,
-a.setup-option {
+a.setup-option,
+.setup-option[data-payment-setup-stablecoin-link] {
   display: flex;
   width: 100%;
   min-height: 190px;
@@ -96,7 +97,8 @@ a.setup-option {
   text-align: center;
 }
 
-a.setup-option {
+a.setup-option,
+.setup-option[data-payment-setup-stablecoin-link] {
   text-decoration: none;
   cursor: pointer;
   box-sizing: border-box;
@@ -283,8 +285,8 @@ html[data-prototype-setup-progress="10"] .setup-option--stablecoin .setup-option
   pointer-events: auto;
 }
 
-html[data-prototype-setup-progress="9"] a.setup-option--stablecoin[data-payment-setup-stablecoin-link],
-html[data-prototype-setup-progress="10"] a.setup-option--stablecoin[data-payment-setup-stablecoin-link] {
+html[data-prototype-setup-progress="9"] .setup-option--stablecoin[data-payment-setup-stablecoin-link],
+html[data-prototype-setup-progress="10"] .setup-option--stablecoin[data-payment-setup-stablecoin-link] {
   pointer-events: none;
   cursor: default;
 }
@@ -303,6 +305,7 @@ html[data-prototype-setup-progress="10"] .setup-option--stablecoin .setup-option
 }
 
 .setup-option__linked-card {
+  position: relative;
   display: flex;
   width: 100%;
   align-items: center;
@@ -311,6 +314,7 @@ html[data-prototype-setup-progress="10"] .setup-option--stablecoin .setup-option
   border: 1px solid $border-hard;
   border-radius: $radius-card;
   background: $surface-card;
+  cursor: pointer;
   box-sizing: border-box;
 }
 
@@ -589,7 +593,8 @@ a.setup-button--secondary {
 
   // Match `button.setup-option` / `a.setup-option` specificity so row layout wins over mobile column
   button.setup-option,
-  a.setup-option {
+  a.setup-option,
+  .setup-option[data-payment-setup-stablecoin-link] {
     min-height: 160px;
     flex-direction: row;
     justify-content: flex-start;
@@ -599,7 +604,7 @@ a.setup-button--secondary {
   }
 
   // Full-width incomplete bar below image + text (not in the text column).
-  a.setup-option--stablecoin {
+  .setup-option--stablecoin[data-payment-setup-stablecoin-link] {
     flex-direction: column;
     align-items: stretch;
   }

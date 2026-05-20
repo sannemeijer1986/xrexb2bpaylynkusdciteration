@@ -1120,21 +1120,14 @@
     });
 
     if (stored === "true") {
-      let endIso = null;
+      // Fresh 5:00 on every page load while logged in stays true.
       try {
-        endIso = window.localStorage?.getItem(LOGGED_IN_SESSION_END_KEY);
+        window.localStorage?.setItem(
+          LOGGED_IN_SESSION_END_KEY,
+          new Date(Date.now() + LOGGED_IN_SESSION_MS).toISOString(),
+        );
       } catch (_) {
         /* ignore */
-      }
-      if (!endIso) {
-        try {
-          window.localStorage?.setItem(
-            LOGGED_IN_SESSION_END_KEY,
-            new Date(Date.now() + LOGGED_IN_SESSION_MS).toISOString(),
-          );
-        } catch (_) {
-          /* ignore */
-        }
       }
       startLoggedInTimerTick();
     } else {
@@ -1606,17 +1599,9 @@
       if (nextBtn.disabled) return;
       window.location.href = "review-submit.html";
     });
-    const showMenuToast = () => showPrototypeToast("Not in prototype");
-    const menu = document.querySelector("[data-payment-setup-linked-menu]");
-    menu?.addEventListener("click", showMenuToast);
-    menu?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        showMenuToast();
-      }
-    });
     const link = document.querySelector("[data-payment-setup-stablecoin-link]");
     link?.addEventListener("click", (e) => {
+      if (e.target.closest("[data-pp-wallet-entry]")) return;
       if (states.setupProgress >= 9) {
         e.preventDefault();
         return;
@@ -1632,7 +1617,14 @@
           return;
         }
         window.location.href = resolvePaymentSetupStablecoinResumeHref();
+        return;
       }
+      e.preventDefault();
+      const href =
+        link.getAttribute("href") ||
+        link.getAttribute("data-payment-setup-stablecoin-href") ||
+        "setup-wallet.html";
+      window.location.href = href;
     });
   }
 
@@ -1648,7 +1640,6 @@
     document.querySelectorAll("[data-review-submit-edit]").forEach((btn) => {
       btn.addEventListener("click", showStubToast);
     });
-    document.querySelector("[data-review-submit-wallet-menu]")?.addEventListener("click", showStubToast);
   }
 
   function initPickStablecoinPage() {
@@ -2065,7 +2056,39 @@
     }
   }
 
+  function injectErc20ActivatedPrototypeControls() {
+    if (document.querySelector("[data-prototype-usdt-erc20-activated]")) return;
+    const body = document.querySelector(".build-badge__body");
+    if (!body) return;
+
+    const stack = document.createElement("div");
+    stack.className = "build-badge__checkbox-stack";
+    stack.innerHTML = `
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-usdt-erc20-activated aria-label="USDT ERC-20 activated" />
+            <span>USDT/ERC-20 activated</span>
+          </label>
+        </div>
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-usdc-erc20-activated aria-label="USDC ERC-20 activated" />
+            <span>USDC/ERC-20 activated</span>
+          </label>
+        </div>`;
+
+    const journeyRow = body.querySelector("[data-prototype-journey]")?.closest(".build-badge__section-row");
+    if (journeyRow) journeyRow.before(stack);
+    else body.appendChild(stack);
+  }
+
   function initPaylynkErc20ActivatedCheckboxes() {
+    injectErc20ActivatedPrototypeControls();
+    if (document.documentElement.hasAttribute("data-prototype-erc20-activated-bound")) {
+      syncPaylynkErc20ActivatedCheckboxes();
+      return;
+    }
+    document.documentElement.setAttribute("data-prototype-erc20-activated-bound", "");
     const onChange = (e) => {
       const input = e.target;
       if (!(input instanceof HTMLInputElement) || !e.isTrusted) return;
@@ -2089,8 +2112,6 @@
         showPrototypeToast("Payment method added", { success: true });
       });
     }
-
-    initPaylynkErc20ActivatedCheckboxes();
 
     const methodsRoot = document.querySelector("[data-paylynk-methods]");
     if (methodsRoot) {
@@ -2294,6 +2315,7 @@
     initActivatingReauthModal();
     initSetupLeaveCancelDialog();
     initUseDefaultStablecoinCheckbox();
+    initPaylynkErc20ActivatedCheckboxes();
     initJourneySelect();
     initEmptyCheckbox();
     initLoggedInSelect();

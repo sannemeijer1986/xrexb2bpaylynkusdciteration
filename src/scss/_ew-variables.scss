@@ -1,0 +1,234 @@
+// Embedded Wallet typography (Inter-based, from MCP)
+$font-ew: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+
+// EW type scale – sizes only (from EW typography sheet)
+$ew-size-5xl: 50px;
+$ew-size-4xl: 42px;
+$ew-size-3xl: 34px;
+$ew-size-xxl: 26px;
+$ew-size-xl: 22px;
+$ew-size-l: 18px;
+$ew-size-m: 16px;
+$ew-size-s: 14px;
+$ew-size-xs: 12px;
+$ew-size-xxs: 10px;
+$ew-size-caption-xs: 11px;
+
+// Shared weights by category (use these in components, independent of size)
+$ew-headline-weight: 800;
+$ew-title-weight: 700;
+$ew-subtitle-weight: 600;
+$ew-body-weight: 400;
+$ew-caption-weight: 400;
+
+// ---------------------------------------------------------------------------
+// EW color primitives (from Figma .Primitives export)
+// ---------------------------------------------------------------------------
+
+// [ EW ] Primaryblue
+$ew-primaryblue-1000: #0A122E;
+$ew-primaryblue-900: #0E1A40;
+$ew-primaryblue-800: #142766;
+$ew-primaryblue-700: #1E3A99;
+$ew-primaryblue-600: #2950C0;
+$ew-primaryblue-500: #3A6BEB;
+$ew-primaryblue-400: #4779FF;
+$ew-primaryblue-300: #6B94FF;
+$ew-primaryblue-200: #A9C4FF;
+$ew-primaryblue-100: #E3ECFF;
+
+// [ EW ] Accentblue
+$ew-accentblue-1000: #0B101F;
+$ew-accentblue-900: #13182A;
+$ew-accentblue-800: #191F34;
+$ew-accentblue-700: #222947;
+$ew-accentblue-600: #293155;
+$ew-accentblue-500: #3A4570;
+$ew-accentblue-400: #56659A;
+$ew-accentblue-300: #7384BE;
+$ew-accentblue-200: #96A9E0;
+$ew-accentblue-100: #C7D6FF;
+
+// [ EW ] Neutral
+$ew-neutral-1000: #000000;
+$ew-neutral-900: #595B64;
+$ew-neutral-100: #FFFFFF;
+$ew-neutral-200: #F5F5F7;
+$ew-neutral-300: #E6E6EA;
+$ew-neutral-400: #D4D4DA;
+$ew-neutral-500: #BFC0C8;
+$ew-neutral-600: #A7A8B3;
+$ew-neutral-700: #8E909C;
+$ew-neutral-800: #6F717C;
+
+// [ EW ] Assisting – primitives (from Figma)
+// Amber
+$ew-assisting-amber-100: #FFF8E8;
+$ew-assisting-amber-200: #FDECC8;
+$ew-assisting-amber-300: #F8DFA7;
+$ew-assisting-amber-400: #F1C77D;
+$ew-assisting-amber-500: #E6B97A;
+$ew-assisting-amber-600: #C9973E;
+$ew-assisting-amber-700: #9C742B;
+$ew-assisting-amber-800: #6E511F;
+$ew-assisting-amber-900: #3B2B0F;
+$ew-assisting-amber-1000: #191207;
+
+// Rose
+$ew-assisting-rose-100: #FFF1F1;
+$ew-assisting-rose-200: #FDE2E2;
+$ew-assisting-rose-300: #F7CACA;
+$ew-assisting-rose-400: #EEADAD;
+$ew-assisting-rose-500: #DC8A8A;
+$ew-assisting-rose-600: #C26666;
+$ew-assisting-rose-700: #A34A4A;
+$ew-assisting-rose-800: #7A3535;
+$ew-assisting-rose-900: #552424;
+$ew-assisting-rose-1000: #331414;
+
+// Mint
+$ew-assisting-mint-100: #F1FCF6;
+$ew-assisting-mint-200: #DDF7E9;
+$ew-assisting-mint-300: #C6F0D9;
+$ew-assisting-mint-400: #A8E7C2;
+$ew-assisting-mint-500: #8ADCA5;
+$ew-assisting-mint-600: #66C288;
+$ew-assisting-mint-700: #4BA36E;
+$ew-assisting-mint-800: #357A53;
+$ew-assisting-mint-900: #24563C;
+$ew-assisting-mint-1000: #133324;
+
+// Semantic aliases (map to 500 shade)
+$ew-assisting-positive: $ew-assisting-mint-500;
+$ew-assisting-warning: $ew-assisting-amber-500;
+$ew-assisting-negative: $ew-assisting-rose-500;
+
+// ---------------------------------------------------------------------------
+// EW semantic tokens – Dark mode (from Figma Tokens export)
+// ---------------------------------------------------------------------------
+
+// Background
+$ew-bg-base-primary: $ew-accentblue-900;      // EW-bg-base-primary
+$ew-bg-base-secondary: $ew-accentblue-800;    // EW-bg-base-secondary
+$ew-bg-surface-primary: $ew-accentblue-700;   // EW-bg-surface-primary
+$ew-bg-surface-secondary: $ew-accentblue-600; // EW-bg-surface-secondary
+
+// Text
+$ew-text-primary: $ew-neutral-100;           // EW-text-primary
+$ew-text-secondary: $ew-accentblue-300;      // EW-text-secondary
+$ew-text-placeholder: $ew-accentblue-400;    // EW-text-placeholder
+$ew-text-highlight: $ew-primaryblue-200;      // EW-text-highlight
+$ew-text-brand: $ew-primaryblue-400;         // EW-text-brand
+$ew-text-link: $ew-primaryblue-400;          // EW-text-link
+$ew-text-positive: $ew-assisting-positive;   // EW-text-positive
+$ew-text-warning: $ew-assisting-warning;     // EW-text-warning
+$ew-text-negative: $ew-assisting-negative;   // EW-text-negative
+
+// Icon
+$ew-icon-brand: $ew-primaryblue-400;         // EW-icon-brand
+$ew-icon-primary: $ew-neutral-100;           // EW-icon-primary
+$ew-icon-secondary: $ew-accentblue-200;      // EW-icon-secondary
+$ew-icon-placeholder: $ew-accentblue-300;    // EW-icon-placeholder
+$ew-icon-positive: $ew-assisting-positive;   // EW-icon-positive
+$ew-icon-warning: $ew-assisting-warning;     // EW-icon-warning
+$ew-icon-negative: $ew-assisting-negative;   // EW-icon-negative
+
+// Border
+$ew-border-highcon: $ew-accentblue-600;      // EW-border-highcon
+$ew-border-mediumcon: $ew-accentblue-700;    // EW-border-mediumcon
+$ew-border-lowcon: $ew-accentblue-900;       // EW-border-lowcon
+
+// Alert – from [ EW ] Alert tokens (Dark): background, content, border
+$ew-alert-bg-neutral: $ew-primaryblue-800;           // EW-alert-bg-neutral
+$ew-alert-content-neutral: $ew-primaryblue-200;    // EW-alert-content-neutral
+$ew-alert-border-neutral: $ew-primaryblue-600;       // EW-alert-border-neutral
+$ew-alert-bg-warning: $ew-assisting-amber-900;       // EW-alert-bg-warning
+$ew-alert-content-warning: $ew-assisting-amber-500;  // EW-alert-content-warning
+$ew-alert-border-warning: $ew-assisting-amber-800;   // EW-alert-border-warning
+
+// Tag / label – Gas for fees pill (re-uses EW alert warning tones but separate semantic tokens)
+$ew-tag-gas-bg: $ew-alert-bg-warning;                // EW-tag-gas-bg
+$ew-tag-gas-content: $ew-alert-content-warning;      // EW-tag-gas-content
+$ew-tag-gas-border: $ew-alert-border-warning;        // EW-tag-gas-border
+
+// Input (EW-input-* – from Figma Input tokens, Dark theme)
+$ew-input-bg: $ew-accentblue-700;            // EW-input-bg
+$ew-input-content-primary: $ew-neutral-100;  // EW-input-content-primary
+$ew-input-content-secondary: $ew-accentblue-300;   // EW-input-content-secondary
+$ew-input-content-placeholder: $ew-accentblue-400; // EW-input-content-placeholder
+$ew-input-border-active: $ew-accentblue-200;      // EW-input-border-active
+
+// Snackbar
+$ew-snackbar-bg: $ew-accentblue-1000;
+$ew-snackbar-text: $ew-neutral-100;
+$ew-snackbar-border: $ew-accentblue-800;
+
+// ---------------------------------------------------------------------------
+// EW Button (semantic tokens from primitives – for .ew-btn component)
+// ---------------------------------------------------------------------------
+$ew-btn-primary-bg: $ew-primaryblue-500;
+$ew-btn-primary-bg-hover: $ew-primaryblue-400;
+$ew-btn-primary-color: $ew-neutral-100;
+$ew-btn-primary-bg-disabled: $ew-primaryblue-700;
+$ew-btn-primary-color-disabled: rgba($ew-neutral-100, 0.5);
+
+$ew-btn-secondary-bg: $ew-accentblue-500;
+$ew-btn-secondary-bg-hover: $ew-accentblue-400;
+$ew-btn-secondary-color: $ew-neutral-100;
+$ew-btn-secondary-bg-disabled: $ew-accentblue-800;
+$ew-btn-secondary-color-disabled: rgba($ew-neutral-100, 0.4);
+
+// Colors (placeholder until design tokens are provided)
+$gray-50: #f8fafc;
+$gray-100: #f1f5f9;
+$gray-200: #e2e8f0;
+$gray-300: #cbd5e1;
+$gray-400: #94a3b8;
+$gray-500: #797A7B;
+$gray-600: #475569;
+$gray-700: #334155;
+$gray-800: #1f2937;
+$gray-900: #0f172a;
+
+$primary-50: #eff6ff;
+$primary-100: #dbeafe;
+$primary-200: #bfdbfe;
+$primary-300: #93c5fd;
+$primary-400: #60a5fa;
+$primary-500: #3b82f6;
+$primary-600: #2563eb;
+$primary-700: #1d4ed8;
+$primary-800: #1e40af;
+$primary-900: #1e3a8a;
+
+$success-500: #10b981;
+$warning-500: #f59e0b;
+$danger-500: #ef4444;
+
+$text-primary: $gray-900;
+$text-secondary: $gray-500;
+$text-placeholder: $gray-400;
+$bg-page: #F8F8F8;
+$bg-subtle: $gray-50;
+$border-color: #eeeeee;
+$border-color-hard: #DBDBDC;
+$focus-ring: $primary-400;
+
+$radius-sm: 6px;
+$radius-md: 8px;
+$radius-lg: 16px;
+
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+$shadow-md: 0 2px 8px rgba(15, 23, 42, 0.08);
+$shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.12);
+
+$container-max-desktop: 1280px;
+$container-max-tablet: 760px;
+$gutter: 16px;
+
+// Breakpoints
+// Keep one source of truth for media queries
+$bp-mobile-lg: 720px;
+$bp-tablet: 960px;
+$bp-desktop: 1280px;
+$bp-wide: 1440px;

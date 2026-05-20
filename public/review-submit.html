@@ -8,7 +8,7 @@
   <title>XREX PayLynk - Review &amp; submit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css?v=102" />
   <script>
     (function () {
@@ -108,7 +108,7 @@
               <p class="review-submit-card__eyebrow">Stablecoin payments</p>
               <div class="review-submit-wallet-group">
                 <p class="review-submit-wallet__heading">Your wallet</p>
-                <div class="review-submit-wallet">
+                <div class="review-submit-wallet" data-pp-wallet-entry>
                 <div class="review-submit-wallet__icon-wrap" aria-hidden="true">
                   <img class="review-submit-wallet__icon" src="assets/icon_wallet_blue.svg" width="20" height="20" alt="" />
                 </div>
@@ -119,11 +119,18 @@
                 <button
                   type="button"
                   class="review-submit-wallet__menu"
+                  data-pp-wallet-menu
                   data-review-submit-wallet-menu
                   aria-label="Wallet options"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
                 >
                   <img src="assets/icon_more_vert_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
                 </button>
+                <div class="wallet-entry__dropdown" data-pp-wallet-menu-dropdown role="menu" aria-hidden="true">
+                  <a href="#" data-pp-wallet-open role="menuitem">Open your wallet</a>
+                  <a href="https://support.xrex.sg/en/articles/13543998-how-does-paying-in-usdt-work-on-paylynk" target="_blank" rel="noopener noreferrer" role="menuitem">How it works</a>
+                </div>
                 </div>
               </div>
             </section>
@@ -237,6 +244,767 @@
       </div>
     </div>
   </div>
+
+    <div class="pp-modal pp-modal--get-code" id="requestOtpModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="requestOtpTitle">
+        <div class="pp-modal__dialog">
+            <div class="pp-modal__header">
+                <h2 id="requestOtpTitle">Log in to your wallet</h2>
+                <button type="button" id="requestOtpClose" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+            </div>
+            <div class="pp-modal__body">
+                <p class="pp-modal__lead">
+                    Verify your email to continue. Fireblocks Dynamic will send a one-time verification code to <span>abc1234@gmail.com</span>
+                </p>
+                <div class="pp-modal__get-code-row">
+                    <div class="pp-modal__brand"><img src="assets/logo_pp_dynamic.svg" alt="dynamic by Fireblocks" /></div>
+                </div>
+                <div class="pp-modal__get-code-divider"></div>
+            </div>
+            <div class="pp-modal__footer">
+                <button type="button" class="pp-modal__btn" id="requestOtpCancel">Cancel</button>
+                <button type="button" class="pp-modal__btn pp-modal__btn--primary" id="getVerificationCodeBtn">Get verification code</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pp-modal" id="verifyEmailModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="verifyEmailTitle">
+        <div class="pp-modal__dialog">
+            <div class="pp-modal__header">
+                <h2 id="verifyEmailTitle">Log in to your wallet</h2>
+                <button type="button" id="verifyEmailClose" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+            </div>
+            <div class="pp-modal__body">
+                <p class="pp-modal__lead">
+                    Enter the verification code sent by Fireblocks Dynamic to <span>abc1234@gmail.com</span>
+                </p>
+
+                <div class="pp-modal__brand"><img src="assets/logo_pp_dynamic.svg" alt="dynamic by Fireblocks" /></div>
+
+                <label class="pp-modal__label" for="verifyCodeInput">Verification code</label>
+                <input id="verifyCodeInput" type="text" placeholder="Enter code from your email" />
+                <p class="pp-modal__meta">Didn’t receive the code? Resend in 200s</p>
+                <p class="pp-modal__submeta">If it’s missing, check your spam or junk folder</p>
+            </div>
+            <div class="pp-modal__footer">
+                <button type="button" class="pp-modal__btn" id="verifyEmailOkay">Cancel</button>
+            </div>
+            <div class="pp-modal__loading" id="verifyEmailLoading" aria-hidden="true">
+                <div class="pp-modal__spinner" aria-hidden="true"></div>
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="pp-loading-modal" id="walletLoadingModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Logging in">
+        <div class="pp-loading-modal__dialog">
+            <div class="pp-loading-modal__logos">
+                <div class="pp-loading-modal__logo_wrapper"><div class="pp-loading-modal__logo"><img src="assets/loading_left.svg" alt="XREX Pay" /></div></div>
+                <div class="pp-loading-modal__progress" aria-hidden="true">
+                    <span class="pp-loading-modal__progress-bar"></span>
+                    <span class="pp-loading-modal__progress-bar"></span>
+                    <span class="pp-loading-modal__progress-bar"></span>
+                    <span class="pp-loading-modal__progress-bar"></span>
+                    <span class="pp-loading-modal__progress-bar"></span>
+                </div>
+                <div class="pp-loading-modal__logo_wrapper"><div class="pp-loading-modal__logo"><img src="assets/loading_rigth.svg" alt="dynamic by Fireblocks" /></div></div>
+            </div>
+            <p class="pp-loading-modal__message" id="walletLoadingMessage">Opening your wallet...</p>
+        </div>
+    </div>
+
+    <div class="pp-wallet-passcode-modal" id="walletPasscodeModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletPasscodeTitle">
+        <div class="pp-wallet-passcode-modal__dialog">
+            <div class="pp-wallet-passcode-modal__header">
+                <h2 id="walletPasscodeTitle">Verify wallet passcode</h2>
+                <button type="button" id="walletPasscodeClose" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+            </div>
+            <div class="pp-wallet-passcode-modal__divider"></div>
+            <div class="pp-wallet-passcode-modal__body">
+                <div class="pp-wallet-passcode-modal__field">
+                    <label class="pp-wallet-passcode-modal__label" for="walletPasscodeInput">Enter your wallet passcode to continue</label>
+                    <div class="pp-wallet-passcode-modal__input-row">
+                        <input id="walletPasscodeInput" type="password" placeholder="Enter your wallet passcode" autocomplete="off" />
+                        <button type="button" class="pp-wallet-passcode-modal__eye" id="walletPasscodeToggle" aria-label="Show passcode">
+                            <img src="assets/icon-ew-eye-closed-blue.svg" width="32" height="32" alt="" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="pp-wallet-passcode-modal__footer">
+                <button type="button" class="ew-btn ew-btn--md ew-btn--secondary pp-wallet-passcode-modal__btn" id="walletPasscodeCancel">Cancel</button>
+                <button type="button" class="ew-btn ew-btn--md ew-btn--primary ew-btn--disabled pp-wallet-passcode-modal__btn" id="walletPasscodeVerify" disabled>Verify passcode</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pp-wallet-modal" id="walletModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletModalTitle">
+        <div class="pp-wallet-modal__dialog">
+            <div class="pp-wallet-modal__header">
+                <button type="button" class="pp-wallet-modal__back pp-wallet-modal__back--hidden" id="walletModalBack" aria-label="Back">
+                    <img src="assets/icon_header_back.svg" width="24" height="24" alt="" />
+                </button>
+                <div class="pp-wallet-modal__header-info">
+                    <span class="pp-wallet-modal__header-icon-wrap">
+                        <span class="pp-wallet-modal__circle-icon">
+                            <img src="assets/icon-ew-tab-assets-filled.svg" width="24" height="24" alt="" />
+                        </span>
+                    </span>
+                    <span class="pp-wallet-modal__header-avatar-wrap pp-wallet-modal__header-avatar-wrap--hidden" aria-hidden="true">
+                        <span class="pp-wallet-modal__avatar" id="walletModalHeaderAvatar">AT</span>
+                    </span>
+                    <span class="pp-wallet-modal__header-address-detail-wrap pp-wallet-modal__header-address-detail-wrap--hidden" aria-hidden="true">
+                        <span class="pp-wallet-modal__circle-icon">
+                            <img src="assets/icon-ew-addressdetail.svg" width="24" height="24" alt="" />
+                        </span>
+                    </span>
+                    <span class="pp-wallet-modal__header-withdraw-wrap pp-wallet-modal__header-withdraw-wrap--hidden" aria-hidden="true">
+                        <span class="pp-wallet-modal__circle-icon">
+                            <img src="assets/icon-ew-withdraw-navbar.svg" width="24" height="24" alt="" />
+                        </span>
+                    </span>
+                    <span class="pp-wallet-modal__header-export-key-wrap pp-wallet-modal__header-export-key-wrap--hidden" aria-hidden="true">
+                        <span class="pp-wallet-modal__circle-icon">
+                            <img src="assets/icon-ew-exportkeys-blue.svg" width="24" height="24" alt="" />
+                        </span>
+                    </span>
+                    <div class="pp-wallet-modal__header-text">
+                        <span class="pp-wallet-modal__header-label" id="walletModalHeaderLabel">abc1234@gmail.com</span>
+                        <h2 id="walletModalTitle" class="pp-wallet-modal__title">Wallet account</h2>
+                    </div>
+                </div>
+                <button type="button" class="pp-wallet-modal__close" id="walletModalClose" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+            </div>
+            <div class="pp-wallet-modal__body">
+                <div class="pp-wallet-modal__views">
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--list" id="walletViewList">
+                        <div class="pp-wallet-modal__balance">
+                            <p class="pp-wallet-modal__balance-label">Total balance <span class="pp-wallet-modal__balance-approx">≈</span> <a href="#" class="pp-wallet-modal__refresh">Refresh</a></p>
+                            <p class="pp-wallet-modal__balance-amount">$131.01</p>
+                        </div>
+                        <section class="pp-wallet-modal__section">
+                            <h3 class="pp-wallet-modal__section-title">
+                                My auto-debit wallets
+                                <span class="pp-wallet-modal__section-count">(2)</span>
+                            </h3>
+                            <ul class="pp-wallet-modal__list">
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--active" data-beneficiary-initials="MC" data-beneficiary-name="Micro Corp" data-beneficiary-balance="$131.01 ≈" data-beneficiary-balance-empty="false">
+                                    <span class="pp-wallet-modal__avatar">MC</span>
+                                    <div class="pp-wallet-modal__item-content">
+                                        <span class="pp-wallet-modal__item-label">Beneficiary</span>
+                                        <span class="pp-wallet-modal__item-name">Micro Corp</span>
+                                    </div>
+                                    <div class="pp-wallet-modal__item-right">
+                                        <span class="pp-wallet-modal__item-balance">$131.01 ≈</span>
+                                        <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
+                                    </div>
+                                </li>
+                                <li class="pp-wallet-modal__item" data-beneficiary-initials="NL" data-beneficiary-name="NovaQuill Ltd" data-beneficiary-balance="$0.00" data-beneficiary-balance-empty="true">
+                                    <span class="pp-wallet-modal__avatar">NL</span>
+                                    <div class="pp-wallet-modal__item-content">
+                                        <span class="pp-wallet-modal__item-label">Beneficiary</span>
+                                        <span class="pp-wallet-modal__item-name">NovaQuill Ltd</span>
+                                    </div>
+                                    <div class="pp-wallet-modal__item-right">
+                                        <span class="pp-wallet-modal__item-balance pp-wallet-modal__item-balance--empty">$0.00</span>
+                                        <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--beneficiary" id="walletViewBeneficiary" aria-hidden="true">
+                        <section class="pp-wallet-modal__section">
+                            <h3 class="pp-wallet-modal__section-title">Networks (1)</h3>
+                            <ul class="pp-wallet-modal__list pp-wallet-modal__list--networks">
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--network" data-network-name="Ethereum (ERC-20)">
+                                    <span class="pp-wallet-modal__network-icon">
+                                        <img src="assets/icon-ew-addressdetail.svg" alt="" width="24" height="24" />
+                                    </span>
+                                    <div class="pp-wallet-modal__item-content">
+                                        <span class="pp-wallet-modal__item-name">Ethereum (ERC-20)</span>
+                                        <span class="pp-wallet-modal__item-address" id="walletBeneficiaryNetworkAddress">0x2134...1233f8</span>
+                                    </div>
+                                    <div class="pp-wallet-modal__item-right">
+                                        <span class="pp-wallet-modal__item-balance" id="walletBeneficiaryDetailBalance">$131.01 ≈</span>
+                                        <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--address-detail" id="walletViewAddressDetail" aria-hidden="true">
+                        <div class="pp-wallet-modal__address-detail">
+                            <div class="pp-wallet-modal__balance-address-row">
+                                <div class="pp-wallet-modal__balance-block">
+                                    <p class="pp-wallet-modal__balance-label">Balance <span class="pp-wallet-modal__balance-approx">≈</span> <a href="#" class="pp-wallet-modal__refresh">Refresh</a></p>
+                                    <p class="pp-wallet-modal__balance-amount" id="walletAddressDetailBalance">$131.01</p>
+                                </div>
+                                <div class="pp-wallet-modal__address-block">
+                                    <span class="pp-wallet-modal__address-label">Address</span>
+                                    <button type="button" class="pp-wallet-modal__address-value-row" aria-label="Copy address" data-copy-value="0x21341234123412341234123412341233f8">
+                                        <span class="pp-wallet-modal__address-value" id="walletAddressDetailValue">0x2134...1233f8</span>
+                                        <span class="pp-wallet-modal__address-copy-icon" aria-hidden="true"><img src="assets/icon-ew-copy.svg" alt="" width="20" height="20" /></span>
+                                    </button>
+                                    <span class="pp-wallet-modal__address-badge"><img src="assets/icon-ew-check-autodebit.svg" alt="" width="18" height="18" /> Auto-debit</span>
+                                </div>
+                            </div>
+                            <div class="pp-wallet-modal__action-buttons">
+                                <button type="button" class="pp-wallet-modal__action-btn pp-wallet-modal__action-btn--primary" id="walletModalWithdrawBtn">
+                                    <span class="pp-wallet-modal__action-btn-icon"><img src="assets/icon-ew-withdraw.svg" alt="" width="32" height="32" /></span>
+                                    <span class="pp-wallet-modal__action-btn-label">Withdraw</span>
+                                </button>
+                                <a href="https://etherscan.io/address/0x21341234123412341234123412341233f8" target="_blank" rel="noopener noreferrer" class="pp-wallet-modal__action-btn" id="walletAddressDetailActivityLink">
+                                    <span class="pp-wallet-modal__action-btn-icon"><img src="assets/icon-ew-activity.svg" alt="" width="32" height="32" /></span>
+                                    <span class="pp-wallet-modal__action-btn-label">On-chain activity</span>
+                                </a>
+                                <button type="button" class="pp-wallet-modal__action-btn" id="walletModalMoreBtn" aria-haspopup="menu" aria-expanded="false">
+                                    <span class="pp-wallet-modal__action-btn-icon"><img src="assets/icon-ew-more.svg" alt="" width="32" height="32" /></span>
+                                    <span class="pp-wallet-modal__action-btn-label">More</span>
+                                </button>
+                            </div>
+                            <section class="pp-wallet-modal__section">
+                                <h3 class="pp-wallet-modal__section-title">Assets</h3>
+                                <div id="walletAddressDetailAssetsList">
+                                    <ul class="pp-wallet-modal__list">
+                                        <li class="pp-wallet-modal__item">
+                                            <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-USDT.svg" alt="" width="40" height="40" /></span>
+                                            <div class="pp-wallet-modal__item-content">
+                                                <span class="pp-wallet-modal__item-name">USDT</span>
+                                                <span class="pp-wallet-modal__item-label">USD Tether</span>
+                                            </div>
+                                            <span class="pp-wallet-modal__item-balance">32.41 USDT</span>
+                                        </li>
+                                        <li class="pp-wallet-modal__item">
+                                            <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-ETH.svg" alt="" width="40" height="40" /></span>
+                                            <div class="pp-wallet-modal__item-content">
+                                                <span class="pp-wallet-modal__item-name">ETH</span>
+                                                <span class="pp-wallet-modal__item-label">Ethereum</span>
+                                            </div>
+                                            <div class="pp-wallet-modal__item-right">
+                                                <span class="pp-wallet-asset-tag"><img src="assets/icon-ew-gas-yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Gas for fees</span>
+                                                <span class="pp-wallet-modal__item-balance">0.05 ETH</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <p class="pp-wallet-modal__assets-empty" id="walletAddressDetailAssetsEmpty" hidden aria-hidden="true">No available assets</p>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--withdraw-select" id="walletViewWithdrawSelect" aria-hidden="true">
+                        <section class="pp-wallet-modal__section">
+                            <h3 class="pp-wallet-modal__section-title">Assets</h3>
+                            <ul class="pp-wallet-modal__list">
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--asset-select">
+                                    <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-USDT.svg" alt="" width="40" height="40" /></span>
+                                    <div class="pp-wallet-modal__item-content">
+                                        <span class="pp-wallet-modal__item-name">USDT</span>
+                                        <span class="pp-wallet-modal__item-label">USD Tether</span>
+                                    </div>
+                                    <div class="pp-wallet-modal__item-right">
+                                        <span class="pp-wallet-modal__item-balance">32.41 USDT</span>
+                                        <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
+                                    </div>
+                                </li>
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--asset-select">
+                                    <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-ETH.svg" alt="" width="40" height="40" /></span>
+                                    <div class="pp-wallet-modal__item-content">
+                                        <span class="pp-wallet-modal__item-name">ETH</span>
+                                        <span class="pp-wallet-modal__item-label">Ethereum</span>
+                                    </div>
+                                    <div class="pp-wallet-modal__item-right">
+                                        <span class="pp-wallet-asset-tag"><img src="assets/icon-ew-gas-yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Gas for fees</span>
+                                        <span class="pp-wallet-modal__item-balance">0.05 ETH</span>
+                                        <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
+                                    </div>
+                                </li>
+                                    </ul>
+                        </section>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--withdraw-form" id="walletViewWithdrawForm" aria-hidden="true">
+                        <div class="pp-wallet-withdraw-form">
+                            <div class="pp-wallet-withdraw-form__field">
+                                <label class="pp-wallet-withdraw-form__label" for="walletWithdrawAddress">Recipient address</label>
+                                <div class="pp-wallet-withdraw-form__input-row pp-wallet-withdraw-form__input-row--recipient-address">
+                                    <textarea id="walletWithdrawAddress" class="pp-wallet-withdraw-form__input pp-wallet-withdraw-form__input--textarea" placeholder="Enter address" autocomplete="off" rows="1"></textarea>
+                                    <div class="pp-wallet-withdraw-form__row-actions">
+                                        <button type="button" class="pp-wallet-withdraw-form__clear-btn" id="walletWithdrawAddressClear" aria-label="Clear address" title="Clear" hidden>
+                                            <img src="assets/icon-ew-clear-blue.svg" alt="" width="20" height="20" />
+                                        </button>
+                                        <button type="button" class="pp-wallet-withdraw-form__action-link" id="walletWithdrawPaste">Paste</button>
+                                    </div>
+                                </div>
+                                <p class="pp-wallet-withdraw-form__hint pp-wallet-withdraw-form__hint--helpertext" id="walletWithdrawAddressHint">
+                                    <span class="pp-wallet-withdraw-form__hint-check" id="walletWithdrawAddressHintCheck" aria-hidden="true"><img src="assets/icon-ew-check-autodebit.svg" alt="" width="24" height="24" /></span>
+                                    <span id="walletWithdrawAddressHintText">Must be an Ethereum (ERC-20) address</span>
+                                </p>
+                            </div>
+                            <div class="pp-wallet-withdraw-form__field">
+                                <label class="pp-wallet-withdraw-form__label" for="walletWithdrawAmount">Amount</label>
+                                <div class="pp-wallet-withdraw-form__input-row">
+                                    <input type="text" id="walletWithdrawAmount" class="pp-wallet-withdraw-form__input" placeholder="Enter amount" inputmode="decimal" autocomplete="off" />
+                                    <div class="pp-wallet-withdraw-form__row-actions">
+                                        <span class="pp-wallet-withdraw-form__currency" id="walletWithdrawCurrency">USDT</span>
+                                        <button type="button" class="pp-wallet-withdraw-form__action-link" id="walletWithdrawMax">Max</button>
+                                    </div>
+                                </div>
+                                <p class="pp-wallet-withdraw-form__hint pp-wallet-withdraw-form__hint--row">
+                                    <span>Available</span>
+                                    <span id="walletWithdrawAvailable">32.41 USDT</span>
+                                </p>
+                            </div>
+                            <div class="pp-wallet-withdraw-form__actions pp-wallet-bnc pp-wallet-bnc--end">
+                                <button type="button" class="ew-btn ew-btn--lg ew-btn--primary ew-btn--disabled" id="walletWithdrawReviewBtn" disabled>Review withdrawal</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--withdraw-confirm" id="walletViewWithdrawConfirm" aria-hidden="true">
+                        <div class="pp-wallet-withdraw-confirm">
+                            <div class="pp-wallet-withdraw-confirm__summary">
+                                <div class="pp-wallet-withdraw-confirm__summary-row">
+                                    <span class="pp-wallet-withdraw-confirm__asset-icon" id="walletConfirmAssetIcon"><img src="assets/icon-ew-currency-USDT.svg" alt="" width="40" height="40" /></span>
+                                    <div class="pp-wallet-withdraw-confirm__summary-content">
+                                        <span class="pp-wallet-withdraw-confirm__summary-label">You will withdraw</span>
+                                        <span class="pp-wallet-withdraw-confirm__summary-amount" id="walletConfirmAmount">32.41 USDT</span>
+                                    </div>
+                                </div>
+                                <div class="pp-wallet-withdraw-confirm__divider">
+                                    <img src="assets/icon-ew-arrow-downward-blue.svg" alt="" width="32" height="32" />
+                                </div>
+                                <div class="pp-wallet-withdraw-confirm__summary-row">
+                                    <span class="pp-wallet-withdraw-confirm__address-icon"><img src="assets/icon-ew-address-blue.svg" alt="" width="28" height="28" /></span>
+                                    <div class="pp-wallet-withdraw-confirm__summary-content">
+                                        <span class="pp-wallet-withdraw-confirm__summary-label">To address</span>
+                                        <span class="pp-wallet-withdraw-confirm__summary-address" id="walletConfirmToAddress">0x742d35Cc6634C0532925a3b80532925a3b844Bc454e4438f44e</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pp-wallet-withdraw-confirm__details">
+                                <div class="pp-wallet-withdraw-confirm__detail-row">
+                                    <span class="pp-wallet-withdraw-confirm__detail-label">Withdraw from</span>
+                                    <span class="pp-wallet-withdraw-confirm__detail-value" id="walletConfirmFromAddress">0x2134...1233f8</span>
+                                </div>
+                                <div class="pp-wallet-withdraw-confirm__detail-row">
+                                    <span class="pp-wallet-withdraw-confirm__detail-label">Network</span>
+                                    <span class="pp-wallet-withdraw-confirm__detail-value" id="walletConfirmNetwork">Ethereum (ERC-20)</span>
+                                </div>
+                                <div class="pp-wallet-withdraw-confirm__detail-row">
+                                    <span class="pp-wallet-withdraw-confirm__detail-label">Estimated gas fee</span>
+                                    <span class="pp-wallet-withdraw-confirm__detail-value" id="walletConfirmGasFee">≈ 0.0003 ETH</span>
+                                </div>
+                            </div>
+                            <div class="pp-wallet-withdraw-confirm__alert">
+                                <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-withdraw-confirm__alert-icon" />
+                                <p class="pp-wallet-withdraw-confirm__alert-text">Make sure you’re withdrawing to a valid Ethereum (ERC-20) address that the recipient can access to prevent loss of funds.</p>
+                            </div>
+                            <div class="pp-wallet-withdraw-confirm__actions pp-wallet-bnc pp-wallet-bnc--split">
+                                <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary" id="walletConfirmCancelBtn">Back</button>
+                                <button type="button" class="ew-btn ew-btn--lg ew-btn--primary" id="walletConfirmWithdrawBtn">Confirm & withdraw</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--withdraw-completed" id="walletViewWithdrawCompleted" aria-hidden="true">
+                        <div class="pp-wallet-withdraw-completed">
+                            <div class="pp-wallet-withdraw-completed__head">
+                                <span class="pp-wallet-withdraw-completed__icon"><img src="assets/icon-ew-check.svg" alt="" width="48" height="48" /></span>
+                                <h2 class="pp-wallet-withdraw-completed__title">Withdrawal submitted</h2>
+                            </div>
+                            <div class="pp-wallet-withdraw-completed__summary">
+                                <div class="pp-wallet-withdraw-completed__summary-row">
+                                    <span class="pp-wallet-withdraw-completed__asset-icon" id="walletCompletedAssetIcon"><img src="assets/icon-ew-currency-USDT.svg" alt="" width="40" height="40" /></span>
+                                    <div class="pp-wallet-withdraw-completed__summary-content">
+                                        <span class="pp-wallet-withdraw-completed__summary-label">Withdraw</span>
+                                        <span class="pp-wallet-withdraw-completed__summary-amount" id="walletCompletedAmount">32.41 USDT</span>
+                                    </div>
+                                </div>
+                                <div class="pp-wallet-withdraw-completed__divider">
+                                    <img src="assets/icon-ew-arrow-downward-blue.svg" alt="" width="32" height="32" />
+                                </div>
+                                <div class="pp-wallet-withdraw-completed__summary-row">
+                                    <span class="pp-wallet-withdraw-completed__address-icon"><img src="assets/icon-ew-address-blue.svg" alt="" width="28" height="28" /></span>
+                                    <div class="pp-wallet-withdraw-completed__summary-content">
+                                        <span class="pp-wallet-withdraw-completed__summary-label">To address</span>
+                                        <span class="pp-wallet-withdraw-completed__summary-address" id="walletCompletedToAddress">0x742d35Cc6634C0532925a3b80532925a3b844Bc454e4438f44e</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pp-wallet-withdraw-completed__details">
+                                <div class="pp-wallet-withdraw-completed__detail-row">
+                                    <span class="pp-wallet-withdraw-completed__detail-label">Withdrawing from</span>
+                                    <span class="pp-wallet-withdraw-completed__detail-value" id="walletCompletedFromAddress">0x2134...1233f8</span>
+                                </div>
+                                <div class="pp-wallet-withdraw-completed__detail-row">
+                                    <span class="pp-wallet-withdraw-completed__detail-label">Network</span>
+                                    <span class="pp-wallet-withdraw-completed__detail-value" id="walletCompletedNetwork">Ethereum (ERC-20)</span>
+                                </div>
+                                <!-- <div class="pp-wallet-withdraw-completed__detail-row">
+                                    <span class="pp-wallet-withdraw-completed__detail-label">Estimated gas fee</span>
+                                    <span class="pp-wallet-withdraw-completed__detail-value" id="walletCompletedGasFee">≈ 0.0003 ETH</span>
+                                </div>
+                                <div class="pp-wallet-withdraw-completed__detail-row">
+                                    <span class="pp-wallet-withdraw-completed__detail-label">Transaction ID</span>
+                                    <a href="https://etherscan.io/tx/0x7e3b...8d0e1f" target="_blank" rel="noreferrer" class="pp-wallet-withdraw-completed__detail-value pp-wallet-withdraw-completed__detail-value--link" id="walletCompletedTxId">0x7e3b...8d0e1f</a>
+                                </div> -->
+                            </div>
+                            <div class="pp-wallet-withdraw-completed__alert">
+                                <img src="assets/icon-ew-info-blue.svg" alt="" width="24" height="24" class="pp-wallet-withdraw-completed__alert-icon" />
+                                <p class="pp-wallet-withdraw-completed__alert-text">You'll receive email updates about this transaction, including the transaction ID once available.</p>
+                            </div>
+                            <div class="pp-wallet-withdraw-completed__actions pp-wallet-bnc pp-wallet-bnc--end">
+                                <button type="button" class="ew-btn ew-btn--lg ew-btn--primary" id="walletWithdrawCompletedDoneBtn">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--export-key" id="walletViewExportKey" aria-hidden="true">
+                        <div class="pp-wallet-export-key">
+                            <section class="pp-wallet-export-key__page pp-wallet-export-key__page--intro" id="walletExportKeyPageIntro">
+                                <div class="pp-wallet-export-key__intro-copy">
+                                    <h2 class="pp-wallet-export-key__page-title">Before you continue</h2>
+                                    <p class="pp-wallet-export-key__page-body">A private key is a secret code that gives full access to a wallet address and its funds across various Web3 services.</p>
+                                </div>
+                                <div class="pp-wallet-export-key__intro-details">
+                                    <h3 class="pp-wallet-export-key__intro-details-title pp-wallet-withdraw-form__label">Private key to export</h3>
+                                    <div class="pp-wallet-export-key__intro-details-card">
+                                        <div class="pp-wallet-export-key__intro-details-row pp-wallet-withdraw-confirm__detail-row">
+                                            <span class="pp-wallet-export-key__intro-details-label pp-wallet-withdraw-confirm__detail-label">Address</span>
+                                            <span class="pp-wallet-export-key__intro-details-value pp-wallet-withdraw-confirm__detail-value" id="walletExportIntroAddress">0x2134...1233f8</span>
+                                        </div>
+                                        <div class="pp-wallet-export-key__intro-details-row pp-wallet-withdraw-confirm__detail-row">
+                                            <span class="pp-wallet-export-key__intro-details-label pp-wallet-withdraw-confirm__detail-label">Network</span>
+                                            <span class="pp-wallet-export-key__intro-details-value pp-wallet-withdraw-confirm__detail-value" id="walletExportIntroNetwork">Ethereum (ERC-20)</span>
+                                        </div>
+                                        <div class="pp-wallet-export-key__intro-details-row pp-wallet-withdraw-confirm__detail-row">
+                                            <span class="pp-wallet-export-key__intro-details-label pp-wallet-withdraw-confirm__detail-label">Beneficiary</span>
+                                            <span class="pp-wallet-export-key__intro-details-value pp-wallet-withdraw-confirm__detail-value" id="walletExportIntroBeneficiary">AGP Technology</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pp-wallet-export-key__intro-warning pp-wallet-withdraw-confirm__alert">
+                                    <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-export-key__intro-warning-icon pp-wallet-withdraw-confirm__alert-icon" />
+                                    <p class="pp-wallet-export-key__intro-warning-text pp-wallet-withdraw-confirm__alert-text">Exporting your private key is irreversible and has important Consequences &amp; Risks. See the next screens for a detailed explanation.</p>
+                                </div>
+                                <div class="pp-wallet-export-key__actions pp-wallet-export-key__actions--intro">
+                                    <button type="button" class="pp-wallet-export-key__skip" id="walletExportIntroSkipBtn">Skip explanation</button>
+                                    <div class="pp-wallet-bnc pp-wallet-bnc--split">
+                                        <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary" id="walletExportIntroCancelBtn">Cancel</button>
+                                        <button type="button" class="ew-btn ew-btn--lg ew-btn--primary" id="walletExportIntroContinueBtn">Continue</button>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="pp-wallet-export-key__page pp-wallet-export-key__page--risk" id="walletExportKeyPageRisk1" hidden>
+                                <div class="pp-wallet-export-key__hero">
+                                    <span class="pp-wallet-export-key__hero-icon-wrap">
+                                        <img src="assets/Illu1.svg" alt="" width="160" height="160" class="pp-wallet-export-key__hero-icon" />
+                                    </span>
+                                </div>
+                                <h2 class="pp-wallet-export-key__page-title">Address will not be visible</h2>
+                                <p class="pp-wallet-export-key__page-body">After exporting the private key, the address associated with this key will no longer appear in this embedded wallet and XREX Pay. You will need another Web3 wallet to access and manage it.</p>
+                                <div class="pp-wallet-export-key__actions pp-wallet-bnc pp-wallet-bnc--split">
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary" id="walletExportRisk1BackBtn">Back</button>
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--primary" id="walletExportRisk1ContinueBtn">Continue</button>
+                                </div>
+                            </section>
+
+                            <section class="pp-wallet-export-key__page pp-wallet-export-key__page--risk" id="walletExportKeyPageRisk2" hidden>
+                                <div class="pp-wallet-export-key__hero">
+                                    <span class="pp-wallet-export-key__hero-icon-wrap">
+                                        <img src="assets/Illu2.svg" alt="" width="160" height="160" class="pp-wallet-export-key__hero-icon" />
+                                    </span>
+                                </div>
+                                <h2 class="pp-wallet-export-key__page-title">Auto-debit payments stop</h2>
+                                <p class="pp-wallet-export-key__page-body">Once exported, auto-debit payments for this address will stop. To keep paying the beneficiary for this address via XREX Pay using stable coins, you’ll need to set up auto-debit again.</p>
+                                <div class="pp-wallet-export-key__actions pp-wallet-bnc pp-wallet-bnc--split">
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary" id="walletExportRisk2BackBtn">Back</button>
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--primary" id="walletExportRisk2ContinueBtn">Continue</button>
+                                </div>
+                            </section>
+
+                            <section class="pp-wallet-export-key__page pp-wallet-export-key__page--risk" id="walletExportKeyPageRisk3" hidden>
+                                <div class="pp-wallet-export-key__hero">
+                                    <span class="pp-wallet-export-key__hero-icon-wrap">
+                                        <img src="assets/Illu3.svg" alt="" width="160" height="160" class="pp-wallet-export-key__hero-icon" />
+                                    </span>
+                                </div>
+                                <h2 class="pp-wallet-export-key__page-title">Exporting your private key is irreversible</h2>
+                                <p class="pp-wallet-export-key__page-body">Once exported, the consequences mentioned earlier cannot be undone. Your private key becomes your responsibility. Anyone with this key can move assets from the associated address. Keep it private: if lost, it cannot be recovered.</p>
+                                <div class="pp-wallet-export-key__actions pp-wallet-bnc pp-wallet-bnc--split">
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary" id="walletExportRisk3BackBtn">Back</button>
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--primary" id="walletExportRisk3ContinueBtn">Continue</button>
+                                </div>
+                            </section>
+
+                            <section class="pp-wallet-export-key__page pp-wallet-export-key__page--confirm" id="walletExportKeyPageConfirm" hidden>
+                                <div class="pp-wallet-export-key__confirm-top">
+                                    <div class="pp-wallet-export-key__confirm-address">
+                                        <div class="pp-wallet-export-key__confirm-meta">
+                                            <span class="pp-wallet-export-key__info-label">Address</span>
+                                            <span class="pp-wallet-export-key__info-meta" id="walletExportKeyBeneficiary">AGP Technology</span>
+                                        </div>
+                                        <div class="pp-wallet-export-key__confirm-value-row">
+                                            <button type="button" class="pp-wallet-export-key__copy-row" id="walletExportKeyAddressCopy" aria-label="Copy address" data-copy-value="">
+                                                <span class="pp-wallet-export-key__info-value pp-wallet-export-key__info-value--xl" id="walletExportKeyAddress">0x2134...1233f8</span>
+                                                <span class="pp-wallet-export-key__copy-icon" aria-hidden="true"><img src="assets/icon-ew-copy.svg" alt="" width="24" height="24" /></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="pp-wallet-export-key__confirm-network">
+                                        <span class="pp-wallet-export-key__info-label">Network</span>
+                                        <span class="pp-wallet-export-key__info-value pp-wallet-export-key__info-value--xl" id="walletExportKeyNetwork">Ethereum (ERC-20)</span>
+                                    </div>
+                                </div>
+                                <div class="pp-wallet-export-key__divider pp-wallet-export-key__divider--light" aria-hidden="true"></div>
+                                <div class="pp-wallet-export-key__important">
+                                    <div class="pp-wallet-export-key__important-head">
+                                        <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-export-key__important-icon" />
+                                        <span class="pp-wallet-export-key__important-title">Consequences &amp; Risks</span>
+                                    </div>
+                                    <ul class="pp-wallet-export-key__warnings">
+                                        <li class="pp-wallet-export-key__warning-item">
+                                            <span class="pp-wallet-export-key__warning-illus">
+                                                <img src="assets/Illu1.svg" alt="" width="70" height="60" class="pp-wallet-export-key__warning-illus-img" />
+                                            </span>
+                                            <span class="pp-wallet-export-key__warning-content">
+                                                <span class="pp-wallet-export-key__warning-main">Address will be removed</span>
+                                                <span class="pp-wallet-export-key__warning-sub">This address will no longer appear in this embedded wallet and XREX Pay.</span>
+                                            </span>
+                                        </li>
+                                        <li class="pp-wallet-export-key__warning-item">
+                                            <span class="pp-wallet-export-key__warning-illus">
+                                                <img src="assets/Illu2.svg" alt="" width="70" height="60" class="pp-wallet-export-key__warning-illus-img" />
+                                            </span>
+                                            <span class="pp-wallet-export-key__warning-content">
+                                                <span class="pp-wallet-export-key__warning-main">Auto-debit payments stop</span>
+                                                <span class="pp-wallet-export-key__warning-sub">Funds will no longer be automatically debited from this address.</span>
+                                            </span>
+                                        </li>
+                                        <li class="pp-wallet-export-key__warning-item">
+                                            <span class="pp-wallet-export-key__warning-illus">
+                                                <img src="assets/Illu3.svg" alt="" width="70" height="60" class="pp-wallet-export-key__warning-illus-img" />
+                                            </span>
+                                            <span class="pp-wallet-export-key__warning-content">
+                                                <span class="pp-wallet-export-key__warning-main">Exporting your private key is irreversible</span>
+                                                <span class="pp-wallet-export-key__warning-sub">The consequences above will take effect, and the private key becomes your responsibility.</span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <label class="pp-wallet-export-key__consent">
+                                    <input type="checkbox" id="walletExportKeyConsent" class="pp-wallet-export-key__consent-input" />
+                                    <span class="pp-wallet-export-key__consent-box" aria-hidden="true"></span>
+                                    <span class="pp-wallet-export-key__consent-text">I understand the Consequences &amp; Risks and choose to continue.</span>
+                                </label>
+                                <div class="pp-wallet-export-key__actions pp-wallet-bnc pp-wallet-bnc--split">
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary" id="walletExportKeyCancelBtn">Back</button>
+                                    <button type="button" class="ew-btn ew-btn--lg ew-btn--primary ew-btn--disabled" id="walletExportKeyRevealBtn" disabled>Export key</button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="pp-wallet-modal__view pp-wallet-modal__view--save-key" id="walletViewSaveKey" aria-hidden="true">
+                        <div class="pp-wallet-save-key">
+                            <div class="pp-wallet-private-key-field">
+                                <span class="pp-wallet-private-key-field__label">Private key</span>
+                                <div class="pp-wallet-private-key-field__box">
+                                    <span class="pp-wallet-private-key-field__value" id="walletSaveKeyPrivateKeyValue">0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce036f9f8f6d8c1a5b7c9d2</span>
+                                    <button type="button" class="ew-btn ew-btn--md ew-btn--secondary pp-wallet-private-key-field__copy" id="walletSaveKeyPrivateKeyCopy" aria-label="Copy private key">Copy</button>
+                                </div>
+                            </div>
+                            <div class="pp-wallet-save-key__details">
+                                <div class="pp-wallet-save-key__detail-row">
+                                    <span class="pp-wallet-save-key__detail-label">Address</span>
+                                    <button type="button" class="pp-wallet-save-key__detail-copy" id="walletSaveKeyAddressCopy" aria-label="Copy address" data-copy-value="">
+                                        <span class="pp-wallet-save-key__detail-value" id="walletSaveKeyAddress">0x2134...1233f8</span>
+                                        <span class="pp-wallet-save-key__detail-copy-icon" aria-hidden="true"><img src="assets/icon-ew-copy.svg" alt="" width="20" height="20" /></span>
+                                    </button>
+                                </div>
+                                <div class="pp-wallet-save-key__detail-row">
+                                    <span class="pp-wallet-save-key__detail-label">Network</span>
+                                    <span class="pp-wallet-save-key__detail-value" id="walletSaveKeyNetwork">Ethereum (ERC-20)</span>
+                                </div>
+                                <div class="pp-wallet-save-key__detail-row">
+                                    <span class="pp-wallet-save-key__detail-label">Next steps</span>
+                                    <a class="pp-wallet-save-key__detail-link" href="https://support.xrex.sg/en/articles/" target="_blank" rel="noopener noreferrer">How to import this key into a Web3 wallet</a>
+                                </div>
+                                <div class="pp-wallet-export-key__intro-warning pp-wallet-withdraw-confirm__alert">
+                                    <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-export-key__intro-warning-icon pp-wallet-withdraw-confirm__alert-icon" />
+                                    <p class="pp-wallet-export-key__intro-warning-text pp-wallet-withdraw-confirm__alert-text">Keep your key private. Anyone with it can control this address and its assets.</p>
+                                </div>
+                            </div>
+                            <div class="pp-wallet-save-key__divider" aria-hidden="true"></div>
+                            <label class="pp-wallet-save-key__consent">
+                                <input type="checkbox" id="walletSaveKeyConsent" class="pp-wallet-save-key__consent-input" />
+                                <span class="pp-wallet-save-key__consent-box" aria-hidden="true"></span>
+                                <span class="pp-wallet-save-key__consent-text">I have saved this private key</span>
+                            </label>
+                            <div class="pp-wallet-save-key__actions pp-wallet-bnc pp-wallet-bnc--end">
+                                <button type="button" class="ew-btn ew-btn--lg ew-btn--primary ew-btn--disabled" id="walletSaveKeyDoneBtn" disabled>I'm done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pp-wallet-modal__settings" id="walletViewSettings" aria-hidden="true" hidden>
+                    <div class="pp-wallet-settings">
+                        <ul class="pp-wallet-modal__list pp-wallet-settings__list">
+                            <li class="pp-wallet-modal__item pp-wallet-modal__item--settings" id="walletSettingsAboutItem">
+                                <span class="pp-wallet-modal__settings-item-icon"><img src="assets/icon-ew-info.svg" alt="" width="24" height="24" /></span>
+                                <div class="pp-wallet-modal__item-content">
+                                    <span class="pp-wallet-modal__item-name">About this wallet</span>
+                                </div>
+                            </li>
+                            <li class="pp-wallet-modal__item pp-wallet-modal__item--settings" id="walletSettingsExportItem">
+                                <span class="pp-wallet-modal__settings-item-icon"><img src="assets/icon-ew-exportkeys.svg" alt="" width="24" height="24" /></span>
+                                <div class="pp-wallet-modal__item-content">
+                                    <span class="pp-wallet-modal__item-name">Export keys</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="pp-wallet-settings__meta">
+                            <div class="pp-wallet-settings__meta-row">
+                                <span class="pp-wallet-settings__meta-label">Version</span>
+                                <span class="pp-wallet-settings__meta-value" id="walletSettingsVersion">1.00</span>
+                            </div>
+                            <div class="pp-wallet-settings__meta-row">
+                                <span class="pp-wallet-settings__meta-label">Account</span>
+                                <span class="pp-wallet-settings__meta-value" id="walletSettingsAccount">abc1234@gmail.com</span>
+                            </div>
+                            <div class="pp-wallet-settings__signout-row">
+                                <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary" id="walletSettingsSignOut">Sign out</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pp-wallet-modal__footer">
+                <div class="pp-wallet-modal__tabs">
+                    <a href="#" class="pp-wallet-modal__tab pp-wallet-modal__tab--active" id="walletTabAssets" data-tab="assets" aria-current="page">
+                        <img src="assets/icon-ew-tab-assets-filled.svg" alt="" width="32" height="32" class="pp-wallet-modal__tab-icon" id="walletTabAssetsIcon" />
+                        <span>Assets</span>
+                    </a>
+                    <a href="#" class="pp-wallet-modal__tab" id="walletTabSettings" data-tab="settings">
+                        <img src="assets/icon-ew-tab-settings-outline.svg" alt="" width="32" height="32" class="pp-wallet-modal__tab-icon" id="walletTabSettingsIcon" />
+                        <span>Settings</span>
+                    </a>
+                </div>
+                <p class="pp-wallet-modal__disclaimer">Wallet tech by Dynamic.xyz: you're viewing a custom interface.</p>
+            </div>
+        </div>
+        <div class="pp-wallet-withdraw-processing-modal" id="walletWithdrawProcessingModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Processing withdrawal">
+            <div class="pp-wallet-withdraw-processing-modal__dialog">
+                <div class="pp-wallet-processing-spinner">
+                    <div class="pp-wallet-processing-spinner__inner">
+                        <img src="assets/icon-ew-tab-assets-filled.svg" alt="" width="32" height="32" />
+                    </div>
+                    <div class="pp-wallet-processing-spinner__arc" aria-hidden="true"></div>
+                </div>
+                <p class="pp-wallet-withdraw-processing-modal__label" id="walletProcessingModalLabel">Submitting</p>
+            </div>
+        </div>
+        <div class="pp-wallet-snackbar" id="walletSnackbar" aria-live="polite" aria-hidden="true">
+            <img class="pp-wallet-snackbar__icon" id="walletSnackbarIcon" src="assets/icon-ew-check.svg" alt="" width="32" height="32" />
+            <span class="pp-wallet-snackbar__text" id="walletSnackbarText">Copied to clipboard</span>
+        </div>
+        <div class="pp-wallet-prototype-toast" id="walletPrototypeToast" aria-live="polite" aria-hidden="true">
+            <div class="pp-wallet-prototype-toast__text">
+                <div class="pp-wallet-prototype-toast__eyebrow">Prototype state change</div>
+                <div class="pp-wallet-prototype-toast__message" id="walletPrototypeToastText">Beneficiary list has been reset to default</div>
+            </div>
+        </div>
+        <div class="pp-ew-dropdown" id="ppEwDropdown" role="menu" aria-hidden="true" aria-label="Menu">
+            <ul class="pp-ew-dropdown__list" id="ppEwDropdownList"></ul>
+        </div>
+        <div class="pp-wallet-close-confirm" id="walletCloseConfirm" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletCloseConfirmTitle">
+            <div class="pp-wallet-close-confirm__backdrop"></div>
+            <div class="pp-wallet-close-confirm__card">
+                <div class="pp-wallet-close-confirm__header">
+                    <h3 class="pp-wallet-close-confirm__title" id="walletCloseConfirmTitle">Leave this screen?</h3>
+                    <button type="button" class="pp-wallet-close-confirm__close" id="walletCloseConfirmDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+                </div>
+                <p class="pp-wallet-close-confirm__body">Go back to wallet home, or close it entirely?</p>
+                <div class="pp-wallet-close-confirm__actions">
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--secondary" id="walletCloseConfirmClose">Close wallet</button>
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--primary" id="walletCloseConfirmBack">Back to wallet home</button>
+                </div>
+            </div>
+        </div>
+        <div class="pp-wallet-close-confirm" id="walletDisableAutodebitConfirm" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletDisableAutodebitConfirmTitle">
+            <div class="pp-wallet-close-confirm__backdrop"></div>
+            <div class="pp-wallet-close-confirm__card">
+                <div class="pp-wallet-close-confirm__header">
+                    <h3 class="pp-wallet-close-confirm__title" id="walletDisableAutodebitConfirmTitle">Disable auto-debit</h3>
+                    <button type="button" class="pp-wallet-close-confirm__close" id="walletDisableAutodebitConfirmDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+                </div>
+                <p class="pp-wallet-close-confirm__body">Auto-debit can only be permanently disabled by exporting the private key for this wallet address.</p>
+                <div class="pp-wallet-close-confirm__actions">
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--primary" id="walletDisableAutodebitConfirmUnderstood">Understood</button>
+                </div>
+            </div>
+        </div>
+        <div class="pp-wallet-close-confirm" id="walletAboutDialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletAboutDialogTitle">
+            <div class="pp-wallet-close-confirm__backdrop"></div>
+            <div class="pp-wallet-close-confirm__card">
+                <div class="pp-wallet-close-confirm__header">
+                    <h3 class="pp-wallet-close-confirm__title" id="walletAboutDialogTitle">About this wallet</h3>
+                    <button type="button" class="pp-wallet-close-confirm__close" id="walletAboutDialogDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+                </div>
+                <p class="pp-wallet-close-confirm__body">
+                    <span class="pp-wallet-close-confirm__body-strong-warning">Text to be provided</span><br />
+                    Wallet tech by Dynamic.xyz: you’re viewing a custom interface.
+                </p>
+                <div class="pp-wallet-close-confirm__actions">
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--primary" id="walletAboutDialogDone">Done</button>
+                </div>
+            </div>
+        </div>
+        <div class="pp-wallet-close-confirm" id="walletExportInfoDialog" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletExportInfoDialogTitle">
+            <div class="pp-wallet-close-confirm__backdrop"></div>
+            <div class="pp-wallet-close-confirm__card">
+                <div class="pp-wallet-close-confirm__header">
+                    <h3 class="pp-wallet-close-confirm__title" id="walletExportInfoDialogTitle">Export private keys</h3>
+                    <button type="button" class="pp-wallet-close-confirm__close" id="walletExportInfoDialogDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+                </div>
+                <p class="pp-wallet-close-confirm__body">
+                    To export your wallet’s private keys, go to the desired address, open the “More” menu, and select “Export private key.”
+                </p>
+                <div class="pp-wallet-close-confirm__actions">
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--primary" id="walletExportInfoDialogUnderstood">Understood</button>
+                </div>
+            </div>
+        </div>
+        <div class="pp-wallet-close-confirm" id="walletGasAssetConfirm" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletGasAssetConfirmTitle">
+            <div class="pp-wallet-close-confirm__backdrop"></div>
+            <div class="pp-wallet-close-confirm__card">
+                <div class="pp-wallet-close-confirm__header">
+                    <h3 class="pp-wallet-close-confirm__title" id="walletGasAssetConfirmTitle">Gas asset: not for withdrawal</h3>
+                    <button type="button" class="pp-wallet-close-confirm__close" id="walletGasAssetConfirmDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+                </div>
+                <p class="pp-wallet-close-confirm__body">Some ETH is provided by XREX PayLynk to cover network transaction fees (gas): <span class="pp-wallet-close-confirm__body-strong-warning">This ETH isn’t intended for withdrawal.</span></p>
+                <div class="pp-wallet-close-confirm__actions">
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--secondary" id="walletGasAssetCancel">Cancel</button>
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--secondary" id="walletGasAssetContinue">Continue anyway</button>
+                </div>
+            </div>
+        </div>
+        <div class="pp-wallet-close-confirm" id="walletSignOutConfirm" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="walletSignOutConfirmTitle">
+            <div class="pp-wallet-close-confirm__backdrop"></div>
+            <div class="pp-wallet-close-confirm__card">
+                <div class="pp-wallet-close-confirm__header">
+                    <h3 class="pp-wallet-close-confirm__title" id="walletSignOutConfirmTitle">Sign out of this wallet?</h3>
+                    <button type="button" class="pp-wallet-close-confirm__close" id="walletSignOutConfirmDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
+                </div>
+                <p class="pp-wallet-close-confirm__body">You’ll need to log in again with your email and wallet passcode to use this wallet.</p>
+                <div class="pp-wallet-close-confirm__actions">
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--secondary" id="walletSignOutConfirmCancel">Cancel</button>
+                    <button type="button" class="ew-btn ew-btn--md ew-btn--primary" id="walletSignOutConfirmConfirm">Sign out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="pp-wallet-debug-hotspot" aria-label="Open wallet (debug only)"></button>
+    <button type="button" class="pp-wallet-close-confirm-debug-hotspot" aria-label="Open wallet → Export private key (debug only)"></button>
+
+  <script defer src="js/pp-wallet-flow.js"></script>
 
   <script defer src="js/prototype-state.js"></script>
 </body>
