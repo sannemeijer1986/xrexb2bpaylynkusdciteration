@@ -1630,13 +1630,6 @@
                     showAssetsView();
                 });
             }
-            if (walletTabSettings) {
-                walletTabSettings.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    if (this.classList.contains("pp-wallet-modal__tab--active")) return;
-                    showSettingsView();
-                });
-            }
             if (walletModal) {
                 walletModal.querySelectorAll(".pp-wallet-modal__refresh, .pp-wallet-modal__action-btn").forEach(function (el) {
                     el.addEventListener("click", function (e) {
@@ -1706,6 +1699,12 @@
                             }, 300);
                         }, 2800);
                     }
+                }
+                if (walletTabSettings) {
+                    walletTabSettings.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
+                    });
                 }
                 var walletPrototypeToast = document.getElementById("walletPrototypeToast");
                 var walletPrototypeToastText = document.getElementById("walletPrototypeToastText");

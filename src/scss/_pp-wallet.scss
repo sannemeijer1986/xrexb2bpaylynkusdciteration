@@ -2092,6 +2092,10 @@ $wallet-accent: $ew-text-link;
   @media (min-width: $desktop-breakpoint) {
     font-size: $ew-size-5xl;
   }
+
+  &--empty {
+    color: $ew-accentblue-400; // #56659A
+  }
 }
 
 .pp-wallet-modal__balance-refresh,
@@ -2303,11 +2307,6 @@ $wallet-accent: $ew-text-link;
   background-color: transparent;
 }
 
-.pp-wallet-modal__address-detail .pp-wallet-modal__balance-block .pp-wallet-modal__balance-amount {
-  &--empty {
-    color: $ew-text-placeholder;
-  }
-}
 
 .pp-wallet-modal__address-block {
   display: flex;
