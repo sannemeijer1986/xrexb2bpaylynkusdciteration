@@ -812,12 +812,16 @@ $wallet-accent: $ew-text-link;
   }
 
   .pp-wallet-modal__balance-amount {
-    min-height: 42px;
     display: inline-block;
     width: 30%;
+    margin-top: 4px;
+    min-height: 32px;
+    line-height: 1;
+    vertical-align: top;
 
     @media (min-width: $desktop-breakpoint) {
-      min-height: 50px;
+      margin-top: 8px;
+      min-height: 40px;
     }
   }
 
