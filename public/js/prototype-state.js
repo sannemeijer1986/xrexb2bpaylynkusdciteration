@@ -799,8 +799,8 @@
       }
     }
     if (footerEl) {
-      footerEl.hidden = false;
-      footerEl.setAttribute("aria-hidden", "false");
+      footerEl.hidden = isAuthorizeDebit;
+      footerEl.setAttribute("aria-hidden", isAuthorizeDebit ? "true" : "false");
     }
     if (ctaWrap) {
       ctaWrap.hidden = !isAuthorizeDebit;
