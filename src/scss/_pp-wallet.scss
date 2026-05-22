@@ -2173,6 +2173,13 @@ $wallet-accent: $ew-text-link;
   }
 }
 
+// Withdraw → Select asset: ETH is hidden in DOM; only show dividers between visible rows.
+.pp-wallet-modal__view--withdraw-select {
+  .pp-wallet-modal__list .pp-wallet-modal__item:not([hidden]):not(:has(~ .pp-wallet-modal__item:not([hidden]))) {
+    border-bottom: none;
+  }
+}
+
 .pp-wallet-modal__item {
   display: flex;
   align-items: center;
@@ -2447,6 +2454,10 @@ $wallet-accent: $ew-text-link;
 .pp-wallet-modal__address-detail .pp-wallet-modal__section-title {
   margin-top: 16px;
   margin-bottom: 12px;
+}
+
+.pp-wallet-modal__address-detail .pp-wallet-modal__section-title {
+  margin-bottom: 4px;
 }
 
 // Withdraw form step (address + amount)

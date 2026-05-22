@@ -792,6 +792,7 @@
 
             function syncAddressDetailStablecoinAssets(beneficiaryName) {
                 var assetsList = document.getElementById("walletAddressDetailAssetsList");
+                var assetsEmpty = document.getElementById("walletAddressDetailAssetsEmpty");
                 if (!assetsList) return;
                 var isNovaQuill = (beneficiaryName || "").trim() === "NovaQuill Ltd";
                 var usdtItem = assetsList.querySelector('[data-wallet-address-asset="usdt"]');
@@ -799,8 +800,33 @@
                 if (isNovaQuill) {
                     if (usdtItem) usdtItem.setAttribute("hidden", "");
                     if (usdcItem) usdcItem.setAttribute("hidden", "");
-                    return;
+                } else {
+                    if (usdtItem) {
+                        if (isPaylynkErc20Activated("usdt")) usdtItem.removeAttribute("hidden");
+                        else usdtItem.setAttribute("hidden", "");
+                    }
+                    if (usdcItem) {
+                        if (isPaylynkErc20Activated("usdc")) usdcItem.removeAttribute("hidden");
+                        else usdcItem.setAttribute("hidden", "");
+                    }
                 }
+                var hasVisibleStablecoin =
+                    !isNovaQuill &&
+                    ((usdtItem && !usdtItem.hasAttribute("hidden")) || (usdcItem && !usdcItem.hasAttribute("hidden")));
+                assetsList.hidden = !hasVisibleStablecoin;
+                if (assetsEmpty) {
+                    assetsEmpty.hidden = hasVisibleStablecoin;
+                    assetsEmpty.setAttribute("aria-hidden", hasVisibleStablecoin ? "true" : "false");
+                }
+            }
+
+            function syncWithdrawSelectAssets() {
+                if (!walletViewWithdrawSelect) return;
+                var list = walletViewWithdrawSelect.querySelector(".pp-wallet-modal__list");
+                if (!list) return;
+                var usdtItem = list.querySelector('[data-wallet-withdraw-asset="usdt"]');
+                var usdcItem = list.querySelector('[data-wallet-withdraw-asset="usdc"]');
+                var ethItem = list.querySelector('[data-wallet-withdraw-asset="eth"]');
                 if (usdtItem) {
                     if (isPaylynkErc20Activated("usdt")) usdtItem.removeAttribute("hidden");
                     else usdtItem.setAttribute("hidden", "");
@@ -809,6 +835,7 @@
                     if (isPaylynkErc20Activated("usdc")) usdcItem.removeAttribute("hidden");
                     else usdcItem.setAttribute("hidden", "");
                 }
+                if (ethItem) ethItem.setAttribute("hidden", "");
             }
 
             function triggerWalletFooterFadeIn() {
@@ -862,15 +889,7 @@
                     walletAddressDetailBalance.textContent = "$0.00";
                     walletAddressDetailBalance.classList.add("pp-wallet-modal__balance-amount--empty");
                 }
-                var assetsList = document.getElementById("walletAddressDetailAssetsList");
-                var assetsEmpty = document.getElementById("walletAddressDetailAssetsEmpty");
-                if (assetsList && assetsEmpty) {
-                    var isEmpty = (beneficiaryName || "").trim() === "NovaQuill Ltd";
-                    assetsList.hidden = isEmpty;
-                    assetsEmpty.hidden = !isEmpty;
-                    assetsEmpty.setAttribute("aria-hidden", isEmpty ? "false" : "true");
-                    if (!isEmpty) syncAddressDetailStablecoinAssets(beneficiaryName);
-                }
+                syncAddressDetailStablecoinAssets(beneficiaryName);
                 var addressValueRow = walletModal.querySelector(".pp-wallet-modal__address-value-row");
                 var addressValueEl = document.getElementById("walletAddressDetailValue");
                 var activityLink = document.getElementById("walletAddressDetailActivityLink");
@@ -1083,7 +1102,11 @@
                 var currencyEl = document.getElementById("walletWithdrawCurrency");
                 var availableEl = document.getElementById("walletWithdrawAvailable");
                 if (currencyEl) currencyEl.textContent = currentWithdrawAsset;
-                if (availableEl) availableEl.textContent = currentWithdrawAsset === "ETH" ? "0.05 ETH" : "32.41 USDT";
+                if (availableEl) {
+                    if (currentWithdrawAsset === "ETH") availableEl.textContent = "0.05 ETH";
+                    else if (currentWithdrawAsset === "USDC") availableEl.textContent = "32.41 USDC";
+                    else availableEl.textContent = "32.41 USDT";
+                }
                 if (typeof updateWithdrawReviewButton === "function") updateWithdrawReviewButton();
                 walletModal.classList.remove("pp-wallet-modal--withdraw-form-view-direct");
                 if (currentWithdrawEntryPoint === "address-detail") {
@@ -1126,7 +1149,12 @@
                 var asset = currentWithdrawAsset || "USDT";
                 var amountLabel = amount && asset ? amount + " " + asset : (asset === "ETH" ? "0.05 ETH" : "32.41 USDT");
                 var assetIcon = document.getElementById("walletConfirmAssetIcon");
-                if (assetIcon && assetIcon.querySelector("img")) assetIcon.querySelector("img").src = asset === "ETH" ? "assets/icon-ew-currency-ETH.svg" : "assets/icon-ew-currency-USDT.svg";
+                if (assetIcon && assetIcon.querySelector("img")) {
+                    var iconSrc = "assets/icon-ew-currency-USDT.svg";
+                    if (asset === "ETH") iconSrc = "assets/icon-ew-currency-ETH.svg";
+                    else if (asset === "USDC") iconSrc = "assets/icon_usdc.svg";
+                    assetIcon.querySelector("img").src = iconSrc;
+                }
                 var confirmAmount = document.getElementById("walletConfirmAmount");
                 if (confirmAmount) confirmAmount.textContent = amountLabel;
                 var confirmToAddr = document.getElementById("walletConfirmToAddress");
@@ -1377,6 +1405,7 @@
                 if (walletViewExportKey) walletViewExportKey.setAttribute("aria-hidden", "true");
                 if (walletViewSaveKey) walletViewSaveKey.setAttribute("aria-hidden", "true");
                 walletViewWithdrawSelect.removeAttribute("aria-hidden");
+                syncWithdrawSelectAssets();
                 walletModal.classList.add("pp-wallet-modal--header-from-right");
                 setTimeout(function () { walletModal.classList.remove("pp-wallet-modal--header-from-right"); }, 250);
                 queueWalletViewOverflowUpdate();
@@ -1753,6 +1782,9 @@
                     if (walletModal && walletModal.classList.contains("pp-wallet-modal--address-detail-view")) {
                         syncAddressDetailStablecoinAssets(currentBeneficiaryName);
                     }
+                    if (walletModal && walletModal.classList.contains("pp-wallet-modal--withdraw-select-view")) {
+                        syncWithdrawSelectAssets();
+                    }
                 });
                 var walletPrototypeToast = document.getElementById("walletPrototypeToast");
                 var walletPrototypeToastText = document.getElementById("walletPrototypeToastText");
@@ -1780,16 +1812,12 @@
                         }
                     });
                 }
-                if (walletModalWithdrawBtn && walletSnackbar) {
+                if (walletModalWithdrawBtn) {
                     walletModalWithdrawBtn.addEventListener("click", function (e) {
                         e.preventDefault();
                         e.stopPropagation();
-                        if (walletModal && walletModal.classList.contains("pp-wallet-modal--address-detail-view")) {
-                            showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
-                            return;
-                        }
                         if ((currentBeneficiaryName || "").trim() === "NovaQuill Ltd") {
-                            showWalletSnackbar("No available assets", "assets/icon-ew-warning.svg");
+                            if (walletSnackbar) showWalletSnackbar("No available assets", "assets/icon-ew-warning.svg");
                         } else {
                             showWithdrawSelectView();
                         }
@@ -2007,7 +2035,7 @@
                         showAddressDetailView(currentBeneficiaryName, currentBeneficiaryInitials, networkName);
                         return;
                     }
-                    // Asset row on address-detail view: USDT/USDC → prototype snackbar; ETH → withdraw dropdown
+                    // Asset row on address-detail view: ETH → unavailable dropdown; USDT/USDC → withdraw dropdown
                     var addressDetailView = document.getElementById("walletViewAddressDetail");
                     var assetItem = e.target && e.target.closest && e.target.closest(".pp-wallet-modal__item");
                     if (addressDetailView && assetItem && addressDetailView.contains(assetItem) && assetItem.querySelector(".pp-wallet-modal__asset-icon")) {
@@ -2015,10 +2043,6 @@
                         e.stopPropagation();
                         var nameEl = assetItem.querySelector(".pp-wallet-modal__item-name");
                         var assetName = (nameEl && nameEl.textContent) ? nameEl.textContent.trim() : "";
-                        if (assetName === "USDT" || assetName === "USDC") {
-                            showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
-                            return;
-                        }
                         if (assetName === "ETH") {
                             openEwDropdown(
                                 [{ variant: "withdraw-unavailable", iconSrc: "assets/icon_ew_withdrawunavailable.svg" }],

@@ -487,7 +487,7 @@
                                     <span class="pp-wallet-modal__action-btn-label">More</span>
                                 </button>
                             </div>
-                            <section class="pp-wallet-modal__section">
+                            <section class="pp-wallet-modal__section pp-wallet-modal__section--address-assets">
                                 <h3 class="pp-wallet-modal__section-title">Assets</h3>
                                 <div id="walletAddressDetailAssetsList">
                                     <ul class="pp-wallet-modal__list">
@@ -513,20 +513,25 @@
                                             </div>
                                             <span class="pp-wallet-modal__item-balance pp-wallet-modal__item-balance--empty">0.00 USDC</span>
                                         </li>
-                                        <li class="pp-wallet-modal__item">
-                                            <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-ETH.svg" alt="" width="40" height="40" /></span>
-                                            <div class="pp-wallet-modal__item-content">
-                                                <span class="pp-wallet-modal__item-name">ETH</span>
-                                                <span class="pp-wallet-modal__item-label">Ethereum</span>
-                                            </div>
-                                            <div class="pp-wallet-modal__item-right">
-                                                <span class="pp-wallet-asset-tag"><img src="assets/icon_ew_lock_yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Locked</span>
-                                                <span class="pp-wallet-modal__item-balance">0.05 ETH</span>
-                                            </div>
-                                        </li>
                                     </ul>
                                 </div>
                                 <p class="pp-wallet-modal__assets-empty" id="walletAddressDetailAssetsEmpty" hidden aria-hidden="true">No available assets</p>
+                            </section>
+                            <section class="pp-wallet-modal__section pp-wallet-modal__section--gas-fees">
+                                <h3 class="pp-wallet-modal__section-title">Gas for fees</h3>
+                                <ul class="pp-wallet-modal__list" id="walletAddressDetailGasList">
+                                    <li class="pp-wallet-modal__item" data-wallet-address-asset="eth">
+                                        <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-ETH.svg" alt="" width="40" height="40" /></span>
+                                        <div class="pp-wallet-modal__item-content">
+                                            <span class="pp-wallet-modal__item-name">ETH</span>
+                                            <span class="pp-wallet-modal__item-label">Ethereum</span>
+                                        </div>
+                                        <div class="pp-wallet-modal__item-right">
+                                            <span class="pp-wallet-asset-tag"><img src="assets/icon_ew_lock_yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Locked</span>
+                                            <span class="pp-wallet-modal__item-balance">0.05 ETH</span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </section>
                         </div>
                     </div>
@@ -534,7 +539,7 @@
                         <section class="pp-wallet-modal__section">
                             <h3 class="pp-wallet-modal__section-title">Assets</h3>
                             <ul class="pp-wallet-modal__list">
-                                <li class="pp-wallet-modal__item pp-wallet-modal__item--asset-select">
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--asset-select" data-wallet-withdraw-asset="usdt" hidden>
                                     <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-USDT.svg" alt="" width="40" height="40" /></span>
                                     <div class="pp-wallet-modal__item-content">
                                         <span class="pp-wallet-modal__item-name">USDT</span>
@@ -545,7 +550,18 @@
                                         <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
                                     </div>
                                 </li>
-                                <li class="pp-wallet-modal__item pp-wallet-modal__item--asset-select">
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--asset-select" data-wallet-withdraw-asset="usdc" hidden>
+                                    <span class="pp-wallet-modal__asset-icon"><img src="assets/icon_usdc.svg" alt="" width="40" height="40" /></span>
+                                    <div class="pp-wallet-modal__item-content">
+                                        <span class="pp-wallet-modal__item-name">USDC</span>
+                                        <span class="pp-wallet-modal__item-label">USD Coin</span>
+                                    </div>
+                                    <div class="pp-wallet-modal__item-right">
+                                        <span class="pp-wallet-modal__item-balance">32.41 USDC</span>
+                                        <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
+                                    </div>
+                                </li>
+                                <li class="pp-wallet-modal__item pp-wallet-modal__item--asset-select" data-wallet-withdraw-asset="eth" hidden>
                                     <span class="pp-wallet-modal__asset-icon"><img src="assets/icon-ew-currency-ETH.svg" alt="" width="40" height="40" /></span>
                                     <div class="pp-wallet-modal__item-content">
                                         <span class="pp-wallet-modal__item-name">ETH</span>

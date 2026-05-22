@@ -6157,6 +6157,10 @@ body.wallet-modals-is-open {
   padding: 0;
 }
 
+.pp-wallet-modal__view--withdraw-select .pp-wallet-modal__list .pp-wallet-modal__item:not([hidden]):not(:has(~ .pp-wallet-modal__item:not([hidden]))) {
+  border-bottom: none;
+}
+
 .pp-wallet-modal__item {
   display: flex;
   align-items: center;
@@ -6400,6 +6404,10 @@ body.wallet-modals-is-open {
 .pp-wallet-modal__address-detail .pp-wallet-modal__section-title {
   margin-top: 16px;
   margin-bottom: 12px;
+}
+
+.pp-wallet-modal__address-detail .pp-wallet-modal__section-title {
+  margin-bottom: 4px;
 }
 
 .pp-wallet-withdraw-form {
