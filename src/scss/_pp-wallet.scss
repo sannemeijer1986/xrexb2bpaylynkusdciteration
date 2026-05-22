@@ -2648,6 +2648,12 @@ $wallet-accent: $ew-text-link;
   }
 }
 
+.pp-wallet-withdraw-form__hint--amount-error {
+  font-size: $ew-size-l;
+  color: $ew-text-negative;
+  margin-bottom: 4px;
+}
+
 // Confirm withdrawal view (summary + details + alert + actions)
 .pp-wallet-withdraw-confirm {
   padding: 32px;

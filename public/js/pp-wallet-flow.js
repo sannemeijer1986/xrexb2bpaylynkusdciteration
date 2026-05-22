@@ -1104,9 +1104,11 @@
                 if (currencyEl) currencyEl.textContent = currentWithdrawAsset;
                 if (availableEl) {
                     if (currentWithdrawAsset === "ETH") availableEl.textContent = "0.05 ETH";
-                    else if (currentWithdrawAsset === "USDC") availableEl.textContent = "32.41 USDC";
-                    else availableEl.textContent = "32.41 USDT";
+                    else if (currentWithdrawAsset === "USDC") availableEl.textContent = "0.00 USDC";
+                    else availableEl.textContent = "0.00 USDT";
                 }
+                var amountHint = document.getElementById("walletWithdrawAmountHint");
+                if (amountHint) amountHint.setAttribute("hidden", "");
                 if (typeof updateWithdrawReviewButton === "function") updateWithdrawReviewButton();
                 walletModal.classList.remove("pp-wallet-modal--withdraw-form-view-direct");
                 if (currentWithdrawEntryPoint === "address-detail") {
@@ -2075,14 +2077,41 @@
                 });
             }
 
+            function isUsdStablecoinWithdrawAsset(asset) {
+                return asset === "USDT" || asset === "USDC";
+            }
+
+            function parseWithdrawAmount(raw) {
+                var s = String(raw || "").trim().replace(/,/g, "");
+                if (!s) return NaN;
+                var n = parseFloat(s);
+                return Number.isFinite(n) ? n : NaN;
+            }
+
+            function getWithdrawAvailableAmount(asset) {
+                if (asset === "ETH") return 0.05;
+                if (isUsdStablecoinWithdrawAsset(asset)) return 0;
+                return 0;
+            }
+
             function updateWithdrawReviewButton() {
                 var addressInput = document.getElementById("walletWithdrawAddress");
                 var amountInput = document.getElementById("walletWithdrawAmount");
+                var amountHint = document.getElementById("walletWithdrawAmountHint");
                 var reviewBtn = document.getElementById("walletWithdrawReviewBtn");
                 if (!reviewBtn) return;
                 var hasAddress = addressInput && (addressInput.value || "").trim().length > 0;
-                var hasAmount = amountInput && (amountInput.value || "").trim().length > 0;
-                var enabled = hasAddress && hasAmount;
+                var amountRaw = amountInput ? (amountInput.value || "").trim() : "";
+                var asset = currentWithdrawAsset || "USDT";
+                var available = getWithdrawAvailableAmount(asset);
+                var amountNum = parseWithdrawAmount(amountRaw);
+                var amountExceedsAvailable = Number.isFinite(amountNum) && amountNum > available;
+                var hasValidAmount = Number.isFinite(amountNum) && amountNum > 0 && amountNum <= available;
+                if (amountHint) {
+                    if (amountExceedsAvailable) amountHint.removeAttribute("hidden");
+                    else amountHint.setAttribute("hidden", "");
+                }
+                var enabled = hasAddress && hasValidAmount;
                 reviewBtn.disabled = !enabled;
                 reviewBtn.classList.toggle("ew-btn--disabled", !enabled);
             }
