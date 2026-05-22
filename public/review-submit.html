@@ -520,7 +520,7 @@
                                                 <span class="pp-wallet-modal__item-label">Ethereum</span>
                                             </div>
                                             <div class="pp-wallet-modal__item-right">
-                                                <span class="pp-wallet-asset-tag"><img src="assets/icon-ew-gas-yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Gas for fees</span>
+                                                <span class="pp-wallet-asset-tag"><img src="assets/icon_ew_lock_yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Locked</span>
                                                 <span class="pp-wallet-modal__item-balance">0.05 ETH</span>
                                             </div>
                                         </li>
@@ -552,7 +552,7 @@
                                         <span class="pp-wallet-modal__item-label">Ethereum</span>
                                     </div>
                                     <div class="pp-wallet-modal__item-right">
-                                        <span class="pp-wallet-asset-tag"><img src="assets/icon-ew-gas-yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Gas for fees</span>
+                                        <span class="pp-wallet-asset-tag"><img src="assets/icon_ew_lock_yellow.svg" alt="" width="16" height="16" class="pp-wallet-asset-tag__icon" />Locked</span>
                                         <span class="pp-wallet-modal__item-balance">0.05 ETH</span>
                                         <img src="assets/icon-ew-arrow-forward.svg" alt="" width="20" height="20" class="pp-wallet-modal__chevron" />
                                     </div>
@@ -1033,10 +1033,13 @@
                     <h3 class="pp-wallet-close-confirm__title" id="walletGasAssetConfirmTitle">Gas asset: not for withdrawal</h3>
                     <button type="button" class="pp-wallet-close-confirm__close" id="walletGasAssetConfirmDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
                 </div>
-                <p class="pp-wallet-close-confirm__body">Some ETH is provided by XREX PayLynk to cover network transaction fees (gas): <span class="pp-wallet-close-confirm__body-strong-warning">This ETH isn’t intended for withdrawal.</span></p>
-                <div class="pp-wallet-close-confirm__actions">
+                <p class="pp-wallet-close-confirm__body">Some gas assets (e.g. ETH) are provided by XREX PayLynk to cover network transaction fees (gas): <span class="pp-wallet-close-confirm__body-strong-warning">These assets are not intended for withdrawal.</span></p>
+                <div class="pp-wallet-close-confirm__actions pp-wallet-close-confirm__actions--confirm">
                     <button type="button" class="ew-btn ew-btn--md ew-btn--secondary" id="walletGasAssetCancel">Cancel</button>
                     <button type="button" class="ew-btn ew-btn--md ew-btn--secondary" id="walletGasAssetContinue">Continue anyway</button>
+                </div>
+                <div class="pp-wallet-close-confirm__actions pp-wallet-close-confirm__actions--info" hidden>
+                    <button type="button" class="ew-btn ew-btn--lg ew-btn--secondary pp-wallet-close-confirm__understood-btn" id="walletGasAssetUnderstood">Understood</button>
                 </div>
             </div>
         </div>

@@ -2019,7 +2019,19 @@
                             showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
                             return;
                         }
-                        if (assetName) openEwDropdown([{ iconSrc: "assets/icon-ew-withdraw.svg", label: "Withdraw " + assetName, action: "withdraw" }], e);
+                        if (assetName === "ETH") {
+                            openEwDropdown(
+                                [{ variant: "withdraw-unavailable", iconSrc: "assets/icon_ew_withdrawunavailable.svg" }],
+                                e
+                            );
+                            return;
+                        }
+                        if (assetName) {
+                            openEwDropdown(
+                                [{ iconSrc: "assets/icon-ew-withdraw.svg", label: "Withdraw " + assetName, action: "withdraw" }],
+                                e
+                            );
+                        }
                         return;
                     }
                     // Asset row in Select asset view: go to withdraw form (address + amount)
@@ -2213,15 +2225,46 @@
                 }
             })();
 
+            function isWithdrawUnavailableDropdownItem(it) {
+                return it && it.variant === "withdraw-unavailable";
+            }
+
+            function applyEwDropdownShell(dropdown, items) {
+                if (!dropdown) return;
+                var withdrawUnavailable =
+                    items && items.length === 1 && isWithdrawUnavailableDropdownItem(items[0]);
+                dropdown.classList.toggle("pp-ew-dropdown--withdraw-unavailable", withdrawUnavailable);
+            }
+
             function buildEwDropdownListHtml(items) {
                 return items.map(function (it) {
-                    return "<li class=\"pp-ew-dropdown__item\" role=\"menuitem\" data-action=\"" + (it.action || "") + "\">" +
-                        "<span class=\"pp-ew-dropdown__icon\"><img src=\"" + (it.iconSrc || "") + "\" alt=\"\" width=\"20\" height=\"20\" /></span>" +
-                        "<span class=\"pp-ew-dropdown__label\">" + (it.label || "") + "</span></li>";
+                    if (isWithdrawUnavailableDropdownItem(it)) {
+                        return (
+                            "<li class=\"pp-ew-dropdown__item pp-ew-dropdown__item--withdraw-unavailable\" role=\"menuitem\" data-action=\"withdraw-unavailable\" aria-disabled=\"true\">" +
+                            "<span class=\"pp-ew-dropdown__icon\"><img src=\"" +
+                            (it.iconSrc || "assets/icon_ew_withdrawunavailable.svg") +
+                            "\" alt=\"\" width=\"28\" height=\"28\" /></span>" +
+                            "<span class=\"pp-ew-dropdown__label\">" +
+                            "<span class=\"pp-ew-dropdown__label-primary\">Withdraw</span> " +
+                            "<span class=\"pp-ew-dropdown__label-muted\">not available</span>" +
+                            "</span></li>"
+                        );
+                    }
+                    return (
+                        "<li class=\"pp-ew-dropdown__item\" role=\"menuitem\" data-action=\"" +
+                        (it.action || "") +
+                        "\">" +
+                        "<span class=\"pp-ew-dropdown__icon\"><img src=\"" +
+                        (it.iconSrc || "") +
+                        "\" alt=\"\" width=\"20\" height=\"20\" /></span>" +
+                        "<span class=\"pp-ew-dropdown__label\">" +
+                        (it.label || "") +
+                        "</span></li>"
+                    );
                 }).join("");
             }
 
-            // Reusable EW dropdown: items = [{ iconSrc, label, action }], position from clickEvent (Material-style)
+            // Reusable EW dropdown: items = [{ iconSrc, label, action, variant? }], position from clickEvent (Material-style)
             function openEwDropdown(items, clickEvent) {
                 var dropdown = document.getElementById("ppEwDropdown");
                 var listEl = dropdown && dropdown.querySelector("#ppEwDropdownList");
@@ -2230,12 +2273,14 @@
                 var x = (clickEvent && typeof clickEvent.clientX === "number") ? clickEvent.clientX + 8 : 8;
                 var y = (clickEvent && typeof clickEvent.clientY === "number") ? clickEvent.clientY + 8 : 8;
                 listEl.innerHTML = buildEwDropdownListHtml(items);
+                applyEwDropdownShell(dropdown, items);
                 if (wasOpen) {
                     var parent = dropdown.parentNode;
                     var clone = dropdown.cloneNode(true);
                     clone.id = "ppEwDropdown";
                     var cloneList = clone.querySelector("#ppEwDropdownList");
                     if (cloneList) cloneList.innerHTML = buildEwDropdownListHtml(items);
+                    applyEwDropdownShell(clone, items);
                     clone.style.left = x + "px";
                     clone.style.top = y + "px";
                     clone.classList.remove("is-open");
@@ -2268,6 +2313,7 @@
                 var dropdown = document.getElementById("ppEwDropdown");
                 if (dropdown) {
                     dropdown.classList.remove("is-open");
+                    dropdown.classList.remove("pp-ew-dropdown--withdraw-unavailable");
                     dropdown.setAttribute("aria-hidden", "true");
                 }
             }
@@ -2292,13 +2338,42 @@
             var walletGasAssetContinue = document.getElementById("walletGasAssetContinue");
             var walletGasAssetCancel = document.getElementById("walletGasAssetCancel");
             var walletGasAssetDismiss = document.getElementById("walletGasAssetConfirmDismiss");
+            var walletGasAssetUnderstood = document.getElementById("walletGasAssetUnderstood");
+            var walletGasAssetActionsConfirm = walletGasAssetConfirm
+                ? walletGasAssetConfirm.querySelector(".pp-wallet-close-confirm__actions--confirm")
+                : null;
+            var walletGasAssetActionsInfo = walletGasAssetConfirm
+                ? walletGasAssetConfirm.querySelector(".pp-wallet-close-confirm__actions--info")
+                : null;
             var walletGasAssetNextAction = null;
+
+            function setWalletGasAssetConfirmMode(mode) {
+                var infoOnly = mode === "info";
+                if (walletGasAssetConfirm) {
+                    walletGasAssetConfirm.classList.toggle("pp-wallet-close-confirm--info-only", infoOnly);
+                }
+                if (walletGasAssetActionsConfirm) walletGasAssetActionsConfirm.hidden = infoOnly;
+                if (walletGasAssetActionsInfo) walletGasAssetActionsInfo.hidden = !infoOnly;
+            }
+
             function openWalletGasAssetConfirm(nextAction) {
-                walletGasAssetNextAction = typeof nextAction === "function" ? nextAction : null;
+                if (typeof nextAction === "function") {
+                    setWalletGasAssetConfirmMode("confirm");
+                    walletGasAssetNextAction = nextAction;
+                } else {
+                    setWalletGasAssetConfirmMode("info");
+                    walletGasAssetNextAction = null;
+                }
                 if (walletGasAssetConfirm) walletGasAssetConfirm.setAttribute("aria-hidden", "false");
             }
             function closeWalletGasAssetConfirm() {
-                if (walletGasAssetConfirm) walletGasAssetConfirm.setAttribute("aria-hidden", "true");
+                if (walletGasAssetConfirm) {
+                    walletGasAssetConfirm.setAttribute("aria-hidden", "true");
+                    walletGasAssetConfirm.classList.remove("pp-wallet-close-confirm--info-only");
+                }
+                if (walletGasAssetActionsConfirm) walletGasAssetActionsConfirm.hidden = false;
+                if (walletGasAssetActionsInfo) walletGasAssetActionsInfo.hidden = true;
+                walletGasAssetNextAction = null;
             }
             function handleWalletGasAssetCancel() {
                 walletGasAssetNextAction = null;
@@ -2315,6 +2390,7 @@
                 if (walletGasAssetContinue) walletGasAssetContinue.addEventListener("click", handleWalletGasAssetContinue);
                 if (walletGasAssetCancel) walletGasAssetCancel.addEventListener("click", handleWalletGasAssetCancel);
                 if (walletGasAssetDismiss) walletGasAssetDismiss.addEventListener("click", handleWalletGasAssetCancel);
+                if (walletGasAssetUnderstood) walletGasAssetUnderstood.addEventListener("click", handleWalletGasAssetCancel);
                 if (walletGasAssetBackdrop) walletGasAssetBackdrop.addEventListener("click", handleWalletGasAssetCancel);
             }
 
@@ -2350,6 +2426,10 @@
                     if (item) {
                         closeEwDropdown();
                         var action = item.getAttribute("data-action");
+                        if (action === "withdraw-unavailable") {
+                            openWalletGasAssetConfirm("info");
+                            return;
+                        }
                         if (action === "export-private-key") {
                             showExportPrivateKeyView();
                         }

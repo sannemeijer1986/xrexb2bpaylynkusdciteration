@@ -3967,6 +3967,82 @@ $wallet-accent: $ew-text-link;
   background-color: $ew-bg-surface-primary;
 }
 
+#walletGasAssetConfirm {
+  .pp-wallet-close-confirm__backdrop {
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  &.pp-wallet-close-confirm--info-only {
+    .pp-wallet-close-confirm__actions--confirm {
+      display: none;
+    }
+
+    .pp-wallet-close-confirm__actions--info {
+      display: flex;
+    }
+  }
+
+  .pp-wallet-close-confirm__understood-btn {
+    min-width: 160px;
+  }
+}
+
+@media (max-width: $desktop-breakpoint - 1px) {
+  #walletGasAssetConfirm.pp-wallet-close-confirm--info-only {
+    align-items: stretch;
+    justify-content: flex-end;
+    padding: 0;
+
+    .pp-wallet-close-confirm__card {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      width: 100%;
+      max-width: none;
+      min-height: 0;
+      border-radius: 0;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .pp-wallet-close-confirm__header {
+      height: auto;
+      padding: 24px 20px;
+    }
+
+    .pp-wallet-close-confirm__title {
+      font-size: 18px;
+      font-weight: $ew-title-weight;
+      line-height: normal;
+    }
+
+    .pp-wallet-close-confirm__body {
+      flex: 1 1 auto;
+      padding: 32px 20px;
+      font-size: $ew-size-m;
+      line-height: normal;
+    }
+
+    .pp-wallet-close-confirm__body-strong-warning {
+      font-weight: $ew-subtitle-weight;
+    }
+
+    .pp-wallet-close-confirm__actions--info {
+      flex-direction: column;
+      align-items: stretch;
+      height: auto;
+      padding: 20px;
+      background-color: transparent;
+    }
+
+    .pp-wallet-close-confirm__understood-btn {
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      border-radius: 20px;
+    }
+  }
+}
+
 // Wallet snackbar (e.g. "Copied to clipboard")
 .pp-wallet-snackbar {
   position: absolute;
@@ -4139,5 +4215,30 @@ $wallet-accent: $ew-text-link;
 
   &__label {
     flex: 1 1 auto;
+  }
+
+  &--withdraw-unavailable {
+    min-width: 314px;
+    box-shadow: 8px 8px 12.5px rgba(0, 0, 0, 0.25);
+  }
+
+  &__item--withdraw-unavailable {
+    gap: 12px;
+    min-width: 314px;
+    min-height: 80px;
+    padding: 20px 24px 20px 20px;
+    cursor: pointer;
+
+    &:hover {
+      background: none;
+    }
+  }
+
+  &__label-primary {
+    color: $ew-text-primary;
+  }
+
+  &__label-muted {
+    color: $ew-text-warning;
   }
 }
