@@ -926,11 +926,12 @@ a.setup-button--secondary {
 }
 
 .setup-payment-method__state-badge {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: fit-content;
   position: relative;
-  margin: -16px 16px 16px 60px;
+  margin: -10px 16px 16px 60px;
   pointer-events: none;
   padding: 0 10px;
   height: 24px;

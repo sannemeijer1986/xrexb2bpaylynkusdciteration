@@ -903,18 +903,21 @@
         ? "usdc"
         : selectedFromSn === "usdt-erc20"
           ? "usdt"
-          : readActivatingSelectionCoin();
-    const incomplete = p >= 4 && p < 8;
-    const complete = p >= 8;
+          : null;
+    const usdtActivated = readPaylynkErc20Activated("usdt");
+    const usdcActivated = readPaylynkErc20Activated("usdc");
+    const anyStablecoinActivated = usdtActivated || usdcActivated;
 
     document.querySelectorAll("[data-payment-method-item]").forEach((item) => {
       const kind = item.getAttribute("data-method-kind");
       const isStablecoin = kind === "usdt" || kind === "usdc";
       const isSelectedStablecoin = isStablecoin && kind === selectedCoin;
       const isBank = kind === "bank";
+      const isMethodActivated =
+        kind === "usdt" ? usdtActivated : kind === "usdc" ? usdcActivated : anyStablecoinActivated;
 
-      const showIncomplete = incomplete && isSelectedStablecoin;
-      const showComplete = complete && (isSelectedStablecoin || isBank);
+      const showComplete = !!isMethodActivated;
+      const showIncomplete = !showComplete && isSelectedStablecoin;
 
       item.classList.toggle("setup-payment-method--state-incomplete", showIncomplete);
       item.classList.toggle("setup-payment-method--state-complete", showComplete);
