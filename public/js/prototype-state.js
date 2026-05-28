@@ -20,6 +20,7 @@
   const USE_DEFAULT_STABLECOIN_KEY = `${STORAGE_PREFIX}useDefaultStablecoin.v1`;
   const JOURNEY_KEY = `${STORAGE_PREFIX}journey.v1`;
   const ACTIVATING_WAIT_DEMO_KEY = `${STORAGE_PREFIX}activatingWaitDemoRequested.v1`;
+  const SELECTED_SN_KEY = `${STORAGE_PREFIX}selectedSn.v1`;
   /** True only until refresh — "I need a demo" does not persist (prototype checkbox does). */
   let activatingDemoSessionRequested = false;
 
@@ -105,6 +106,47 @@
     }
   }
 
+  function readSelectedSnFromStorage() {
+    try {
+      const v = window.localStorage?.getItem(SELECTED_SN_KEY);
+      if (v === "usdt-erc20" || v === "usdc-erc20") return v;
+    } catch (_) {
+      /* ignore */
+    }
+    return "none";
+  }
+
+  function syncSelectedSnControls(value) {
+    document.querySelectorAll("[data-prototype-selected-sn]").forEach((sel) => {
+      if (sel instanceof HTMLSelectElement) {
+        sel.value = value;
+      }
+    });
+  }
+
+  function resolveSelectedSnCoin() {
+    const selected = readSelectedSnFromStorage();
+    return selected === "usdc-erc20" ? "usdc" : "usdt";
+  }
+
+  function setSelectedSn(value) {
+    const normalized =
+      value === "usdc-erc20" ? "usdc-erc20" : value === "usdt-erc20" ? "usdt-erc20" : "none";
+    try {
+      window.localStorage?.setItem(SELECTED_SN_KEY, normalized);
+    } catch (_) {
+      /* ignore */
+    }
+    syncSelectedSnControls(normalized);
+  }
+
+  function ensureSelectedSnForProgress() {
+    // When users skip forward via setup progress controls, default to USDT/ERC-20.
+    if (states.setupProgress < 4) return;
+    if (readSelectedSnFromStorage() !== "none") return;
+    setSelectedSn("usdt-erc20");
+  }
+
   function journeyHref(journey) {
     return journey === "paylynk" ? "paylynk.html" : "index.html";
   }
@@ -158,7 +200,7 @@
     const loggedIn = readLoggedInFromStorage();
     if (p <= 2) return "setup-wallet.html";
     if (p <= 3 && loggedIn) return "setup-wallet.html";
-    if (p >= 4 && loggedIn) return "pick-stablecoin.html";
+    if (p >= 5 && loggedIn) return "activating-stablecoin.html";
     return "setup-wallet.html";
   }
 
@@ -170,19 +212,18 @@
     setupProgress: {
       storageKey: `${STORAGE_PREFIX}setupProgress.v1`,
       min: 1,
-      max: 10,
+      max: 9,
       initial: 1,
       labels: {
         1: "Init",
         2: "Consented",
         3: "E-mail verified",
         4: "Passcode created",
-        5: "Cur&Netw. selected",
-        6: "Address generated",
-        7: "Authorize auto-debit",
-        8: "Auto-debit approved",
-        9: "Auto-debit finalized",
-        10: "...",
+        5: "Address generated",
+        6: "Authorize auto-debit",
+        7: "Auto-debit approved",
+        8: "Auto-debit finalized",
+        9: "...",
       },
     },
   };
@@ -751,6 +792,7 @@
   function applySetupProgressToUi() {
     const p = states.setupProgress;
     document.documentElement.setAttribute("data-prototype-setup-progress", String(p));
+    ensureSelectedSnForProgress();
     syncWalletTimelineFromProgress(p);
     syncConsentTimestamp();
     syncEmailVerifiedTimestamp();
@@ -767,7 +809,7 @@
 
   function syncReviewSubmitFromProgress() {
     if (document.body?.getAttribute("data-prototype-context") !== "review-submit") return;
-    if (states.setupProgress < 9) {
+    if (states.setupProgress < 8) {
       window.location.href = "index.html";
     }
   }
@@ -834,7 +876,7 @@
   function syncPaymentSetupFromProgress() {
     if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
     const p = states.setupProgress;
-    const finalized = p >= 9;
+    const finalized = p >= 8;
     const nextBtn = document.querySelector("[data-payment-setup-next]");
     if (nextBtn && nextBtn.tagName === "BUTTON") {
       nextBtn.disabled = !finalized;
@@ -878,25 +920,25 @@
       "We’re generating your auto-debit payment address for payments to Halcyon Systems Corp. This may take a few minutes.";
     let isSetupComplete = false;
 
-    if (p <= 5) {
+    if (p <= 4) {
       pct = 0;
       stepLabel = "Step 1 of 4";
       title = "Generating payment address";
       desc =
         "We’re generating your auto-debit payment address for payments to Halcyon Systems Corp. This may take a few minutes.";
-    } else if (p === 6) {
+    } else if (p === 5) {
       pct = 25;
       stepLabel = "Step 2 of 4";
       title = "Preparing your wallet";
       desc =
         "We’re adding gas to your wallet to cover the fees needed to enable auto-debit. This may take a few minutes";
-    } else if (p === 7) {
+    } else if (p === 6) {
       pct = 50;
       stepLabel = "Step 3 of 4";
       title = "Authorize auto-debit to continue";
       desc =
         "Set up auto-debit for Halcyon Systems Corp. Approved payment requests will be automatically debited from a dedicated auto-debit wallet for this beneficiary.";
-    } else if (p === 8) {
+    } else if (p === 7) {
       pct = 75;
       stepLabel = "Step 4 of 4";
       title = "Enabling auto-debit";
@@ -909,16 +951,16 @@
       desc = `${sym}: Ethereum network (ERC-20) is now active for payments.`;
     }
 
-    const in6to7ReauthAnim = activatingReauth6to7AnimPending && p === 7;
+    const in6to7ReauthAnim = activatingReauth6to7AnimPending && p === 6;
     if (in6to7ReauthAnim) {
       title = "Preparing your wallet";
       desc =
         "We’re adding gas to your wallet to cover the fees needed to enable auto-debit. This may take a few minutes";
     }
-    const isAuthorizeDebit = p === 7 && !in6to7ReauthAnim;
+    const isAuthorizeDebit = p === 6 && !in6to7ReauthAnim;
     const isContinueEnabled = isSetupComplete || isAuthorizeDebit;
 
-    const runActivatingProgress7to8Anim = activatingProgress7to8AnimPending && p === 8;
+    const runActivatingProgress7to8Anim = activatingProgress7to8AnimPending && p === 7;
     if (runActivatingProgress7to8Anim) {
       activatingProgress7to8AnimPending = false;
     }
@@ -1068,9 +1110,9 @@
     }
     const stepCancel = document.querySelector("[data-activating-step-cancel]");
     if (stepCancel) {
-      const hideCancel = p >= 9;
-      stepCancel.hidden = hideCancel;
-      stepCancel.setAttribute("aria-hidden", hideCancel ? "true" : "false");
+      // Keep cancel hidden on activating flow to prevent navigating back.
+      stepCancel.hidden = true;
+      stepCancel.setAttribute("aria-hidden", "true");
     }
   }
 
@@ -1175,7 +1217,7 @@
     const authorizeBtn = root.querySelector("[data-activating-reauth-authorize]");
     authorizeBtn?.addEventListener("click", () => {
       closeActivatingReauthModal();
-      setState("setupProgress", 8);
+      setState("setupProgress", 7);
     });
 
     document.addEventListener("keydown", (e) => {
@@ -1222,13 +1264,13 @@
     if (group === "setupProgress") {
       cancelActivatingProgress7to8Anim();
       cancelActivatingReauth6to7Anim();
-      activatingProgress7to8AnimPending = prev === 7 && clamped === 8;
-      if (prev === 6 && clamped === 7) {
+      activatingProgress7to8AnimPending = prev === 6 && clamped === 7;
+      if (prev === 5 && clamped === 6) {
         activatingReauth6to7AnimPending = true;
       }
       const openReauthFromControls =
         document.body?.getAttribute("data-prototype-context") === "activating-stablecoin" &&
-        ((prev === 6 && clamped === 7) || (prev === 8 && clamped === 7));
+        ((prev === 5 && clamped === 6) || (prev === 7 && clamped === 6));
       if (prev === 3 && clamped === 2) {
         setLoggedInValue(false);
         setAccountCreatedValue(false);
@@ -1238,7 +1280,7 @@
         setAccountCreatedValue(true);
       }
       applySetupProgressToUi();
-      if (openReauthFromControls && prev === 8 && clamped === 7) {
+      if (openReauthFromControls && prev === 7 && clamped === 6) {
         window.queueMicrotask(() => openActivatingReauthModal());
       }
     }
@@ -1253,7 +1295,12 @@
     try {
       const raw = window.localStorage?.getItem(config.storageKey);
       if (raw == null) return null;
-      const n = parseInt(raw, 10);
+      let n = parseInt(raw, 10);
+      if (group === "setupProgress" && Number.isFinite(n)) {
+        // Migrate old flow numbering where state 5 was "Cur&Netw. selected".
+        if (n === 5) n = 4;
+        else if (n >= 6) n -= 1;
+      }
       if (Number.isFinite(n)) return clamp(n, config.min, config.max);
     } catch (_) {
       /* ignore */
@@ -1404,6 +1451,48 @@
         const target = journeyHref(journey);
         const current = window.location.pathname.split("/").pop() || "index.html";
         if (current !== target) window.location.href = target;
+      });
+    });
+  }
+
+  function injectSelectedSnControl() {
+    if (document.querySelector("[data-prototype-selected-sn]")) return;
+    const body = document.querySelector(".build-badge__body");
+    if (!body) return;
+    const setupProgressGroup = body.querySelector('[data-state-group="setupProgress"]');
+    if (!setupProgressGroup) return;
+
+    const row = document.createElement("div");
+    row.className = "build-badge__section-row";
+    row.innerHTML = `
+      <div class="build-badge__section-title">Selected S/N</div>
+      <div class="build-badge__checkbox-group">
+        <select id="prototype-selected-sn" class="build-badge__select" data-prototype-selected-sn aria-label="Selected stablecoin and network">
+          <option value="none">None</option>
+          <option value="usdt-erc20">USDT/ERC-20</option>
+          <option value="usdc-erc20">USDC/ERC-20</option>
+        </select>
+      </div>
+    `;
+    const journeyRow = body.querySelector("[data-prototype-journey]")?.closest(".build-badge__section-row");
+    if (journeyRow) {
+      journeyRow.after(row);
+      return;
+    }
+    setupProgressGroup.after(row);
+  }
+
+  function initSelectedSnSelect() {
+    injectSelectedSnControl();
+    const selects = document.querySelectorAll("[data-prototype-selected-sn]");
+    if (!selects.length) return;
+
+    const stored = readSelectedSnFromStorage();
+    syncSelectedSnControls(stored);
+
+    selects.forEach((select) => {
+      select.addEventListener("change", () => {
+        setSelectedSn(select.value);
       });
     });
   }
@@ -1838,13 +1927,28 @@
     if (!btn || btn.tagName !== "BUTTON") return;
     btn.addEventListener("click", () => {
       if (btn.disabled) return;
-      const href = btn.getAttribute("data-wallet-continue-next");
-      if (href) window.location.href = href;
+      const coin = resolveSelectedSnCoin();
+      const previousCoin = readActivatingSelectionCoin();
+      const sameSelection = coin === previousCoin;
+      const preserveProgress = states.setupProgress > 4 && sameSelection;
+      try {
+        window.sessionStorage?.setItem(
+          ACTIVATING_SELECTION_KEY,
+          JSON.stringify({ coin }),
+        );
+      } catch (_) {
+        /* ignore */
+      }
+      if (!preserveProgress) {
+        setState("setupProgress", 4, { force: true });
+      }
+      window.location.href = "activating-stablecoin.html";
     });
   }
 
   function initPaymentSetupPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
+    setSelectedSn("none");
     if (consumePaymentMethodAddedToast()) {
       window.requestAnimationFrame(() => {
         showPrototypeToast("Payment method added", { success: true });
@@ -1858,7 +1962,7 @@
     const link = document.querySelector("[data-payment-setup-stablecoin-link]");
     link?.addEventListener("click", (e) => {
       if (e.target.closest("[data-pp-wallet-entry]")) return;
-      if (states.setupProgress >= 9) {
+      if (states.setupProgress >= 8) {
         e.preventDefault();
         return;
       }
@@ -1932,7 +2036,7 @@
       }
       const previousCoin = readActivatingSelectionCoin();
       const sameSelection = coin === previousCoin;
-      const preserveProgress = states.setupProgress > 5 && sameSelection;
+      const preserveProgress = states.setupProgress > 4 && sameSelection;
       try {
         window.sessionStorage?.setItem(
           ACTIVATING_SELECTION_KEY,
@@ -1942,7 +2046,7 @@
         /* ignore */
       }
       if (!preserveProgress) {
-        setState("setupProgress", 5, { force: true });
+        setState("setupProgress", 4, { force: true });
       }
       window.location.href = "activating-stablecoin.html";
     };
@@ -1969,6 +2073,7 @@
     const iconSrc = coin === "usdc" ? "assets/icon_usdc.svg" : "assets/icon_usdt.svg";
     const titleEl = document.querySelector("[data-activating-page-title]");
     const iconEl = document.querySelector("[data-activating-coin-icon]");
+    const secretBackBtn = document.querySelector("[data-activating-secret-back]");
     const ledeEl = document.querySelector("[data-activating-lede]");
     if (titleEl) titleEl.textContent = `Activating ${sym}`;
     if (iconEl) {
@@ -1982,12 +2087,17 @@
     } catch (_) {
       /* ignore */
     }
+    if (secretBackBtn && secretBackBtn.tagName === "BUTTON") {
+      secretBackBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
+      });
+    }
 
     syncActivatingStablecoinStatusFromProgress();
     syncActivatingErc20ActivatedFromProgress();
 
     const goToPaymentSetupFromActivating = () => {
-      if (states.setupProgress < 9) return;
+      if (states.setupProgress < 8) return;
       if (readJourneyFromStorage() === "paylynk") {
         navigatePaylynkToNetworkSelect();
         return;
@@ -1998,7 +2108,7 @@
     document.querySelectorAll("[data-activating-continue-card]").forEach((btn) => {
       if (btn.tagName !== "BUTTON") return;
       btn.addEventListener("click", () => {
-        if (states.setupProgress === 7) {
+        if (states.setupProgress === 6) {
           openActivatingReauthModal();
           return;
         }
@@ -2009,7 +2119,7 @@
     document.querySelectorAll("[data-activating-continue-footer]").forEach((btn) => {
       if (btn.tagName !== "BUTTON") return;
       btn.addEventListener("click", () => {
-        if (states.setupProgress < 9) return;
+        if (states.setupProgress < 8) return;
         if (readJourneyFromStorage() === "paylynk") {
           const coin = readActivatingSelectionCoin() === "usdc" ? "usdc" : "usdt";
           setPaylynkErc20Activated(coin, true);
@@ -2281,10 +2391,10 @@
     });
   }
 
-  /** Activating page at progress 9+: reflect pick-stablecoin choice in ERC-20 prototype checkboxes. */
+  /** Activating page at progress 8+: reflect selected coin in ERC-20 prototype checkboxes. */
   function syncActivatingErc20ActivatedFromProgress() {
     if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
-    if (states.setupProgress < 9) {
+    if (states.setupProgress < 8) {
       setPaylynkErc20Activated("usdt", false);
       setPaylynkErc20Activated("usdc", false);
       return;
@@ -2375,7 +2485,7 @@
     } catch (_) {
       /* ignore */
     }
-    setState("setupProgress", 5, { force: true });
+    setState("setupProgress", 4, { force: true });
     window.location.href = "activating-stablecoin.html";
   }
 
@@ -2633,6 +2743,7 @@
     setAccountCreatedValue(false);
 
     setState("setupProgress", 1, { force: true });
+    setSelectedSn("none");
 
     document.querySelectorAll("[data-prototype-account-created]").forEach((sel) => {
       sel.disabled = false;
@@ -2746,6 +2857,7 @@
   function init() {
     initStates();
     initBadgeControls();
+    initSelectedSnSelect();
     initTimelineAgreeButton();
     initWalletModals();
     initWalletContinueToPickStablecoin();

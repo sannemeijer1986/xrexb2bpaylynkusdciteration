@@ -1,5 +1,8 @@
 (function () {
   var ANIMATION_MS = 220;
+  var PROTOTYPE_SELECTED_SN_KEY = "xrex.paylynk.prototype.selectedSn.v1";
+  var PROTOTYPE_SETUP_PROGRESS_KEY = "xrex.paylynk.prototype.setupProgress.v1";
+  var PROTOTYPE_ACTIVATING_SELECTION_KEY = "xrex.paylynk.prototype.activatingSelection.v1";
 
   function showStubToast(msg) {
     var toast = document.getElementById("wallet-toast");
@@ -95,6 +98,36 @@
     document.querySelectorAll("[data-network-setup]").forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
+        var methodItem = btn.closest("[data-method-kind]");
+        var methodKind = methodItem ? methodItem.getAttribute("data-method-kind") : "";
+        var selectedSn = methodKind === "usdc" ? "usdc-erc20" : methodKind === "usdt" ? "usdt-erc20" : "none";
+        var selectedCoin = methodKind === "usdc" ? "usdc" : methodKind === "usdt" ? "usdt" : "";
+        var setupProgress = 1;
+        try {
+          setupProgress = parseInt((window.localStorage && window.localStorage.getItem(PROTOTYPE_SETUP_PROGRESS_KEY)) || "1", 10);
+        } catch (_) {
+          setupProgress = 1;
+        }
+        if (selectedSn !== "none") {
+          try {
+            window.localStorage && window.localStorage.setItem(PROTOTYPE_SELECTED_SN_KEY, selectedSn);
+          } catch (_) {
+            // Ignore storage failures in prototype mode.
+          }
+        }
+        if ((selectedCoin === "usdt" || selectedCoin === "usdc") && Number.isFinite(setupProgress) && setupProgress >= 4) {
+          try {
+            window.sessionStorage &&
+              window.sessionStorage.setItem(
+                PROTOTYPE_ACTIVATING_SELECTION_KEY,
+                JSON.stringify({ coin: selectedCoin }),
+              );
+          } catch (_) {
+            // Ignore storage failures in prototype mode.
+          }
+          window.location.href = "activating-stablecoin.html";
+          return;
+        }
         window.location.href = "setup-wallet.html";
       });
     });

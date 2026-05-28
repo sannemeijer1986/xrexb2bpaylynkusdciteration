@@ -40,14 +40,21 @@
             <h1 id="activating-stablecoin-title" class="activating-stablecoin-header__title" data-activating-page-title>
               Activating USDT
             </h1>
-            <img
+            <button
+              type="button"
               class="activating-stablecoin-header__coin"
-              data-activating-coin-icon
-              src="assets/icon_usdt.svg"
-              width="46"
-              height="46"
-              alt=""
-            />
+              data-activating-secret-back
+              aria-label="Back to Add a payment method"
+              title="Back to Add a payment method"
+            >
+              <img
+                data-activating-coin-icon
+                src="assets/icon_usdt.svg"
+                width="46"
+                height="46"
+                alt=""
+              />
+            </button>
           </div>
 
           <div class="activating-stablecoin-card" data-activating-root>
@@ -127,8 +134,9 @@
                     <button
                       type="button"
                       class="activating-stablecoin-step__cancel"
-                      data-setup-leave-cancel
                       data-activating-step-cancel
+                      hidden
+                      aria-hidden="true"
                     >
                       Cancel
                     </button>
@@ -255,8 +263,9 @@
             <button
               type="button"
               class="setup-button setup-button--secondary"
-              data-setup-leave-cancel
               data-activating-actions-cancel
+              hidden
+              aria-hidden="true"
             >
               Cancel
             </button>
