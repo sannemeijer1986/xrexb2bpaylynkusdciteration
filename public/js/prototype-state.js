@@ -21,6 +21,7 @@
   const JOURNEY_KEY = `${STORAGE_PREFIX}journey.v1`;
   const ACTIVATING_WAIT_DEMO_KEY = `${STORAGE_PREFIX}activatingWaitDemoRequested.v1`;
   const SELECTED_SN_KEY = `${STORAGE_PREFIX}selectedSn.v1`;
+  const SETUP_PROGRESS_MIGRATED_KEY = `${STORAGE_PREFIX}setupProgressMigrated.v1`;
   /** True only until refresh — "I need a demo" does not persist (prototype checkbox does). */
   let activatingDemoSessionRequested = false;
 
@@ -212,7 +213,7 @@
     setupProgress: {
       storageKey: `${STORAGE_PREFIX}setupProgress.v1`,
       min: 1,
-      max: 9,
+      max: 8,
       initial: 1,
       labels: {
         1: "Init",
@@ -223,7 +224,6 @@
         6: "Authorize auto-debit",
         7: "Auto-debit approved",
         8: "Auto-debit finalized",
-        9: "...",
       },
     },
   };
@@ -1295,17 +1295,37 @@
     try {
       const raw = window.localStorage?.getItem(config.storageKey);
       if (raw == null) return null;
-      let n = parseInt(raw, 10);
-      if (group === "setupProgress" && Number.isFinite(n)) {
-        // Migrate old flow numbering where state 5 was "Cur&Netw. selected".
-        if (n === 5) n = 4;
-        else if (n >= 6) n -= 1;
-      }
+      const n = parseInt(raw, 10);
       if (Number.isFinite(n)) return clamp(n, config.min, config.max);
     } catch (_) {
       /* ignore */
     }
     return null;
+  }
+
+  function migrateLegacySetupProgressOnce() {
+    try {
+      if (window.localStorage?.getItem(SETUP_PROGRESS_MIGRATED_KEY) === "1") return;
+      const key = STATE_CONFIGS.setupProgress.storageKey;
+      const raw = window.localStorage?.getItem(key);
+      if (raw != null) {
+        const legacy = parseInt(raw, 10);
+        if (Number.isFinite(legacy)) {
+          let migrated = legacy;
+          if (legacy === 5) migrated = 4;
+          else if (legacy >= 6) migrated = legacy - 1;
+          const clamped = clamp(
+            migrated,
+            STATE_CONFIGS.setupProgress.min,
+            STATE_CONFIGS.setupProgress.max,
+          );
+          window.localStorage?.setItem(key, String(clamped));
+        }
+      }
+      window.localStorage?.setItem(SETUP_PROGRESS_MIGRATED_KEY, "1");
+    } catch (_) {
+      /* ignore */
+    }
   }
 
   function initStates() {
@@ -2855,6 +2875,7 @@
   }
 
   function init() {
+    migrateLegacySetupProgressOnce();
     initStates();
     initBadgeControls();
     initSelectedSnSelect();

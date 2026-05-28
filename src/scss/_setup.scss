@@ -281,20 +281,20 @@ html[data-prototype-setup-progress]:not([data-prototype-setup-progress="1"]) {
   box-sizing: border-box;
 }
 
-html[data-prototype-setup-progress="9"] .setup-option--stablecoin .setup-option__linked,
-html[data-prototype-setup-progress="10"] .setup-option--stablecoin .setup-option__linked {
+html[data-prototype-setup-progress="8"] .setup-option--stablecoin .setup-option__linked,
+html[data-prototype-setup-progress="9"] .setup-option--stablecoin .setup-option__linked {
   display: flex;
   pointer-events: auto;
 }
 
-html[data-prototype-setup-progress="9"] .setup-option--stablecoin[data-payment-setup-stablecoin-link],
-html[data-prototype-setup-progress="10"] .setup-option--stablecoin[data-payment-setup-stablecoin-link] {
+html[data-prototype-setup-progress="8"] .setup-option--stablecoin[data-payment-setup-stablecoin-link],
+html[data-prototype-setup-progress="9"] .setup-option--stablecoin[data-payment-setup-stablecoin-link] {
   pointer-events: none;
   cursor: default;
 }
 
-html[data-prototype-setup-progress="9"] .setup-option--stablecoin .setup-option__incomplete,
-html[data-prototype-setup-progress="10"] .setup-option--stablecoin .setup-option__incomplete {
+html[data-prototype-setup-progress="8"] .setup-option--stablecoin .setup-option__incomplete,
+html[data-prototype-setup-progress="9"] .setup-option--stablecoin .setup-option__incomplete {
   display: none !important;
 }
 
