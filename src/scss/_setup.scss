@@ -927,7 +927,6 @@ a.setup-button--secondary {
 
 .setup-payment-method__state-badge {
   display: inline-flex;
-  float: left;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -1002,6 +1001,7 @@ a.setup-button--secondary {
 }
 
 .setup-payment-method__panel {
+  clear: both;
   padding: 0 16px 0 16px;
   height: 0;
   opacity: 0;
@@ -1179,6 +1179,8 @@ a.setup-button--secondary {
 
 .setup-network__cta:not(.setup-network__cta--bank) {
   width: 32px;
+  min-width: 32px;
+  padding: 0;
 }
 
 .setup-network__cta-text {
@@ -1257,7 +1259,6 @@ a.setup-button--secondary {
 
   .setup-payment-method__state-badge {
     display: inline-flex;
-    float: none;
     align-items: center;
     justify-content: center;
     position: absolute;
@@ -1344,6 +1345,12 @@ a.setup-button--secondary {
     height: 40px;
     padding: 0 16px;
     gap: 8px;
+  }
+
+  .setup-network__cta:not(.setup-network__cta--bank) {
+    width: auto;
+    min-width: 120px;
+    padding: 0 16px;
   }
 
   .setup-network__cta img {
