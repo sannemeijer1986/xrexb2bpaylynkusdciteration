@@ -979,12 +979,13 @@ a.setup-button--secondary {
 }
 
 .setup-payment-method--expanded .setup-payment-method__panel {
-  padding: 0 16px 20px 16px;
+  padding: 0 16px 16px 16px;
   opacity: 1;
 }
 
 .setup-payment-method__desc {
   margin: 0;
+  margin-top: -5px;
   color: $text-secondary;
   font-size: 14px;
   font-weight: 400;
@@ -1080,6 +1081,11 @@ a.setup-button--secondary {
   flex-shrink: 0;
   border-radius: 999px;
   background: #ebf2ff;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .setup-network__copy {
@@ -1137,6 +1143,7 @@ a.setup-button--secondary {
   width: auto;
   min-width: 100px;
   height: 32px;
+  padding: 0 12px;
   margin-top: 2px;
 
   img {
@@ -1285,11 +1292,12 @@ a.setup-button--secondary {
   }
 
   .setup-network__cta--bank {
-    min-width: 0;
+    width: auto;
     margin-left: auto;
     border-radius: 8px;
     height: 40px;
     min-width: 0;
+    padding: 0 16px;
 
     img {
       display: inline;
@@ -1298,6 +1306,11 @@ a.setup-button--secondary {
     .setup-network__cta-text {
       font-size: 14px;
     }
+  }
+
+  .setup-payment-method__bank-action {
+    display: flex;
+    justify-content: flex-end;
   }
 
   .setup-actions--wallet-payment {
