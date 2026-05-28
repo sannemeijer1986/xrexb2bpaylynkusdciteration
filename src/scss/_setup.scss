@@ -1,5 +1,7 @@
 .setup-page {
   min-height: 100vh;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 .setup-shell {
@@ -804,4 +806,497 @@ a.setup-button--secondary {
 // Footer link helpers (kept simple; desktop footer only currently)
 .setup-footer__link--desktop-only {
   display: inline;
+}
+
+/* Set up payment method accordion */
+.setup-header--wallet-payment {
+  margin-bottom: 32px;
+
+  h1 {
+    font-family: $font-sora;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    margin: 0;
+  }
+}
+
+.setup-payment-methods {
+  border: 1px solid $border-soft;
+  border-radius: 8px;
+  background: $surface-card;
+  padding: 24px 20px;
+}
+
+.setup-payment-methods__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setup-payment-methods__headline {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.setup-payment-methods__notice {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  color: #73a2f5;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+
+  img {
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+  }
+}
+
+.setup-payment-methods__group {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setup-payment-methods__group-title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.setup-payment-method {
+  border: 1px solid $border-hard;
+  border-radius: 8px;
+  background: $surface-card;
+
+  &--expanded {
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.09);
+  }
+}
+
+.setup-payment-method__trigger {
+  width: 100%;
+  border: 0;
+  margin: 0;
+  padding: 20px 16px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.setup-payment-method__lead {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.setup-payment-method__icon {
+  flex-shrink: 0;
+}
+
+.setup-payment-method__icon--lg {
+  width: 32px;
+  height: 32px;
+}
+
+.setup-payment-method__copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.setup-payment-method__name {
+  color: $text-primary;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.setup-payment-method__sub {
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.setup-payment-method__chevron {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.setup-payment-method__chevron-down {
+  display: block;
+  transform: rotate(90deg);
+}
+
+.setup-payment-method__chevron-up {
+  display: none;
+  transform: rotate(-90deg);
+}
+
+.setup-payment-method--expanded {
+  .setup-payment-method__chevron-down {
+    display: none;
+  }
+
+  .setup-payment-method__chevron-up {
+    display: block;
+  }
+}
+
+.setup-payment-method__panel {
+  padding: 0 16px 0 56px;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: height 0.28s ease, opacity 0.28s ease;
+}
+
+.setup-payment-method--expanded .setup-payment-method__panel {
+  padding: 0 16px 20px 56px;
+  opacity: 1;
+}
+
+.setup-payment-method__desc {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.setup-payment-method__divider {
+  height: 1px;
+  background: $border-hard;
+  margin: 12px 0 16px;
+}
+
+.setup-payment-method__network-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.setup-payment-method__network-title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.setup-payment-method__network-help {
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  color: $text-clickable;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.setup-network {
+  border-radius: 8px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 70px;
+  padding: 12px 14px;
+
+  &--active {
+    border: 1.5px solid $text-clickable;
+    background: $surface-secondary;
+  }
+
+  &--disabled {
+    border: 1px solid $border-soft;
+    background: $surface-card;
+    color: #bcbdbd;
+
+    .setup-network__name,
+    .setup-network__sub {
+      color: $text-placeholder;
+    }
+
+    .setup-network__icon-wrap {
+      background: #f5f5f7;
+    }
+  }
+}
+
+.setup-network__lead {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.setup-network__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #ebf2ff;
+}
+
+.setup-network__copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.setup-network__name {
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.setup-network__sub {
+  color: $text-primary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.setup-network__cta {
+  border: 0;
+  background: $button-primary;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 16px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 12px;
+  cursor: pointer;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.setup-network__cta-text {
+  display: none;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.setup-network__cta--bank {
+  border-radius: 16px;
+  min-width: 100px;
+  height: 32px;
+  margin-top: 2px;
+
+  img {
+    display: none;
+  }
+
+  .setup-network__cta-text {
+    display: inline;
+    font-size: 12px;
+  }
+}
+
+.setup-payment-method__bank-action {
+  padding-top: 12px;
+}
+
+.setup-actions--wallet-payment {
+  margin-top: 16px;
+}
+
+.setup-button--wallet-back .setup-button__label-mobile {
+  display: inline;
+}
+
+.setup-button--wallet-back .setup-button__label-desktop {
+  display: none;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .setup-header--wallet-payment {
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.12;
+    }
+  }
+
+  .setup-payment-methods {
+    padding: 32px;
+  }
+
+  .setup-payment-methods__headline {
+    font-size: 20px;
+  }
+
+  .setup-payment-methods__group-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .setup-payment-methods__group {
+    gap: 24px;
+  }
+
+  .setup-payment-method__trigger {
+    padding: 24px;
+    gap: 16px;
+  }
+
+  .setup-payment-method__icon--lg {
+    width: 46px;
+    height: 46px;
+  }
+
+  .setup-payment-method__name {
+    font-size: 20px;
+  }
+
+  .setup-payment-method__sub {
+    font-size: 16px;
+    line-height: 23px;
+  }
+
+  .setup-payment-method__panel {
+    padding: 0 24px 0 86px;
+  }
+
+  .setup-payment-method--expanded .setup-payment-method__panel {
+    padding: 0 24px 24px 86px;
+  }
+
+  .setup-payment-method__desc {
+    font-size: 16px;
+    line-height: 23px;
+  }
+
+  .setup-payment-method__network-head {
+    margin-bottom: 16px;
+  }
+
+  .setup-payment-method__network-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .setup-payment-method__network-help {
+    font-size: 14px;
+  }
+
+  .setup-network {
+    min-height: 76px;
+    padding: 16px 20px;
+    margin-top: 12px;
+  }
+
+  .setup-network__lead {
+    gap: 16px;
+  }
+
+  .setup-network__icon-wrap {
+    width: 32px;
+    height: 32px;
+  }
+
+  .setup-network__icon-wrap img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .setup-network__name {
+    font-size: 18px;
+  }
+
+  .setup-network__sub {
+    font-size: 14px;
+  }
+
+  .setup-network__cta {
+    border-radius: 8px;
+    min-width: 120px;
+    height: 40px;
+    padding: 0 16px;
+    gap: 8px;
+  }
+
+  .setup-network__cta img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .setup-network__cta-text {
+    display: inline;
+    font-size: 14px;
+  }
+
+  .setup-network__cta--bank {
+    min-width: 0;
+    margin-left: auto;
+    border-radius: 8px;
+    height: 40px;
+    min-width: 0;
+
+    img {
+      display: inline;
+    }
+
+    .setup-network__cta-text {
+      font-size: 14px;
+    }
+  }
+
+  .setup-actions--wallet-payment {
+    margin-top: 24px;
+  }
+
+  .setup-button--wallet-back .setup-button__label-mobile {
+    display: none;
+  }
+
+  .setup-button--wallet-back .setup-button__label-desktop {
+    display: inline;
+  }
 }

@@ -30,92 +30,154 @@
     <section class="setup-panel">
       <div class="setup-panel__body">
         <div class="setup-panel__content">
-          <header class="setup-header">
-            <div class="setup-steps" aria-label="Step 1 of 3">
+          <header class="setup-header setup-header--wallet-payment">
+            <div class="setup-steps" aria-label="Step 2 of 3">
               <span class="setup-steps__track setup-steps__track--done"></span>
               <span class="setup-steps__track"></span>
               <span class="setup-steps__item setup-steps__item--current">1</span>
               <span class="setup-steps__item setup-steps__item--current">2</span>
               <span class="setup-steps__item">3</span>
             </div>
-            <h1 id="setup-title">Set up payment method</h1>
+            <h1 id="setup-title">Add a payment method</h1>
           </header>
 
-          <div class="setup-options" aria-label="Payment methods">
-            <div class="setup-option setup-option--stablecoin" data-payment-setup-stablecoin-link data-payment-setup-stablecoin-href="setup-wallet.html" role="group" aria-label="Stablecoin payments">
-              <div class="setup-option__top">
-                <img class="setup-option__image" src="assets/setup-stablecoin.png" alt="" />
-                <span class="setup-option__content">
-                  <span class="setup-option__eyebrow">USDT, USDC</span>
-                  <span class="setup-option__title">Stablecoin payments</span>
-                  <span class="setup-option__description">Create your self-custodial wallet for easy auto-debit payments using USD stablecoins.</span>
-                  <span class="setup-option__action">
-                    <img src="assets/icon-add-blue.svg" alt="" />
-                    <span>Create stablecoin wallet</span>
-                  </span>
-                </span>
-              </div>
-              <div class="setup-option__incomplete">
-                <p class="setup-option__linked-heading">Your wallet</p>
-                <div class="setup-option__incomplete-row">
-                  <div class="setup-option__incomplete-icon-wrap">
-                    <img class="setup-option__incomplete-icon" src="assets/icon_wallet_blue.svg" width="20" height="20" alt="" />
-                  </div>
-                  <div class="setup-option__incomplete-main">
-                    <span class="setup-option__incomplete-title">Stablecoin wallet</span>
-                    <span class="setup-option__incomplete-status">Setup incomplete</span>
-                  </div>
-                  <span class="setup-option__incomplete-cta">
-                    <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                    <span class="setup-option__incomplete-cta-text">Continue setup</span>
-                  </span>
-                </div>
-              </div>
-              <div class="setup-option__linked" data-payment-setup-linked aria-hidden="true">
-                <p class="setup-option__linked-heading">Your wallet</p>
-                <div class="setup-option__linked-card" data-pp-wallet-entry>
-                  <div class="setup-option__linked-icon-wrap" aria-hidden="true">
-                    <img class="setup-option__linked-icon" src="assets/icon_wallet_blue.svg" width="20" height="20" alt="" />
-                  </div>
-                  <div class="setup-option__linked-main">
-                    <span class="setup-option__linked-title">Stablecoin wallet</span>
-                    <span class="setup-option__linked-email">abc1234@gmail.com</span>
-                  </div>
-                  <button
-                    type="button"
-                    class="setup-option__linked-menu"
-                    data-pp-wallet-menu
-                    data-payment-setup-linked-menu
-                    aria-label="Wallet options"
-                    aria-haspopup="menu"
-                    aria-expanded="false"
-                  >
-                    <img src="assets/icon_more_vert_gray.svg" width="24" height="24" alt="" aria-hidden="true" />
-                  </button>
-                  <div class="wallet-entry__dropdown" data-pp-wallet-menu-dropdown role="menu" aria-hidden="true">
-                    <a href="#" data-pp-wallet-open role="menuitem">Open your wallet</a>
-                    <a href="https://support.xrex.sg/en/articles/13543998-how-does-paying-in-usdt-work-on-paylynk" target="_blank" rel="noopener noreferrer" role="menuitem">How it works</a>
-                  </div>
-                </div>
-              </div>
+          <div class="setup-payment-methods" aria-label="Payment methods">
+            <div class="setup-payment-methods__intro">
+              <h2 class="setup-payment-methods__headline">Set up at least one payment method to continue</h2>
+              <p class="setup-payment-methods__notice">
+                <img src="assets/icon_info_blue.svg" width="16" height="16" alt="" aria-hidden="true" />
+                <span>One-time set up: Saved for future payments, add more anytime</span>
+              </p>
             </div>
 
-            <button class="setup-option" type="button">
-              <img class="setup-option__image" src="assets/setup-swift.png" alt="" />
-              <span class="setup-option__content">
-                <span class="setup-option__eyebrow">USD</span>
-                <span class="setup-option__title">SWIFT transfer</span>
-                <span class="setup-option__description">Whitelist your USD bank account to streamline and speed up future cross-border payments.</span>
-                <span class="setup-option__action">
-                  <img src="assets/icon-add-blue.svg" alt="" />
-                  <span>Whitelist bank account</span>
-                </span>
-              </span>
-            </button>
+            <section class="setup-payment-methods__group" aria-labelledby="paymentSetupStablecoinLabel">
+              <h3 id="paymentSetupStablecoinLabel" class="setup-payment-methods__group-title">Stablecoin</h3>
+
+              <article class="setup-payment-method" data-payment-method-item data-method-kind="usdt">
+                <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
+                  <span class="setup-payment-method__lead">
+                    <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
+                    <span class="setup-payment-method__copy">
+                      <span class="setup-payment-method__name">USDT</span>
+                      <span class="setup-payment-method__sub">Tether USD</span>
+                    </span>
+                  </span>
+                  <span class="setup-payment-method__chevron" aria-hidden="true">
+                    <img class="setup-payment-method__chevron-down" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                    <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                  </span>
+                </button>
+                <div class="setup-payment-method__panel" data-payment-method-panel hidden>
+                  <p class="setup-payment-method__desc">Create a dedicated USDT wallet address for automatic payments.</p>
+                  <div class="setup-payment-method__divider"></div>
+                  <div class="setup-payment-method__network-head">
+                    <p class="setup-payment-method__network-title">Select network</p>
+                    <button type="button" class="setup-payment-method__network-help" data-network-help>What is a network?</button>
+                  </div>
+                  <div class="setup-network setup-network--active">
+                    <div class="setup-network__lead">
+                      <span class="setup-network__icon-wrap">
+                        <img src="assets/icon_network_blue.svg" width="24" height="24" alt="" />
+                      </span>
+                      <span class="setup-network__copy">
+                        <span class="setup-network__name">Ethereum network</span>
+                        <span class="setup-network__sub">ERC-20</span>
+                      </span>
+                    </div>
+                    <button type="button" class="setup-network__cta" data-network-setup>
+                      <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                      <span class="setup-network__cta-text">Set up</span>
+                    </button>
+                  </div>
+                  <div class="setup-network setup-network--disabled">
+                    <div class="setup-network__lead">
+                      <span class="setup-network__icon-wrap">
+                        <img src="assets/icon_network_gray.svg" width="24" height="24" alt="" />
+                      </span>
+                      <span class="setup-network__copy">
+                        <span class="setup-network__name">TRON network</span>
+                        <span class="setup-network__sub">TRC-20 • Coming soon</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="setup-payment-method" data-payment-method-item data-method-kind="usdc">
+                <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
+                  <span class="setup-payment-method__lead">
+                    <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdc.svg" width="46" height="46" alt="" />
+                    <span class="setup-payment-method__copy">
+                      <span class="setup-payment-method__name">USDC</span>
+                      <span class="setup-payment-method__sub">Circle USD</span>
+                    </span>
+                  </span>
+                  <span class="setup-payment-method__chevron" aria-hidden="true">
+                    <img class="setup-payment-method__chevron-down" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                    <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                  </span>
+                </button>
+                <div class="setup-payment-method__panel" data-payment-method-panel hidden>
+                  <p class="setup-payment-method__desc">Create a dedicated USDC wallet address for automatic payments.</p>
+                  <div class="setup-payment-method__divider"></div>
+                  <div class="setup-payment-method__network-head">
+                    <p class="setup-payment-method__network-title">Select network</p>
+                    <button type="button" class="setup-payment-method__network-help" data-network-help>What is a network?</button>
+                  </div>
+                  <div class="setup-network setup-network--active">
+                    <div class="setup-network__lead">
+                      <span class="setup-network__icon-wrap">
+                        <img src="assets/icon_network_blue.svg" width="24" height="24" alt="" />
+                      </span>
+                      <span class="setup-network__copy">
+                        <span class="setup-network__name">Ethereum network</span>
+                        <span class="setup-network__sub">ERC-20</span>
+                      </span>
+                    </div>
+                    <button type="button" class="setup-network__cta" data-network-setup>
+                      <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                      <span class="setup-network__cta-text">Set up</span>
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </section>
+
+            <section class="setup-payment-methods__group" aria-labelledby="paymentSetupFiatLabel">
+              <h3 id="paymentSetupFiatLabel" class="setup-payment-methods__group-title">Fiat</h3>
+
+              <article class="setup-payment-method" data-payment-method-item data-method-kind="bank">
+                <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
+                  <span class="setup-payment-method__lead">
+                    <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usd.svg" width="46" height="46" alt="" />
+                    <span class="setup-payment-method__copy">
+                      <span class="setup-payment-method__name">Bank transfer (SWIFT)</span>
+                      <span class="setup-payment-method__sub">USD bank account</span>
+                    </span>
+                  </span>
+                  <span class="setup-payment-method__chevron" aria-hidden="true">
+                    <img class="setup-payment-method__chevron-down" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                    <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                  </span>
+                </button>
+                <div class="setup-payment-method__panel" data-payment-method-panel hidden>
+                  <p class="setup-payment-method__desc">Whitelist your USD bank account to streamline and speed up future cross-border payments.</p>
+                  <div class="setup-payment-method__bank-action">
+                    <button type="button" class="setup-network__cta setup-network__cta--bank" data-bank-whitelist>
+                      <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                      <span class="setup-network__cta-text">Whitelist bank account</span>
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </section>
           </div>
 
-          <div class="setup-actions">
-            <button class="setup-button setup-button--secondary" type="button">Back</button>
+          <div class="setup-actions setup-actions--wallet-payment">
+            <button class="setup-button setup-button--secondary setup-button--wallet-back" type="button">
+              <span class="setup-button__label-desktop">Back</span>
+              <span class="setup-button__label-mobile">Cancel</span>
+            </button>
             <button class="setup-button setup-button--primary" type="button" disabled data-payment-setup-next>Next</button>
           </div>
         </div>
@@ -1137,6 +1199,7 @@
 
   <script defer src="js/pp-wallet-flow.js"></script>
 
+  <script defer src="js/setup-payment-method.js"></script>
   <script defer src="js/prototype-state.js"></script>
 </body>
 </html>
