@@ -1007,7 +1007,7 @@
         activatingReauth6to7T1 = window.setTimeout(() => {
           activatingReauth6to7T1 = null;
           if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
-          if (states.setupProgress !== 7 || !activatingReauth6to7AnimPending) return;
+          if (states.setupProgress !== 6 || !activatingReauth6to7AnimPending) return;
           const pe = document.querySelector("[data-activating-progress]");
           const sle = document.querySelector("[data-activating-step-label]");
           if (pe) {
@@ -1018,7 +1018,7 @@
           activatingReauth6to7T2 = window.setTimeout(() => {
             activatingReauth6to7T2 = null;
             if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
-            if (states.setupProgress !== 7) return;
+            if (states.setupProgress !== 6) return;
             activatingReauth6to7AnimPending = false;
             openActivatingReauthModal();
             applySetupProgressToUi();
@@ -1036,7 +1036,7 @@
         activatingProgress7to8TimerId = window.setTimeout(() => {
           activatingProgress7to8TimerId = null;
           if (document.body?.getAttribute("data-prototype-context") !== "activating-stablecoin") return;
-          if (states.setupProgress !== 8) return;
+          if (states.setupProgress !== 7) return;
           const pe = document.querySelector("[data-activating-progress]");
           const sle = document.querySelector("[data-activating-step-label]");
           if (pe) {
