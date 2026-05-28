@@ -22,6 +22,7 @@
   const ACTIVATING_WAIT_DEMO_KEY = `${STORAGE_PREFIX}activatingWaitDemoRequested.v1`;
   const SELECTED_SN_KEY = `${STORAGE_PREFIX}selectedSn.v1`;
   const SETUP_PROGRESS_MIGRATED_KEY = `${STORAGE_PREFIX}setupProgressMigrated.v1`;
+  const SKIP_SELECTED_SN_RESET_ONCE_KEY = `${STORAGE_PREFIX}skipSelectedSnResetOnce.v1`;
   /** True only until refresh — "I need a demo" does not persist (prototype checkbox does). */
   let activatingDemoSessionRequested = false;
 
@@ -139,11 +140,12 @@
       /* ignore */
     }
     syncSelectedSnControls(normalized);
+    syncPaymentSetupFromProgress();
   }
 
   function ensureSelectedSnForProgress() {
-    // When users skip forward via setup progress controls, default to USDT/ERC-20.
-    if (states.setupProgress < 4) return;
+    // When users move to consented-or-later via setup progress controls, default to USDT/ERC-20.
+    if (states.setupProgress < 2) return;
     if (readSelectedSnFromStorage() !== "none") return;
     setSelectedSn("usdt-erc20");
   }
@@ -917,7 +919,7 @@
         kind === "usdt" ? usdtActivated : kind === "usdc" ? usdcActivated : anyStablecoinActivated;
 
       const showComplete = !!isMethodActivated;
-      const showIncomplete = !showComplete && isSelectedStablecoin;
+      const showIncomplete = p >= 3 && !showComplete && isSelectedStablecoin;
 
       item.classList.toggle("setup-payment-method--state-incomplete", showIncomplete);
       item.classList.toggle("setup-payment-method--state-complete", showComplete);
@@ -1259,6 +1261,14 @@
         navigatePaylynkToNetworkSelect();
         return;
       }
+      const context = document.body?.getAttribute("data-prototype-context");
+      if (context === "activating-stablecoin" || context === "wallet-setup") {
+        try {
+          window.sessionStorage?.setItem(SKIP_SELECTED_SN_RESET_ONCE_KEY, "1");
+        } catch (_) {
+          /* ignore */
+        }
+      }
       window.location.href = journeyHref(journey);
     });
 
@@ -1344,6 +1354,16 @@
       if (prev === 2 && clamped === 3) {
         setLoggedInValue(true);
         setAccountCreatedValue(true);
+      }
+      if (clamped === 1 && prev >= 2) {
+        setSelectedSn("none");
+      }
+      if (prev === 7 && clamped === 8) {
+        const selected = readSelectedSnFromStorage();
+        const coin = selected === "usdc-erc20" ? "usdc" : "usdt";
+        const other = coin === "usdc" ? "usdt" : "usdc";
+        setPaylynkErc20Activated(coin, true);
+        setPaylynkErc20Activated(other, false);
       }
       applySetupProgressToUi();
       if (openReauthFromControls && prev === 7 && clamped === 6) {
@@ -2034,7 +2054,17 @@
 
   function initPaymentSetupPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
-    setSelectedSn("none");
+    let skipReset = false;
+    try {
+      skipReset = window.sessionStorage?.getItem(SKIP_SELECTED_SN_RESET_ONCE_KEY) === "1";
+      if (skipReset) window.sessionStorage?.removeItem(SKIP_SELECTED_SN_RESET_ONCE_KEY);
+    } catch (_) {
+      /* ignore */
+    }
+    const currentSelectedSn = readSelectedSnFromStorage();
+    if (!skipReset && states.setupProgress <= 1 && currentSelectedSn === "none") {
+      setSelectedSn("none");
+    }
     if (consumePaymentMethodAddedToast()) {
       window.requestAnimationFrame(() => {
         showPrototypeToast("Payment method added", { success: true });
@@ -2499,6 +2529,7 @@
     }
     syncPaylynkErc20ActivatedCheckboxes();
     syncPaylynkEthereumNetworkCard();
+    syncPaymentSetupFromProgress();
     document.dispatchEvent(
       new CustomEvent("paylynk:erc20-activated-changed", { detail: { coin, enabled } }),
     );

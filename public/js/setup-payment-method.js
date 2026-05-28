@@ -100,6 +100,8 @@
         e.preventDefault();
         var methodItem = btn.closest("[data-method-kind]");
         var methodKind = methodItem ? methodItem.getAttribute("data-method-kind") : "";
+        var labelEl = btn.querySelector("[data-network-setup-label]");
+        var labelText = labelEl ? (labelEl.textContent || "").trim().toLowerCase() : "";
         var selectedSn = methodKind === "usdc" ? "usdc-erc20" : methodKind === "usdt" ? "usdt-erc20" : "none";
         var selectedCoin = methodKind === "usdc" ? "usdc" : methodKind === "usdt" ? "usdt" : "";
         var setupProgress = 1;
@@ -111,6 +113,14 @@
         if (selectedSn !== "none") {
           try {
             window.localStorage && window.localStorage.setItem(PROTOTYPE_SELECTED_SN_KEY, selectedSn);
+          } catch (_) {
+            // Ignore storage failures in prototype mode.
+          }
+        }
+        if (labelText !== "continue setup") {
+          try {
+            window.localStorage && window.localStorage.setItem(PROTOTYPE_SETUP_PROGRESS_KEY, "1");
+            setupProgress = 1;
           } catch (_) {
             // Ignore storage failures in prototype mode.
           }
