@@ -908,7 +908,6 @@
           : null;
     const usdtActivated = readPaylynkErc20Activated("usdt");
     const usdcActivated = readPaylynkErc20Activated("usdc");
-    const anyStablecoinActivated = usdtActivated || usdcActivated;
 
     document.querySelectorAll("[data-payment-method-item]").forEach((item) => {
       const kind = item.getAttribute("data-method-kind");
@@ -916,7 +915,7 @@
       const isSelectedStablecoin = isStablecoin && kind === selectedCoin;
       const isBank = kind === "bank";
       const isMethodActivated =
-        kind === "usdt" ? usdtActivated : kind === "usdc" ? usdcActivated : anyStablecoinActivated;
+        kind === "usdt" ? usdtActivated : kind === "usdc" ? usdcActivated : false;
 
       const showComplete = !!isMethodActivated;
       const showIncomplete = p >= 3 && !showComplete && isSelectedStablecoin;
