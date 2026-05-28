@@ -67,6 +67,7 @@
                     <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
                   </span>
                 </button>
+                <span class="setup-payment-method__state-badge" data-payment-method-state-badge hidden></span>
                 <div class="setup-payment-method__panel" data-payment-method-panel hidden>
                   <p class="setup-payment-method__desc">Create a dedicated USDT wallet address for automatic payments.</p>
                   <div class="setup-payment-method__divider"></div>
@@ -82,11 +83,12 @@
                       <span class="setup-network__copy">
                         <span class="setup-network__name">Ethereum network</span>
                         <span class="setup-network__sub">ERC-20</span>
+                        <span class="setup-network__status" data-payment-network-status hidden></span>
                       </span>
                     </div>
                     <button type="button" class="setup-network__cta" data-network-setup>
                       <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                      <span class="setup-network__cta-text">Set up</span>
+                      <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
                     </button>
                   </div>
                   <div class="setup-network setup-network--disabled">
@@ -117,6 +119,7 @@
                     <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
                   </span>
                 </button>
+                <span class="setup-payment-method__state-badge" data-payment-method-state-badge hidden></span>
                 <div class="setup-payment-method__panel" data-payment-method-panel hidden>
                   <p class="setup-payment-method__desc">Create a dedicated USDC wallet address for automatic payments.</p>
                   <div class="setup-payment-method__divider"></div>
@@ -132,11 +135,12 @@
                       <span class="setup-network__copy">
                         <span class="setup-network__name">Ethereum network</span>
                         <span class="setup-network__sub">ERC-20</span>
+                        <span class="setup-network__status" data-payment-network-status hidden></span>
                       </span>
                     </div>
                     <button type="button" class="setup-network__cta" data-network-setup>
                       <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                      <span class="setup-network__cta-text">Set up</span>
+                      <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
                     </button>
                   </div>
                 </div>
@@ -160,6 +164,7 @@
                     <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
                   </span>
                 </button>
+                <span class="setup-payment-method__state-badge" data-payment-method-state-badge hidden></span>
                 <div class="setup-payment-method__panel" data-payment-method-panel hidden>
                   <p class="setup-payment-method__desc">Whitelist your USD bank account to streamline and speed up future cross-border payments.</p>
                   <div class="setup-payment-method__bank-action">
@@ -312,12 +317,6 @@
           <label class="build-badge__checkbox">
             <input type="checkbox" data-prototype-empty aria-label="Empty" />
             <span>Empty</span>
-          </label>
-        </div>
-        <div class="build-badge__section-row">
-          <label class="build-badge__checkbox">
-            <input type="checkbox" data-prototype-use-default-stablecoin aria-label="Use default stablecoin" />
-            <span>Use default stablecoin</span>
           </label>
         </div>
       </div>

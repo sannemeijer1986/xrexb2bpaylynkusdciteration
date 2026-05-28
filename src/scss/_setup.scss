@@ -877,6 +877,7 @@ a.setup-button--secondary {
 }
 
 .setup-payment-method {
+  position: relative;
   border: 1px solid $border-hard;
   border-radius: 8px;
   background: $surface-card;
@@ -922,6 +923,36 @@ a.setup-button--secondary {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.setup-payment-method__state-badge {
+  display: inline-flex;
+  float: left;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: -16px 16px 16px 60px;
+  pointer-events: none;
+  padding: 0 10px;
+  height: 24px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.setup-payment-method__state-badge[hidden] {
+  display: none !important;
+}
+
+.setup-payment-method--state-incomplete .setup-payment-method__state-badge {
+  background: #ebf2ff;
+  color: #1f63f0;
+}
+
+.setup-payment-method--state-complete .setup-payment-method__state-badge {
+  background: #eaf8ef;
+  color: #1a8b4b;
 }
 
 .setup-payment-method__name {
@@ -1041,7 +1072,7 @@ a.setup-button--secondary {
   justify-content: space-between;
   gap: 12px;
   min-height: 70px;
-  padding: 12px 14px;
+  padding: 16px;
 
   &--active {
     border: 1.5px solid $text-clickable;
@@ -1107,6 +1138,25 @@ a.setup-button--secondary {
   font-size: 12px;
   font-weight: 600;
   line-height: 1;
+}
+
+.setup-network__status {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.setup-payment-method--state-incomplete .setup-network__status {
+  color: #1f63f0;
+}
+
+.setup-payment-method--state-complete .setup-network__status {
+  color: #1a8b4b;
+}
+
+.setup-network--complete {
+  border: 1.5px solid #4caf74;
+  background: #f2fbf5;
 }
 
 .setup-network__cta {
@@ -1203,6 +1253,21 @@ a.setup-button--secondary {
   .setup-payment-method__trigger {
     padding: 24px;
     gap: 16px;
+  }
+
+  .setup-payment-method__state-badge {
+    display: inline-flex;
+    float: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 33px;
+    right: 56px;
+    margin: 0;
+    transform: none;
+    height: 28px;
+    padding: 0 12px;
+    font-size: 13px;
   }
 
   .setup-payment-method__icon--lg {

@@ -896,6 +896,69 @@
     if (linked) {
       linked.setAttribute("aria-hidden", finalized ? "false" : "true");
     }
+
+    const selectedFromSn = readSelectedSnFromStorage();
+    const selectedCoin =
+      selectedFromSn === "usdc-erc20"
+        ? "usdc"
+        : selectedFromSn === "usdt-erc20"
+          ? "usdt"
+          : readActivatingSelectionCoin();
+    const incomplete = p >= 4 && p < 8;
+    const complete = p >= 8;
+
+    document.querySelectorAll("[data-payment-method-item]").forEach((item) => {
+      const kind = item.getAttribute("data-method-kind");
+      const isStablecoin = kind === "usdt" || kind === "usdc";
+      const isSelectedStablecoin = isStablecoin && kind === selectedCoin;
+      const isBank = kind === "bank";
+
+      const showIncomplete = incomplete && isSelectedStablecoin;
+      const showComplete = complete && (isSelectedStablecoin || isBank);
+
+      item.classList.toggle("setup-payment-method--state-incomplete", showIncomplete);
+      item.classList.toggle("setup-payment-method--state-complete", showComplete);
+
+      const badge = item.querySelector("[data-payment-method-state-badge]");
+      if (badge) {
+        if (showIncomplete) {
+          badge.textContent = "Setup incomplete";
+          badge.hidden = false;
+        } else if (showComplete) {
+          badge.textContent = "Completed (1)";
+          badge.hidden = false;
+        } else {
+          badge.textContent = "";
+          badge.hidden = true;
+        }
+      }
+
+      if (isStablecoin) {
+        const statusEl = item.querySelector("[data-payment-network-status]");
+        if (statusEl) {
+          if (showIncomplete) {
+            statusEl.textContent = "Setup incomplete";
+            statusEl.hidden = false;
+          } else if (showComplete) {
+            statusEl.textContent = "Setup completed";
+            statusEl.hidden = false;
+          } else {
+            statusEl.textContent = "";
+            statusEl.hidden = true;
+          }
+        }
+
+        const ctaLabel = item.querySelector("[data-network-setup-label]");
+        if (ctaLabel) {
+          ctaLabel.textContent = showIncomplete ? "Continue setup" : "Set up";
+        }
+
+        const activeNetwork = item.querySelector(".setup-network--active");
+        if (activeNetwork) {
+          activeNetwork.classList.toggle("setup-network--complete", showComplete);
+        }
+      }
+    });
   }
 
   function formatActivatingStepLabel(stepLabel, pct) {
