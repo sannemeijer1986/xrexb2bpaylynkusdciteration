@@ -985,15 +985,24 @@
       item.classList.toggle("setup-payment-method--state-complete", showComplete);
 
       const badge = item.querySelector("[data-payment-method-state-badge]");
+      const badgeLabel = badge?.querySelector("[data-state-badge-label]");
+      const badgeCheck = badge?.querySelector("[data-state-badge-check]");
       if (badge) {
+        const setBadgeText = (text) => {
+          if (badgeLabel) badgeLabel.textContent = text;
+          else badge.textContent = text;
+        };
         if (showIncomplete) {
-          badge.textContent = "Setup incomplete";
+          setBadgeText("Setup incomplete");
+          if (badgeCheck) badgeCheck.hidden = true;
           badge.hidden = false;
         } else if (showComplete) {
-          badge.textContent = "Completed (1)";
+          setBadgeText(isBank ? "Added (1)" : "Completed (1)");
+          if (badgeCheck) badgeCheck.hidden = !isBank;
           badge.hidden = false;
         } else {
-          badge.textContent = "";
+          setBadgeText("");
+          if (badgeCheck) badgeCheck.hidden = true;
           badge.hidden = true;
         }
       }
@@ -1039,8 +1048,21 @@
       }
 
       if (isBank) {
-        const bankAction = item.querySelector(".setup-payment-method__bank-action");
-        if (bankAction) bankAction.hidden = showComplete;
+        const bankIncomplete = item.querySelector("[data-bank-panel-incomplete]");
+        const bankComplete = item.querySelector("[data-bank-panel-complete]");
+        if (bankIncomplete) bankIncomplete.hidden = showComplete;
+        if (bankComplete) bankComplete.hidden = !showComplete;
+        if (showComplete && !item.classList.contains("setup-payment-method--expanded")) {
+          item.classList.add("setup-payment-method--expanded");
+          const trigger = item.querySelector("[data-payment-method-trigger]");
+          const panel = item.querySelector("[data-payment-method-panel]");
+          if (trigger) trigger.setAttribute("aria-expanded", "true");
+          if (panel) {
+            panel.setAttribute("aria-hidden", "false");
+            panel.style.height = "auto";
+            panel.style.opacity = "1";
+          }
+        }
       }
     });
   }
@@ -3186,6 +3208,7 @@
     isPaylynkErc20Activated: readPaylynkErc20Activated,
     isBankWhitelisted: readBankWhitelisted,
     setBankWhitelisted,
+    queuePaymentMethodAddedToast,
   });
 
   if (document.readyState === "loading") {

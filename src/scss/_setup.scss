@@ -880,6 +880,17 @@ a.setup-button--secondary {
   line-height: 1;
 }
 
+body[data-prototype-context='payment-setup'] .setup-payment-methods__group {
+  gap: 0;
+}
+
+body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .setup-payment-method {
   position: relative;
   border: 1px solid $border-hard;
@@ -955,8 +966,23 @@ a.setup-button--secondary {
 }
 
 .setup-payment-method--state-complete .setup-payment-method__state-badge {
-  background: #D2F5DE;
-  color: #1a8b4b;
+  gap: 2px;
+  padding: 2px 8px 2px 6px;
+  background: $tag-green-surface;
+  color: $tag-green-text;
+  font-weight: 600;
+}
+
+.setup-payment-method__state-badge-check {
+  flex-shrink: 0;
+  display: block;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+
+  &[hidden] {
+    display: none !important;
+  }
 }
 
 .setup-payment-method__name {
@@ -1239,6 +1265,140 @@ a.setup-button--secondary {
   padding-top: 20px;
 }
 
+.setup-payment-method__desc--bank-complete {
+  margin-top: 0;
+}
+
+.setup-payment-method__bank-accounts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setup-payment-method__bank-accounts-title {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.setup-payment-method__bank-account-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.setup-payment-method__bank-account-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #D2F5DE;
+  box-sizing: border-box;
+}
+
+.setup-payment-method__bank-account-icon img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.setup-payment-method__bank-account-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.setup-payment-method__bank-account-line {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.setup-payment-method__bank-account-name {
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.setup-payment-method__bank-account-number {
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.setup-payment-method__bank-account-custom {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.setup-payment-method__bank-account-menu {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.setup-payment-method__bank-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  align-self: flex-end;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $text-clickable;
+  font-family: $font-family-sans;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.setup-payment-method__bank-add img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 .setup-actions--wallet-payment {
   margin-top: 16px;
 }
@@ -1276,6 +1436,15 @@ a.setup-button--secondary {
   }
 
   .setup-payment-methods__group {
+    gap: 24px;
+  }
+
+  body[data-prototype-context='payment-setup'] .setup-payment-methods__group {
+    gap: 0;
+  }
+
+  body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper {
+    margin-top: 16px;
     gap: 24px;
   }
 
@@ -1410,6 +1579,39 @@ a.setup-button--secondary {
   .setup-payment-method__bank-action {
     display: flex;
     justify-content: flex-end;
+  }
+
+  .setup-payment-method__bank-accounts-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .setup-payment-method__bank-account-card {
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .setup-payment-method__bank-account-line {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .setup-payment-method__bank-account-number {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+  }
+
+  .setup-payment-method__bank-account-custom {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .setup-payment-method__bank-account-menu {
+    width: 28px;
+    height: 28px;
   }
 
   .setup-actions--wallet-payment {

@@ -469,17 +469,22 @@ $wlb-text-negative: #dd483c;
 }
 
 @media (min-width: $desktop-breakpoint) {
-  // Tall form: size main row to content so footer scrolls below the card instead of overlaying it.
+  // Footer lives inside .setup-panel__body on this page so it scrolls with the form
+  // instead of sticking in the panel grid’s second row over long content.
   body[data-prototype-context='bank-whitelist'] .setup-panel {
-    grid-template-rows: auto auto;
+    display: block;
   }
 
   body[data-prototype-context='bank-whitelist'] .setup-panel__body {
-    min-height: 0;
+    min-height: auto;
+  }
+
+  body[data-prototype-context='bank-whitelist'] .setup-footer--bank-whitelist {
+    margin-top: 40px;
   }
 
   .setup-panel__content--bank-whitelist {
-    padding-bottom: 64px;
+    padding-bottom: 0;
   }
 
   .setup-header--bank-whitelist {

@@ -66,6 +66,9 @@
         if (window.PaylynkPrototype?.setBankWhitelisted) {
           window.PaylynkPrototype.setBankWhitelisted(true);
         }
+        if (window.PaylynkPrototype?.queuePaymentMethodAddedToast) {
+          window.PaylynkPrototype.queuePaymentMethodAddedToast();
+        }
         hideLoader();
         window.location.href = "index.html";
       }, LOADER_MS);

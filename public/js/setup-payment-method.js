@@ -95,11 +95,23 @@
       });
     });
 
-    document.querySelectorAll("[data-bank-whitelist]").forEach(function (btn) {
+    function goToBankWhitelist(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      window.location.href = "whitelist-bank.html";
+    }
+
+    document.querySelectorAll("[data-bank-whitelist], [data-bank-whitelist-add]").forEach(function (btn) {
+      btn.addEventListener("click", goToBankWhitelist);
+    });
+
+    document.querySelectorAll("[data-bank-account-menu]").forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        window.location.href = "whitelist-bank.html";
+        showStubToast("Not in prototype");
       });
     });
 
@@ -151,8 +163,17 @@
     });
   }
 
+  function expandBankIfWhitelisted() {
+    var bankItem = document.querySelector('[data-method-kind="bank"]');
+    if (!bankItem || !bankItem.classList.contains("setup-payment-method--state-complete")) return;
+    setExpanded(bankItem, true);
+  }
+
   if (document.body && document.body.getAttribute("data-prototype-context") === "payment-setup") {
     initAccordion();
     initActions();
+    document.addEventListener("paylynk:bank-whitelisted-changed", function () {
+      window.requestAnimationFrame(expandBankIfWhitelisted);
+    });
   }
 })();
