@@ -269,7 +269,7 @@ $wlb-text-negative: #dd483c;
   width: 60px;
   height: 60px;
   border-radius: 999px;
-  background: $button-secondary;
+  background: #eeeeee;
 }
 
 .bank-whitelist-upload__circle-icon {
@@ -290,6 +290,11 @@ $wlb-text-negative: #dd483c;
   width: 26px;
   height: 26px;
   object-fit: contain;
+}
+
+.bank-whitelist-upload--filled .bank-whitelist-upload__success-icon {
+  width: 60px;
+  height: 60px;
 }
 
 .bank-whitelist-upload__title {
