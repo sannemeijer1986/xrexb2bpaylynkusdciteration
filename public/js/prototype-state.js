@@ -997,8 +997,8 @@
           if (badgeCheck) badgeCheck.hidden = true;
           badge.hidden = false;
         } else if (showComplete) {
-          setBadgeText(isBank ? "Added (1)" : "Completed (1)");
-          if (badgeCheck) badgeCheck.hidden = !isBank;
+          setBadgeText(isBank ? "Added (1)" : "Activated (1)");
+          if (badgeCheck) badgeCheck.hidden = false;
           badge.hidden = false;
         } else {
           setBadgeText("");
@@ -1021,7 +1021,7 @@
         }
         if (statusComplete) {
           if (showComplete) {
-            statusComplete.textContent = "Completed";
+            statusComplete.textContent = "Activated";
             statusComplete.hidden = false;
           } else {
             statusComplete.textContent = "";

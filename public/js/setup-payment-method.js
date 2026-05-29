@@ -50,6 +50,44 @@
     }
   }
 
+  function refreshExpandedPanelHeight(panel) {
+    if (!panel || panel.getAttribute("aria-hidden") === "true") return;
+
+    var token = String((Number(panel.getAttribute("data-anim-token")) || 0) + 1);
+    panel.setAttribute("data-anim-token", token);
+
+    var startHeight = panel.getBoundingClientRect().height;
+    panel.style.transition = "none";
+    if (panel.style.height === "auto" || !panel.style.height) {
+      panel.style.height = startHeight + "px";
+    } else {
+      startHeight = parseFloat(panel.style.height) || startHeight;
+    }
+
+    panel.style.height = "auto";
+    var targetHeight = panel.scrollHeight;
+    panel.style.height = startHeight + "px";
+    panel.getBoundingClientRect();
+
+    if (Math.abs(targetHeight - startHeight) < 1) {
+      panel.style.height = "auto";
+      return;
+    }
+
+    panel.style.transition = "height " + ANIMATION_MS + "ms ease";
+    panel.style.height = targetHeight + "px";
+
+    var onEnd = function (e) {
+      if (e.propertyName !== "height") return;
+      panel.removeEventListener("transitionend", onEnd);
+      if (panel.getAttribute("data-anim-token") !== token) return;
+      if (panel.getAttribute("aria-hidden") === "false") {
+        panel.style.height = "auto";
+      }
+    };
+    panel.addEventListener("transitionend", onEnd);
+  }
+
   function setExpanded(item, expanded) {
     if (!item) return;
     var trigger = item.querySelector("[data-payment-method-trigger]");
@@ -107,13 +145,6 @@
       btn.addEventListener("click", goToBankWhitelist);
     });
 
-    document.querySelectorAll("[data-bank-account-menu]").forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        showStubToast("Not in prototype");
-      });
-    });
 
     document.querySelectorAll("[data-network-setup]").forEach(function (btn) {
       btn.addEventListener("click", function (e) {
@@ -169,11 +200,30 @@
     setExpanded(bankItem, true);
   }
 
+  function syncBankPanelAfterWhitelistChange() {
+    var bankItem = document.querySelector('[data-method-kind="bank"]');
+    if (!bankItem) return;
+
+    if (bankItem.classList.contains("setup-payment-method--state-complete")) {
+      if (!bankItem.classList.contains("setup-payment-method--expanded")) {
+        setExpanded(bankItem, true);
+        return;
+      }
+    }
+
+    if (bankItem.classList.contains("setup-payment-method--expanded")) {
+      var panel = bankItem.querySelector("[data-payment-method-panel]");
+      refreshExpandedPanelHeight(panel);
+    }
+  }
+
   if (document.body && document.body.getAttribute("data-prototype-context") === "payment-setup") {
     initAccordion();
     initActions();
     document.addEventListener("paylynk:bank-whitelisted-changed", function () {
-      window.requestAnimationFrame(expandBankIfWhitelisted);
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(syncBankPanelAfterWhitelistChange);
+      });
     });
   }
 })();
