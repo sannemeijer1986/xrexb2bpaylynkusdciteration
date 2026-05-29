@@ -957,6 +957,7 @@
           : null;
     const usdtActivated = readPaylynkErc20Activated("usdt");
     const usdcActivated = readPaylynkErc20Activated("usdc");
+    const bankWhitelisted = readBankWhitelisted();
 
     document.querySelectorAll("[data-payment-method-item]").forEach((item) => {
       const kind = item.getAttribute("data-method-kind");
@@ -964,7 +965,13 @@
       const isSelectedStablecoin = isStablecoin && kind === selectedCoin;
       const isBank = kind === "bank";
       const isMethodActivated =
-        kind === "usdt" ? usdtActivated : kind === "usdc" ? usdcActivated : false;
+        kind === "usdt"
+          ? usdtActivated
+          : kind === "usdc"
+            ? usdcActivated
+            : isBank
+              ? bankWhitelisted
+              : false;
 
       const showComplete = !!isMethodActivated;
       const showIncomplete = p >= 3 && !showComplete && isSelectedStablecoin;
@@ -1024,6 +1031,11 @@
             ? "assets/icon_network_green.svg"
             : "assets/icon_network_blue.svg";
         }
+      }
+
+      if (isBank) {
+        const bankAction = item.querySelector(".setup-payment-method__bank-action");
+        if (bankAction) bankAction.hidden = showComplete;
       }
     });
   }
@@ -1430,6 +1442,7 @@
       if (prev >= 8 && clamped < 8) {
         setPaylynkErc20Activated("usdt", false);
         setPaylynkErc20Activated("usdc", false);
+        setBankWhitelisted(false);
       }
       applySetupProgressToUi();
       if (openReauthFromControls && prev === 7 && clamped === 6) {
@@ -2525,6 +2538,7 @@
   const PAYLYNK_RETURN_VIEW_KEY = `${STORAGE_PREFIX}returnView.v1`;
   const PAYLYNK_USDT_ERC20_ACTIVATED_KEY = `${STORAGE_PREFIX}usdtErc20Activated.v1`;
   const PAYLYNK_USDC_ERC20_ACTIVATED_KEY = `${STORAGE_PREFIX}usdcErc20Activated.v1`;
+  const PAYLYNK_BANK_WHITELISTED_KEY = `${STORAGE_PREFIX}bankWhitelisted.v1`;
 
   const PAYLYNK_STABLECOIN_COPY = {
     usdt: {
@@ -2563,6 +2577,41 @@
       /* ignore */
     }
     return "usdt";
+  }
+
+  function readBankWhitelisted() {
+    try {
+      return window.localStorage?.getItem(PAYLYNK_BANK_WHITELISTED_KEY) === "1";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function syncBankWhitelistedCheckboxes() {
+    document.querySelectorAll("[data-prototype-bank-whitelisted]").forEach((el) => {
+      if (!(el instanceof HTMLInputElement)) return;
+      el.disabled = false;
+      el.checked = readBankWhitelisted();
+      const label = el.closest(".build-badge__checkbox");
+      if (label) label.classList.remove("build-badge__checkbox--disabled");
+    });
+  }
+
+  function setBankWhitelisted(enabled) {
+    try {
+      window.localStorage?.setItem(PAYLYNK_BANK_WHITELISTED_KEY, enabled ? "1" : "0");
+    } catch (_) {
+      /* ignore */
+    }
+    syncBankWhitelistedCheckboxes();
+    if (enabled && states.setupProgress < 8) {
+      setState("setupProgress", 8, { force: true });
+    } else {
+      syncPaymentSetupFromProgress();
+    }
+    document.dispatchEvent(
+      new CustomEvent("paylynk:bank-whitelisted-changed", { detail: { enabled } }),
+    );
   }
 
   function syncPaylynkErc20ActivatedCheckboxes() {
@@ -2811,7 +2860,7 @@
     if (!body) return;
 
     const stack = document.createElement("div");
-    stack.className = "build-badge__checkbox-stack";
+    stack.className = "build-badge__checkbox-stack build-badge__checkbox-stack--erc20";
     stack.innerHTML = `
         <div class="build-badge__section-row">
           <label class="build-badge__checkbox">
@@ -2829,18 +2878,47 @@
     const journeyRow = body.querySelector("[data-prototype-journey]")?.closest(".build-badge__section-row");
     if (journeyRow) journeyRow.before(stack);
     else body.appendChild(stack);
+    injectBankWhitelistedPrototypeControl();
+  }
+
+  function injectBankWhitelistedPrototypeControl() {
+    if (document.querySelector("[data-prototype-bank-whitelisted]")) return;
+    const body = document.querySelector(".build-badge__body");
+    if (!body) return;
+
+    const row = document.createElement("div");
+    row.className = "build-badge__section-row";
+    row.innerHTML = `
+      <label class="build-badge__checkbox">
+        <input type="checkbox" data-prototype-bank-whitelisted aria-label="Bank account whitelisted" />
+        <span>Bank account whitelisted</span>
+      </label>`;
+
+    const erc20Stack =
+      body.querySelector(".build-badge__checkbox-stack--erc20") ||
+      body.querySelector("[data-prototype-usdc-erc20-activated]")?.closest(".build-badge__checkbox-stack");
+    const journeyRow = body.querySelector("[data-prototype-journey]")?.closest(".build-badge__section-row");
+    if (erc20Stack) erc20Stack.after(row);
+    else if (journeyRow) journeyRow.before(row);
+    else body.appendChild(row);
   }
 
   function initPaylynkErc20ActivatedCheckboxes() {
     injectErc20ActivatedPrototypeControls();
+    injectBankWhitelistedPrototypeControl();
     if (document.documentElement.hasAttribute("data-prototype-erc20-activated-bound")) {
       syncPaylynkErc20ActivatedCheckboxes();
+      syncBankWhitelistedCheckboxes();
       return;
     }
     document.documentElement.setAttribute("data-prototype-erc20-activated-bound", "");
     const onChange = (e) => {
       const input = e.target;
       if (!(input instanceof HTMLInputElement) || !e.isTrusted) return;
+      if (input.matches("[data-prototype-bank-whitelisted]")) {
+        setBankWhitelisted(input.checked);
+        return;
+      }
       if (states.setupProgress < 8 || input.disabled) return;
       if (input.matches("[data-prototype-usdt-erc20-activated]")) {
         setPaylynkErc20Activated("usdt", input.checked);
@@ -2851,6 +2929,7 @@
     };
     document.addEventListener("change", onChange);
     syncPaylynkErc20ActivatedCheckboxes();
+    syncBankWhitelistedCheckboxes();
     syncPaylynkEthereumNetworkCard();
   }
 
@@ -2945,6 +3024,7 @@
     setUseDefaultStablecoin(false);
     setPaylynkErc20Activated("usdt", false);
     setPaylynkErc20Activated("usdc", false);
+    setBankWhitelisted(false);
 
     document.querySelectorAll("[data-prototype-journey]").forEach((sel) => {
       sel.value = "setup";
@@ -3103,6 +3183,7 @@
     activateWalletPasscodeSession,
     clearWalletSession: () => setWalletPasscodeValue("inactive"),
     isPaylynkErc20Activated: readPaylynkErc20Activated,
+    isBankWhitelisted: readBankWhitelisted,
   });
 
   if (document.readyState === "loading") {
