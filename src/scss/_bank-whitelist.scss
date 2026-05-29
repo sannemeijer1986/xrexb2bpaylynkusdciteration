@@ -28,7 +28,20 @@ $wlb-text-negative: #dd483c;
 .bank-whitelist-section {
   display: flex;
   flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .bank-whitelist-section {
+    gap: 32px;
+  }
+}
+
+.bank-whitelist-section__intro {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  margin-bottom: 16px;
 }
 
 .bank-whitelist-section__head {
@@ -44,10 +57,6 @@ $wlb-text-negative: #dd483c;
   justify-content: center;
   width: 32px;
   height: 32px;
-  border: 1px solid $border-soft;
-  border-radius: 8px;
-  background: $surface-card;
-  box-sizing: border-box;
 }
 
 .bank-whitelist-section__icon {
@@ -84,8 +93,15 @@ $wlb-text-negative: #dd483c;
 }
 
 .bank-whitelist-alert--warning {
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
   background: $wlb-alert-warning-bg;
   color: $wlb-alert-warning-text;
+
+  p {
+    margin: 0;
+  }
 
   .bank-whitelist-alert__icon {
     width: 16px;
@@ -98,15 +114,18 @@ $wlb-text-negative: #dd483c;
 .bank-whitelist-alert--info {
   flex-direction: column;
   gap: 4px;
-  background: $wlb-alert-info-bg;
-  color: $wlb-alert-info-text;
+  width: 100%;
   max-width: 320px;
   margin: 0 auto;
+  background: $wlb-alert-info-bg;
+  color: $wlb-alert-info-text;
+  text-align: left;
 
   .bank-whitelist-alert__head {
     display: flex;
     align-items: flex-start;
     gap: 4px;
+    text-align: left;
   }
 
   .bank-whitelist-alert__icon {
@@ -118,10 +137,16 @@ $wlb-text-negative: #dd483c;
 
   ul {
     margin: 0;
-    padding: 0 0 0 21px;
+    padding: 0 0 0 20px;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
+    text-align: left;
+    list-style-position: outside;
+  }
+
+  li {
+    text-align: left;
   }
 }
 
@@ -151,8 +176,12 @@ $wlb-text-negative: #dd483c;
   box-sizing: border-box;
 }
 
-.bank-whitelist-field__box--stacked {
+.bank-whitelist--filled .bank-whitelist-field__box--stacked {
   align-items: flex-start;
+
+  .bank-whitelist-field__action {
+    align-self: flex-start;
+  }
 }
 
 .bank-whitelist-field__main {
@@ -166,10 +195,10 @@ $wlb-text-negative: #dd483c;
 
 .bank-whitelist-field__placeholder {
   margin: 0;
-  color: $text-placeholder;
+  color: #bcbdbd;
   font-size: 16px;
   font-weight: 400;
-  line-height: 23px;
+  line-height: normal;
 }
 
 .bank-whitelist-field__value {
@@ -190,6 +219,7 @@ $wlb-text-negative: #dd483c;
 
 .bank-whitelist-field__action {
   flex-shrink: 0;
+  align-self: center;
   width: 24px;
   height: 24px;
   object-fit: contain;
@@ -242,22 +272,10 @@ $wlb-text-negative: #dd483c;
   background: $button-secondary;
 }
 
-.bank-whitelist-upload__circle-tile {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: 1px solid $border-soft;
-  border-radius: 8px;
-  background: $surface-card;
-  box-sizing: border-box;
-}
-
 .bank-whitelist-upload__circle-icon {
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
 }
 
@@ -269,8 +287,8 @@ $wlb-text-negative: #dd483c;
 
 .bank-whitelist-upload__success-icon {
   display: block;
-  width: 60px;
-  height: 60px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
 }
 
@@ -288,6 +306,14 @@ $wlb-text-negative: #dd483c;
   font-size: 14px;
   font-weight: 600;
   line-height: normal;
+}
+
+.bank-whitelist-upload__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
 }
 
 .bank-whitelist-upload__btn {
@@ -311,10 +337,16 @@ $wlb-text-negative: #dd483c;
 .bank-whitelist-upload__link {
   margin: 0;
   color: $text-clickable;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   line-height: normal;
   pointer-events: none;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .bank-whitelist-upload__link {
+    font-size: 16px;
+  }
 }
 
 .bank-whitelist-upload--filled {
@@ -323,12 +355,6 @@ $wlb-text-negative: #dd483c;
   align-items: center;
   gap: 16px;
   text-align: center;
-}
-
-.bank-whitelist-upload__success-icon {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
 }
 
 .bank-whitelist-upload__filename {
@@ -426,7 +452,7 @@ $wlb-text-negative: #dd483c;
 }
 
 .setup-panel__content--bank-whitelist {
-  padding-bottom: 32px;
+  padding-bottom: 48px;
 }
 
 .setup-header--bank-whitelist {
@@ -438,6 +464,19 @@ $wlb-text-negative: #dd483c;
 }
 
 @media (min-width: $desktop-breakpoint) {
+  // Tall form: size main row to content so footer scrolls below the card instead of overlaying it.
+  body[data-prototype-context='bank-whitelist'] .setup-panel {
+    grid-template-rows: auto auto;
+  }
+
+  body[data-prototype-context='bank-whitelist'] .setup-panel__body {
+    min-height: 0;
+  }
+
+  .setup-panel__content--bank-whitelist {
+    padding-bottom: 64px;
+  }
+
   .setup-header--bank-whitelist {
     margin-bottom: 40px;
 
