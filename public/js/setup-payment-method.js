@@ -88,10 +88,18 @@
   }
 
   function initActions() {
-    document.querySelectorAll("[data-network-help], [data-bank-whitelist]").forEach(function (btn) {
+    document.querySelectorAll("[data-network-help]").forEach(function (btn) {
       btn.addEventListener("click", function (e) {
         e.preventDefault();
         showStubToast("Not in prototype");
+      });
+    });
+
+    document.querySelectorAll("[data-bank-whitelist]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = "whitelist-bank.html";
       });
     });
 

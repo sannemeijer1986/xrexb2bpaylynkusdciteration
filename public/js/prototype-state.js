@@ -3185,6 +3185,7 @@
     clearWalletSession: () => setWalletPasscodeValue("inactive"),
     isPaylynkErc20Activated: readPaylynkErc20Activated,
     isBankWhitelisted: readBankWhitelisted,
+    setBankWhitelisted,
   });
 
   if (document.readyState === "loading") {

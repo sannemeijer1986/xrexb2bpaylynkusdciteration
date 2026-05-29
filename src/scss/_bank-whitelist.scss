@@ -1,0 +1,465 @@
+// Bank whitelist — Figma 8198:43738 (empty), 8198:43793 (filled)
+
+$wlb-alert-warning-bg: rgba(249, 86, 43, 0.15);
+$wlb-alert-warning-text: #ff6d47;
+$wlb-alert-info-bg: rgba(77, 136, 255, 0.15);
+$wlb-alert-info-text: #4d88ff;
+$wlb-text-negative: #dd483c;
+
+.bank-whitelist {
+  width: 100%;
+}
+
+.bank-whitelist-card {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 24px 16px;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.bank-whitelist--empty .bank-whitelist-card[data-bank-whitelist-autofill] {
+  cursor: pointer;
+}
+
+.bank-whitelist-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bank-whitelist-section__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bank-whitelist-section__icon-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid $border-soft;
+  border-radius: 8px;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.bank-whitelist-section__icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.bank-whitelist-section__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.bank-whitelist-divider {
+  height: 1px;
+  background: $border-soft;
+  border: 0;
+  margin: 0;
+}
+
+.bank-whitelist-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px;
+  border-radius: $radius-card;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.bank-whitelist-alert--warning {
+  background: $wlb-alert-warning-bg;
+  color: $wlb-alert-warning-text;
+
+  .bank-whitelist-alert__icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+}
+
+.bank-whitelist-alert--info {
+  flex-direction: column;
+  gap: 4px;
+  background: $wlb-alert-info-bg;
+  color: $wlb-alert-info-text;
+  max-width: 320px;
+  margin: 0 auto;
+
+  .bank-whitelist-alert__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .bank-whitelist-alert__icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0 0 0 21px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+}
+
+.bank-whitelist-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bank-whitelist-field__label {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.bank-whitelist-field__box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 74px;
+  padding: 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.bank-whitelist-field__box--stacked {
+  align-items: flex-start;
+}
+
+.bank-whitelist-field__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+
+.bank-whitelist-field__placeholder {
+  margin: 0;
+  color: $text-placeholder;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+}
+
+.bank-whitelist-field__value {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.bank-whitelist-field__sub {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.bank-whitelist-field__action {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.bank-whitelist--filled .bank-whitelist-field__placeholder,
+.bank-whitelist--filled .bank-whitelist-upload--empty,
+.bank-whitelist--filled .bank-whitelist-field__action--add {
+  display: none !important;
+}
+
+.bank-whitelist--empty .bank-whitelist-field__value,
+.bank-whitelist--empty .bank-whitelist-field__sub,
+.bank-whitelist--empty .bank-whitelist-field__action--edit,
+.bank-whitelist--empty .bank-whitelist-upload--filled {
+  display: none !important;
+}
+
+.bank-whitelist-upload {
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  background: $surface-card;
+  padding: 32px 20px;
+  box-sizing: border-box;
+}
+
+.bank-whitelist-upload--empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
+}
+
+.bank-whitelist-upload__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.bank-whitelist-upload__circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  background: $button-secondary;
+}
+
+.bank-whitelist-upload__circle-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid $border-soft;
+  border-radius: 8px;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.bank-whitelist-upload__circle-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.bank-whitelist-upload__success-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bank-whitelist-upload__success-icon {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.bank-whitelist-upload__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.bank-whitelist-upload__subtitle {
+  margin: 4px 0 0;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.bank-whitelist-upload__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 240px;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: $radius-card;
+  background: $button-primary;
+  color: #fff;
+  font-family: $font-family-sans;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  pointer-events: none;
+}
+
+.bank-whitelist-upload__link {
+  margin: 0;
+  color: $text-clickable;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  pointer-events: none;
+}
+
+.bank-whitelist-upload--filled {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.bank-whitelist-upload__success-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.bank-whitelist-upload__filename {
+  margin: 0;
+  color: $text-clickable;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.bank-whitelist-upload__remove {
+  margin: 0;
+  color: $wlb-text-negative;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  pointer-events: none;
+}
+
+.bank-whitelist-confirm {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.bank-whitelist-confirm__box {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.bank-whitelist-confirm__box img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.bank-whitelist-confirm__empty {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid $border-hard;
+  border-radius: 4px;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.bank-whitelist-confirm__checked {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: $text-clickable
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10' viewBox='0 0 12 10' fill='none'%3E%3Cpath d='M1 5.2L4.2 8.4L11 1.2' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 12px 10px no-repeat;
+}
+
+.bank-whitelist--filled .bank-whitelist-confirm__empty {
+  display: none;
+}
+
+.bank-whitelist--filled .bank-whitelist-confirm__checked {
+  display: block;
+}
+
+.bank-whitelist-confirm__text {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.bank-whitelist-actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.bank-whitelist-actions .setup-button {
+  width: 100%;
+  min-height: 52px;
+  border-radius: $radius-button;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.bank-whitelist-actions .setup-button--primary:disabled {
+  background: $button-primary-disabled;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.setup-panel__content--bank-whitelist {
+  padding-bottom: 32px;
+}
+
+.setup-header--bank-whitelist {
+  margin-bottom: 32px;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .setup-header--bank-whitelist {
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.12;
+    }
+  }
+
+  .bank-whitelist-card {
+    padding: 32px;
+  }
+
+  .bank-whitelist-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+
+  .bank-whitelist-actions .setup-button {
+    width: 240px;
+    flex: 0 0 auto;
+  }
+}

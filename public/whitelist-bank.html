@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script src="auth/auth-config.js"></script>
+  <script src="auth/auth-gate.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XREX PayLynk - Whitelist your bank account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=104" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v != null && v !== "") document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="setup-page" data-prototype-context="bank-whitelist">
+  <main class="setup-shell" aria-labelledby="bank-whitelist-title">
+    <section class="setup-hero" aria-label="XREX Pay">
+      <img class="setup-hero__image" src="assets/setup-hero.jpg" alt="" />
+      <img class="setup-hero__logo" src="assets/logo-xrex-pay-white.svg" alt="XREX Pay" />
+    </section>
+
+    <section class="setup-panel">
+      <div class="setup-panel__body">
+        <div class="setup-panel__content setup-panel__content--bank-whitelist bank-whitelist bank-whitelist--empty" data-bank-whitelist-root>
+          <header class="setup-header setup-header--bank-whitelist">
+            <h1 id="bank-whitelist-title">Whitelist your bank account</h1>
+          </header>
+
+          <div class="bank-whitelist-card" data-bank-whitelist-autofill role="presentation">
+            <section class="bank-whitelist-section" aria-labelledby="wlb-holder-heading">
+              <div class="bank-whitelist-section__head">
+                <span class="bank-whitelist-section__icon-wrap" aria-hidden="true">
+                  <img class="bank-whitelist-section__icon" src="assets/icon_wlb_accountholder.svg" width="32" height="32" alt="" />
+                </span>
+                <h2 id="wlb-holder-heading" class="bank-whitelist-section__title">Account holder information</h2>
+              </div>
+              <div class="bank-whitelist-alert bank-whitelist-alert--warning" role="note">
+                <img class="bank-whitelist-alert__icon" src="assets/icon_wlb_alert.svg" width="16" height="20" alt="" aria-hidden="true" />
+                <p>Only USD bank accounts held in your company's legal name can be added.</p>
+              </div>
+              <div class="bank-whitelist-field">
+                <p class="bank-whitelist-field__label">Account holder name</p>
+                <div class="bank-whitelist-field__box">
+                  <div class="bank-whitelist-field__main">
+                    <p class="bank-whitelist-field__placeholder">Enter account holder name</p>
+                    <p class="bank-whitelist-field__value">Acme Trading Pte Ltd</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <hr class="bank-whitelist-divider" />
+
+            <section class="bank-whitelist-section" aria-labelledby="wlb-bank-heading">
+              <div class="bank-whitelist-section__head">
+                <span class="bank-whitelist-section__icon-wrap" aria-hidden="true">
+                  <img class="bank-whitelist-section__icon" src="assets/icon_wlb_bank.svg" width="32" height="32" alt="" />
+                </span>
+                <h2 id="wlb-bank-heading" class="bank-whitelist-section__title">Bank information</h2>
+              </div>
+              <div class="bank-whitelist-field">
+                <p class="bank-whitelist-field__label">Bank information</p>
+                <div class="bank-whitelist-field__box bank-whitelist-field__box--stacked">
+                  <div class="bank-whitelist-field__main">
+                    <p class="bank-whitelist-field__placeholder">Add bank information</p>
+                    <p class="bank-whitelist-field__value">DBS Bank Ltd</p>
+                    <p class="bank-whitelist-field__sub">Country : Singapore<br />City : Singapore<br />SWIFT : DBSSSGSG</p>
+                  </div>
+                  <img class="bank-whitelist-field__action bank-whitelist-field__action--add" src="assets/icon_wlb_add.svg" width="24" height="24" alt="" aria-hidden="true" />
+                  <img class="bank-whitelist-field__action bank-whitelist-field__action--edit" src="assets/icon_edit_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+                </div>
+              </div>
+            </section>
+
+            <hr class="bank-whitelist-divider" />
+
+            <section class="bank-whitelist-section" aria-labelledby="wlb-details-heading">
+              <div class="bank-whitelist-section__head">
+                <span class="bank-whitelist-section__icon-wrap" aria-hidden="true">
+                  <img class="bank-whitelist-section__icon" src="assets/icon_wlb_info.svg" width="32" height="32" alt="" />
+                </span>
+                <h2 id="wlb-details-heading" class="bank-whitelist-section__title">Account details</h2>
+              </div>
+              <div class="bank-whitelist-field">
+                <p class="bank-whitelist-field__label">Account number</p>
+                <div class="bank-whitelist-field__box">
+                  <div class="bank-whitelist-field__main">
+                    <p class="bank-whitelist-field__placeholder">Enter account number</p>
+                    <p class="bank-whitelist-field__value">0123456789</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bank-whitelist-field">
+                <p class="bank-whitelist-field__label">Transaction information</p>
+                <div class="bank-whitelist-field__box bank-whitelist-field__box--stacked">
+                  <div class="bank-whitelist-field__main">
+                    <p class="bank-whitelist-field__placeholder">Add infromation</p>
+                    <p class="bank-whitelist-field__value">Both send and receive payments</p>
+                    <p class="bank-whitelist-field__sub">Payment<br />4 Transactions / month<br />3,000,000 USD / month</p>
+                  </div>
+                  <img class="bank-whitelist-field__action bank-whitelist-field__action--add" src="assets/icon_wlb_add.svg" width="24" height="24" alt="" aria-hidden="true" />
+                  <img class="bank-whitelist-field__action bank-whitelist-field__action--edit" src="assets/icon_edit_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+                </div>
+              </div>
+              <div class="bank-whitelist-field">
+                <p class="bank-whitelist-field__label">Custom name</p>
+                <div class="bank-whitelist-field__box">
+                  <div class="bank-whitelist-field__main">
+                    <p class="bank-whitelist-field__placeholder">Custom name for your bank account, e.g., Global Trade Settlement</p>
+                    <p class="bank-whitelist-field__value">Main Operations Account</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <hr class="bank-whitelist-divider" />
+
+            <section class="bank-whitelist-section" aria-labelledby="wlb-doc-heading">
+              <div class="bank-whitelist-section__head">
+                <span class="bank-whitelist-section__icon-wrap" aria-hidden="true">
+                  <img class="bank-whitelist-section__icon" src="assets/icon_wlb_doc.svg" width="32" height="32" alt="" />
+                </span>
+                <h2 id="wlb-doc-heading" class="bank-whitelist-section__title">Document proof</h2>
+              </div>
+              <div class="bank-whitelist-upload bank-whitelist-upload--empty">
+                <div class="bank-whitelist-upload__hero">
+                  <div class="bank-whitelist-upload__circle" aria-hidden="true">
+                    <span class="bank-whitelist-upload__circle-tile">
+                      <img class="bank-whitelist-upload__circle-icon" src="assets/icon_wlb_doc.svg" width="32" height="32" alt="" />
+                    </span>
+                  </div>
+                  <div>
+                    <p class="bank-whitelist-upload__title">Document proof</p>
+                    <p class="bank-whitelist-upload__subtitle">(jpg, png, pdf under 50 MB)</p>
+                  </div>
+                  <div class="bank-whitelist-alert bank-whitelist-alert--info">
+                    <div class="bank-whitelist-alert__head">
+                      <img class="bank-whitelist-alert__icon" src="assets/icon_wlb_info.svg" width="16" height="16" alt="" aria-hidden="true" />
+                      <span>Document proof must include:</span>
+                    </div>
+                    <ul>
+                      <li>Account holder name</li>
+                      <li>Bank name</li>
+                      <li>Account number</li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <span class="bank-whitelist-upload__btn">Upload</span>
+                  <p class="bank-whitelist-upload__link">View examples of acceptable documents →</p>
+                </div>
+              </div>
+              <div class="bank-whitelist-upload bank-whitelist-upload--filled">
+                <span class="bank-whitelist-upload__success-wrap" aria-hidden="true">
+                  <img class="bank-whitelist-upload__success-icon" src="assets/icon_demo_greencheck.svg" width="60" height="60" alt="" />
+                </span>
+                <div>
+                  <p class="bank-whitelist-upload__filename">Image123.jpg</p>
+                  <p class="bank-whitelist-upload__subtitle">(jpg, png, pdf under 50 MB)</p>
+                </div>
+                <p class="bank-whitelist-upload__remove">Remove file</p>
+              </div>
+            </section>
+
+            <div class="bank-whitelist-confirm">
+              <span class="bank-whitelist-confirm__box" aria-hidden="true">
+                <span class="bank-whitelist-confirm__empty"></span>
+                <span class="bank-whitelist-confirm__checked"></span>
+              </span>
+              <p class="bank-whitelist-confirm__text">Confirm this account is held in your company's legal name.</p>
+            </div>
+
+            <div class="bank-whitelist-actions setup-actions setup-actions--wallet-payment">
+              <button type="button" class="setup-button setup-button--secondary" data-bank-whitelist-cancel>Cancel</button>
+              <button type="button" class="setup-button setup-button--primary" disabled data-bank-whitelist-save>Save and continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="setup-footer">
+        <p>© XREX Pay Limited 2026</p>
+        <nav class="setup-footer__nav" aria-label="Footer">
+          <a class="setup-footer__link setup-footer__link--desktop-only" href="#">Terms of Use</a>
+        </nav>
+      </footer>
+    </section>
+  </main>
+
+  <div id="verify-email-loader" class="verify-email-loader" hidden aria-hidden="true">
+    <div class="verify-email-loader__scrim" aria-hidden="true"></div>
+    <div
+      class="verify-email-loader__card verify-email-loader__card--otp"
+      data-verify-email-loader-otp
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <div class="verify-email-loader__icon-ring">
+        <img class="verify-email-loader__icon" src="assets/icon_loader_big_blue.svg" width="76" height="76" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <script defer src="js/prototype-state.js"></script>
+  <script defer src="js/bank-whitelist.js"></script>
+</body>
+</html>
