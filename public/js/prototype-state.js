@@ -944,7 +944,7 @@
       if (noticeText) {
         noticeText.textContent = finalized
           ? "Payment method(s) added, you can now continue"
-          : "One-time set up: Saved for future payments, add more anytime";
+          : "One-time setup  ·  Saved for future payments  ·  Add more anytime";
       }
     }
 

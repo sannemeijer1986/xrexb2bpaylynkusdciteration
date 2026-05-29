@@ -787,7 +787,7 @@ a.setup-button--secondary {
 .setup-payment-methods__intro {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .setup-payment-methods__headline {
@@ -1035,7 +1035,7 @@ a.setup-button--secondary {
 }
 .setup-network--disabled .setup-network__name,
 .setup-network--disabled .setup-network__sub {
-  color: #BCBDBD;
+  color: #94a3b8;
 }
 .setup-network--disabled .setup-network__icon-wrap {
   background: #f5f5f7;
