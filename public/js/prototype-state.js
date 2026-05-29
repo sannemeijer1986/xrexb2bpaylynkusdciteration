@@ -843,9 +843,13 @@
     syncAccountCreatedPrototypeControl();
   }
 
+  function canContinuePaymentSetup() {
+    return states.setupProgress >= 8 || readBankWhitelisted();
+  }
+
   function syncReviewSubmitFromProgress() {
     if (document.body?.getAttribute("data-prototype-context") !== "review-submit") return;
-    if (states.setupProgress < 8) {
+    if (!canContinuePaymentSetup()) {
       window.location.href = "index.html";
     }
   }
@@ -913,10 +917,11 @@
     if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
     const p = states.setupProgress;
     const finalized = p >= 8;
+    const canContinue = canContinuePaymentSetup();
     const nextBtn = document.querySelector("[data-payment-setup-next]");
     if (nextBtn && nextBtn.tagName === "BUTTON") {
-      nextBtn.disabled = !finalized;
-      nextBtn.setAttribute("aria-disabled", finalized ? "false" : "true");
+      nextBtn.disabled = !canContinue;
+      nextBtn.setAttribute("aria-disabled", canContinue ? "false" : "true");
     }
     const link = document.querySelector("[data-payment-setup-stablecoin-link]");
     if (link) {
@@ -930,19 +935,19 @@
     }
     const linked = document.querySelector("[data-payment-setup-linked]");
     if (linked) {
-      linked.setAttribute("aria-hidden", finalized ? "false" : "true");
+      linked.setAttribute("aria-hidden", canContinue ? "false" : "true");
     }
 
     const notice = document.querySelector("[data-payment-setup-notice]");
     if (notice) {
-      notice.classList.toggle("setup-payment-methods__notice--complete", finalized);
+      notice.classList.toggle("setup-payment-methods__notice--complete", canContinue);
       const noticeIcon = notice.querySelector("[data-payment-setup-notice-icon]");
       const noticeText = notice.querySelector("[data-payment-setup-notice-text]");
       if (noticeIcon instanceof HTMLImageElement) {
-        noticeIcon.src = finalized ? "assets/icon_success.svg" : "assets/icon_info_blue.svg";
+        noticeIcon.src = canContinue ? "assets/icon_success.svg" : "assets/icon_info_blue.svg";
       }
       if (noticeText) {
-        noticeText.textContent = finalized
+        noticeText.textContent = canContinue
           ? "Payment method(s) added, you can now continue"
           : "One-time setup  ·  Saved for future payments  ·  Add more anytime";
       }
@@ -2604,11 +2609,7 @@
       /* ignore */
     }
     syncBankWhitelistedCheckboxes();
-    if (enabled && states.setupProgress < 8) {
-      setState("setupProgress", 8, { force: true });
-    } else {
-      syncPaymentSetupFromProgress();
-    }
+    syncPaymentSetupFromProgress();
     document.dispatchEvent(
       new CustomEvent("paylynk:bank-whitelisted-changed", { detail: { enabled } }),
     );

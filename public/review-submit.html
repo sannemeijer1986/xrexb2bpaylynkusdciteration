@@ -15,7 +15,8 @@
       try {
         var k = "xrex.paylynk.prototype.setupProgress.v1";
         var v = localStorage.getItem(k);
-        if (v == null || v === "" || parseInt(v, 10) < 8) {
+        var bankOk = localStorage.getItem("xrex.paylynk.prototype.bankWhitelisted.v1") === "1";
+        if ((v == null || v === "" || parseInt(v, 10) < 8) && !bankOk) {
           window.location.replace("index.html");
           return;
         }

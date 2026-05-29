@@ -532,13 +532,31 @@
     <div class="build-badge__body" id="prototypeStatesBodyWallet">
       <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
 
-      <div class="build-badge__checkbox-stack">
+      <div class="build-badge__checkbox-stack build-badge__checkbox-stack--erc20">
         <div class="build-badge__section-row" style="display: none !important;">
           <label class="build-badge__checkbox">
             <input type="checkbox" data-prototype-empty aria-label="Empty" />
             <span>Empty</span>
           </label>
         </div>
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-usdt-erc20-activated aria-label="USDT ERC-20 activated" />
+            <span>USDT/ERC-20 activated</span>
+          </label>
+        </div>
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-usdc-erc20-activated aria-label="USDC ERC-20 activated" />
+            <span>USDC/ERC-20 activated</span>
+          </label>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <label class="build-badge__checkbox">
+          <input type="checkbox" data-prototype-bank-whitelisted aria-label="Bank account whitelisted" />
+          <span>Bank account whitelisted</span>
+        </label>
       </div>
       <div class="build-badge__section-row">
         <div class="build-badge__section-title">Journey</div>
