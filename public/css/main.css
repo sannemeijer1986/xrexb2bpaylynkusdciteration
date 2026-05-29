@@ -813,6 +813,9 @@ a.setup-button--secondary {
   height: 16px;
   margin-top: 1px;
 }
+.setup-payment-methods__notice--complete {
+  color: #3fae64;
+}
 
 .setup-payment-methods__group {
   margin-top: 32px;
@@ -903,7 +906,7 @@ a.setup-button--secondary {
 }
 
 .setup-payment-method--state-complete .setup-payment-method__state-badge {
-  background: #eaf8ef;
+  background: #D2F5DE;
   color: #1a8b4b;
 }
 
@@ -1082,23 +1085,40 @@ a.setup-button--secondary {
   line-height: 1;
 }
 
+.setup-network__aside {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .setup-network__status {
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
+  white-space: nowrap;
 }
 
-.setup-payment-method--state-incomplete .setup-network__status {
-  color: #1f63f0;
+.setup-network__status[hidden] {
+  display: none !important;
 }
 
-.setup-payment-method--state-complete .setup-network__status {
-  color: #1a8b4b;
+.setup-payment-method--state-incomplete .setup-network--active [data-payment-network-status-incomplete] {
+  color: #336aff;
 }
 
-.setup-network--complete {
-  border: 1.5px solid #4caf74;
-  background: #f2fbf5;
+.setup-payment-method--state-complete .setup-network--active.setup-network--complete {
+  border: 1px solid #dbdbdc;
+  background: #ffffff;
+}
+.setup-payment-method--state-complete .setup-network--active.setup-network--complete .setup-network__icon-wrap {
+  background: #D2F5DE;
+}
+.setup-payment-method--state-complete .setup-network--active.setup-network--complete .setup-network__cta {
+  display: none;
+}
+.setup-payment-method--state-complete .setup-network--active.setup-network--complete [data-payment-network-status-complete] {
+  color: #2f9752;
 }
 
 .setup-network__cta {
@@ -9108,10 +9128,42 @@ body.setup-dialog-is-open {
   border-color: #4d88ff;
 }
 
+.build-badge__select--disabled,
+.build-badge__select:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: rgba(255, 255, 255, 0.42);
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.build-badge__section-row--disabled .build-badge__section-title {
+  color: rgba(255, 255, 255, 0.42);
+}
+
 .build-badge__checkbox input {
   width: 14px;
   height: 14px;
   accent-color: #4d88ff;
+}
+
+.build-badge__checkbox-stack--erc20-locked {
+  opacity: 0.72;
+}
+
+.build-badge__checkbox--disabled,
+.build-badge__checkbox:has(input:disabled) {
+  cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.42);
+  user-select: none;
+}
+
+.build-badge__checkbox--disabled input,
+.build-badge__checkbox input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  accent-color: rgba(77, 136, 255, 0.45);
+  filter: grayscale(0.4);
 }
 
 .build-badge__reset {

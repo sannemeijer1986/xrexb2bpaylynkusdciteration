@@ -132,6 +132,7 @@
   }
 
   function setSelectedSn(value) {
+    if (states.setupProgress >= 8) value = "none";
     const normalized =
       value === "usdc-erc20" ? "usdc-erc20" : value === "usdt-erc20" ? "usdt-erc20" : "none";
     try {
@@ -145,9 +146,40 @@
 
   function ensureSelectedSnForProgress() {
     // When users move to consented-or-later via setup progress controls, default to USDT/ERC-20.
+    if (states.setupProgress >= 8) return;
     if (states.setupProgress < 2) return;
     if (readSelectedSnFromStorage() !== "none") return;
     setSelectedSn("usdt-erc20");
+  }
+
+  /** At progress 8+, selection is finalized — lock control to None. */
+  function syncSelectedSnControlsFromProgress() {
+    const locked = states.setupProgress >= 8;
+    let storageChanged = false;
+    if (locked && readSelectedSnFromStorage() !== "none") {
+      try {
+        window.localStorage?.setItem(SELECTED_SN_KEY, "none");
+      } catch (_) {
+        /* ignore */
+      }
+      storageChanged = true;
+    }
+    document.querySelectorAll("[data-prototype-selected-sn]").forEach((sel) => {
+      if (!(sel instanceof HTMLSelectElement)) return;
+      if (locked) {
+        sel.value = "none";
+        sel.disabled = true;
+        sel.setAttribute("aria-disabled", "true");
+      } else {
+        sel.disabled = false;
+        sel.removeAttribute("aria-disabled");
+        sel.value = readSelectedSnFromStorage();
+      }
+      sel.classList.toggle("build-badge__select--disabled", locked);
+      const row = sel.closest(".build-badge__section-row");
+      if (row) row.classList.toggle("build-badge__section-row--disabled", locked);
+    });
+    if (storageChanged) syncPaymentSetupFromProgress();
   }
 
   function journeyHref(journey) {
@@ -795,6 +827,7 @@
     const p = states.setupProgress;
     document.documentElement.setAttribute("data-prototype-setup-progress", String(p));
     ensureSelectedSnForProgress();
+    syncSelectedSnControlsFromProgress();
     syncWalletTimelineFromProgress(p);
     syncConsentTimestamp();
     syncEmailVerifiedTimestamp();
@@ -804,6 +837,7 @@
     syncPickStablecoinDefaultStablecoinUi();
     syncActivatingStablecoinStatusFromProgress();
     syncActivatingErc20ActivatedFromProgress();
+    syncPaylynkErc20ActivatedCheckboxes();
     syncPaymentSetupFromProgress();
     syncReviewSubmitFromProgress();
     syncAccountCreatedPrototypeControl();
@@ -899,6 +933,21 @@
       linked.setAttribute("aria-hidden", finalized ? "false" : "true");
     }
 
+    const notice = document.querySelector("[data-payment-setup-notice]");
+    if (notice) {
+      notice.classList.toggle("setup-payment-methods__notice--complete", finalized);
+      const noticeIcon = notice.querySelector("[data-payment-setup-notice-icon]");
+      const noticeText = notice.querySelector("[data-payment-setup-notice-text]");
+      if (noticeIcon instanceof HTMLImageElement) {
+        noticeIcon.src = finalized ? "assets/icon_success.svg" : "assets/icon_info_blue.svg";
+      }
+      if (noticeText) {
+        noticeText.textContent = finalized
+          ? "Payment method(s) added, you can now continue"
+          : "One-time set up: Saved for future payments, add more anytime";
+      }
+    }
+
     const selectedFromSn = readSelectedSnFromStorage();
     const selectedCoin =
       selectedFromSn === "usdc-erc20"
@@ -938,17 +987,24 @@
       }
 
       if (isStablecoin) {
-        const statusEl = item.querySelector("[data-payment-network-status]");
-        if (statusEl) {
+        const statusIncomplete = item.querySelector("[data-payment-network-status-incomplete]");
+        const statusComplete = item.querySelector("[data-payment-network-status-complete]");
+        if (statusIncomplete) {
           if (showIncomplete) {
-            statusEl.textContent = "Setup incomplete";
-            statusEl.hidden = false;
-          } else if (showComplete) {
-            statusEl.textContent = "Setup completed";
-            statusEl.hidden = false;
+            statusIncomplete.textContent = "Setup incomplete";
+            statusIncomplete.hidden = false;
           } else {
-            statusEl.textContent = "";
-            statusEl.hidden = true;
+            statusIncomplete.textContent = "";
+            statusIncomplete.hidden = true;
+          }
+        }
+        if (statusComplete) {
+          if (showComplete) {
+            statusComplete.textContent = "Completed";
+            statusComplete.hidden = false;
+          } else {
+            statusComplete.textContent = "";
+            statusComplete.hidden = true;
           }
         }
 
@@ -960,6 +1016,13 @@
         const activeNetwork = item.querySelector(".setup-network--active");
         if (activeNetwork) {
           activeNetwork.classList.toggle("setup-network--complete", showComplete);
+        }
+
+        const networkIcon = item.querySelector("[data-network-icon]");
+        if (networkIcon instanceof HTMLImageElement) {
+          networkIcon.src = showComplete
+            ? "assets/icon_network_green.svg"
+            : "assets/icon_network_blue.svg";
         }
       }
     });
@@ -1364,6 +1427,10 @@
         setPaylynkErc20Activated(coin, true);
         setPaylynkErc20Activated(other, false);
       }
+      if (prev >= 8 && clamped < 8) {
+        setPaylynkErc20Activated("usdt", false);
+        setPaylynkErc20Activated("usdc", false);
+      }
       applySetupProgressToUi();
       if (openReauthFromControls && prev === 7 && clamped === 6) {
         window.queueMicrotask(() => openActivatingReauthModal());
@@ -1569,6 +1636,7 @@
 
     const row = document.createElement("div");
     row.className = "build-badge__section-row";
+    row.setAttribute("data-prototype-selected-sn-row", "");
     row.innerHTML = `
       <div class="build-badge__section-title">Selected S/N</div>
       <div class="build-badge__checkbox-group">
@@ -1592,11 +1660,11 @@
     const selects = document.querySelectorAll("[data-prototype-selected-sn]");
     if (!selects.length) return;
 
-    const stored = readSelectedSnFromStorage();
-    syncSelectedSnControls(stored);
+    syncSelectedSnControlsFromProgress();
 
     selects.forEach((select) => {
       select.addEventListener("change", () => {
+        if (states.setupProgress >= 8 || select.disabled) return;
         setSelectedSn(select.value);
       });
     });
@@ -2498,12 +2566,44 @@
   }
 
   function syncPaylynkErc20ActivatedCheckboxes() {
+    const locked = states.setupProgress < 8;
+    let storageChanged = false;
+    if (locked) {
+      for (const coin of ["usdt", "usdc"]) {
+        if (!readPaylynkErc20Activated(coin)) continue;
+        try {
+          window.localStorage?.setItem(paylynkErc20ActivatedStorageKey(coin), "0");
+        } catch (_) {
+          /* ignore */
+        }
+        storageChanged = true;
+      }
+    }
+
+    const syncInput = (el, coin) => {
+      if (!(el instanceof HTMLInputElement)) return;
+      el.disabled = locked;
+      el.checked = locked ? false : readPaylynkErc20Activated(coin);
+      const label = el.closest(".build-badge__checkbox");
+      if (label) label.classList.toggle("build-badge__checkbox--disabled", locked);
+    };
+
     document.querySelectorAll("[data-prototype-usdt-erc20-activated]").forEach((el) => {
-      if (el instanceof HTMLInputElement) el.checked = readPaylynkErc20Activated("usdt");
+      syncInput(el, "usdt");
     });
     document.querySelectorAll("[data-prototype-usdc-erc20-activated]").forEach((el) => {
-      if (el instanceof HTMLInputElement) el.checked = readPaylynkErc20Activated("usdc");
+      syncInput(el, "usdc");
     });
+
+    document.querySelectorAll(".build-badge__checkbox-stack").forEach((stack) => {
+      if (!stack.querySelector("[data-prototype-usdt-erc20-activated]")) return;
+      stack.classList.toggle("build-badge__checkbox-stack--erc20-locked", locked);
+    });
+
+    if (storageChanged) {
+      syncPaylynkEthereumNetworkCard();
+      syncPaymentSetupFromProgress();
+    }
   }
 
   /** Activating page at progress 8+: reflect selected coin in ERC-20 prototype checkboxes. */
@@ -2741,6 +2841,7 @@
     const onChange = (e) => {
       const input = e.target;
       if (!(input instanceof HTMLInputElement) || !e.isTrusted) return;
+      if (states.setupProgress < 8 || input.disabled) return;
       if (input.matches("[data-prototype-usdt-erc20-activated]")) {
         setPaylynkErc20Activated("usdt", input.checked);
       }

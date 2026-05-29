@@ -44,9 +44,9 @@
           <div class="setup-payment-methods" aria-label="Payment methods">
             <div class="setup-payment-methods__intro">
               <h2 class="setup-payment-methods__headline">Set up at least one payment method to continue</h2>
-              <p class="setup-payment-methods__notice">
-                <img src="assets/icon_info_blue.svg" width="16" height="16" alt="" aria-hidden="true" />
-                <span>One-time set up: Saved for future payments, add more anytime</span>
+              <p class="setup-payment-methods__notice" data-payment-setup-notice>
+                <img data-payment-setup-notice-icon src="assets/icon_info_blue.svg" width="16" height="16" alt="" aria-hidden="true" />
+                <span data-payment-setup-notice-text>One-time set up: Saved for future payments, add more anytime</span>
               </p>
             </div>
 
@@ -78,18 +78,28 @@
                   <div class="setup-network setup-network--active">
                     <div class="setup-network__lead">
                       <span class="setup-network__icon-wrap">
-                        <img src="assets/icon_network_blue.svg" width="24" height="24" alt="" />
+                        <img
+                          class="setup-network__icon"
+                          data-network-icon
+                          src="assets/icon_network_blue.svg"
+                          width="24"
+                          height="24"
+                          alt=""
+                        />
                       </span>
                       <span class="setup-network__copy">
                         <span class="setup-network__name">Ethereum network</span>
                         <span class="setup-network__sub">ERC-20</span>
-                        <span class="setup-network__status" data-payment-network-status hidden></span>
+                        <span class="setup-network__status" data-payment-network-status-incomplete hidden></span>
                       </span>
                     </div>
-                    <button type="button" class="setup-network__cta" data-network-setup>
-                      <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                      <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
-                    </button>
+                    <div class="setup-network__aside">
+                      <span class="setup-network__status" data-payment-network-status-complete hidden></span>
+                      <button type="button" class="setup-network__cta" data-network-setup>
+                        <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                        <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
+                      </button>
+                    </div>
                   </div>
                   <div class="setup-network setup-network--disabled">
                     <div class="setup-network__lead">
@@ -130,18 +140,28 @@
                   <div class="setup-network setup-network--active">
                     <div class="setup-network__lead">
                       <span class="setup-network__icon-wrap">
-                        <img src="assets/icon_network_blue.svg" width="24" height="24" alt="" />
+                        <img
+                          class="setup-network__icon"
+                          data-network-icon
+                          src="assets/icon_network_blue.svg"
+                          width="24"
+                          height="24"
+                          alt=""
+                        />
                       </span>
                       <span class="setup-network__copy">
                         <span class="setup-network__name">Ethereum network</span>
                         <span class="setup-network__sub">ERC-20</span>
-                        <span class="setup-network__status" data-payment-network-status hidden></span>
+                        <span class="setup-network__status" data-payment-network-status-incomplete hidden></span>
                       </span>
                     </div>
-                    <button type="button" class="setup-network__cta" data-network-setup>
-                      <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                      <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
-                    </button>
+                    <div class="setup-network__aside">
+                      <span class="setup-network__status" data-payment-network-status-complete hidden></span>
+                      <button type="button" class="setup-network__cta" data-network-setup>
+                        <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                        <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </article>
