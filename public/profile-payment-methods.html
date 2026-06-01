@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <script src="auth/auth-config.js"></script>
+  <script src="auth/auth-gate.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XREX PayLynk - Profile &amp; Payment methods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css?v=118" />
+  <script>
+    (function () {
+      try {
+        var k = "xrex.paylynk.prototype.setupProgress.v1";
+        var v = localStorage.getItem(k);
+        if (v != null && v !== "") document.documentElement.setAttribute("data-prototype-setup-progress", v);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body class="paylynk-page" data-prototype-context="profile-payment-methods">
+  <div class="paylynk-shell">
+    <header class="paylynk-header" aria-label="XREX Pay">
+      <img class="paylynk-header__logo" src="assets/logo_xrexpay.svg" alt="XREX Pay" width="118" height="22" />
+      <span class="paylynk-header__divider" aria-hidden="true"></span>
+
+      <nav class="paylynk-header__nav" aria-label="Payments">
+        <a class="paylynk-header__nav-link" href="paylynk.html">
+          All payments with AGP Technology
+          <span class="paylynk-header__nav-badge" aria-label="5 pending">5</span>
+        </a>
+      </nav>
+
+      <button class="paylynk-header__requests" type="button" aria-label="Payment requests, 5 pending">
+        <img src="assets/icon_allpayments_blue.svg" width="20" height="20" alt="" />
+        <span class="paylynk-header__requests-badge" aria-hidden="true">5</span>
+      </button>
+
+      <div class="paylynk-header__account">
+        <a
+          class="paylynk-header__account-trigger"
+          href="profile-payment-methods.html"
+          aria-current="page"
+          aria-label="Profile and payment methods"
+        >
+          <span class="paylynk-header__account-avatar" aria-hidden="true">C</span>
+          <span class="paylynk-header__account-name">[Company legal name]</span>
+          <img
+            class="paylynk-header__account-chevron"
+            src="assets/icon_chevron_gray_right.svg"
+            width="24"
+            height="24"
+            alt=""
+            aria-hidden="true"
+          />
+        </a>
+      </div>
+    </header>
+
+    <main class="profile-payment-main">
+      <div class="profile-payment">
+        <header class="profile-payment__header">
+          <h1 class="profile-payment__title">Profile &amp; Payment methods</h1>
+          <a class="profile-payment__back" href="paylynk.html">Back to payment request</a>
+        </header>
+
+        <div class="profile-payment__grid">
+          <article class="profile-payment__profile-card">
+            <div class="profile-payment__profile-icon" aria-hidden="true">
+              <img src="assets/icon_review_company.svg" width="46" height="46" alt="" />
+            </div>
+            <p class="profile-payment__profile-label">Company legal name</p>
+            <h2 class="profile-payment__profile-name">[Company legal name]</h2>
+            <dl class="profile-payment__fields">
+              <div class="profile-payment__field">
+                <dt>Registration date</dt>
+                <dd>30/11/2025</dd>
+              </div>
+              <div class="profile-payment__field">
+                <dt>Registration number</dt>
+                <dd>202018765Z</dd>
+              </div>
+              <div class="profile-payment__field">
+                <dt>Country of registration</dt>
+                <dd>Singapore</dd>
+              </div>
+              <div class="profile-payment__field">
+                <dt>Registered address</dt>
+                <dd>6 Battery Road, Singapore 049909</dd>
+              </div>
+              <div class="profile-payment__field">
+                <dt>Country of operation</dt>
+                <dd>Singapore</dd>
+              </div>
+              <div class="profile-payment__field">
+                <dt>Contact email address</dt>
+                <dd>abc1234@gmail.com</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="profile-payment__methods-card">
+            <header class="profile-payment__methods-head">
+              <span class="profile-payment__methods-icon" aria-hidden="true">
+                <img src="assets/icon_review_paymentmethod.svg" width="32" height="32" alt="" />
+              </span>
+              <h2 class="profile-payment__methods-title">Payment methods</h2>
+            </header>
+
+            <div class="profile-payment__methods-groups setup-payment-methods" aria-label="Payment methods">
+              <section class="setup-payment-methods__group" aria-labelledby="profilePaymentFiatLabel">
+                <h3 id="profilePaymentFiatLabel" class="setup-payment-methods__group-title">Fiat</h3>
+
+                <div class="setup-payment-method-wrapper">
+                  <article class="setup-payment-method" data-payment-method-item data-method-kind="bank">
+                    <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
+                      <span class="setup-payment-method__lead">
+                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usd.svg" width="46" height="46" alt="" />
+                        <span class="setup-payment-method__copy">
+                          <span class="setup-payment-method__name">Bank transfer (SWIFT)</span>
+                          <span class="setup-payment-method__sub">USD bank account</span>
+                          <span class="setup-payment-method__state" data-payment-method-state-badge hidden></span>
+                        </span>
+                      </span>
+                      <span class="setup-payment-method__chevron" aria-hidden="true">
+                        <img class="setup-payment-method__chevron-down" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                        <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                      </span>
+                    </button>
+                    <div class="setup-payment-method__panel" data-payment-method-panel hidden>
+                      <div class="setup-payment-method__bank-incomplete" data-bank-panel-incomplete>
+                        <p class="setup-payment-method__desc">Whitelist your USD bank account to streamline and speed up future cross-border payments.</p>
+                        <div class="setup-payment-method__bank-action">
+                          <button type="button" class="setup-network__cta setup-network__cta--bank" data-bank-whitelist>
+                            <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                            <span class="setup-network__cta-text">Whitelist bank account</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="setup-payment-method__bank-complete" data-bank-panel-complete hidden>
+                        <p class="setup-payment-method__desc setup-payment-method__desc--bank-complete">Whitelist your USD bank account to streamline and speed up future cross-border payments.</p>
+                        <div class="setup-payment-method__divider"></div>
+                        <div class="setup-payment-method__bank-accounts">
+                          <p class="setup-payment-method__bank-accounts-title">USD bank accounts</p>
+                          <div class="setup-payment-method__bank-account-card">
+                            <span class="setup-payment-method__bank-account-icon" aria-hidden="true">
+                              <img src="assets/icon_wlb_bankcomplete.svg" width="20" height="20" alt="" />
+                            </span>
+                            <div class="setup-payment-method__bank-account-copy">
+                              <p class="setup-payment-method__bank-account-line">
+                                <span class="setup-payment-method__bank-account-name" data-bank-account-name>DBS Bank Ltd</span>
+                                <span class="setup-payment-method__bank-account-number" data-bank-account-number>(0123456789)</span>
+                              </p>
+                              <p class="setup-payment-method__bank-account-custom" data-bank-account-custom>Main Operations Account</p>
+                            </div>
+                            <div class="setup-payment-method__bank-account-actions">
+                              <button
+                                type="button"
+                                class="setup-payment-method__bank-account-menu"
+                                data-bank-account-menu
+                                aria-haspopup="menu"
+                                aria-expanded="false"
+                                aria-label="Account options"
+                              >
+                                <img src="assets/icon_more_vert_gray.svg" width="20" height="20" alt="" />
+                              </button>
+                              <div class="setup-bank-account-menu" data-bank-account-menu-dropdown role="menu" aria-hidden="true">
+                                <button type="button" class="setup-bank-account-menu__item" role="menuitem" data-bank-account-edit>
+                                  <img class="setup-bank-account-menu__icon" src="assets/icon_wlb_dropout_edit.svg" width="22" height="22" alt="" />
+                                  <span class="setup-bank-account-menu__label">Edit</span>
+                                </button>
+                                <button type="button" class="setup-bank-account-menu__item setup-bank-account-menu__item--delete" role="menuitem" data-bank-account-delete>
+                                  <img class="setup-bank-account-menu__icon" src="assets/icon_wlb_dropout_delete.svg" width="22" height="22" alt="" />
+                                  <span class="setup-bank-account-menu__label">Delete</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <button type="button" class="setup-payment-method__bank-add" data-bank-whitelist-add>
+                            <img src="assets/icon_wlb_add_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+                            <span>Whitelist another bank account</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+              <section class="setup-payment-methods__group" aria-labelledby="profilePaymentStablecoinLabel">
+                <h3 id="profilePaymentStablecoinLabel" class="setup-payment-methods__group-title">Stablecoins</h3>
+
+                <div class="setup-payment-method-wrapper">
+                  <article class="setup-payment-method" data-payment-method-item data-method-kind="usdt">
+                    <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
+                      <span class="setup-payment-method__lead">
+                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
+                        <span class="setup-payment-method__copy">
+                          <span class="setup-payment-method__name">USDT</span>
+                          <span class="setup-payment-method__sub">Tether USD</span>
+                          <span class="setup-payment-method__state" data-payment-method-state-badge hidden></span>
+                        </span>
+                      </span>
+                      <span class="setup-payment-method__chevron" aria-hidden="true">
+                        <img class="setup-payment-method__chevron-down" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                        <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                      </span>
+                    </button>
+                    <div class="setup-payment-method__panel" data-payment-method-panel hidden>
+                      <p class="setup-payment-method__desc">Create a dedicated USDT address for doing easy payments using USDT.</p>
+                      <div class="setup-payment-method__divider"></div>
+                      <div class="setup-payment-method__network-head">
+                        <p class="setup-payment-method__network-title">Network</p>
+                        <button type="button" class="setup-payment-method__network-help" data-network-help>What is a network?</button>
+                      </div>
+                      <div class="setup-network setup-network--active">
+                        <div class="setup-network__lead">
+                          <span class="setup-network__icon-wrap">
+                            <img class="setup-network__icon" data-network-icon src="assets/icon_network_blue.svg" width="24" height="24" alt="" />
+                          </span>
+                          <span class="setup-network__copy">
+                            <span class="setup-network__name">Ethereum network</span>
+                            <span class="setup-network__sub">ERC-20</span>
+                            <span class="setup-network__status" data-payment-network-status-incomplete hidden></span>
+                          </span>
+                        </div>
+                        <div class="setup-network__aside">
+                          <span class="setup-network__status" data-payment-network-status-complete hidden></span>
+                          <button type="button" class="setup-network__cta" data-network-setup>
+                            <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                            <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="setup-network setup-network--disabled">
+                        <div class="setup-network__lead">
+                          <span class="setup-network__icon-wrap">
+                            <img src="assets/icon_network_disabled.svg" width="24" height="24" alt="" />
+                          </span>
+                          <span class="setup-network__copy">
+                            <span class="setup-network__name">TRON network</span>
+                            <span class="setup-network__sub">TRC-20 • Coming soon</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="setup-payment-method" data-payment-method-item data-method-kind="usdc">
+                    <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
+                      <span class="setup-payment-method__lead">
+                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdc.svg" width="46" height="46" alt="" />
+                        <span class="setup-payment-method__copy">
+                          <span class="setup-payment-method__name">USDC</span>
+                          <span class="setup-payment-method__sub">Circle USD</span>
+                          <span class="setup-payment-method__state" data-payment-method-state-badge hidden></span>
+                        </span>
+                      </span>
+                      <span class="setup-payment-method__chevron" aria-hidden="true">
+                        <img class="setup-payment-method__chevron-down" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                        <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                      </span>
+                    </button>
+                    <div class="setup-payment-method__panel" data-payment-method-panel hidden>
+                      <p class="setup-payment-method__desc">Create a dedicated USDC address for doing easy payments using USDC.</p>
+                      <div class="setup-payment-method__divider"></div>
+                      <div class="setup-payment-method__network-head">
+                        <p class="setup-payment-method__network-title">Network</p>
+                        <button type="button" class="setup-payment-method__network-help" data-network-help>What is a network?</button>
+                      </div>
+                      <div class="setup-network setup-network--active">
+                        <div class="setup-network__lead">
+                          <span class="setup-network__icon-wrap">
+                            <img class="setup-network__icon" data-network-icon src="assets/icon_network_blue.svg" width="24" height="24" alt="" />
+                          </span>
+                          <span class="setup-network__copy">
+                            <span class="setup-network__name">Ethereum network</span>
+                            <span class="setup-network__sub">ERC-20</span>
+                            <span class="setup-network__status" data-payment-network-status-incomplete hidden></span>
+                          </span>
+                        </div>
+                        <div class="setup-network__aside">
+                          <span class="setup-network__status" data-payment-network-status-complete hidden></span>
+                          <button type="button" class="setup-network__cta" data-network-setup>
+                            <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
+                            <span class="setup-network__cta-text" data-network-setup-label>Set up</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </section>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="prototype-toast" class="wallet-toast" hidden aria-live="polite">
+    <div class="wallet-toast__inner">
+      <img class="wallet-toast__icon" src="assets/icon_info_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <p class="wallet-toast__text">Not in prototype</p>
+    </div>
+  </div>
+
+  <script defer src="js/prototype-state.js"></script>
+  <script defer src="js/setup-payment-method.js"></script>
+  <script defer src="js/setup-bank-account-menu.js"></script>
+</body>
+</html>

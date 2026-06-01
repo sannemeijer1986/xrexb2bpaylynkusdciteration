@@ -1008,42 +1008,47 @@
   }
 
   function syncPaymentSetupFromProgress() {
-    if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
+    const ctx = document.body?.getAttribute("data-prototype-context");
+    if (ctx !== "payment-setup" && ctx !== "profile-payment-methods") return;
+    const isProfilePage = ctx === "profile-payment-methods";
     const p = states.setupProgress;
     const finalized = p >= 8;
     const canContinue = canContinuePaymentSetup();
-    const nextBtn = document.querySelector("[data-payment-setup-next]");
-    if (nextBtn && nextBtn.tagName === "BUTTON") {
-      nextBtn.disabled = !canContinue;
-      nextBtn.setAttribute("aria-disabled", canContinue ? "false" : "true");
-    }
-    const link = document.querySelector("[data-payment-setup-stablecoin-link]");
-    if (link) {
-      if (finalized) {
-        link.setAttribute("tabindex", "-1");
-        link.setAttribute("aria-disabled", "true");
-      } else {
-        link.removeAttribute("tabindex");
-        link.removeAttribute("aria-disabled");
-      }
-    }
-    const linked = document.querySelector("[data-payment-setup-linked]");
-    if (linked) {
-      linked.setAttribute("aria-hidden", canContinue ? "false" : "true");
-    }
 
-    const notice = document.querySelector("[data-payment-setup-notice]");
-    if (notice) {
-      notice.classList.toggle("setup-payment-methods__notice--complete", canContinue);
-      const noticeIcon = notice.querySelector("[data-payment-setup-notice-icon]");
-      const noticeText = notice.querySelector("[data-payment-setup-notice-text]");
-      if (noticeIcon instanceof HTMLImageElement) {
-        noticeIcon.src = canContinue ? "assets/icon_success.svg" : "assets/icon_info_blue.svg";
+    if (!isProfilePage) {
+      const nextBtn = document.querySelector("[data-payment-setup-next]");
+      if (nextBtn && nextBtn.tagName === "BUTTON") {
+        nextBtn.disabled = !canContinue;
+        nextBtn.setAttribute("aria-disabled", canContinue ? "false" : "true");
       }
-      if (noticeText) {
-        noticeText.textContent = canContinue
-          ? "Payment method(s) added, you can now continue"
-          : "One-time setup  ·  Saved for future payments  ·  Add more anytime";
+      const link = document.querySelector("[data-payment-setup-stablecoin-link]");
+      if (link) {
+        if (finalized) {
+          link.setAttribute("tabindex", "-1");
+          link.setAttribute("aria-disabled", "true");
+        } else {
+          link.removeAttribute("tabindex");
+          link.removeAttribute("aria-disabled");
+        }
+      }
+      const linked = document.querySelector("[data-payment-setup-linked]");
+      if (linked) {
+        linked.setAttribute("aria-hidden", canContinue ? "false" : "true");
+      }
+
+      const notice = document.querySelector("[data-payment-setup-notice]");
+      if (notice) {
+        notice.classList.toggle("setup-payment-methods__notice--complete", canContinue);
+        const noticeIcon = notice.querySelector("[data-payment-setup-notice-icon]");
+        const noticeText = notice.querySelector("[data-payment-setup-notice-text]");
+        if (noticeIcon instanceof HTMLImageElement) {
+          noticeIcon.src = canContinue ? "assets/icon_success.svg" : "assets/icon_info_blue.svg";
+        }
+        if (noticeText) {
+          noticeText.textContent = canContinue
+            ? "Payment method(s) added, you can now continue"
+            : "One-time setup  ·  Saved for future payments  ·  Add more anytime";
+        }
       }
     }
 
@@ -1073,7 +1078,7 @@
               : false;
 
       const showComplete = !!isMethodActivated;
-      const showIncomplete = p >= 3 && !showComplete && isSelectedStablecoin;
+      const showIncomplete = !isProfilePage && p >= 3 && !showComplete && isSelectedStablecoin;
 
       item.classList.toggle("setup-payment-method--state-incomplete", showIncomplete);
       item.classList.toggle("setup-payment-method--state-complete", showComplete);
@@ -2296,6 +2301,13 @@
     });
   }
 
+  function initProfilePaymentMethodsPage() {
+    if (document.body?.getAttribute("data-prototype-context") !== "profile-payment-methods") return;
+    syncPaymentSetupFromProgress();
+    document.addEventListener("paylynk:bank-whitelisted-changed", syncPaymentSetupFromProgress);
+    document.addEventListener("paylynk:erc20-activated-changed", syncPaymentSetupFromProgress);
+  }
+
   function initReviewSubmitPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "review-submit") return;
 
@@ -3279,6 +3291,7 @@
     initWalletModals();
     initWalletContinueToPickStablecoin();
     initPaymentSetupPage();
+    initProfilePaymentMethodsPage();
     initReviewSubmitPage();
     initPickStablecoinPage();
     initActivatingStablecoinPage();

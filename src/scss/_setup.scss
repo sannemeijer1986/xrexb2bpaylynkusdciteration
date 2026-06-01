@@ -880,11 +880,13 @@ a.setup-button--secondary {
   line-height: 1;
 }
 
-body[data-prototype-context='payment-setup'] .setup-payment-methods__group {
+body[data-prototype-context='payment-setup'] .setup-payment-methods__group,
+body[data-prototype-context='profile-payment-methods'] .setup-payment-methods__group {
   gap: 0;
 }
 
-body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper {
+body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper,
+body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wrapper {
   margin-top: 16px;
   display: flex;
   flex-direction: column;
@@ -940,7 +942,8 @@ body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper {
   gap: 2px;
 }
 
-body[data-prototype-context='payment-setup'] {
+body[data-prototype-context='payment-setup'],
+body[data-prototype-context='profile-payment-methods'] {
   .setup-payment-method__state {
     display: block;
     font-size: 12px;
@@ -1506,11 +1509,13 @@ body[data-prototype-context='payment-setup'] {
     gap: 24px;
   }
 
-  body[data-prototype-context='payment-setup'] .setup-payment-methods__group {
+  body[data-prototype-context='payment-setup'] .setup-payment-methods__group,
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-methods__group {
     gap: 0;
   }
 
-  body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper {
+  body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper,
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wrapper {
     margin-top: 16px;
     gap: 24px;
   }
@@ -1520,7 +1525,8 @@ body[data-prototype-context='payment-setup'] {
     gap: 16px;
   }
 
-  body[data-prototype-context='payment-setup'] .setup-payment-method__state {
+  body[data-prototype-context='payment-setup'] .setup-payment-method__state,
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__state {
     position: absolute;
     top: 37px;
     right: 56px;

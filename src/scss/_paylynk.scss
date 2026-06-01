@@ -60,7 +60,23 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex-shrink: 0;
   align-items: center;
+}
+
+.paylynk-header__account-trigger {
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+
+  &[aria-current='page'] {
+    cursor: default;
+  }
 }
 
 .paylynk-header__account-avatar {
@@ -1353,6 +1369,10 @@ $paylynk-doc-icon-bg: #a8e8bd;
     flex: 1 1 auto;
     justify-content: flex-end;
     margin-left: 0;
+  }
+
+  .paylynk-header__account-trigger {
+    justify-content: flex-end;
   }
 
   .paylynk-header__account-name {

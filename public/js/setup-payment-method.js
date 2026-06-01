@@ -217,7 +217,8 @@
     }
   }
 
-  if (document.body && document.body.getAttribute("data-prototype-context") === "payment-setup") {
+  var pageContext = document.body && document.body.getAttribute("data-prototype-context");
+  if (pageContext === "payment-setup" || pageContext === "profile-payment-methods") {
     initAccordion();
     initActions();
     document.addEventListener("paylynk:bank-whitelisted-changed", function () {
@@ -225,5 +226,8 @@
         window.requestAnimationFrame(syncBankPanelAfterWhitelistChange);
       });
     });
+    if (pageContext === "profile-payment-methods") {
+      expandBankIfWhitelisted();
+    }
   }
 })();

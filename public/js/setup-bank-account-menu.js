@@ -116,7 +116,8 @@
   }
 
   function init() {
-    if (document.body?.getAttribute("data-prototype-context") !== "payment-setup") return;
+    var ctx = document.body?.getAttribute("data-prototype-context");
+    if (ctx !== "payment-setup" && ctx !== "profile-payment-methods") return;
     document.querySelectorAll(".setup-payment-method__bank-account-card").forEach(bindCard);
     document.addEventListener("click", closeAllMenus);
     document.addEventListener("keydown", function (e) {
