@@ -919,7 +919,7 @@ body[data-prototype-context=payment-setup] .setup-payment-method-wrapper {
 .setup-payment-method--state-complete .setup-payment-method__state-badge {
   gap: 2px;
   padding: 2px 8px 2px 6px;
-  background: #a8e8bd;
+  background: #D2F5DE;
   color: #2f9752;
   font-weight: 600;
 }
@@ -1717,7 +1717,7 @@ body[data-prototype-context=payment-setup] .setup-payment-method-wrapper {
   display: flex;
   flex: 1 1 auto;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   min-width: 0;
 }
 
@@ -1752,6 +1752,15 @@ body[data-prototype-context=payment-setup] .setup-payment-method-wrapper {
   background: #ebf2ff;
 }
 .review-submit-payment-item--bank .review-submit-payment-item__icon img {
+  width: 20px;
+  height: 20px;
+}
+
+.review-submit-bank-add .review-submit-payment-item__icon {
+  border-radius: 999px;
+  background: #eeeeee;
+}
+.review-submit-bank-add .review-submit-payment-item__icon img {
   width: 20px;
   height: 20px;
 }
@@ -1805,7 +1814,7 @@ body[data-prototype-context=payment-setup] .setup-payment-method-wrapper {
   padding: 2px 8px 2px 6px;
   border: 0;
   border-radius: 999px;
-  background: #a8e8bd;
+  background: #D2F5DE;
   color: #2f9752;
   font-size: 12px;
   font-weight: 600;
@@ -1823,6 +1832,44 @@ body[data-prototype-context=payment-setup] .setup-payment-method-wrapper {
 
 .review-submit-payment-item__tag-label {
   line-height: 1;
+}
+
+.review-submit-bank-add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 74px;
+  padding: 16px;
+  border: 1px solid #dbdbdc;
+  border-radius: 8px;
+  background: #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: left;
+  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.review-submit-bank-add__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #797A7B;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.review-submit-bank-add__chevron {
+  flex-shrink: 0;
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+.review-submit-bank-add__chevron img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .review-submit-wallet-group {
@@ -2031,6 +2078,13 @@ body[data-prototype-context=payment-setup] .setup-payment-method-wrapper {
   .review-submit-payment-item {
     gap: 16px;
     min-height: 78px;
+  }
+  .review-submit-bank-add {
+    gap: 16px;
+    min-height: 78px;
+  }
+  .review-submit-bank-add__label {
+    font-size: 16px;
   }
   .review-submit-payment-item--stablecoin {
     flex-direction: row;
@@ -4970,7 +5024,7 @@ body.wallet-modals-is-open {
   list-style: none;
 }
 .set-passcode-modal__rules.is-complete .set-passcode-modal__rule {
-  background: #a8e8bd;
+  background: #D2F5DE;
   color: #2f9752;
 }
 .set-passcode-modal__rules.is-complete .set-passcode-modal__rule-img--gray {

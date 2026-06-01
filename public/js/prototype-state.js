@@ -897,6 +897,22 @@
       return row;
     };
 
+    const createBankWhitelistAddButton = () => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "review-submit-bank-add";
+      btn.setAttribute("data-review-submit-bank-whitelist-add", "");
+      btn.innerHTML = `
+        <span class="review-submit-payment-item__icon" aria-hidden="true">
+          <img src="assets/icon_wlb_bank_gray.svg" alt="" />
+        </span>
+        <span class="review-submit-bank-add__label">Whitelist new bank account</span>
+        <span class="review-submit-bank-add__chevron" aria-hidden="true">
+          <img src="assets/icon_wlb_chevron_gray.svg" width="32" height="32" alt="" />
+        </span>`;
+      return btn;
+    };
+
     if (bankSection) setReviewSubmitSectionVisible(bankSection, bankWhitelisted);
     if (bankList) {
       bankList.textContent = "";
@@ -904,6 +920,7 @@
         bankList.appendChild(
           createPaymentItem("bank", "assets/icon_wlb_bank.svg", "DBS Bank Ltd", "USD bank account • (0123456789)"),
         );
+        bankList.appendChild(createBankWhitelistAddButton());
       }
     }
 
@@ -2299,6 +2316,12 @@
     document.querySelector("[data-review-submit-submit]")?.addEventListener("click", showStubToast);
     document.querySelectorAll("[data-review-submit-edit]").forEach((btn) => {
       btn.addEventListener("click", showStubToast);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("[data-review-submit-bank-whitelist-add]")) return;
+      e.preventDefault();
+      showStubToast();
     });
 
     syncReviewSubmitFromProgress();
