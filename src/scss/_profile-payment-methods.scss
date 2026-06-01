@@ -326,12 +326,16 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 }
 
 .profile-payment-wallet__menu {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  // Larger tap target (icon stays 20px); extends into pill padding so edge taps open the menu, not the wallet
+  width: 44px;
+  height: 44px;
+  margin: -10px -12px -10px -8px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -339,6 +343,8 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 
   img {
     display: block;
+    position: relative;
+    z-index: 1;
     width: 20px;
     height: 20px;
     object-fit: contain;
