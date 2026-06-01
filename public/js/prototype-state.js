@@ -865,10 +865,18 @@
     const stablecoinList = document.querySelector("[data-review-submit-stablecoin-list]");
     const paymentsRoot = document.querySelector("[data-review-submit-payments-root]");
 
-    const createPaymentItem = (kind, icon, title, subtitle) => {
+    const createPaymentItem = (kind, icon, title, subtitle, tags) => {
       const row = document.createElement("article");
       row.className = "review-submit-payment-item";
       if (kind) row.classList.add(`review-submit-payment-item--${kind}`);
+      const tagsHtml = Array.isArray(tags) && tags.length
+        ? `<span class="review-submit-payment-item__tags">${tags
+            .map(
+              (tag) =>
+                `<span class="review-submit-payment-item__tag"><img class="review-submit-payment-item__tag-check" src="assets/icon_check_small_darkgreen.svg" width="14" height="14" alt="" aria-hidden="true" /><span class="review-submit-payment-item__tag-label">${tag}</span></span>`,
+            )
+            .join("")}</span>`
+        : "";
       row.innerHTML = `
         <span class="review-submit-payment-item__icon" aria-hidden="true">
           <img src="${icon}" alt="" />
@@ -876,6 +884,7 @@
         <span class="review-submit-payment-item__copy">
           <span class="review-submit-payment-item__title">${title}</span>
           <span class="review-submit-payment-item__subtitle">${subtitle}</span>
+          ${tagsHtml}
         </span>`;
       return row;
     };
@@ -895,15 +904,18 @@
       stablecoinList.textContent = "";
       if (usdtActivated) {
         stablecoinList.appendChild(
-          createPaymentItem("stablecoin", "assets/icon_usdt.svg", "USDT", "Ethereum network (ERC-20)"),
-        );
-        stablecoinList.appendChild(
-          createPaymentItem("stablecoin", "assets/icon_usdt.svg", "USDT", "Tron network (TRC-20)"),
+          createPaymentItem(
+            "stablecoin",
+            "assets/icon_usdt.svg",
+            "USDT",
+            "USD Tether",
+            ["Ethereum (ERC-20)", "Tron (TRC-20)"],
+          ),
         );
       }
       if (usdcActivated) {
         stablecoinList.appendChild(
-          createPaymentItem("stablecoin", "assets/icon_usdc.svg", "USDC", "Ethereum network (ERC-20)"),
+          createPaymentItem("stablecoin", "assets/icon_usdc.svg", "USDC", "USD Coin", ["Ethereum (ERC-20)"]),
         );
       }
     }

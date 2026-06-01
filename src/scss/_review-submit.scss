@@ -65,7 +65,7 @@ $review-alert-text: #4d88ff;
 }
 
 .review-submit-card__eyebrow {
-  margin: -16px 0 0;
+  margin: 0;
   color: $text-secondary;
   font-size: 12px;
   font-weight: 600;
@@ -73,13 +73,17 @@ $review-alert-text: #4d88ff;
 }
 
 .review-submit-card--payments {
-  gap: 16px;
+  gap: 24px;
+}
+
+.review-submit-card--payments > .review-submit-payments {
+  margin-top: 4px;
 }
 
 .review-submit-payments {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
 }
 
 .review-submit-payments__section {
@@ -88,10 +92,14 @@ $review-alert-text: #4d88ff;
   gap: 12px;
 }
 
+.review-submit-payments__section + .review-submit-payments__section {
+  margin-top: 8px;
+}
+
 .review-submit-payments__list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 
 .review-submit-payment-item {
@@ -144,9 +152,9 @@ $review-alert-text: #4d88ff;
 }
 
 .review-submit-payment-item__copy {
-  display: flex;
+  display: grid;
   flex: 1 1 auto;
-  flex-direction: column;
+  grid-template-columns: 1fr;
   gap: 4px;
   min-width: 0;
 }
@@ -167,11 +175,49 @@ $review-alert-text: #4d88ff;
   line-height: normal;
 }
 
+.review-submit-payment-item__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.review-submit-payment-item__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 24px;
+  padding: 2px 8px 2px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: $tag-green-surface;
+  color: $tag-green-text;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.review-submit-payment-item__tag-check {
+  flex-shrink: 0;
+  display: block;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.review-submit-payment-item__tag-label {
+  line-height: 1;
+}
+
 .review-submit-wallet-group {
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 100%;
+}
+
+.review-submit-wallet-group--hidden {
+  display: none !important;
 }
 
 .review-submit-wallet__heading {
@@ -360,7 +406,7 @@ $review-alert-text: #4d88ff;
   }
 
   .review-submit-card__eyebrow {
-    margin: -24px 0 0;
+    margin: 0;
     font-size: 14px;
   }
 
@@ -368,12 +414,20 @@ $review-alert-text: #4d88ff;
     gap: 32px;
   }
 
+  .review-submit-card--payments > .review-submit-payments {
+    margin-top: 8px;
+  }
+
   .review-submit-payments {
-    gap: 24px;
+    gap: 32px;
   }
 
   .review-submit-payments__section {
     gap: 16px;
+  }
+
+  .review-submit-payments__section + .review-submit-payments__section {
+    margin-top: 12px;
   }
 
   .review-submit-payment-item {
@@ -383,6 +437,31 @@ $review-alert-text: #4d88ff;
 
   .review-submit-payment-item__subtitle {
     font-size: 14px;
+  }
+
+  .review-submit-payment-item__tag {
+    min-height: 24px;
+    padding: 2px 8px 2px 6px;
+    font-size: 12px;
+  }
+
+  .review-submit-payment-item--stablecoin .review-submit-payment-item__copy {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+    align-items: center;
+  }
+
+  .review-submit-payment-item--stablecoin .review-submit-payment-item__title,
+  .review-submit-payment-item--stablecoin .review-submit-payment-item__subtitle {
+    grid-column: 1;
+  }
+
+  .review-submit-payment-item--stablecoin .review-submit-payment-item__tags {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-self: end;
+    align-self: center;
+    justify-content: flex-end;
   }
 
   .review-submit-wallet-group {
