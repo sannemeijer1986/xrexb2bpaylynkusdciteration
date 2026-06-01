@@ -1086,7 +1086,7 @@ body[data-prototype-context='profile-payment-methods'] {
   padding: 16px;
 
   &--active {
-    border: 1.5px solid $text-clickable;
+    border: 1px solid #DBDBDC;
     background: $surface-secondary;
   }
 

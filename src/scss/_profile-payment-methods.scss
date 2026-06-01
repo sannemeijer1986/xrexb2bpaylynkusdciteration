@@ -1,5 +1,11 @@
 // Profile & Payment methods — Figma 8534:36419 (desktop), 8534:36348 (mobile)
 
+// Match payment-setup accordion scroll behavior (reserve scrollbar gutter).
+body.paylynk-page[data-prototype-context='profile-payment-methods'] {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
 .profile-payment-main {
   flex: 1 1 auto;
   background: $surface-primary;
@@ -365,6 +371,19 @@ body[data-prototype-context='profile-payment-methods'] {
   .setup-payment-method__desc {
     display: none;
   }
+
+  .setup-payment-method--expanded .setup-payment-method__panel {
+    padding-top: 0;
+  }
+
+  .setup-payment-method__divider {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .setup-payment-method__state--inactive {
+    color: $text-placeholder;
+  }
 }
 
 @media (min-width: $desktop-breakpoint) {
@@ -514,5 +533,14 @@ body[data-prototype-context='profile-payment-methods'] {
   body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wrapper {
     margin-top: 16px;
     gap: 24px;
+  }
+
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method--expanded .setup-payment-method__panel {
+    padding-top: 0;
+  }
+
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__divider {
+    margin-top: 0;
+    padding-top: 0;
   }
 }

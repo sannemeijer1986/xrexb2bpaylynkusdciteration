@@ -5,7 +5,7 @@
   var PROTOTYPE_ACTIVATING_SELECTION_KEY = "xrex.paylynk.prototype.activatingSelection.v1";
 
   function showStubToast(msg) {
-    var toast = document.getElementById("wallet-toast");
+    var toast = document.getElementById("prototype-toast") || document.getElementById("wallet-toast");
     if (!toast) return;
     var text = toast.querySelector(".wallet-toast__text");
     if (text) text.textContent = msg || "Not in prototype";

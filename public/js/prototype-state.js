@@ -1088,12 +1088,19 @@
         if (showIncomplete) {
           stateLabel.textContent = "Setup incomplete";
           stateLabel.hidden = false;
+          stateLabel.classList.remove("setup-payment-method__state--inactive");
         } else if (showComplete) {
           stateLabel.textContent = isBank ? "Added (1)" : "Activated (1)";
           stateLabel.hidden = false;
+          stateLabel.classList.remove("setup-payment-method__state--inactive");
+        } else if (isProfilePage && (isStablecoin || isBank)) {
+          stateLabel.textContent = "Inactive";
+          stateLabel.hidden = false;
+          stateLabel.classList.add("setup-payment-method__state--inactive");
         } else {
           stateLabel.textContent = "";
           stateLabel.hidden = true;
+          stateLabel.classList.remove("setup-payment-method__state--inactive");
         }
       }
 
