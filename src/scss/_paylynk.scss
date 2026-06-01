@@ -934,6 +934,10 @@ $paylynk-doc-icon-bg: #a8e8bd;
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
+
+  &:not(.paylynk-network-card--disabled) {
+    cursor: pointer;
+  }
 }
 
 .paylynk-network-card__icon-wrap {
@@ -1013,7 +1017,8 @@ $paylynk-doc-icon-bg: #a8e8bd;
   border-radius: 50%;
   background: $button-primary;
   color: $surface-card;
-  cursor: pointer;
+  cursor: inherit;
+  pointer-events: none;
 
   img {
     display: block;
@@ -1099,6 +1104,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 .paylynk-network-card--disabled {
   pointer-events: none;
+  cursor: default;
 
   .paylynk-network-card__title,
   .paylynk-network-card__subtitle {

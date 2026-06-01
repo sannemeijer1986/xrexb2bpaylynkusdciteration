@@ -3145,12 +3145,47 @@
       showPrototypeToast("Not in prototype");
     });
 
-    document.querySelector("[data-paylynk-network-setup]")?.addEventListener("click", (e) => {
-      e.preventDefault();
+    function isPaylynkNetworkCardSetupClickable(card) {
+      if (!card || card.classList.contains("paylynk-network-card--disabled")) return false;
+      if (card.classList.contains("paylynk-network-card--activated")) return false;
+      const setupBtn = card.querySelector("[data-paylynk-network-setup]");
+      return setupBtn instanceof HTMLElement && !setupBtn.hasAttribute("hidden");
+    }
+
+    function runPaylynkNetworkSetup() {
       const networkView = document.querySelector('[data-paylynk-view="network"]');
       const coin = networkView?.getAttribute("data-paylynk-coin") || readPaylynkSelectedStablecoin();
       navigatePaylynkToActivatingStablecoin(coin);
-    });
+    }
+
+    const paylynkNetworkCard = document.querySelector("[data-paylynk-network-ethereum]");
+    if (paylynkNetworkCard) {
+      paylynkNetworkCard.addEventListener("click", (e) => {
+        if (e.target.closest("[data-paylynk-network-help]")) return;
+        if (isPaylynkNetworkCardSetupClickable(paylynkNetworkCard)) {
+          e.preventDefault();
+          runPaylynkNetworkSetup();
+          return;
+        }
+        if (
+          paylynkNetworkCard.classList.contains("paylynk-network-card--activated") &&
+          !e.target.closest(".paylynk-network-card__select")
+        ) {
+          const radio = paylynkNetworkCard.querySelector("[data-paylynk-network-radio]");
+          if (radio instanceof HTMLInputElement) {
+            radio.checked = true;
+            syncPaylynkNetworkContinue();
+          }
+        }
+      });
+      paylynkNetworkCard.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        if (isPaylynkNetworkCardSetupClickable(paylynkNetworkCard)) {
+          e.preventDefault();
+          runPaylynkNetworkSetup();
+        }
+      });
+    }
 
     document.querySelector("[data-paylynk-network-radio]")?.addEventListener("change", () => {
       syncPaylynkNetworkContinue();

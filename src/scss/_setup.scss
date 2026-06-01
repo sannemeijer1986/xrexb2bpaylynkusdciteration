@@ -1088,6 +1088,10 @@ body[data-prototype-context='profile-payment-methods'] {
   &--active {
     border: 1px solid #DBDBDC;
     background: $surface-secondary;
+
+    &:not(.setup-network--complete) {
+      cursor: pointer;
+    }
   }
 
   &--disabled {
@@ -1178,6 +1182,7 @@ body[data-prototype-context='profile-payment-methods'] {
 .setup-payment-method--state-complete .setup-network--active.setup-network--complete {
   border: 1px solid #dbdbdc;
   background: $surface-card;
+  cursor: default;
 
   .setup-network__icon-wrap {
     background: #D2F5DE;
@@ -1185,6 +1190,7 @@ body[data-prototype-context='profile-payment-methods'] {
 
   .setup-network__cta {
     display: none;
+    pointer-events: none;
   }
 
   [data-payment-network-status-complete] {
@@ -1202,7 +1208,8 @@ body[data-prototype-context='profile-payment-methods'] {
   gap: 4px;
   border-radius: 16px;
   height: 32px;
-  cursor: pointer;
+  cursor: inherit;
+  pointer-events: none;
 
   img {
     width: 16px;

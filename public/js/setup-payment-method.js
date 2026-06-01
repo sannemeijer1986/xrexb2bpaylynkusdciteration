@@ -154,51 +154,80 @@
     });
 
 
-    document.querySelectorAll("[data-network-setup]").forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        var methodItem = btn.closest("[data-method-kind]");
-        var methodKind = methodItem ? methodItem.getAttribute("data-method-kind") : "";
-        var labelEl = btn.querySelector("[data-network-setup-label]");
-        var labelText = labelEl ? (labelEl.textContent || "").trim().toLowerCase() : "";
-        var selectedSn = methodKind === "usdc" ? "usdc-erc20" : methodKind === "usdt" ? "usdt-erc20" : "none";
-        var selectedCoin = methodKind === "usdc" ? "usdc" : methodKind === "usdt" ? "usdt" : "";
-        var setupProgress = 1;
+    function isNetworkSetupClickable(row) {
+      if (!row || row.classList.contains("setup-network--complete")) return false;
+      var cta = row.querySelector("[data-network-setup]");
+      if (!cta) return false;
+      var methodItem = row.closest("[data-payment-method-item]");
+      if (methodItem && methodItem.classList.contains("setup-payment-method--state-complete")) return false;
+      return true;
+    }
+
+    function runNetworkSetup(cta) {
+      if (!cta) return;
+      var methodItem = cta.closest("[data-payment-method-item]");
+      var methodKind = methodItem ? methodItem.getAttribute("data-method-kind") : "";
+      var labelEl = cta.querySelector("[data-network-setup-label]");
+      var labelText = labelEl ? (labelEl.textContent || "").trim().toLowerCase() : "";
+      var selectedSn = methodKind === "usdc" ? "usdc-erc20" : methodKind === "usdt" ? "usdt-erc20" : "none";
+      var selectedCoin = methodKind === "usdc" ? "usdc" : methodKind === "usdt" ? "usdt" : "";
+      var setupProgress = 1;
+      try {
+        setupProgress = parseInt((window.localStorage && window.localStorage.getItem(PROTOTYPE_SETUP_PROGRESS_KEY)) || "1", 10);
+      } catch (_) {
+        setupProgress = 1;
+      }
+      if (selectedSn !== "none") {
         try {
-          setupProgress = parseInt((window.localStorage && window.localStorage.getItem(PROTOTYPE_SETUP_PROGRESS_KEY)) || "1", 10);
+          window.localStorage && window.localStorage.setItem(PROTOTYPE_SELECTED_SN_KEY, selectedSn);
         } catch (_) {
+          // Ignore storage failures in prototype mode.
+        }
+      }
+      if (labelText !== "continue setup") {
+        try {
+          window.localStorage && window.localStorage.setItem(PROTOTYPE_SETUP_PROGRESS_KEY, "1");
           setupProgress = 1;
+        } catch (_) {
+          // Ignore storage failures in prototype mode.
         }
-        if (selectedSn !== "none") {
-          try {
-            window.localStorage && window.localStorage.setItem(PROTOTYPE_SELECTED_SN_KEY, selectedSn);
-          } catch (_) {
-            // Ignore storage failures in prototype mode.
-          }
+      }
+      if ((selectedCoin === "usdt" || selectedCoin === "usdc") && Number.isFinite(setupProgress) && setupProgress >= 4) {
+        try {
+          window.sessionStorage &&
+            window.sessionStorage.setItem(
+              PROTOTYPE_ACTIVATING_SELECTION_KEY,
+              JSON.stringify({ coin: selectedCoin }),
+            );
+        } catch (_) {
+          // Ignore storage failures in prototype mode.
         }
-        if (labelText !== "continue setup") {
-          try {
-            window.localStorage && window.localStorage.setItem(PROTOTYPE_SETUP_PROGRESS_KEY, "1");
-            setupProgress = 1;
-          } catch (_) {
-            // Ignore storage failures in prototype mode.
-          }
-        }
-        if ((selectedCoin === "usdt" || selectedCoin === "usdc") && Number.isFinite(setupProgress) && setupProgress >= 4) {
-          try {
-            window.sessionStorage &&
-              window.sessionStorage.setItem(
-                PROTOTYPE_ACTIVATING_SELECTION_KEY,
-                JSON.stringify({ coin: selectedCoin }),
-              );
-          } catch (_) {
-            // Ignore storage failures in prototype mode.
-          }
-          window.location.href = "activating-stablecoin.html";
-          return;
-        }
-        window.location.href = "setup-wallet.html";
+        window.location.href = "activating-stablecoin.html";
+        return;
+      }
+      window.location.href = "setup-wallet.html";
+    }
+
+    document.querySelectorAll(".setup-network--active").forEach(function (row) {
+      row.addEventListener("click", function (e) {
+        if (!isNetworkSetupClickable(row)) return;
+        var cta = row.querySelector("[data-network-setup]");
+        if (!cta) return;
+        e.preventDefault();
+        runNetworkSetup(cta);
       });
+      row.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        if (!isNetworkSetupClickable(row)) return;
+        var cta = row.querySelector("[data-network-setup]");
+        if (!cta) return;
+        e.preventDefault();
+        runNetworkSetup(cta);
+      });
+      if (isNetworkSetupClickable(row)) {
+        row.setAttribute("role", "button");
+        row.setAttribute("tabindex", "0");
+      }
     });
   }
 
