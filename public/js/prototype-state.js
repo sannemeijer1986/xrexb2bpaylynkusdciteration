@@ -1078,26 +1078,17 @@
       item.classList.toggle("setup-payment-method--state-incomplete", showIncomplete);
       item.classList.toggle("setup-payment-method--state-complete", showComplete);
 
-      const badge = item.querySelector("[data-payment-method-state-badge]");
-      const badgeLabel = badge?.querySelector("[data-state-badge-label]");
-      const badgeCheck = badge?.querySelector("[data-state-badge-check]");
-      if (badge) {
-        const setBadgeText = (text) => {
-          if (badgeLabel) badgeLabel.textContent = text;
-          else badge.textContent = text;
-        };
+      const stateLabel = item.querySelector("[data-payment-method-state-badge]");
+      if (stateLabel) {
         if (showIncomplete) {
-          setBadgeText("Setup incomplete");
-          if (badgeCheck) badgeCheck.hidden = true;
-          badge.hidden = false;
+          stateLabel.textContent = "Setup incomplete";
+          stateLabel.hidden = false;
         } else if (showComplete) {
-          setBadgeText(isBank ? "Added (1)" : "Activated (1)");
-          if (badgeCheck) badgeCheck.hidden = false;
-          badge.hidden = false;
+          stateLabel.textContent = isBank ? "Added (1)" : "Activated (1)";
+          stateLabel.hidden = false;
         } else {
-          setBadgeText("");
-          if (badgeCheck) badgeCheck.hidden = true;
-          badge.hidden = true;
+          stateLabel.textContent = "";
+          stateLabel.hidden = true;
         }
       }
 
