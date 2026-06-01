@@ -2315,15 +2315,30 @@
     accountRow.hidden = !readBankWhitelisted();
   }
 
+  function syncProfilePaymentStablecoinSummary() {
+    if (document.body?.getAttribute("data-prototype-context") !== "profile-payment-methods") return;
+    const countEl = document.querySelector("[data-profile-payment-address-count]");
+    if (!countEl) return;
+    const usdtActivated = readPaylynkErc20Activated("usdt");
+    const usdcActivated = readPaylynkErc20Activated("usdc");
+    const count = (usdtActivated ? 1 : 0) + (usdcActivated ? 1 : 0);
+    countEl.textContent = String(count);
+  }
+
   function initProfilePaymentMethodsPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "profile-payment-methods") return;
     syncPaymentSetupFromProgress();
     syncProfilePaymentBankSection();
+    syncProfilePaymentStablecoinSummary();
     document.addEventListener("paylynk:bank-whitelisted-changed", () => {
       syncPaymentSetupFromProgress();
       syncProfilePaymentBankSection();
+      syncProfilePaymentStablecoinSummary();
     });
-    document.addEventListener("paylynk:erc20-activated-changed", syncPaymentSetupFromProgress);
+    document.addEventListener("paylynk:erc20-activated-changed", () => {
+      syncPaymentSetupFromProgress();
+      syncProfilePaymentStablecoinSummary();
+    });
     document.querySelector("[data-profile-payment-bank-delete]")?.addEventListener("click", (e) => {
       e.preventDefault();
       showPrototypeToast("Not in prototype");

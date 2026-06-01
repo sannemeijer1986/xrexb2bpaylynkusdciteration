@@ -261,10 +261,25 @@
             function bindWalletEntry(entry) {
                 var moreBtn = entry.querySelector("[data-pp-wallet-menu]");
                 var moreMenu = entry.querySelector("[data-pp-wallet-menu-dropdown]");
-                if (!moreBtn || !moreMenu) return;
 
                 entry.setAttribute("role", entry.getAttribute("role") || "button");
                 if (!entry.hasAttribute("tabindex")) entry.setAttribute("tabindex", "0");
+
+                if (!moreBtn || !moreMenu) {
+                    entry.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        openModal();
+                    });
+                    entry.addEventListener("keydown", function (e) {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openModal();
+                        }
+                    });
+                    return;
+                }
 
                 entry.addEventListener("click", function (e) {
                     if (e.target.closest("[data-pp-wallet-menu]") || e.target.closest("[data-pp-wallet-menu-dropdown]")) return;
