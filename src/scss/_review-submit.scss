@@ -215,23 +215,25 @@ $review-alert-text: #4d88ff;
   justify-content: flex-start;
 }
 
+// Figma 8444:38970 — blockchain network tag
 .review-submit-payment-item__tag {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   min-height: 24px;
-  padding: 2px 8px 2px 6px;
+  padding: 4px 8px 4px 6px;
   border: 0;
-  border-radius: 999px;
-  background: $tag-green-surface;
-  color: $tag-green-text;
+  border-radius: 30px;
+  background: #C2DAFF;
+  color: $step-text;
   font-size: 12px;
   font-weight: 600;
-  line-height: 1;
+  line-height: normal;
+  white-space: nowrap;
   box-sizing: border-box;
 }
 
-.review-submit-payment-item__tag-check {
+.review-submit-payment-item__tag-icon {
   flex-shrink: 0;
   display: block;
   width: 14px;
@@ -539,7 +541,7 @@ $review-alert-text: #4d88ff;
 
   .review-submit-payment-item__tag {
     min-height: 24px;
-    padding: 2px 8px 2px 6px;
+    padding: 4px 8px 4px 6px;
     font-size: 12px;
   }
 

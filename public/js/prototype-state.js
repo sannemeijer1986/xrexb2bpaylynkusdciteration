@@ -879,7 +879,7 @@
         ? `<span class="review-submit-payment-item__tags">${tags
             .map(
               (tag) =>
-                `<span class="review-submit-payment-item__tag"><img class="review-submit-payment-item__tag-check" src="assets/icon_check_small_darkgreen.svg" width="14" height="14" alt="" aria-hidden="true" /><span class="review-submit-payment-item__tag-label">${tag}</span></span>`,
+                `<span class="review-submit-payment-item__tag"><img class="review-submit-payment-item__tag-icon" src="assets/icon_blockchain_tag.svg" width="14" height="14" alt="" aria-hidden="true" /><span class="review-submit-payment-item__tag-label">${tag}</span></span>`,
             )
             .join("")}</span>`
         : "";

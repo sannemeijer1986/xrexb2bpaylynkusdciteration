@@ -1776,20 +1776,21 @@ body[data-prototype-context=payment-setup] .setup-payment-method--state-complete
 .review-submit-payment-item__tag {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   min-height: 24px;
-  padding: 2px 8px 2px 6px;
+  padding: 4px 8px 4px 6px;
   border: 0;
-  border-radius: 999px;
-  background: #D2F5DE;
-  color: #2f9752;
+  border-radius: 30px;
+  background: #C2DAFF;
+  color: #3362c2;
   font-size: 12px;
   font-weight: 600;
-  line-height: 1;
+  line-height: normal;
+  white-space: nowrap;
   box-sizing: border-box;
 }
 
-.review-submit-payment-item__tag-check {
+.review-submit-payment-item__tag-icon {
   flex-shrink: 0;
   display: block;
   width: 14px;
@@ -2071,7 +2072,7 @@ body[data-prototype-context=payment-setup] .setup-payment-method--state-complete
   }
   .review-submit-payment-item__tag {
     min-height: 24px;
-    padding: 2px 8px 2px 6px;
+    padding: 4px 8px 4px 6px;
     font-size: 12px;
   }
   .review-submit-wallet-group {
