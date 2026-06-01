@@ -25,6 +25,13 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
   align-items: flex-start;
   gap: 8px;
   margin-bottom: 24px;
+  margin-top: 24px;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .profile-payment__header {
+    margin-top: 40px;
+  }
 }
 
 .profile-payment__title {
@@ -233,6 +240,7 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 .profile-payment__wallet-section {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
 }
 
@@ -249,8 +257,9 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  width: fit-content;
   max-width: 100%;
-  min-height: 56px;
+  max-height: 56px;
   padding: 14px 12px;
   border: 1px solid $border-soft;
   border-radius: 68px;
@@ -281,7 +290,7 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: $button-secondary;
+  background: #EEEEEE;
 
   img {
     display: block;
@@ -293,7 +302,7 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 
 .profile-payment-wallet__copy {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   flex-direction: column;
   gap: 0;
   min-width: 0;
@@ -330,8 +339,8 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 
   img {
     display: block;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
   }
 
@@ -641,6 +650,10 @@ body[data-prototype-context='profile-payment-methods'] {
 
   .profile-payment-wallet {
     width: 228px;
+
+    .profile-payment-wallet__copy {
+      flex: 1 1 auto;
+    }
   }
 
   .profile-payment__bank-list {

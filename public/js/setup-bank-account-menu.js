@@ -22,15 +22,35 @@
     positionMenu(activeMenu.btn, activeMenu.menu);
   }
 
+  function hideStubToast(toast) {
+    if (!toast) return;
+    toast.classList.remove("is-visible");
+    clearTimeout(hideStubToast._fallback);
+    hideStubToast._fallback = window.setTimeout(function () {
+      if (!toast.classList.contains("is-visible")) toast.hidden = true;
+    }, 400);
+    function onEnd() {
+      clearTimeout(hideStubToast._fallback);
+      if (!toast.classList.contains("is-visible")) toast.hidden = true;
+      toast.removeEventListener("transitionend", onEnd);
+    }
+    toast.addEventListener("transitionend", onEnd);
+  }
+
   function showStubToast(msg) {
     var toast = document.getElementById("prototype-toast");
     if (!toast) return;
     var textEl = toast.querySelector(".wallet-toast__text");
     if (textEl) textEl.textContent = msg || "Not in prototype";
-    toast.hidden = false;
     clearTimeout(showStubToast._t);
+    toast.hidden = false;
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        toast.classList.add("is-visible");
+      });
+    });
     showStubToast._t = window.setTimeout(function () {
-      toast.hidden = true;
+      hideStubToast(toast);
     }, 1800);
   }
 

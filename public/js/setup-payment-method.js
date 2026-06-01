@@ -4,15 +4,35 @@
   var PROTOTYPE_SETUP_PROGRESS_KEY = "xrex.paylynk.prototype.setupProgress.v1";
   var PROTOTYPE_ACTIVATING_SELECTION_KEY = "xrex.paylynk.prototype.activatingSelection.v1";
 
+  function hideStubToast(toast) {
+    if (!toast) return;
+    toast.classList.remove("is-visible");
+    clearTimeout(hideStubToast._fallback);
+    hideStubToast._fallback = setTimeout(function () {
+      if (!toast.classList.contains("is-visible")) toast.setAttribute("hidden", "");
+    }, 400);
+    function onEnd() {
+      clearTimeout(hideStubToast._fallback);
+      if (!toast.classList.contains("is-visible")) toast.setAttribute("hidden", "");
+      toast.removeEventListener("transitionend", onEnd);
+    }
+    toast.addEventListener("transitionend", onEnd);
+  }
+
   function showStubToast(msg) {
     var toast = document.getElementById("prototype-toast") || document.getElementById("wallet-toast");
     if (!toast) return;
     var text = toast.querySelector(".wallet-toast__text");
     if (text) text.textContent = msg || "Not in prototype";
-    toast.removeAttribute("hidden");
     clearTimeout(showStubToast._t);
+    toast.removeAttribute("hidden");
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        toast.classList.add("is-visible");
+      });
+    });
     showStubToast._t = setTimeout(function () {
-      toast.setAttribute("hidden", "");
+      hideStubToast(toast);
     }, 1800);
   }
 
