@@ -1185,7 +1185,7 @@ body[data-prototype-context='payment-setup'] {
   }
 
   [data-payment-network-status-complete] {
-    color: #2f9752;
+    color: #3FAE64;
   }
 }
 
@@ -1254,7 +1254,7 @@ body[data-prototype-context='payment-setup'] {
 
 .setup-payment-method__bank-accounts-title {
   margin: 0;
-  color: $text-secondary;
+  color: $text-primary;
   font-size: 14px;
   font-weight: 600;
   line-height: normal;
