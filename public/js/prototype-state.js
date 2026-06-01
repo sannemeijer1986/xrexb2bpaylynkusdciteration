@@ -865,12 +865,13 @@
     const stablecoinList = document.querySelector("[data-review-submit-stablecoin-list]");
     const paymentsRoot = document.querySelector("[data-review-submit-payments-root]");
 
-    const createPaymentItem = (icon, title, subtitle) => {
+    const createPaymentItem = (kind, icon, title, subtitle) => {
       const row = document.createElement("article");
       row.className = "review-submit-payment-item";
+      if (kind) row.classList.add(`review-submit-payment-item--${kind}`);
       row.innerHTML = `
         <span class="review-submit-payment-item__icon" aria-hidden="true">
-          <img src="${icon}" width="20" height="20" alt="" />
+          <img src="${icon}" alt="" />
         </span>
         <span class="review-submit-payment-item__copy">
           <span class="review-submit-payment-item__title">${title}</span>
@@ -884,7 +885,7 @@
       bankList.textContent = "";
       if (bankWhitelisted) {
         bankList.appendChild(
-          createPaymentItem("assets/icon_wlb_bankcomplete.svg", "DBS Bank Ltd", "USD bank account • (0123456789)"),
+          createPaymentItem("bank", "assets/icon_wlb_bank.svg", "DBS Bank Ltd", "USD bank account • (0123456789)"),
         );
       }
     }
@@ -894,15 +895,15 @@
       stablecoinList.textContent = "";
       if (usdtActivated) {
         stablecoinList.appendChild(
-          createPaymentItem("assets/icon_usdt.svg", "USDT", "Ethereum network (ERC-20)"),
+          createPaymentItem("stablecoin", "assets/icon_usdt.svg", "USDT", "Ethereum network (ERC-20)"),
         );
         stablecoinList.appendChild(
-          createPaymentItem("assets/icon_usdt.svg", "USDT", "Tron network (TRC-20)"),
+          createPaymentItem("stablecoin", "assets/icon_usdt.svg", "USDT", "Tron network (TRC-20)"),
         );
       }
       if (usdcActivated) {
         stablecoinList.appendChild(
-          createPaymentItem("assets/icon_usdc.svg", "USDC", "Ethereum network (ERC-20)"),
+          createPaymentItem("stablecoin", "assets/icon_usdc.svg", "USDC", "Ethereum network (ERC-20)"),
         );
       }
     }

@@ -123,6 +123,26 @@ $review-alert-text: #4d88ff;
   }
 }
 
+.review-submit-payment-item--bank .review-submit-payment-item__icon {
+  border-radius: 999px;
+  background: $button-secondary;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.review-submit-payment-item--stablecoin .review-submit-payment-item__icon {
+  border-radius: 0;
+  background: transparent;
+
+  img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 .review-submit-payment-item__copy {
   display: flex;
   flex: 1 1 auto;
