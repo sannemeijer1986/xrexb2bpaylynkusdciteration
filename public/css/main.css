@@ -1468,7 +1468,7 @@ body[data-prototype-context=payment-setup] .setup-payment-method--state-complete
     font-weight: 700;
   }
   .setup-payment-method__network-help {
-    font-size: 14px;
+    font-size: 12px;
   }
   .setup-network {
     min-height: 76px;
@@ -1781,8 +1781,8 @@ body[data-prototype-context=payment-setup] .setup-payment-method--state-complete
   padding: 4px 8px 4px 6px;
   border: 0;
   border-radius: 30px;
-  background: #C2DAFF;
-  color: #3362c2;
+  background: #DBDBDC;
+  color: #797A7B;
   font-size: 12px;
   font-weight: 600;
   line-height: normal;
