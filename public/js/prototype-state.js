@@ -851,7 +851,63 @@
     if (document.body?.getAttribute("data-prototype-context") !== "review-submit") return;
     if (!canContinuePaymentSetup()) {
       window.location.href = "index.html";
+      return;
     }
+
+    const bankWhitelisted = readBankWhitelisted();
+    const usdtActivated = readPaylynkErc20Activated("usdt");
+    const usdcActivated = readPaylynkErc20Activated("usdc");
+    const hasStablecoin = usdtActivated || usdcActivated;
+
+    const bankSection = document.querySelector("[data-review-submit-bank-section]");
+    const bankList = document.querySelector("[data-review-submit-bank-list]");
+    const stablecoinSection = document.querySelector("[data-review-submit-stablecoin-section]");
+    const stablecoinList = document.querySelector("[data-review-submit-stablecoin-list]");
+    const paymentsRoot = document.querySelector("[data-review-submit-payments-root]");
+
+    const createPaymentItem = (icon, title, subtitle) => {
+      const row = document.createElement("article");
+      row.className = "review-submit-payment-item";
+      row.innerHTML = `
+        <span class="review-submit-payment-item__icon" aria-hidden="true">
+          <img src="${icon}" width="20" height="20" alt="" />
+        </span>
+        <span class="review-submit-payment-item__copy">
+          <span class="review-submit-payment-item__title">${title}</span>
+          <span class="review-submit-payment-item__subtitle">${subtitle}</span>
+        </span>`;
+      return row;
+    };
+
+    if (bankSection) bankSection.hidden = !bankWhitelisted;
+    if (bankList) {
+      bankList.textContent = "";
+      if (bankWhitelisted) {
+        bankList.appendChild(
+          createPaymentItem("assets/icon_wlb_bankcomplete.svg", "DBS Bank Ltd", "USD bank account • (0123456789)"),
+        );
+      }
+    }
+
+    if (stablecoinSection) stablecoinSection.hidden = !hasStablecoin;
+    if (stablecoinList) {
+      stablecoinList.textContent = "";
+      if (usdtActivated) {
+        stablecoinList.appendChild(
+          createPaymentItem("assets/icon_usdt.svg", "USDT", "Ethereum network (ERC-20)"),
+        );
+        stablecoinList.appendChild(
+          createPaymentItem("assets/icon_usdt.svg", "USDT", "Tron network (TRC-20)"),
+        );
+      }
+      if (usdcActivated) {
+        stablecoinList.appendChild(
+          createPaymentItem("assets/icon_usdc.svg", "USDC", "Ethereum network (ERC-20)"),
+        );
+      }
+    }
+
+    if (paymentsRoot) paymentsRoot.hidden = !bankWhitelisted && !hasStablecoin;
   }
 
   function syncPickStablecoinDefaultStablecoinUi() {
@@ -2632,6 +2688,7 @@
     }
     syncBankWhitelistedCheckboxes();
     syncPaymentSetupFromProgress();
+    syncReviewSubmitFromProgress();
     document.dispatchEvent(
       new CustomEvent("paylynk:bank-whitelisted-changed", { detail: { enabled } }),
     );
@@ -2701,6 +2758,7 @@
     syncPaylynkErc20ActivatedCheckboxes();
     syncPaylynkEthereumNetworkCard();
     syncPaymentSetupFromProgress();
+    syncReviewSubmitFromProgress();
     document.dispatchEvent(
       new CustomEvent("paylynk:erc20-activated-changed", { detail: { coin, enabled } }),
     );

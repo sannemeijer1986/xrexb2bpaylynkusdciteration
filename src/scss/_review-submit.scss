@@ -76,6 +76,77 @@ $review-alert-text: #4d88ff;
   gap: 16px;
 }
 
+.review-submit-payments {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-submit-payments__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-submit-payments__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.review-submit-payment-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 74px;
+  padding: 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+}
+
+.review-submit-payment-item__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: $button-secondary;
+
+  img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+}
+
+.review-submit-payment-item__copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.review-submit-payment-item__title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.review-submit-payment-item__subtitle {
+  margin: 0;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+}
+
 .review-submit-wallet-group {
   display: flex;
   flex-direction: column;
@@ -232,6 +303,19 @@ $review-alert-text: #4d88ff;
 }
 
 @media (min-width: $desktop-breakpoint) {
+  // Match bank-whitelist footer behavior: keep footer in body flow for this page.
+  body[data-prototype-context='review-submit'] .setup-panel {
+    display: block;
+  }
+
+  body[data-prototype-context='review-submit'] .setup-panel__body {
+    min-height: auto;
+  }
+
+  body[data-prototype-context='review-submit'] .setup-footer--review-submit {
+    margin-top: 40px;
+  }
+
   .review-submit__sections {
     gap: 24px;
   }
@@ -262,6 +346,23 @@ $review-alert-text: #4d88ff;
 
   .review-submit-card--payments {
     gap: 32px;
+  }
+
+  .review-submit-payments {
+    gap: 24px;
+  }
+
+  .review-submit-payments__section {
+    gap: 16px;
+  }
+
+  .review-submit-payment-item {
+    gap: 16px;
+    min-height: 78px;
+  }
+
+  .review-submit-payment-item__subtitle {
+    font-size: 14px;
   }
 
   .review-submit-wallet-group {
