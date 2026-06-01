@@ -847,6 +847,12 @@
     return states.setupProgress >= 8 || readBankWhitelisted();
   }
 
+  function setReviewSubmitSectionVisible(section, visible) {
+    if (!section) return;
+    section.hidden = !visible;
+    section.toggleAttribute("hidden", !visible);
+  }
+
   function syncReviewSubmitFromProgress() {
     if (document.body?.getAttribute("data-prototype-context") !== "review-submit") return;
     if (!canContinuePaymentSetup()) {
@@ -878,18 +884,20 @@
             .join("")}</span>`
         : "";
       row.innerHTML = `
-        <span class="review-submit-payment-item__icon" aria-hidden="true">
-          <img src="${icon}" alt="" />
-        </span>
-        <span class="review-submit-payment-item__copy">
-          <span class="review-submit-payment-item__title">${title}</span>
-          <span class="review-submit-payment-item__subtitle">${subtitle}</span>
-          ${tagsHtml}
-        </span>`;
+        <div class="review-submit-payment-item__main">
+          <span class="review-submit-payment-item__icon" aria-hidden="true">
+            <img src="${icon}" alt="" />
+          </span>
+          <span class="review-submit-payment-item__copy">
+            <span class="review-submit-payment-item__title">${title}</span>
+            <span class="review-submit-payment-item__subtitle">${subtitle}</span>
+          </span>
+        </div>
+        ${tagsHtml}`;
       return row;
     };
 
-    if (bankSection) bankSection.hidden = !bankWhitelisted;
+    if (bankSection) setReviewSubmitSectionVisible(bankSection, bankWhitelisted);
     if (bankList) {
       bankList.textContent = "";
       if (bankWhitelisted) {
@@ -899,7 +907,7 @@
       }
     }
 
-    if (stablecoinSection) stablecoinSection.hidden = !hasStablecoin;
+    if (stablecoinSection) setReviewSubmitSectionVisible(stablecoinSection, hasStablecoin);
     if (stablecoinList) {
       stablecoinList.textContent = "";
       if (usdtActivated) {
@@ -2292,6 +2300,8 @@
     document.querySelectorAll("[data-review-submit-edit]").forEach((btn) => {
       btn.addEventListener("click", showStubToast);
     });
+
+    syncReviewSubmitFromProgress();
   }
 
   function initPickStablecoinPage() {
@@ -2708,7 +2718,8 @@
   }
 
   function syncPaylynkErc20ActivatedCheckboxes() {
-    const locked = states.setupProgress < 8;
+    const isReviewSubmit = document.body?.getAttribute("data-prototype-context") === "review-submit";
+    const locked = states.setupProgress < 8 && !isReviewSubmit;
     let storageChanged = false;
     if (locked) {
       for (const coin of ["usdt", "usdc"]) {
@@ -3013,7 +3024,7 @@
         setBankWhitelisted(input.checked);
         return;
       }
-      if (states.setupProgress < 8 || input.disabled) return;
+      if (input.disabled) return;
       if (input.matches("[data-prototype-usdt-erc20-activated]")) {
         setPaylynkErc20Activated("usdt", input.checked);
       }

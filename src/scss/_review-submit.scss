@@ -90,6 +90,10 @@ $review-alert-text: #4d88ff;
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  &[hidden] {
+    display: none !important;
+  }
 }
 
 .review-submit-payments__section + .review-submit-payments__section {
@@ -112,6 +116,24 @@ $review-alert-text: #4d88ff;
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
+}
+
+.review-submit-payment-item__main {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.review-submit-payment-item--stablecoin {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.review-submit-payment-item--stablecoin .review-submit-payment-item__main {
+  width: 100%;
 }
 
 .review-submit-payment-item__icon {
@@ -152,9 +174,9 @@ $review-alert-text: #4d88ff;
 }
 
 .review-submit-payment-item__copy {
-  display: grid;
+  display: flex;
   flex: 1 1 auto;
-  grid-template-columns: 1fr;
+  flex-direction: column;
   gap: 4px;
   min-width: 0;
 }
@@ -179,6 +201,8 @@ $review-alert-text: #4d88ff;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .review-submit-payment-item__tag {
@@ -435,6 +459,22 @@ $review-alert-text: #4d88ff;
     min-height: 78px;
   }
 
+  .review-submit-payment-item--stablecoin {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .review-submit-payment-item--stablecoin .review-submit-payment-item__main {
+    width: auto;
+  }
+
+  .review-submit-payment-item--stablecoin .review-submit-payment-item__tags {
+    width: auto;
+    flex-shrink: 0;
+    justify-content: flex-end;
+  }
+
   .review-submit-payment-item__subtitle {
     font-size: 14px;
   }
@@ -443,25 +483,6 @@ $review-alert-text: #4d88ff;
     min-height: 24px;
     padding: 2px 8px 2px 6px;
     font-size: 12px;
-  }
-
-  .review-submit-payment-item--stablecoin .review-submit-payment-item__copy {
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 16px;
-    align-items: center;
-  }
-
-  .review-submit-payment-item--stablecoin .review-submit-payment-item__title,
-  .review-submit-payment-item--stablecoin .review-submit-payment-item__subtitle {
-    grid-column: 1;
-  }
-
-  .review-submit-payment-item--stablecoin .review-submit-payment-item__tags {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    justify-self: end;
-    align-self: center;
-    justify-content: flex-end;
   }
 
   .review-submit-wallet-group {
