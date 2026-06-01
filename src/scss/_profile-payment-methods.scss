@@ -296,11 +296,15 @@
   white-space: nowrap;
 }
 
-.profile-payment-bank-row__aside--desktop {
-  display: none;
+.profile-payment-bank-row__aside {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
 }
 
 .profile-payment-bank-row__status {
+  display: none;
   color: #3fae64;
   font-size: 18px;
   font-weight: 700;
@@ -356,6 +360,10 @@ body[data-prototype-context='profile-payment-methods'] {
     flex-direction: column;
     gap: 16px;
     margin-top: 16px;
+  }
+
+  .setup-payment-method__desc {
+    display: none;
   }
 }
 
@@ -464,8 +472,8 @@ body[data-prototype-context='profile-payment-methods'] {
     height: 46px;
 
     img {
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
     }
   }
 
@@ -491,14 +499,12 @@ body[data-prototype-context='profile-payment-methods'] {
     display: block;
   }
 
-  .profile-payment-bank-row__aside--desktop {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
+  .profile-payment-bank-row__aside {
+    gap: 16px;
   }
 
-  .profile-payment-bank-row--account .profile-payment-bank-row__delete {
-    display: none;
+  .profile-payment-bank-row__status {
+    display: block;
   }
 
   .profile-payment-bank-row--add .profile-payment-bank-row__chevron {
