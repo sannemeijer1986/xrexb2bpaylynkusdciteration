@@ -838,6 +838,7 @@
     syncActivatingStablecoinStatusFromProgress();
     syncActivatingErc20ActivatedFromProgress();
     syncPaylynkErc20ActivatedCheckboxes();
+    syncPaylynkEthereumNetworkCard();
     syncPaymentSetupFromProgress();
     syncReviewSubmitFromProgress();
     syncAccountCreatedPrototypeControl();
@@ -2781,27 +2782,12 @@
   }
 
   function syncPaylynkErc20ActivatedCheckboxes() {
-    const isReviewSubmit = document.body?.getAttribute("data-prototype-context") === "review-submit";
-    const locked = states.setupProgress < 8 && !isReviewSubmit;
-    let storageChanged = false;
-    if (locked) {
-      for (const coin of ["usdt", "usdc"]) {
-        if (!readPaylynkErc20Activated(coin)) continue;
-        try {
-          window.localStorage?.setItem(paylynkErc20ActivatedStorageKey(coin), "0");
-        } catch (_) {
-          /* ignore */
-        }
-        storageChanged = true;
-      }
-    }
-
     const syncInput = (el, coin) => {
       if (!(el instanceof HTMLInputElement)) return;
-      el.disabled = locked;
-      el.checked = locked ? false : readPaylynkErc20Activated(coin);
+      el.disabled = false;
+      el.checked = readPaylynkErc20Activated(coin);
       const label = el.closest(".build-badge__checkbox");
-      if (label) label.classList.toggle("build-badge__checkbox--disabled", locked);
+      if (label) label.classList.remove("build-badge__checkbox--disabled");
     };
 
     document.querySelectorAll("[data-prototype-usdt-erc20-activated]").forEach((el) => {
@@ -2813,13 +2799,13 @@
 
     document.querySelectorAll(".build-badge__checkbox-stack").forEach((stack) => {
       if (!stack.querySelector("[data-prototype-usdt-erc20-activated]")) return;
-      stack.classList.toggle("build-badge__checkbox-stack--erc20-locked", locked);
+      stack.classList.remove("build-badge__checkbox-stack--erc20-locked");
     });
+  }
 
-    if (storageChanged) {
-      syncPaylynkEthereumNetworkCard();
-      syncPaymentSetupFromProgress();
-    }
+  function ensureSetupProgressForErc20PrototypeToggle() {
+    if (states.setupProgress >= 8) return;
+    setState("setupProgress", 8, { force: true });
   }
 
   /** Activating page at progress 8+: reflect selected coin in ERC-20 prototype checkboxes. */
@@ -2901,9 +2887,31 @@
     const radio = document.querySelector("[data-paylynk-network-radio]");
 
     if (activated) {
+      card.classList.remove("paylynk-network-card--setup-incomplete");
       if (radio instanceof HTMLInputElement) radio.checked = true;
       consentBlock?.removeAttribute("hidden");
     } else {
+      const showIncomplete = states.setupProgress >= 3;
+      card.classList.toggle("paylynk-network-card--setup-incomplete", showIncomplete);
+      const statusText = showIncomplete
+        ? "Setup incomplete"
+        : "Not activated for this beneficiary";
+      card.querySelectorAll("[data-paylynk-network-status]").forEach((statusEl) => {
+        statusEl.textContent = statusText;
+      });
+      const labelEl = card.querySelector("[data-paylynk-network-setup-label]");
+      const setupBtn = card.querySelector("[data-paylynk-network-setup]");
+      if (labelEl) {
+        labelEl.textContent = showIncomplete ? "Continue setup" : "Set up";
+      }
+      if (setupBtn instanceof HTMLButtonElement) {
+        setupBtn.setAttribute(
+          "aria-label",
+          showIncomplete
+            ? "Continue setup for Ethereum network"
+            : "Set up Ethereum network",
+        );
+      }
       consentBlock?.setAttribute("hidden", "");
       if (consentInput instanceof HTMLInputElement) consentInput.checked = false;
     }
@@ -3087,12 +3095,16 @@
         setBankWhitelisted(input.checked);
         return;
       }
-      if (input.disabled) return;
       if (input.matches("[data-prototype-usdt-erc20-activated]")) {
-        setPaylynkErc20Activated("usdt", input.checked);
+        const enabled = input.checked;
+        ensureSetupProgressForErc20PrototypeToggle();
+        setPaylynkErc20Activated("usdt", enabled);
+        return;
       }
       if (input.matches("[data-prototype-usdc-erc20-activated]")) {
-        setPaylynkErc20Activated("usdc", input.checked);
+        const enabled = input.checked;
+        ensureSetupProgressForErc20PrototypeToggle();
+        setPaylynkErc20Activated("usdc", enabled);
       }
     };
     document.addEventListener("change", onChange);
@@ -3158,9 +3170,22 @@
       navigatePaylynkToActivatingStablecoin(coin);
     }
 
+    document.addEventListener("paylynk:erc20-activated-changed", () => {
+      syncPaylynkEthereumNetworkCard();
+    });
+
     const paylynkNetworkCard = document.querySelector("[data-paylynk-network-ethereum]");
+    paylynkNetworkCard?.querySelector("[data-paylynk-network-setup]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isPaylynkNetworkCardSetupClickable(paylynkNetworkCard)) {
+        runPaylynkNetworkSetup();
+      }
+    });
+
     if (paylynkNetworkCard) {
       paylynkNetworkCard.addEventListener("click", (e) => {
+        if (e.target.closest("[data-paylynk-network-setup]")) return;
         if (e.target.closest("[data-paylynk-network-help]")) return;
         if (isPaylynkNetworkCardSetupClickable(paylynkNetworkCard)) {
           e.preventDefault();

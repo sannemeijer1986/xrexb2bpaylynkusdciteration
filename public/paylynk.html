@@ -287,28 +287,30 @@
                   <span class="paylynk-network-card__main">
                     <span class="paylynk-network-card__text">
                       <span class="paylynk-network-card__title">Ethereum network</span>
-                      <span class="paylynk-network-card__subtitle paylynk-network-card__subtitle--desktop">ERC-20</span>
-                      <span class="paylynk-network-card__subtitle paylynk-network-card__subtitle--mobile">Ethereum</span>
+                      <span class="paylynk-network-card__subtitle">ERC-20</span>
                     </span>
-                    <span
-                      class="paylynk-network-card__status paylynk-network-card__status--mobile"
+                    <p
+                      class="paylynk-network-card__status paylynk-network-card__status--stacked"
                       data-paylynk-network-when-inactive
-                    >Not activated for this beneficiary</span>
+                      data-paylynk-network-status
+                    >
+                      Not activated for this beneficiary
+                    </p>
                   </span>
-                  <span
-                    class="paylynk-network-card__status paylynk-network-card__status--desktop"
-                    data-paylynk-network-when-inactive
-                  >Not activated for this beneficiary</span>
-                  <button
-                    type="button"
-                    class="paylynk-network-card__setup"
-                    data-paylynk-network-when-inactive
-                    data-paylynk-network-setup
-                    aria-label="Set up Ethereum network"
-                  >
-                    <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                    <span class="paylynk-network-card__setup-label">Set up</span>
-                  </button>
+                  <div class="paylynk-network-card__inactive" data-paylynk-network-when-inactive>
+                    <p class="paylynk-network-card__status paylynk-network-card__status--inline" data-paylynk-network-status>
+                      Not activated for this beneficiary
+                    </p>
+                    <button
+                      type="button"
+                      class="paylynk-network-card__setup"
+                      data-paylynk-network-setup
+                      aria-label="Set up Ethereum network"
+                    >
+                      <img src="assets/icon_forward_arrow_white.svg" width="24" height="24" alt="" aria-hidden="true" />
+                      <span class="paylynk-network-card__setup-label" data-paylynk-network-setup-label>Set up</span>
+                    </button>
+                  </div>
                   <label class="paylynk-network-card__select" data-paylynk-network-when-active hidden>
                     <input
                       class="paylynk-network-card__input"
