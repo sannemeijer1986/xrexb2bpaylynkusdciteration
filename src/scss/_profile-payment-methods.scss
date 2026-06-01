@@ -174,7 +174,176 @@
 .profile-payment__methods-groups {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
+}
+
+// Figma 8534:36477 (desktop), 8534:36370 (mobile)
+.profile-payment__bank-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-payment__bank-section-title {
+  margin: 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.profile-payment__bank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-payment-bank-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 20px 16px;
+  border: 1px solid $border-hard;
+  border-radius: $radius-card;
+  background: $surface-card;
+  box-sizing: border-box;
+  text-align: left;
+  font-family: $font-family-sans;
+}
+
+.profile-payment-bank-row--add {
+  cursor: pointer;
+}
+
+.profile-payment-bank-row[hidden] {
+  display: none !important;
+}
+
+.profile-payment-bank-row__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  img {
+    display: block;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+}
+
+.profile-payment-bank-row__icon--verified {
+  background: $button-secondary;
+}
+
+.profile-payment-bank-row__icon--add {
+  background: $border-soft;
+}
+
+.profile-payment-bank-row__copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.profile-payment-bank-row__title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.profile-payment-bank-row__name {
+  font-weight: 700;
+}
+
+.profile-payment-bank-row__number {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-payment-bank-row__custom {
+  margin: 0;
+  overflow: hidden;
+  color: $text-secondary;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-payment-bank-row__hint {
+  display: none;
+  margin: 0;
+  overflow: hidden;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-payment-bank-row__aside--desktop {
+  display: none;
+}
+
+.profile-payment-bank-row__status {
+  color: #3fae64;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.profile-payment-bank-row__delete {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+}
+
+.profile-payment-bank-row__chevron {
+  flex-shrink: 0;
+  display: none;
+  width: 24px;
+  height: 24px;
+
+  img {
+    display: block;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+}
+
+.profile-payment-bank-row--add .profile-payment-bank-row__chevron {
+  display: block;
 }
 
 body[data-prototype-context='profile-payment-methods'] {
@@ -270,6 +439,70 @@ body[data-prototype-context='profile-payment-methods'] {
 
   .profile-payment__methods-title {
     font-size: 20px;
+  }
+
+  .profile-payment__bank-section {
+    gap: 24px;
+  }
+
+  .profile-payment__bank-section-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .profile-payment__bank-list {
+    gap: 24px;
+  }
+
+  .profile-payment-bank-row {
+    gap: 16px;
+    padding: 24px;
+  }
+
+  .profile-payment-bank-row__icon {
+    width: 46px;
+    height: 46px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .profile-payment-bank-row__title {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 20px;
+    line-height: normal;
+  }
+
+  .profile-payment-bank-row__number {
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .profile-payment-bank-row__custom {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .profile-payment-bank-row__hint {
+    display: block;
+  }
+
+  .profile-payment-bank-row__aside--desktop {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .profile-payment-bank-row--account .profile-payment-bank-row__delete {
+    display: none;
+  }
+
+  .profile-payment-bank-row--add .profile-payment-bank-row__chevron {
+    display: block;
   }
 
   body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wrapper {

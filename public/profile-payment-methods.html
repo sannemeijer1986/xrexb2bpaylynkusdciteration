@@ -109,83 +109,42 @@
               <h2 class="profile-payment__methods-title">Payment methods</h2>
             </header>
 
-            <div class="profile-payment__methods-groups setup-payment-methods" aria-label="Payment methods">
-              <section class="setup-payment-methods__group" aria-labelledby="profilePaymentFiatLabel">
-                <h3 id="profilePaymentFiatLabel" class="setup-payment-methods__group-title">Fiat</h3>
+            <div class="profile-payment__methods-groups" aria-label="Payment methods">
+              <section class="profile-payment__bank-section" aria-labelledby="profilePaymentBankLabel" data-profile-payment-bank-section>
+                <h3 id="profilePaymentBankLabel" class="profile-payment__bank-section-title">USD bank accounts</h3>
 
-                <div class="setup-payment-method-wrapper">
-                  <article class="setup-payment-method" data-payment-method-item data-method-kind="bank">
-                    <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
-                      <span class="setup-payment-method__lead">
-                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usd.svg" width="46" height="46" alt="" />
-                        <span class="setup-payment-method__copy">
-                          <span class="setup-payment-method__name">Bank transfer (SWIFT)</span>
-                          <span class="setup-payment-method__sub">USD bank account</span>
-                          <span class="setup-payment-method__state" data-payment-method-state-badge hidden></span>
-                        </span>
-                      </span>
-                      <span class="setup-payment-method__chevron" aria-hidden="true">
-                        <img class="setup-payment-method__chevron-down" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
-                        <img class="setup-payment-method__chevron-up" src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
-                      </span>
-                    </button>
-                    <div class="setup-payment-method__panel" data-payment-method-panel hidden>
-                      <div class="setup-payment-method__bank-incomplete" data-bank-panel-incomplete>
-                        <p class="setup-payment-method__desc">Whitelist your USD bank account to streamline and speed up future cross-border payments.</p>
-                        <div class="setup-payment-method__bank-action">
-                          <button type="button" class="setup-network__cta setup-network__cta--bank" data-bank-whitelist>
-                            <img src="assets/icon_forward_arrow_white.svg" width="16" height="16" alt="" />
-                            <span class="setup-network__cta-text">Whitelist bank account</span>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="setup-payment-method__bank-complete" data-bank-panel-complete hidden>
-                        <p class="setup-payment-method__desc setup-payment-method__desc--bank-complete">Whitelist your USD bank account to streamline and speed up future cross-border payments.</p>
-                        <div class="setup-payment-method__divider"></div>
-                        <div class="setup-payment-method__bank-accounts">
-                          <p class="setup-payment-method__bank-accounts-title">USD bank accounts</p>
-                          <div class="setup-payment-method__bank-account-card">
-                            <span class="setup-payment-method__bank-account-icon" aria-hidden="true">
-                              <img src="assets/icon_wlb_bankcomplete.svg" width="20" height="20" alt="" />
-                            </span>
-                            <div class="setup-payment-method__bank-account-copy">
-                              <p class="setup-payment-method__bank-account-line">
-                                <span class="setup-payment-method__bank-account-name" data-bank-account-name>DBS Bank Ltd</span>
-                                <span class="setup-payment-method__bank-account-number" data-bank-account-number>(0123456789)</span>
-                              </p>
-                              <p class="setup-payment-method__bank-account-custom" data-bank-account-custom>Main Operations Account</p>
-                            </div>
-                            <div class="setup-payment-method__bank-account-actions">
-                              <button
-                                type="button"
-                                class="setup-payment-method__bank-account-menu"
-                                data-bank-account-menu
-                                aria-haspopup="menu"
-                                aria-expanded="false"
-                                aria-label="Account options"
-                              >
-                                <img src="assets/icon_more_vert_gray.svg" width="20" height="20" alt="" />
-                              </button>
-                              <div class="setup-bank-account-menu" data-bank-account-menu-dropdown role="menu" aria-hidden="true">
-                                <button type="button" class="setup-bank-account-menu__item" role="menuitem" data-bank-account-edit>
-                                  <img class="setup-bank-account-menu__icon" src="assets/icon_wlb_dropout_edit.svg" width="22" height="22" alt="" />
-                                  <span class="setup-bank-account-menu__label">Edit</span>
-                                </button>
-                                <button type="button" class="setup-bank-account-menu__item setup-bank-account-menu__item--delete" role="menuitem" data-bank-account-delete>
-                                  <img class="setup-bank-account-menu__icon" src="assets/icon_wlb_dropout_delete.svg" width="22" height="22" alt="" />
-                                  <span class="setup-bank-account-menu__label">Delete</span>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <button type="button" class="setup-payment-method__bank-add" data-bank-whitelist-add>
-                            <img src="assets/icon_wlb_add_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
-                            <span>Whitelist another bank account</span>
-                          </button>
-                        </div>
-                      </div>
+                <div class="profile-payment__bank-list">
+                  <article class="profile-payment-bank-row profile-payment-bank-row--account" data-profile-payment-bank-account hidden>
+                    <span class="profile-payment-bank-row__icon profile-payment-bank-row__icon--verified" aria-hidden="true">
+                      <img src="assets/icon_wlb_bank.svg" width="20" height="20" alt="" />
+                    </span>
+                    <div class="profile-payment-bank-row__copy">
+                      <p class="profile-payment-bank-row__title">
+                        <span class="profile-payment-bank-row__name" data-bank-account-name>DBS Bank Ltd</span>
+                        <span class="profile-payment-bank-row__number" data-bank-account-number>(0123456789)</span>
+                      </p>
+                      <p class="profile-payment-bank-row__custom" data-bank-account-custom>Main Operations Account</p>
                     </div>
+                    <div class="profile-payment-bank-row__aside profile-payment-bank-row__aside--desktop">
+                      <span class="profile-payment-bank-row__status">Verified</span>
+                    </div>
+                    <button type="button" class="profile-payment-bank-row__delete" data-profile-payment-bank-delete aria-label="Delete bank account">
+                      <img src="assets/icon_wlb_dropout_delete.svg" width="24" height="24" alt="" />
+                    </button>
                   </article>
+
+                  <button type="button" class="profile-payment-bank-row profile-payment-bank-row--add" data-bank-whitelist-add>
+                    <span class="profile-payment-bank-row__icon profile-payment-bank-row__icon--add" aria-hidden="true">
+                      <img src="assets/icon_wlb_bank_gray.svg" width="20" height="20" alt="" />
+                    </span>
+                    <div class="profile-payment-bank-row__copy">
+                      <p class="profile-payment-bank-row__title profile-payment-bank-row__title--add">Whitelist new bank account</p>
+                      <p class="profile-payment-bank-row__hint">The verification process may require 1-4 business days.</p>
+                    </div>
+                    <span class="profile-payment-bank-row__chevron" aria-hidden="true">
+                      <img src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
+                    </span>
+                  </button>
                 </div>
               </section>
 
@@ -304,6 +263,101 @@
     <div class="wallet-toast__inner">
       <img class="wallet-toast__icon" src="assets/icon_info_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
       <p class="wallet-toast__text">Not in prototype</p>
+    </div>
+  </div>
+
+  <div class="build-badge" role="note" aria-label="Prototype state controls">
+    <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyProfilePayment">
+      <span class="build-badge__title">Prototype controls</span>
+      <span class="build-badge__chevron" aria-hidden="true">
+        <img class="build-badge__chevron-icon" src="assets/icon_back.svg" alt="" />
+        <img class="build-badge__chevron-icon build-badge__chevron-icon--collapsed" src="assets/icon_prototypecontrols.svg" alt="" />
+      </span>
+    </button>
+    <div class="build-badge__body" id="prototypeStatesBodyProfilePayment">
+      <button class="build-badge__reset" type="button" data-prototype-reset>Reset states</button>
+
+      <div class="build-badge__checkbox-stack build-badge__checkbox-stack--erc20">
+        <div class="build-badge__section-row" style="display: none !important;">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-empty aria-label="Empty" />
+            <span>Empty</span>
+          </label>
+        </div>
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-usdt-erc20-activated aria-label="USDT ERC-20 activated" />
+            <span>USDT/ERC-20 activated</span>
+          </label>
+        </div>
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-usdc-erc20-activated aria-label="USDC ERC-20 activated" />
+            <span>USDC/ERC-20 activated</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="build-badge__section-row">
+        <label class="build-badge__checkbox">
+          <input type="checkbox" data-prototype-bank-whitelisted aria-label="Bank account whitelisted" />
+          <span>Bank account whitelisted</span>
+        </label>
+      </div>
+
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Journey</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-journey aria-label="Journey">
+            <option value="setup">Set up</option>
+            <option value="paylynk" selected>PayLynk</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Account created</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-account-created aria-label="Account created">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
+            <option value="false" selected>False</option>
+            <option value="true">True</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__logged-in-timer-row">
+        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+      </div>
+
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Wallet passcode</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-wallet-passcode aria-label="Wallet passcode">
+            <option value="inactive" selected>Inactive</option>
+            <option value="active">Active</option>
+          </select>
+        </div>
+      </div>
+      <div class="build-badge__wallet-passcode-timer-row">
+        <div class="build-badge__wallet-passcode-timer" data-prototype-wallet-passcode-timer aria-live="polite">0:00</div>
+      </div>
+
+      <div class="build-badge__group" data-state-group="setupProgress">
+        <div class="build-badge__group-label">Setup progress</div>
+        <div class="build-badge__state">
+          <button type="button" class="build-badge__state-btn" data-state-action="down" aria-label="Previous setup progress">−</button>
+          <span class="build-badge__state-value" data-state-value></span>
+          <button type="button" class="build-badge__state-btn" data-state-action="up" aria-label="Next setup progress">+</button>
+          <span class="build-badge__state-name" data-state-name></span>
+        </div>
+      </div>
     </div>
   </div>
 

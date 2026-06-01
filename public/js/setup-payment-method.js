@@ -142,7 +142,15 @@
     }
 
     document.querySelectorAll("[data-bank-whitelist], [data-bank-whitelist-add]").forEach(function (btn) {
-      btn.addEventListener("click", goToBankWhitelist);
+      btn.addEventListener("click", function (e) {
+        if (pageContext === "profile-payment-methods") {
+          e.preventDefault();
+          e.stopPropagation();
+          showStubToast("Not in prototype");
+          return;
+        }
+        goToBankWhitelist(e);
+      });
     });
 
 
@@ -221,13 +229,12 @@
   if (pageContext === "payment-setup" || pageContext === "profile-payment-methods") {
     initAccordion();
     initActions();
-    document.addEventListener("paylynk:bank-whitelisted-changed", function () {
-      window.requestAnimationFrame(function () {
-        window.requestAnimationFrame(syncBankPanelAfterWhitelistChange);
+    if (pageContext === "payment-setup") {
+      document.addEventListener("paylynk:bank-whitelisted-changed", function () {
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(syncBankPanelAfterWhitelistChange);
+        });
       });
-    });
-    if (pageContext === "profile-payment-methods") {
-      expandBankIfWhitelisted();
     }
   }
 })();

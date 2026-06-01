@@ -2301,11 +2301,26 @@
     });
   }
 
+  function syncProfilePaymentBankSection() {
+    if (document.body?.getAttribute("data-prototype-context") !== "profile-payment-methods") return;
+    const accountRow = document.querySelector("[data-profile-payment-bank-account]");
+    if (!accountRow) return;
+    accountRow.hidden = !readBankWhitelisted();
+  }
+
   function initProfilePaymentMethodsPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "profile-payment-methods") return;
     syncPaymentSetupFromProgress();
-    document.addEventListener("paylynk:bank-whitelisted-changed", syncPaymentSetupFromProgress);
+    syncProfilePaymentBankSection();
+    document.addEventListener("paylynk:bank-whitelisted-changed", () => {
+      syncPaymentSetupFromProgress();
+      syncProfilePaymentBankSection();
+    });
     document.addEventListener("paylynk:erc20-activated-changed", syncPaymentSetupFromProgress);
+    document.querySelector("[data-profile-payment-bank-delete]")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      showPrototypeToast("Not in prototype");
+    });
   }
 
   function initReviewSubmitPage() {
