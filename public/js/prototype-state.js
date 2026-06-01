@@ -2324,6 +2324,8 @@
     const usdcActivated = readPaylynkErc20Activated("usdc");
     const count = (usdtActivated ? 1 : 0) + (usdcActivated ? 1 : 0);
     countEl.textContent = String(count);
+    const nounEl = document.querySelector("[data-profile-payment-address-noun]");
+    if (nounEl) nounEl.textContent = count === 1 ? "address" : "addresses";
   }
 
   function initProfilePaymentMethodsPage() {
