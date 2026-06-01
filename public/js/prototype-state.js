@@ -1095,7 +1095,7 @@
           stateLabel.hidden = false;
           stateLabel.classList.remove("setup-payment-method__state--inactive");
         } else if (isProfilePage && (isStablecoin || isBank)) {
-          stateLabel.textContent = "Inactive";
+          stateLabel.textContent = "Not set up";
           stateLabel.hidden = false;
           stateLabel.classList.add("setup-payment-method__state--inactive");
         } else {
