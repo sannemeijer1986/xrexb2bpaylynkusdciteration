@@ -215,6 +215,30 @@ $paylynk-doc-icon-bg: #a8e8bd;
   gap: 16px;
 }
 
+.paylynk-comingsoon {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  padding: 8px 4px 0;
+  color: $text-primary;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+
+  img {
+    flex-shrink: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+}
+
 .paylynk-methods__heading {
   position: absolute;
   width: 1px;
@@ -509,8 +533,16 @@ $paylynk-doc-icon-bg: #a8e8bd;
 .paylynk-summary__head {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
+  align-items: center;
   width: 100%;
+}
+
+.paylynk-summary__icon {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }
 
 .paylynk-summary__heading {
@@ -800,11 +832,21 @@ $paylynk-doc-icon-bg: #a8e8bd;
 }
 
 .paylynk-sticky-panel__beneficiary {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
   margin: 0;
   color: $text-primary;
   font-size: 12px;
   font-weight: 400;
   line-height: normal;
+
+  img {
+    display: block;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
 }
 
 .paylynk-sticky-panel__expand {
@@ -824,6 +866,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
     width: 24px;
     height: 24px;
     object-fit: contain;
+    transform: rotate(180deg);
   }
 }
 
@@ -1528,8 +1571,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
     width: $paylynk-sidebar-width;
     min-height: 100%;
     padding: 32px 48px;
-    background:
-      radial-gradient(circle at 20% 20%, #5f8fd8 0%, #4d7ac8 22%, #355fae 40%, #22478f 64%, #173871 100%);
+    background: center / cover no-repeat url("../assets/bg_paylynk.jpg");
     box-sizing: border-box;
 
     .paylynk-summary {
