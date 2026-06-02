@@ -74,11 +74,10 @@
                       type="radio"
                       name="paylynk-payment-method"
                       value="usdt"
-                      checked
                       data-paylynk-method-input
                     />
                     <img class="paylynk-method__icon" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
-                    <span class="paylynk-method__label paylynk-method__label--compact">USDT</span>
+                    <span class="paylynk-method__label paylynk-method__label--compact">USDT stablecoin network</span>
                     <span class="paylynk-method__label paylynk-method__label--expanded">USDT stablecoin network</span>
                     <span class="paylynk-method__radio" aria-hidden="true">
                       <img class="paylynk-method__radio-img paylynk-method__radio-img--inactive" src="assets/radio_inactive.svg" width="24" height="24" alt="" />
@@ -116,7 +115,7 @@
                       data-paylynk-method-input
                     />
                     <img class="paylynk-method__icon" src="assets/icon_usdc.svg" width="46" height="46" alt="" />
-                    <span class="paylynk-method__label paylynk-method__label--compact">USDC</span>
+                    <span class="paylynk-method__label paylynk-method__label--compact">USDC stablecoin network</span>
                     <span class="paylynk-method__label paylynk-method__label--expanded">USDC stablecoin network</span>
                     <span class="paylynk-method__radio" aria-hidden="true">
                       <img class="paylynk-method__radio-img paylynk-method__radio-img--inactive" src="assets/radio_inactive.svg" width="24" height="24" alt="" />
@@ -174,98 +173,50 @@
           <section class="paylynk-summary" aria-labelledby="paylynk-summary-heading">
             <div class="paylynk-summary__head">
               <img class="paylynk-summary__icon" src="assets/icon_paylynk_summary.svg" width="60" height="60" alt="" aria-hidden="true" />
-              <h2 id="paylynk-summary-heading" class="paylynk-summary__heading">Summary</h2>
-              <p class="paylynk-summary__beneficiary-line">Beneficiary: AGP Technology</p>
+              <h2 id="paylynk-summary-heading" class="paylynk-summary__heading">Payment summary</h2>
             </div>
 
             <div class="paylynk-summary__body">
               <div class="paylynk-summary-card">
+                <button class="paylynk-summary-row paylynk-summary-row--doc" type="button">
+                    <img class="paylynk-summary-row__doc-icon" src="assets/icon_paylynk_document.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  <span class="paylynk-summary-row__label-block">
+                    <span class="paylynk-summary-row__label">Commercial document</span>
+                    <span class="paylynk-summary-row__value">Commercial invoice (CI)</span>
+                  </span>
+                  <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevright.svg" width="16" height="16" alt="" aria-hidden="true" />
+                </button>
+                <button class="paylynk-summary-row" type="button">
+                  <span class="paylynk-summary-row__label">Shipment document(s)</span>
+                  <span class="paylynk-summary-row__value-inline">
+                    <span class="paylynk-summary-row__value">2 files attached</span>
+                    <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevdown.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  </span>
+                </button>
+                <button class="paylynk-summary-row" type="button">
+                  <span class="paylynk-summary-row__label">Payment purpose</span>
+                  <span class="paylynk-summary-row__value-inline">
+                    <span class="paylynk-summary-row__value">Goods payment</span>
+                    <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevdown.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  </span>
+                </button>
+                <button class="paylynk-summary-row" type="button">
+                  <span class="paylynk-summary-row__label">Beneficiary</span>
+                  <span class="paylynk-summary-row__value-inline">
+                    <span class="paylynk-summary-row__value">AGP Technology</span>
+                    <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevdown.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  </span>
+                </button>
                 <div class="paylynk-summary-row">
-                  <span class="paylynk-summary-row__label">PayLynk type</span>
-                  <span class="paylynk-summary-row__value">Direct PayLynk</span>
-                </div>
-                <div class="paylynk-summary-row">
-                  <span class="paylynk-summary-row__label">Payment amount</span>
-                  <span class="paylynk-summary-row__value">250,000.00 USD</span>
+                  <span class="paylynk-summary-row__label">PayLynk ID</span>
+                  <span class="paylynk-summary-row__value-inline">
+                    <span class="paylynk-summary-row__value">PYT-20251118-f2d3fa4e</span>
+                    <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_copy.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  </span>
                 </div>
               </div>
-              <p class="paylynk-summary__expires">Expires on: 31 Dec 2026, 23:59 (UTC+8)</p>
+              <p class="paylynk-summary__expires">PayLynk expired on: 31/12/2026</p>
             </div>
-          </section>
-
-          <section class="paylynk-documents" aria-labelledby="paylynk-documents-heading">
-            <div class="paylynk-sidebar__section-header">
-              <h2 id="paylynk-documents-heading" class="paylynk-sidebar__section-title">Attached documents</h2>
-              <hr class="paylynk-sidebar__divider" />
-            </div>
-            <ul class="paylynk-documents__list">
-              <li class="paylynk-document">
-                <span class="paylynk-document__icon-wrap" aria-hidden="true">
-                  <img src="assets/icon_paylynk_document.svg" width="32" height="32" alt="" />
-                </span>
-                <p class="paylynk-document__name">Commercial invoice (CI)</p>
-                <button class="paylynk-document__download" type="button">Download</button>
-              </li>
-              <li class="paylynk-document">
-                <span class="paylynk-document__icon-wrap" aria-hidden="true">
-                  <img src="assets/icon_paylynk_document.svg" width="32" height="32" alt="" />
-                </span>
-                <p class="paylynk-document__name">Transport document</p>
-                <button class="paylynk-document__download" type="button">Download</button>
-              </li>
-              <li class="paylynk-document">
-                <span class="paylynk-document__icon-wrap" aria-hidden="true">
-                  <img src="assets/icon_paylynk_document.svg" width="32" height="32" alt="" />
-                </span>
-                <p class="paylynk-document__name">Packing list (PL)</p>
-                <button class="paylynk-document__download" type="button">Download</button>
-              </li>
-            </ul>
-          </section>
-
-          <section class="paylynk-info" aria-labelledby="paylynk-info-heading">
-            <div class="paylynk-sidebar__section-header">
-              <h2 id="paylynk-info-heading" class="paylynk-sidebar__section-title">Other information</h2>
-              <hr class="paylynk-sidebar__divider" />
-            </div>
-            <ul class="paylynk-info__list">
-              <li class="paylynk-info__item">
-                <button class="paylynk-info-row" type="button">
-                  <span class="paylynk-info-row__main">
-                    <span class="paylynk-info-row__label">
-                      <img src="assets/icon_oi_beneficiary.svg" width="20" height="20" alt="" />
-                      Beneficiary
-                    </span>
-                    <span class="paylynk-info-row__value">AGP Technology</span>
-                  </span>
-                  <img class="paylynk-info-row__chevron" src="assets/icon_paylynk_chevright.svg" width="24" height="24" alt="" />
-                </button>
-              </li>
-              <li class="paylynk-info__item">
-                <button class="paylynk-info-row" type="button">
-                  <span class="paylynk-info-row__main">
-                    <span class="paylynk-info-row__label">
-                      <img src="assets/icon_oi_payer.svg" width="20" height="20" alt="" />
-                      Payer (You)
-                    </span>
-                    <span class="paylynk-info-row__value">NovaQuill Ltd</span>
-                  </span>
-                  <img class="paylynk-info-row__chevron" src="assets/icon_paylynk_chevright.svg" width="24" height="24" alt="" />
-                </button>
-              </li>
-              <li class="paylynk-info__item">
-                <button class="paylynk-info-row" type="button">
-                  <span class="paylynk-info-row__main">
-                    <span class="paylynk-info-row__label">
-                      <img src="assets/icon_oi_paymentdetails.svg" width="20" height="20" alt="" />
-                      Payment details
-                    </span>
-                    <span class="paylynk-info-row__value">Goods purchase</span>
-                  </span>
-                  <img class="paylynk-info-row__chevron" src="assets/icon_paylynk_chevright.svg" width="24" height="24" alt="" />
-                </button>
-              </li>
-            </ul>
           </section>
         </aside>
       </div>
@@ -396,144 +347,68 @@
           </section>
 
           <aside class="paylynk-sidebar paylynk-sidebar--network" aria-label="Payment summary">
-            <section class="paylynk-summary" aria-labelledby="paylynk-network-summary-heading">
+            <section class="paylynk-summary paylynk-summary--network" aria-labelledby="paylynk-network-summary-heading">
               <div class="paylynk-summary__head">
                 <img class="paylynk-summary__icon" src="assets/icon_paylynk_summary.svg" width="60" height="60" alt="" aria-hidden="true" />
-                <h2 id="paylynk-network-summary-heading" class="paylynk-summary__heading">Summary</h2>
-                <p class="paylynk-summary__beneficiary-line">Beneficiary: AGP Technology</p>
+                <h2 id="paylynk-network-summary-heading" class="paylynk-summary__heading">Payment summary</h2>
               </div>
 
-              <div class="paylynk-summary__body paylynk-summary__body--expanded">
+              <div class="paylynk-summary__body paylynk-summary__body--network">
                 <div class="paylynk-summary-card">
+                  <button class="paylynk-summary-row paylynk-summary-row--totalpay" type="button" data-paylynk-network-totalpay>
+                    <img class="paylynk-summary-row__coin-lg" data-paylynk-summary-coin src="assets/icon_usdt.svg" width="32" height="32" alt="" />
+                    <span class="paylynk-summary-row__label-block">
+                      <span class="paylynk-summary-row__label paylynk-summary-row__label--primary">Total to pay</span>
+                      <span class="paylynk-summary-row__value paylynk-summary-row__value--primary" data-paylynk-summary-total>251,125.00 USDT</span>
+                    </span>
+                    <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevdown.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  </button>
+                </div>
+
+                <div class="paylynk-summary-card">
+                  <button class="paylynk-summary-row paylynk-summary-row--invoice" type="button" data-paylynk-network-invoice>
+                    <span class="paylynk-summary-row__label paylynk-summary-row__label--muted">Commercial invoice (CI)</span>
+                    <span class="paylynk-summary-row__viewfile" aria-label="View commercial invoice">
+                      <img class="paylynk-summary-row__viewfile-icon" src="assets/icon_paylynk_document.svg" width="16" height="16" alt="" aria-hidden="true" />
+                      <span class="paylynk-summary-row__viewfile-text">View file</span>
+                    </span>
+                    <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevright.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  </button>
+                </div>
+
+                <div class="paylynk-summary-card">
+                  <button class="paylynk-summary-row" type="button">
+                    <span class="paylynk-summary-row__label paylynk-summary-row__label--muted">Shipment document(s)</span>
+                    <span class="paylynk-summary-row__value-inline">
+                      <span class="paylynk-summary-row__value">2 files attached</span>
+                      <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevdown.svg" width="16" height="16" alt="" aria-hidden="true" />
+                    </span>
+                  </button>
+                  <button class="paylynk-summary-row" type="button">
+                    <span class="paylynk-summary-row__label paylynk-summary-row__label--muted">Payment purpose</span>
+                    <span class="paylynk-summary-row__value-inline">
+                      <span class="paylynk-summary-row__value">Goods payment</span>
+                      <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevdown.svg" width="16" height="16" alt="" aria-hidden="true" />
+                    </span>
+                  </button>
+                  <button class="paylynk-summary-row" type="button">
+                    <span class="paylynk-summary-row__label paylynk-summary-row__label--muted">Beneficiary</span>
+                    <span class="paylynk-summary-row__value-inline">
+                      <span class="paylynk-summary-row__value">AGP Technology</span>
+                      <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_chevdown.svg" width="16" height="16" alt="" aria-hidden="true" />
+                    </span>
+                  </button>
                   <div class="paylynk-summary-row">
-                    <span class="paylynk-summary-row__label">PayLynk type</span>
-                    <span class="paylynk-summary-row__value">Direct PayLynk</span>
-                  </div>
-                  <div class="paylynk-summary-row">
-                    <span class="paylynk-summary-row__label">Payment amount</span>
-                    <span class="paylynk-summary-row__value">250,000.00 USD</span>
-                  </div>
-                  <div class="paylynk-summary-row">
-                    <span class="paylynk-summary-row__label">Payment method</span>
-                    <span class="paylynk-summary-row__value" data-paylynk-summary-method>USDT stablecoin network</span>
-                  </div>
-                  <div class="paylynk-summary-fee">
-                    <div class="paylynk-summary-row paylynk-summary-row--fee">
-                      <span class="paylynk-summary-row__label">Service fee</span>
-                      <span class="paylynk-summary-row__value-col">
-                        <span class="paylynk-summary-row__value">1,125.00 USD</span>
-                        <button type="button" class="paylynk-summary-fee__link" data-paylynk-fee-details>(Fee details)</button>
-                      </span>
-                    </div>
-                    <ul class="paylynk-summary-fee__breakdown">
-                      <li class="paylynk-summary-fee__line">
-                        <span>Covered by you</span>
-                        <span>1,125.00 USD</span>
-                      </li>
-                      <li class="paylynk-summary-fee__line">
-                        <span>Covered by beneficiary</span>
-                        <span>0.00 USD</span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="paylynk-summary-row">
-                    <span class="paylynk-summary-row__label">Beneficiary receives</span>
-                    <span class="paylynk-summary-row__value">250,000.00 USD</span>
-                  </div>
-                  <div class="paylynk-summary-row">
-                    <span class="paylynk-summary-row__label">Total amount</span>
-                    <span class="paylynk-summary-row__value">251,125.00 USD</span>
-                  </div>
-                  <hr class="paylynk-summary-card__divider" />
-                  <div class="paylynk-summary-row">
-                    <span class="paylynk-summary-row__label">Conversion rate</span>
-                    <span class="paylynk-summary-row__value" data-paylynk-summary-rate>1 USDT = 1 USD</span>
-                  </div>
-                  <div class="paylynk-summary-row paylynk-summary-row--total">
-                    <span class="paylynk-summary-row__label paylynk-summary-row__label--strong">Total to pay</span>
-                    <span class="paylynk-summary-row__value-total">
-                      <img class="paylynk-summary-row__coin" data-paylynk-summary-coin src="assets/icon_usdt.svg" width="24" height="24" alt="" />
-                      <span data-paylynk-summary-total>251,125.00 USDT</span>
+                    <span class="paylynk-summary-row__label paylynk-summary-row__label--muted">PayLynk ID</span>
+                    <span class="paylynk-summary-row__value-inline">
+                      <span class="paylynk-summary-row__value">PYT-20251118-f2d3fa4e</span>
+                      <img class="paylynk-summary-row__icon" src="assets/icon_paylynk_copy.svg" width="16" height="16" alt="" aria-hidden="true" />
                     </span>
                   </div>
                 </div>
-                <p class="paylynk-summary__expires">Expires on: 31 Dec 2026, 23:59 (UTC+8)</p>
-              </div>
-            </section>
 
-            <section class="paylynk-documents" aria-labelledby="paylynk-network-documents-heading">
-              <div class="paylynk-sidebar__section-header">
-                <h2 id="paylynk-network-documents-heading" class="paylynk-sidebar__section-title">Attached documents</h2>
-                <hr class="paylynk-sidebar__divider" />
+                <p class="paylynk-summary__expires">PayLynk expired on: 31/12/2026</p>
               </div>
-              <ul class="paylynk-documents__list">
-                <li class="paylynk-document">
-                  <span class="paylynk-document__icon-wrap" aria-hidden="true">
-                    <img src="assets/icon_paylynk_document.svg" width="32" height="32" alt="" />
-                  </span>
-                  <p class="paylynk-document__name">Commercial invoice (CI)</p>
-                  <button class="paylynk-document__download" type="button">Download</button>
-                </li>
-                <li class="paylynk-document">
-                  <span class="paylynk-document__icon-wrap" aria-hidden="true">
-                    <img src="assets/icon_paylynk_document.svg" width="32" height="32" alt="" />
-                  </span>
-                  <p class="paylynk-document__name">Transport document</p>
-                  <button class="paylynk-document__download" type="button">Download</button>
-                </li>
-                <li class="paylynk-document">
-                  <span class="paylynk-document__icon-wrap" aria-hidden="true">
-                    <img src="assets/icon_paylynk_document.svg" width="32" height="32" alt="" />
-                  </span>
-                  <p class="paylynk-document__name">Packing list (PL)</p>
-                  <button class="paylynk-document__download" type="button">Download</button>
-                </li>
-              </ul>
-            </section>
-
-            <section class="paylynk-info" aria-labelledby="paylynk-network-info-heading">
-              <div class="paylynk-sidebar__section-header">
-                <h2 id="paylynk-network-info-heading" class="paylynk-sidebar__section-title">Other information</h2>
-                <hr class="paylynk-sidebar__divider" />
-              </div>
-              <ul class="paylynk-info__list">
-                <li class="paylynk-info__item">
-                  <button class="paylynk-info-row" type="button">
-                    <span class="paylynk-info-row__main">
-                      <span class="paylynk-info-row__label">
-                        <img src="assets/icon_oi_beneficiary.svg" width="20" height="20" alt="" />
-                        Beneficiary
-                      </span>
-                      <span class="paylynk-info-row__value">AGP Technology</span>
-                    </span>
-                    <img class="paylynk-info-row__chevron" src="assets/icon_paylynk_chevright.svg" width="24" height="24" alt="" />
-                  </button>
-                </li>
-                <li class="paylynk-info__item">
-                  <button class="paylynk-info-row" type="button">
-                    <span class="paylynk-info-row__main">
-                      <span class="paylynk-info-row__label">
-                        <img src="assets/icon_oi_payer.svg" width="20" height="20" alt="" />
-                        Payer (You)
-                      </span>
-                      <span class="paylynk-info-row__value">NovaQuill Ltd</span>
-                    </span>
-                    <img class="paylynk-info-row__chevron" src="assets/icon_paylynk_chevright.svg" width="24" height="24" alt="" />
-                  </button>
-                </li>
-                <li class="paylynk-info__item">
-                  <button class="paylynk-info-row" type="button">
-                    <span class="paylynk-info-row__main">
-                      <span class="paylynk-info-row__label">
-                        <img src="assets/icon_oi_paymentdetails.svg" width="20" height="20" alt="" />
-                        Payment details
-                      </span>
-                      <span class="paylynk-info-row__value">Goods purchase</span>
-                    </span>
-                    <img class="paylynk-info-row__chevron" src="assets/icon_paylynk_chevright.svg" width="24" height="24" alt="" />
-                  </button>
-                </li>
-              </ul>
             </section>
           </aside>
         </div>

@@ -3117,6 +3117,7 @@
 
   function initPaylynkPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "paylynk") return;
+    const returnView = consumePaylynkReturnView();
 
     if (consumePaymentMethodAddedToast()) {
       window.requestAnimationFrame(() => {
@@ -3126,6 +3127,11 @@
 
     const methodsRoot = document.querySelector("[data-paylynk-methods]");
     if (methodsRoot) {
+      if (returnView !== "network") {
+        methodsRoot.querySelectorAll('[data-paylynk-method-input][name="paylynk-payment-method"]').forEach((input) => {
+          if (input instanceof HTMLInputElement) input.checked = false;
+        });
+      }
       const syncExpandables = () => syncPaylynkMethodExpandableDetails();
       methodsRoot.addEventListener("change", syncExpandables);
       syncExpandables();
@@ -3150,6 +3156,18 @@
     }
 
     document.querySelector("[data-paylynk-network-back]")?.addEventListener("click", () => {
+      const methodsRoot = document.querySelector("[data-paylynk-methods]");
+      if (methodsRoot) {
+        methodsRoot.querySelectorAll('[data-paylynk-method-input][name="paylynk-payment-method"]').forEach((input) => {
+          if (input instanceof HTMLInputElement) input.checked = false;
+        });
+        syncPaylynkMethodExpandableDetails();
+      }
+      try {
+        window.localStorage?.removeItem(PAYLYNK_STABLECOIN_KEY);
+      } catch (_) {
+        /* ignore */
+      }
       setPaylynkView("method");
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
@@ -3244,7 +3262,12 @@
       showPrototypeToast("Not in prototype");
     });
 
-    if (consumePaylynkReturnView() === "network") {
+    document.querySelector(".paylynk-header__account-trigger")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      showPrototypeToast("Not in prototype");
+    });
+
+    if (returnView === "network") {
       const coin = readActivatingSelectionCoin();
       showPaylynkNetworkStep(coin === "usdc" ? "usdc" : "usdt");
     }
