@@ -182,7 +182,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .paylynk-intro__title {
@@ -197,8 +197,8 @@ $paylynk-doc-icon-bg: #a8e8bd;
 .paylynk-intro__amount {
   margin: 0;
   color: $text-primary;
-  font-family: $font-sora;
-  font-size: 14px;
+  font-family: $font-family-sans;
+  font-size: 16px;
   font-weight: 300;
   line-height: normal;
 
@@ -216,11 +216,15 @@ $paylynk-doc-icon-bg: #a8e8bd;
 }
 
 .paylynk-methods__heading {
-  margin: 0;
-  color: $text-primary;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: normal;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
 .paylynk-methods__list {
@@ -768,7 +772,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
 .paylynk-sticky-panel__label {
   margin: 0;
   color: $text-primary;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   line-height: normal;
 }
@@ -790,16 +794,16 @@ $paylynk-doc-icon-bg: #a8e8bd;
 .paylynk-sticky-panel__amount {
   margin: 0;
   color: $text-primary;
-  font-size: 26px;
+  font-size: 18px;
   font-weight: 700;
   line-height: normal;
 }
 
 .paylynk-sticky-panel__beneficiary {
   margin: 0;
-  color: $text-secondary;
-  font-size: 14px;
-  font-weight: 600;
+  color: $text-primary;
+  font-size: 12px;
+  font-weight: 400;
   line-height: normal;
 }
 
@@ -1336,8 +1340,8 @@ $paylynk-doc-icon-bg: #a8e8bd;
 @media (min-width: $desktop-breakpoint) {
   .paylynk-header {
     gap: 32px;
-    min-height: $paylynk-header-height-desktop;
-    padding: 32px 48px;
+    min-height: 70px;
+    padding: 24px 48px;
   }
 
   .paylynk-header__logo {
@@ -1428,7 +1432,8 @@ $paylynk-doc-icon-bg: #a8e8bd;
     flex: 1 1 0;
     align-items: center;
     min-width: 0;
-    padding: 70px 70px 80px;
+    order: 2;
+    padding: 48px 100px 80px;
   }
 
   .paylynk-content.paylynk-network-content {
@@ -1437,15 +1442,15 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
   .paylynk-intro {
     gap: 12px;
-    margin-bottom: 48px;
+    margin-bottom: 40px;
   }
 
   .paylynk-intro__title {
-    font-size: 40px;
+    font-size: 32px;
   }
 
   .paylynk-intro__amount {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .paylynk-methods {
@@ -1514,15 +1519,75 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
   .paylynk-sidebar {
     display: flex;
+    order: 1;
     flex: 0 0 $paylynk-sidebar-width;
     flex-direction: column;
     align-self: stretch;
+    justify-content: center;
     gap: 0;
     width: $paylynk-sidebar-width;
     min-height: 100%;
-    padding: 70px 48px;
-    background: $surface-primary;
+    padding: 32px 48px;
+    background:
+      radial-gradient(circle at 20% 20%, #5f8fd8 0%, #4d7ac8 22%, #355fae 40%, #22478f 64%, #173871 100%);
     box-sizing: border-box;
+
+    .paylynk-summary {
+      gap: 20px;
+      padding: 32px 24px 24px;
+      border: 1px solid $border-soft;
+      border-radius: 16px;
+      background: $surface-card;
+      box-shadow: 3px 8px 8px rgb(14 45 118 / 20%);
+    }
+
+    .paylynk-summary__heading {
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .paylynk-summary__beneficiary-line {
+      display: none;
+    }
+
+    .paylynk-summary-card {
+      gap: 0;
+      padding: 0;
+      border: 1px solid $border-soft;
+      border-radius: 8px;
+      background: $surface-card;
+    }
+
+    .paylynk-summary-row {
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid $border-soft;
+    }
+
+    .paylynk-summary-row:last-child {
+      border-bottom: 0;
+    }
+
+    .paylynk-summary-row__label,
+    .paylynk-summary-row__value {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .paylynk-summary-row__value {
+      width: auto;
+      text-align: right;
+    }
+
+    .paylynk-summary__expires {
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .paylynk-documents,
+    .paylynk-info {
+      display: none;
+    }
   }
 
   .paylynk-sticky-panel {
@@ -1534,7 +1599,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-network-content__title {
-    font-size: 40px;
+    font-size: 32px;
   }
 
   .paylynk-network-section {
