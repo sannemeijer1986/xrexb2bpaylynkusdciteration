@@ -893,6 +893,23 @@
   box-sizing: border-box;
 }
 
+
+.activating-stablecoin-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  .activating-stablecoin-card {
+    border: 1px solid $border-soft;
+    border-radius: 8px;
+    background: $surface-card;
+    padding: 24px 20px;
+  }
+}
+
 .activating-stablecoin-intro {
   display: flex;
   flex-direction: column;
