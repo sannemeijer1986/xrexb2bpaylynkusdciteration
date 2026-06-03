@@ -892,6 +892,9 @@
             )
             .join("")}</span>`
         : "";
+      const subtitleHtml = subtitle
+        ? `<span class="review-submit-payment-item__subtitle">${subtitle}</span>`
+        : "";
       row.innerHTML = `
         <div class="review-submit-payment-item__main">
           <span class="review-submit-payment-item__icon" aria-hidden="true">
@@ -899,10 +902,27 @@
           </span>
           <span class="review-submit-payment-item__copy">
             <span class="review-submit-payment-item__title">${title}</span>
-            <span class="review-submit-payment-item__subtitle">${subtitle}</span>
+            ${subtitleHtml}
           </span>
         </div>
         ${tagsHtml}`;
+      return row;
+    };
+
+    const createBankAccountItem = (name, account, customName) => {
+      const row = document.createElement("article");
+      row.className = "review-submit-payment-item review-submit-payment-item--bank";
+      row.innerHTML = `
+        <span class="review-submit-payment-item__icon" aria-hidden="true">
+          <img src="assets/icon_wlb_bank.svg" alt="" />
+        </span>
+        <span class="review-submit-payment-item__copy">
+          <span class="review-submit-payment-item__title-row">
+            <span class="review-submit-payment-item__title">${name}</span>
+            <span class="review-submit-payment-item__account">${account}</span>
+          </span>
+          <span class="review-submit-payment-item__subtitle">${customName}</span>
+        </span>`;
       return row;
     };
 
@@ -917,7 +937,7 @@
         </span>
         <span class="review-submit-bank-add__label">Whitelist new bank account</span>
         <span class="review-submit-bank-add__chevron" aria-hidden="true">
-          <img src="assets/icon_wlb_chevron_gray.svg" width="32" height="32" alt="" />
+          <img src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
         </span>`;
       return btn;
     };
@@ -926,9 +946,7 @@
     if (bankList) {
       bankList.textContent = "";
       if (bankWhitelisted) {
-        bankList.appendChild(
-          createPaymentItem("bank", "assets/icon_wlb_bank.svg", "DBS Bank Ltd", "USD bank account • (0123456789)"),
-        );
+        bankList.appendChild(createBankAccountItem("DBS Bank Ltd", "(0123456789)", "Main Operations Account"));
         bankList.appendChild(createBankWhitelistAddButton());
       }
     }
@@ -942,14 +960,14 @@
             "stablecoin",
             "assets/icon_usdt.svg",
             "USDT",
-            "USD Tether",
-            ["Ethereum (ERC-20)", "Tron (TRC-20)"],
+            "Tether USD",
+            ["Ethereum (ERC-20)"],
           ),
         );
       }
       if (usdcActivated) {
         stablecoinList.appendChild(
-          createPaymentItem("stablecoin", "assets/icon_usdc.svg", "USDC", "USD Coin", ["Ethereum (ERC-20)"]),
+          createPaymentItem("stablecoin", "assets/icon_usdc.svg", "USDC", "Circle USD", ["Ethereum (ERC-20)"]),
         );
       }
     }
