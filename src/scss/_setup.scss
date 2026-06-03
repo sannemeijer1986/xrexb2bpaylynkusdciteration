@@ -964,13 +964,26 @@ body[data-prototype-context='payment-setup'] {
     margin-bottom: 0;
   }
 
-  .setup-network {
-    margin-top: 0;
+  .setup-payment-method__bank-incomplete,
+  .setup-payment-method__bank-complete {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     min-height: 0;
+    width: 100%;
+
+    &[hidden] {
+      display: none !important;
+    }
   }
 
   .setup-payment-method__bank-action {
-    padding-top: 16px;
+    padding-top: 0;
+  }
+
+  .setup-network {
+    margin-top: 0;
+    min-height: 0;
   }
 
   .setup-network__lead {
@@ -1219,6 +1232,18 @@ body[data-prototype-context='profile-payment-methods'] {
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 12px;
+}
+
+.setup-payment-method__network-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+  width: 100%;
+
+  .setup-network {
+    margin-top: 0;
+  }
 }
 
 .setup-payment-method__network-title {
@@ -1692,7 +1717,7 @@ body[data-prototype-context='profile-payment-methods'] {
   body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper,
   body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wrapper {
     margin-top: 16px;
-    gap: 24px;
+    gap: 16px;
   }
 
   .setup-payment-method__trigger {
@@ -1741,6 +1766,15 @@ body[data-prototype-context='profile-payment-methods'] {
     .setup-payment-method--expanded .setup-payment-method__panel {
       gap: 24px;
       padding-bottom: 24px;
+    }
+
+    .setup-payment-method__bank-incomplete,
+    .setup-payment-method__bank-complete {
+      gap: 24px;
+
+      &[hidden] {
+        display: none !important;
+      }
     }
 
     .setup-payment-method__network-title {

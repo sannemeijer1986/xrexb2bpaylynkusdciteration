@@ -844,8 +844,16 @@
     syncAccountCreatedPrototypeControl();
   }
 
+  function hasPrototypePaymentMethodAdded() {
+    return (
+      readBankWhitelisted() ||
+      readPaylynkErc20Activated("usdt") ||
+      readPaylynkErc20Activated("usdc")
+    );
+  }
+
   function canContinuePaymentSetup() {
-    return states.setupProgress >= 8 || readBankWhitelisted();
+    return states.setupProgress >= 8 || hasPrototypePaymentMethodAdded();
   }
 
   function setReviewSubmitSectionVisible(section, visible) {
@@ -1014,13 +1022,13 @@
     const isProfilePage = ctx === "profile-payment-methods";
     const p = states.setupProgress;
     const finalized = p >= 8;
-    const canContinue = canContinuePaymentSetup();
+    const hasPaymentMethod = hasPrototypePaymentMethodAdded();
 
     if (!isProfilePage) {
       const nextBtn = document.querySelector("[data-payment-setup-next]");
       if (nextBtn && nextBtn.tagName === "BUTTON") {
-        nextBtn.disabled = !canContinue;
-        nextBtn.setAttribute("aria-disabled", canContinue ? "false" : "true");
+        nextBtn.disabled = !hasPaymentMethod;
+        nextBtn.setAttribute("aria-disabled", hasPaymentMethod ? "false" : "true");
       }
       const link = document.querySelector("[data-payment-setup-stablecoin-link]");
       if (link) {
@@ -1034,19 +1042,19 @@
       }
       const linked = document.querySelector("[data-payment-setup-linked]");
       if (linked) {
-        linked.setAttribute("aria-hidden", canContinue ? "false" : "true");
+        linked.setAttribute("aria-hidden", hasPaymentMethod ? "false" : "true");
       }
 
       const notice = document.querySelector("[data-payment-setup-notice]");
       if (notice) {
-        notice.classList.toggle("setup-payment-methods__notice--complete", canContinue);
+        notice.classList.toggle("setup-payment-methods__notice--complete", hasPaymentMethod);
         const noticeIcon = notice.querySelector("[data-payment-setup-notice-icon]");
         const noticeText = notice.querySelector("[data-payment-setup-notice-text]");
         if (noticeIcon instanceof HTMLImageElement) {
-          noticeIcon.src = canContinue ? "assets/icon_success.svg" : "assets/icon_info_blue.svg";
+          noticeIcon.src = hasPaymentMethod ? "assets/icon_success.svg" : "assets/icon_info_blue.svg";
         }
         if (noticeText) {
-          noticeText.textContent = canContinue
+          noticeText.textContent = hasPaymentMethod
             ? "Payment method(s) added, you can now continue"
             : "One-time setup  ·  Saved for future payments  ·  Add more anytime";
         }
@@ -1148,8 +1156,14 @@
       if (isBank) {
         const bankIncomplete = item.querySelector("[data-bank-panel-incomplete]");
         const bankComplete = item.querySelector("[data-bank-panel-complete]");
-        if (bankIncomplete) bankIncomplete.hidden = showComplete;
-        if (bankComplete) bankComplete.hidden = !showComplete;
+        if (bankIncomplete) {
+          bankIncomplete.hidden = showComplete;
+          bankIncomplete.toggleAttribute("hidden", showComplete);
+        }
+        if (bankComplete) {
+          bankComplete.hidden = !showComplete;
+          bankComplete.toggleAttribute("hidden", !showComplete);
+        }
         if (showComplete && !item.classList.contains("setup-payment-method--expanded")) {
           item.classList.add("setup-payment-method--expanded");
           const trigger = item.querySelector("[data-payment-method-trigger]");

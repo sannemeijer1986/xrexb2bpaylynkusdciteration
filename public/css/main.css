@@ -903,12 +903,24 @@ body[data-prototype-context=payment-setup] .setup-payment-method__divider {
 body[data-prototype-context=payment-setup] .setup-payment-method__network-head {
   margin-bottom: 0;
 }
+body[data-prototype-context=payment-setup] .setup-payment-method__bank-incomplete,
+body[data-prototype-context=payment-setup] .setup-payment-method__bank-complete {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 0;
+  width: 100%;
+}
+body[data-prototype-context=payment-setup] .setup-payment-method__bank-incomplete[hidden],
+body[data-prototype-context=payment-setup] .setup-payment-method__bank-complete[hidden] {
+  display: none !important;
+}
+body[data-prototype-context=payment-setup] .setup-payment-method__bank-action {
+  padding-top: 0;
+}
 body[data-prototype-context=payment-setup] .setup-network {
   margin-top: 0;
   min-height: 0;
-}
-body[data-prototype-context=payment-setup] .setup-payment-method__bank-action {
-  padding-top: 16px;
 }
 body[data-prototype-context=payment-setup] .setup-network__lead {
   gap: 8px;
@@ -1130,6 +1142,17 @@ body[data-prototype-context=profile-payment-methods] .setup-payment-method--stat
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 12px;
+}
+
+.setup-payment-method__network-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+  width: 100%;
+}
+.setup-payment-method__network-list .setup-network {
+  margin-top: 0;
 }
 
 .setup-payment-method__network-title {
@@ -1576,7 +1599,7 @@ body[data-prototype-context=profile-payment-methods] .setup-payment-method--stat
   body[data-prototype-context=payment-setup] .setup-payment-method-wrapper,
   body[data-prototype-context=profile-payment-methods] .setup-payment-method-wrapper {
     margin-top: 16px;
-    gap: 24px;
+    gap: 16px;
   }
   .setup-payment-method__trigger {
     padding: 24px;
@@ -1615,6 +1638,14 @@ body[data-prototype-context=profile-payment-methods] .setup-payment-method--stat
   body[data-prototype-context=payment-setup] .setup-payment-method--expanded .setup-payment-method__panel {
     gap: 24px;
     padding-bottom: 24px;
+  }
+  body[data-prototype-context=payment-setup] .setup-payment-method__bank-incomplete,
+  body[data-prototype-context=payment-setup] .setup-payment-method__bank-complete {
+    gap: 24px;
+  }
+  body[data-prototype-context=payment-setup] .setup-payment-method__bank-incomplete[hidden],
+  body[data-prototype-context=payment-setup] .setup-payment-method__bank-complete[hidden] {
+    display: none !important;
   }
   body[data-prototype-context=payment-setup] .setup-payment-method__network-title {
     font-size: 16px;
