@@ -888,7 +888,7 @@
         ? `<span class="review-submit-payment-item__tags">${tags
             .map(
               (tag) =>
-                `<span class="review-submit-payment-item__tag"><img class="review-submit-payment-item__tag-icon" src="assets/icon_network_green.svg" width="14" height="14" alt="" aria-hidden="true" /><span class="review-submit-payment-item__tag-label">${tag}</span></span>`,
+                `<span class="review-submit-payment-item__tag"><img class="review-submit-payment-item__tag-icon" src="assets/icon_check_green.svg" width="14" height="14" alt="" aria-hidden="true" /><span class="review-submit-payment-item__tag-label">${tag}</span></span>`,
             )
             .join("")}</span>`
         : "";
