@@ -823,12 +823,24 @@ a.setup-button--secondary {
   }
 }
 
+
 .setup-payment-methods {
-  border: 1px solid $border-soft;
-  border-radius: 8px;
-  background: $surface-card;
-  padding: 24px 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
+
+@media (min-width: $desktop-breakpoint) {
+  .setup-payment-methods {
+    border: 1px solid $border-soft;
+    border-radius: 8px;
+    background: $surface-card;
+    padding: 24px 20px;
+  }
+}
+
+
 
 .setup-payment-methods__intro {
   display: flex;
@@ -883,6 +895,21 @@ a.setup-button--secondary {
 body[data-prototype-context='payment-setup'] .setup-payment-methods__group,
 body[data-prototype-context='profile-payment-methods'] .setup-payment-methods__group {
   gap: 0;
+}
+
+body[data-prototype-context='payment-setup'] .setup-panel__content {
+  border-radius: $radius-card;
+}
+
+body[data-prototype-context='payment-setup'] .setup-payment-methods__group .paylynk-comingsoon {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: $desktop-breakpoint) {
+  body[data-prototype-context='payment-setup'] .setup-payment-methods__group .paylynk-comingsoon {
+    margin-bottom: 0;
+  }
 }
 
 body[data-prototype-context='payment-setup'] .setup-payment-method-wrapper,
@@ -1694,6 +1721,9 @@ body[data-prototype-context='profile-payment-methods'] {
 
   .setup-payment-methods {
     padding: 32px;
+    border: 1px solid $border-soft;
+    border-radius: 8px;
+    background: $surface-card;
   }
 
   .setup-payment-methods__headline {
