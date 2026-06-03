@@ -893,6 +893,165 @@ body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wra
   gap: 16px;
 }
 
+body[data-prototype-context='payment-setup'] {
+  .setup-payment-method__sub {
+    display: none !important;
+  }
+
+  .setup-payment-method__trigger {
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .setup-payment-method__lead {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .setup-payment-method__icon--lg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .setup-payment-method__name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    text-align: left;
+  }
+
+  .setup-payment-method__copy {
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .setup-payment-method__state {
+    position: static;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: normal;
+    text-align: left;
+  }
+
+  .setup-payment-method__panel {
+    padding: 0 16px;
+  }
+
+  .setup-payment-method--expanded .setup-payment-method__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 16px;
+  }
+
+  .setup-payment-method__desc {
+    margin-top: -4px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .setup-payment-method__divider {
+    margin: 0;
+  }
+
+  .setup-payment-method__network-head {
+    margin-bottom: 0;
+  }
+
+  .setup-network {
+    margin-top: 0;
+    min-height: 0;
+  }
+
+  .setup-payment-method__bank-action {
+    padding-top: 16px;
+  }
+
+  .setup-network__lead {
+    gap: 8px;
+  }
+
+  .setup-network__icon-wrap {
+    width: 24px;
+    height: 24px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .setup-network__copy {
+    gap: 1px;
+  }
+
+  .setup-network__name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .setup-network__sub {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: normal;
+    color: $text-secondary;
+  }
+
+  .setup-network__status {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .setup-payment-method--state-incomplete
+    .setup-network--active
+    [data-payment-network-status-incomplete] {
+    color: #73a2f5;
+  }
+
+  .setup-network--active {
+    gap: 40px;
+    padding: 16px;
+  }
+
+  .setup-network--disabled {
+    min-height: 70px;
+    padding: 16px;
+
+    .setup-network__name,
+    .setup-network__sub {
+      color: $text-placeholder;
+    }
+  }
+
+  .setup-network__cta:not(.setup-network__cta--bank) {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 16px;
+    gap: 4px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .setup-network__cta-text {
+      display: none;
+    }
+  }
+}
+
 .setup-payment-method {
   position: relative;
   border: 1px solid $border-hard;
@@ -1534,7 +1693,6 @@ body[data-prototype-context='profile-payment-methods'] {
     gap: 16px;
   }
 
-  body[data-prototype-context='payment-setup'] .setup-payment-method__state,
   body[data-prototype-context='profile-payment-methods'] .setup-payment-method__state {
     position: absolute;
     top: 37px;
@@ -1543,29 +1701,164 @@ body[data-prototype-context='profile-payment-methods'] {
     font-size: 18px;
   }
 
-  .setup-payment-method__icon--lg {
+  body[data-prototype-context='payment-setup'] {
+    .setup-payment-method__trigger {
+      min-height: 78px;
+      padding: 16px 24px;
+    }
+
+    .setup-payment-method__copy {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    .setup-payment-method__name {
+      flex: 1 1 auto;
+      text-align: left;
+    }
+
+    .setup-payment-method__state {
+      flex-shrink: 0;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    // 64px left = 24px panel gutter + 40px content indent (stable during collapse animation)
+    .setup-payment-method__panel {
+      padding: 0 24px 0 64px;
+    }
+
+    .setup-payment-method--expanded .setup-payment-method__panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: 24px;
+    }
+
+    .setup-payment-method__network-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .setup-network {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 0;
+      min-height: 0;
+    }
+
+    .setup-payment-method__desc {
+      font-size: 16px;
+      line-height: 23px;
+    }
+
+    .setup-network__lead {
+      gap: 8px;
+    }
+
+    .setup-network__icon-wrap {
+      width: 32px;
+      height: 32px;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .setup-network__copy {
+      gap: 2px;
+    }
+
+    .setup-network__name {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    .setup-network__sub {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: normal;
+      color: $text-secondary;
+    }
+
+    .setup-network__status {
+      font-size: 12px;
+      font-weight: 600;
+      line-height: normal;
+    }
+
+    .setup-payment-method--state-incomplete
+      .setup-network--active
+      [data-payment-network-status-incomplete] {
+      color: #73a2f5;
+    }
+
+    .setup-network--active {
+      gap: 40px;
+      padding: 16px 24px;
+    }
+
+    .setup-network--disabled {
+      min-height: 76px;
+      padding: 16px 24px;
+
+      .setup-network__name,
+      .setup-network__sub {
+        color: $text-placeholder;
+      }
+    }
+
+    .setup-network__cta:not(.setup-network__cta--bank) {
+      width: auto;
+      min-width: 0;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 8px;
+      gap: 8px;
+      pointer-events: none;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .setup-network__cta-text {
+        display: inline;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: normal;
+      }
+    }
+  }
+
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__icon--lg {
     width: 46px;
     height: 46px;
   }
 
-  .setup-payment-method__name {
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__name {
     font-size: 20px;
   }
 
-  .setup-payment-method__sub {
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__sub {
     font-size: 16px;
     line-height: 23px;
   }
 
-  .setup-payment-method__panel {
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__panel {
     padding: 0 24px 0 82px;
   }
 
-  .setup-payment-method--expanded .setup-payment-method__panel {
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method--expanded .setup-payment-method__panel {
     padding: 0 24px 24px 82px;
   }
 
-  .setup-payment-method__desc {
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__desc {
     font-size: 16px;
     line-height: 23px;
   }

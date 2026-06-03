@@ -36,7 +36,7 @@
     }, 1800);
   }
 
-  function animatePanelHeight(panel, expanded) {
+  function animatePanelHeight(panel, expanded, onComplete) {
     if (!panel) return;
     var token = String((Number(panel.getAttribute("data-anim-token")) || 0) + 1);
     panel.setAttribute("data-anim-token", token);
@@ -57,6 +57,7 @@
         if (panel.getAttribute("aria-hidden") === "false") {
           panel.style.height = "auto";
         }
+        if (onComplete) onComplete();
       };
       panel.addEventListener("transitionend", onOpenEnd);
     } else {
@@ -67,6 +68,13 @@
       panel.style.transition = "height " + ANIMATION_MS + "ms ease, opacity " + ANIMATION_MS + "ms ease";
       panel.style.height = "0px";
       panel.style.opacity = "0";
+      var onCloseEnd = function (e) {
+        if (e.propertyName !== "height") return;
+        panel.removeEventListener("transitionend", onCloseEnd);
+        if (panel.getAttribute("data-anim-token") !== token) return;
+        if (onComplete) onComplete();
+      };
+      panel.addEventListener("transitionend", onCloseEnd);
     }
   }
 
@@ -112,12 +120,21 @@
     if (!item) return;
     var trigger = item.querySelector("[data-payment-method-trigger]");
     var panel = item.querySelector("[data-payment-method-panel]");
-    item.classList.toggle("setup-payment-method--expanded", !!expanded);
     if (trigger) trigger.setAttribute("aria-expanded", expanded ? "true" : "false");
-    if (panel) {
-      panel.setAttribute("aria-hidden", expanded ? "false" : "true");
-      animatePanelHeight(panel, !!expanded);
+    if (!panel) {
+      item.classList.toggle("setup-payment-method--expanded", !!expanded);
+      return;
     }
+    if (expanded) {
+      item.classList.add("setup-payment-method--expanded");
+      panel.setAttribute("aria-hidden", "false");
+      animatePanelHeight(panel, true);
+      return;
+    }
+    panel.setAttribute("aria-hidden", "true");
+    animatePanelHeight(panel, false, function () {
+      item.classList.remove("setup-payment-method--expanded");
+    });
   }
 
   function initAccordion() {
