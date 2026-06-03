@@ -61,10 +61,24 @@
       };
       panel.addEventListener("transitionend", onOpenEnd);
     } else {
-      if (panel.style.height === "auto") {
-        panel.style.height = panel.scrollHeight + "px";
+      panel.style.transition = "none";
+      var lockedHeight = panel.getBoundingClientRect().height;
+      if (panel.style.height === "auto" || !panel.style.height) {
+        panel.style.height = lockedHeight + "px";
+      } else {
+        lockedHeight = parseFloat(panel.style.height) || lockedHeight;
+        panel.style.height = lockedHeight + "px";
       }
-      panel.getBoundingClientRect();
+
+      // Fold bottom padding into the locked border-box height before animating to 0
+      // (avoids leftover space during/after collapse without snapping flex gap).
+      var paddingBottom = parseFloat(window.getComputedStyle(panel).paddingBottom) || 0;
+      if (paddingBottom > 0) {
+        panel.style.paddingBottom = "0px";
+        panel.style.height = lockedHeight + "px";
+        panel.getBoundingClientRect();
+      }
+
       panel.style.transition = "height " + ANIMATION_MS + "ms ease, opacity " + ANIMATION_MS + "ms ease";
       panel.style.height = "0px";
       panel.style.opacity = "0";
@@ -134,6 +148,10 @@
     panel.setAttribute("aria-hidden", "true");
     animatePanelHeight(panel, false, function () {
       item.classList.remove("setup-payment-method--expanded");
+      panel.style.height = "0px";
+      panel.style.opacity = "0";
+      panel.style.paddingBottom = "";
+      panel.style.transition = "";
     });
   }
 

@@ -889,8 +889,6 @@ body[data-prototype-context=payment-setup] .setup-payment-method__panel {
   padding: 0 16px;
 }
 body[data-prototype-context=payment-setup] .setup-payment-method--expanded .setup-payment-method__panel {
-  display: flex;
-  flex-direction: column;
   gap: 20px;
   padding-bottom: 16px;
 }
@@ -1086,14 +1084,22 @@ body[data-prototype-context=profile-payment-methods] .setup-payment-method--stat
 
 .setup-payment-method__panel {
   clear: both;
+  box-sizing: border-box;
+  min-height: 0;
   padding: 0 16px 0 16px;
   height: 0;
   opacity: 0;
   overflow: hidden;
   transition: height 0.28s ease, opacity 0.28s ease;
 }
+.setup-payment-method__panel > * {
+  min-height: 0;
+}
 
 .setup-payment-method--expanded .setup-payment-method__panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   padding: 0 16px 16px 16px;
   opacity: 1;
 }
@@ -1607,8 +1613,6 @@ body[data-prototype-context=profile-payment-methods] .setup-payment-method--stat
     padding: 0 24px 0 64px;
   }
   body[data-prototype-context=payment-setup] .setup-payment-method--expanded .setup-payment-method__panel {
-    display: flex;
-    flex-direction: column;
     gap: 24px;
     padding-bottom: 24px;
   }
