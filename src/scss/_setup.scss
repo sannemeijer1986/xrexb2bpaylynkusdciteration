@@ -1237,6 +1237,8 @@ body[data-prototype-context='profile-payment-methods'] {
   height: 32px;
   padding: 0 12px;
   margin-top: 2px;
+  pointer-events: auto;
+  cursor: pointer;
 
   img {
     display: none;
