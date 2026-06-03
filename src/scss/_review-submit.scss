@@ -155,16 +155,6 @@ $review-alert-text: #4d88ff;
   }
 }
 
-.review-submit-bank-add .review-submit-payment-item__icon {
-  border-radius: 999px;
-  background: $border-soft;
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
-}
-
 .review-submit-payment-item--stablecoin .review-submit-payment-item__icon {
   border-radius: 0;
   background: transparent;
@@ -254,44 +244,6 @@ $review-alert-text: #4d88ff;
 
 .review-submit-payment-item__tag-label {
   line-height: 1;
-}
-
-.review-submit-bank-add {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 16px;
-  border: 1px solid $border-hard;
-  border-radius: $radius-card;
-  background: $surface-card;
-  box-sizing: border-box;
-  cursor: pointer;
-  text-align: left;
-  font-family: $font-family-sans;
-}
-
-.review-submit-bank-add__label {
-  flex: 1 1 auto;
-  min-width: 0;
-  color: $text-primary;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.review-submit-bank-add__chevron {
-  flex-shrink: 0;
-  display: block;
-  width: 24px;
-  height: 24px;
-
-  img {
-    display: block;
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-  }
 }
 
 .review-submit-wallet-group {
@@ -526,15 +478,6 @@ $review-alert-text: #4d88ff;
 
   .review-submit-payment-item__subtitle {
     font-size: 14px;
-  }
-
-  .review-submit-bank-add {
-    padding: 16px 24px;
-  }
-
-  .review-submit-bank-add__label {
-    font-size: 16px;
-    font-weight: 700;
   }
 
   .review-submit-payment-item--stablecoin {

@@ -929,16 +929,11 @@
     const createBankWhitelistAddButton = () => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "review-submit-bank-add";
+      btn.className = "setup-payment-method__bank-add";
       btn.setAttribute("data-review-submit-bank-whitelist-add", "");
       btn.innerHTML = `
-        <span class="review-submit-payment-item__icon" aria-hidden="true">
-          <img src="assets/icon_wlb_bank_gray.svg" alt="" />
-        </span>
-        <span class="review-submit-bank-add__label">Whitelist new bank account</span>
-        <span class="review-submit-bank-add__chevron" aria-hidden="true">
-          <img src="assets/icon_chevron_gray_right.svg" width="24" height="24" alt="" />
-        </span>`;
+        <img src="assets/icon_wlb_add_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+        <span>Whitelist another bank account</span>`;
       return btn;
     };
 

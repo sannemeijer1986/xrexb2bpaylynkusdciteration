@@ -885,12 +885,20 @@
 .activating-stablecoin-card {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
   padding: 24px 20px;
   border: 1px solid $border-soft;
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
+}
+
+.activating-stablecoin-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 16px;
 }
 
 .activating-stablecoin-lede {
@@ -899,6 +907,30 @@
   font-size: 16px;
   font-weight: 700;
   line-height: normal;
+}
+
+.activating-stablecoin-beneficiary-notice {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  color: #73a2f5;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.activating-stablecoin-beneficiary-notice__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  object-fit: contain;
+}
+
+.activating-stablecoin-beneficiary-notice__text {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .activating-stablecoin-wrapper {
@@ -1593,6 +1625,10 @@
   .activating-stablecoin-card {
     gap: 40px;
     padding: 32px;
+  }
+
+  .activating-stablecoin-intro {
+    margin-bottom: 0;
   }
 
   .activating-stablecoin-lede {
