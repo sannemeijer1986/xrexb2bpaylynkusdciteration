@@ -4259,3 +4259,8 @@ $wallet-accent: $ew-text-link;
     // color: $ew-text-warning;
   }
 }
+
+.pp-wallet-debug-hotspot,
+.pp-wallet-close-confirm-debug-hotspot {
+  display: none !important;
+}

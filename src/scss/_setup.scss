@@ -897,7 +897,8 @@ body[data-prototype-context='profile-payment-methods'] .setup-payment-methods__g
   gap: 0;
 }
 
-body[data-prototype-context='payment-setup'] .setup-panel__content {
+body[data-prototype-context='payment-setup'] .setup-panel__content,
+body[data-prototype-context='activating-stablecoin'] .setup-panel__content {
   border-radius: $radius-card;
 }
 
