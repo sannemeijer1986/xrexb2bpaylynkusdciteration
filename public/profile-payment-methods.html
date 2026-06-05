@@ -1133,7 +1133,13 @@
                     <h3 class="pp-wallet-close-confirm__title" id="walletDisableAutodebitConfirmTitle">Disable auto-debit</h3>
                     <button type="button" class="pp-wallet-close-confirm__close" id="walletDisableAutodebitConfirmDismiss" aria-label="Close"><img src="assets/icon_pp_close.svg" width="24" height="24" alt="" /></button>
                 </div>
-                <p class="pp-wallet-close-confirm__body">Auto-debit can only be permanently disabled by exporting the private key for this wallet address.</p>
+                <div class="pp-wallet-close-confirm__content">
+                    <p class="pp-wallet-close-confirm__body">Auto-debit can only be permanently disabled by exporting private keys.</p>
+                    <div class="pp-wallet-close-confirm__disclaimer pp-wallet-withdraw-confirm__alert" role="note">
+                        <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-withdraw-confirm__alert-icon" />
+                        <p class="pp-wallet-withdraw-confirm__alert-text">Disabling auto-debit will deactivate currently active stablecoin payment methods for this beneficiary in XREX PayLynk.</p>
+                    </div>
+                </div>
                 <div class="pp-wallet-close-confirm__actions">
                     <button type="button" class="ew-btn ew-btn--md ew-btn--primary" id="walletDisableAutodebitConfirmUnderstood">Understood</button>
                 </div>

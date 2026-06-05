@@ -4004,6 +4004,90 @@ $wallet-accent: $ew-text-link;
   }
 }
 
+#walletDisableAutodebitConfirm {
+  .pp-wallet-close-confirm__backdrop {
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  .pp-wallet-close-confirm__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 40px 32px;
+  }
+
+  .pp-wallet-close-confirm__body {
+    margin: 0;
+    padding: 0;
+    font-size: $ew-size-l;
+    line-height: normal;
+  }
+
+  .pp-wallet-close-confirm__disclaimer {
+    width: 100%;
+  }
+}
+
+@media (max-width: $desktop-breakpoint - 1px) {
+  #walletDisableAutodebitConfirm {
+    align-items: stretch;
+    justify-content: flex-end;
+    padding: 0;
+
+    .pp-wallet-close-confirm__card {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      width: 100%;
+      max-width: none;
+      min-height: 0;
+      border-radius: 0;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .pp-wallet-close-confirm__header {
+      height: auto;
+      padding: 24px 20px;
+    }
+
+    .pp-wallet-close-confirm__title {
+      font-size: 18px;
+      line-height: normal;
+    }
+
+    .pp-wallet-close-confirm__close {
+      width: 20px;
+      height: 20px;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .pp-wallet-close-confirm__content {
+      flex: 1 1 auto;
+      padding: 32px 20px;
+      gap: 24px;
+    }
+
+    .pp-wallet-close-confirm__body {
+      font-size: $ew-size-m;
+    }
+
+    .pp-wallet-close-confirm__actions {
+      height: auto;
+      padding: 20px;
+    }
+
+    #walletDisableAutodebitConfirmUnderstood {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 20px;
+    }
+  }
+}
+
 @media (max-width: $desktop-breakpoint - 1px) {
   #walletGasAssetConfirm.pp-wallet-close-confirm--info-only {
     align-items: stretch;
