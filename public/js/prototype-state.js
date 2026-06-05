@@ -3181,6 +3181,69 @@
     });
   }
 
+  const PP_WALLET_MODALS_PARTIAL = "partials/pp-wallet-modals.html";
+  const PP_WALLET_FLOW_SCRIPT = "js/pp-wallet-flow.js";
+  let ppWalletFlowReadyPromise = null;
+
+  function loadDeferredScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        if (window.PpWalletFlow?.open) {
+          resolve();
+          return;
+        }
+        existing.addEventListener("load", () => resolve(), { once: true });
+        existing.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)), { once: true });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.defer = true;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`Failed to load ${src}`));
+      document.body.appendChild(script);
+    });
+  }
+
+  async function injectPpWalletModalsIfMissing() {
+    if (document.getElementById("verifyEmailModal")) return;
+
+    const response = await fetch(PP_WALLET_MODALS_PARTIAL);
+    if (!response.ok) throw new Error("Failed to load wallet modals");
+
+    const mount = document.createElement("div");
+    mount.innerHTML = (await response.text()).trim();
+    while (mount.firstChild) {
+      document.body.appendChild(mount.firstChild);
+    }
+  }
+
+  function ensurePpWalletFlowReady() {
+    if (window.PpWalletFlow?.open) {
+      return Promise.resolve(window.PpWalletFlow);
+    }
+
+    if (!ppWalletFlowReadyPromise) {
+      ppWalletFlowReadyPromise = (async () => {
+        await injectPpWalletModalsIfMissing();
+        if (!window.PpWalletFlow?.open) {
+          await loadDeferredScript(PP_WALLET_FLOW_SCRIPT);
+        }
+        if (!window.PpWalletFlow?.open) {
+          throw new Error("Wallet flow unavailable");
+        }
+        return window.PpWalletFlow;
+      })().catch((err) => {
+        ppWalletFlowReadyPromise = null;
+        throw err;
+      });
+    }
+
+    return ppWalletFlowReadyPromise;
+  }
+
   function injectEmbeddedWalletPrototypeControl() {
     if (document.querySelector("[data-prototype-embedded-wallet]")) return;
     const body = document.querySelector(".build-badge__body");
@@ -3188,7 +3251,7 @@
 
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "build-badge__reset";
+    btn.className = "build-badge__embedded-wallet";
     btn.setAttribute("data-prototype-embedded-wallet", "");
     btn.textContent = "Embedded wallet";
 
@@ -3199,12 +3262,16 @@
 
   function initEmbeddedWalletPrototypeControl() {
     injectEmbeddedWalletPrototypeControl();
-    document.querySelector("[data-prototype-embedded-wallet]")?.addEventListener("click", () => {
-      if (window.PpWalletFlow?.openDirect) {
-        window.PpWalletFlow.openDirect();
-        return;
+    const btn = document.querySelector("[data-prototype-embedded-wallet]");
+    if (!btn || btn.dataset.embeddedWalletBound === "1") return;
+    btn.dataset.embeddedWalletBound = "1";
+    btn.addEventListener("click", async () => {
+      try {
+        const flow = await ensurePpWalletFlowReady();
+        flow.open();
+      } catch (_) {
+        showPrototypeToast("Embedded wallet not available on this page");
       }
-      showPrototypeToast("Embedded wallet not available on this page");
     });
   }
 

@@ -330,6 +330,25 @@
   font-family: inherit;
 }
 
+.build-badge__embedded-wallet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: $button-primary;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: normal;
+  text-align: center;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 .build-badge__divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.075);
