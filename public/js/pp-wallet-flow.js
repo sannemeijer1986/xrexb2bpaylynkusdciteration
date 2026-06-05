@@ -1787,14 +1787,6 @@
                         showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
                     });
                 }
-                var walletModalMoreBtn = document.getElementById("walletModalMoreBtn");
-                if (walletModalMoreBtn) {
-                    walletModalMoreBtn.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
-                    });
-                }
                 document.addEventListener("paylynk:erc20-activated-changed", function () {
                     if (walletModal && walletModal.classList.contains("pp-wallet-modal--address-detail-view")) {
                         syncAddressDetailStablecoinAssets(currentBeneficiaryName);
@@ -1948,18 +1940,10 @@
                     if (revealBtn) {
                         revealBtn.addEventListener("click", function (e) {
                             e.preventDefault();
-                            if (revealBtn.disabled) return;
-                            if (typeof openWalletPasscodeModal !== "function") return;
-                            openWalletPasscodeModal(function () {
-                                currentExportPrivateKey = "0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce036f9f8f6d8c1a5b7c9d2";
-                                if (walletProcessingModalLabel) walletProcessingModalLabel.textContent = "Preparing export";
-                                showWithdrawProcessingModal();
-                                setTimeout(function () {
-                                    hideWithdrawProcessingModal();
-                                    showSaveKeyView();
-                                    if (typeof showWalletSnackbar === "function") showWalletSnackbar("Private key ready to save", "assets/icon-ew-check.svg");
-                                }, 1500);
-                            });
+                            e.stopPropagation();
+                            if (typeof showWalletSnackbar === "function") {
+                                showWalletSnackbar("Not in prototype", "assets/icon_info_blue.svg");
+                            }
                         });
                     }
                 })();
@@ -2050,6 +2034,17 @@
                         e.preventDefault();
                         var networkName = networkRow.getAttribute("data-network-name") || "";
                         showAddressDetailView(currentBeneficiaryName, currentBeneficiaryInitials, networkName);
+                        return;
+                    }
+                    // More button on address-detail view: show dropdown with Export private key / Disable auto-debit
+                    var moreBtn = e.target && e.target.closest && e.target.closest("#walletModalMoreBtn");
+                    if (moreBtn) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openEwDropdown([
+                            { iconSrc: "assets/icon-ew-exportkeys.svg", label: "Export private key", action: "export-private-key" },
+                            { iconSrc: "assets/icon_ew_disable.svg", label: "Disable auto-debit", action: "disable-auto-debit" }
+                        ], e);
                         return;
                     }
                     // Asset row on address-detail view: ETH → unavailable dropdown; USDT/USDC → withdraw dropdown

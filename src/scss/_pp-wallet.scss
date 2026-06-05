@@ -3289,7 +3289,7 @@ $wallet-accent: $ew-text-link;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: url("../assets/ew-checkbox-off.svg") center/contain no-repeat;
+  background: url("../assets/icon_ew_checkbox_off.svg") center/contain no-repeat;
 }
 
 .pp-wallet-export-key__consent-input {
@@ -3302,7 +3302,7 @@ $wallet-accent: $ew-text-link;
 }
 
 .pp-wallet-export-key__consent-input:checked + .pp-wallet-export-key__consent-box {
-  background-image: url("../assets/ew-checkbox-on.svg");
+  background-image: url("../assets/icon_ew_checkbox_on.svg");
 }
 
 .pp-wallet-export-key__consent-text {
@@ -3481,7 +3481,7 @@ $wallet-accent: $ew-text-link;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: url("../assets/ew-checkbox-off.svg") center/contain no-repeat;
+  background: url("../assets/icon_ew_checkbox_off.svg") center/contain no-repeat;
 }
 
 .pp-wallet-save-key__consent-input {
@@ -3494,7 +3494,7 @@ $wallet-accent: $ew-text-link;
 }
 
 .pp-wallet-save-key__consent-input:checked + .pp-wallet-save-key__consent-box {
-  background-image: url("../assets/ew-checkbox-on.svg");
+  background-image: url("../assets/icon_ew_checkbox_on.svg");
 }
 
 .pp-wallet-save-key__consent-text {
