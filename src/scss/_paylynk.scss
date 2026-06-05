@@ -280,10 +280,10 @@ $paylynk-doc-icon-bg: #a8e8bd;
   background: $surface-card;
   cursor: pointer;
   box-sizing: border-box;
+  transition: box-shadow 0.22s ease, padding 0.22s ease, gap 0.22s ease;
 
   &:has(.paylynk-method__input:checked) {
     border-color: $border-hard;
-    box-shadow: 0 0 6px rgb(0 0 0 / 9%);
   }
 }
 
@@ -360,43 +360,42 @@ $paylynk-doc-icon-bg: #a8e8bd;
   display: flex;
   flex-direction: column;
   gap: 0;
+  padding: 20px 16px;
   border: 1px solid $border-hard;
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
 }
 
-.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method-expandable__card {
+.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method-expandable__card,
+.paylynk-method-expandable--expanded .paylynk-method-expandable__card {
   gap: 16px;
-  padding: 20px 16px;
-  box-shadow: 0 0 6px rgb(0 0 0 / 9%);
 }
 
 .paylynk-method--in-expandable {
-  padding: 20px 16px;
+  padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  transition: padding 0.22s ease;
 
   &:has(.paylynk-method__input:checked) {
     box-shadow: none;
   }
 }
 
-.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method--in-expandable {
-  padding: 0;
-}
-
 .paylynk-method__label--expanded {
   display: none;
 }
 
-.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--compact {
+.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--compact,
+.paylynk-method-expandable--expanded .paylynk-method__label--compact {
   display: none;
 }
 
-.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--expanded {
+.paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--expanded,
+.paylynk-method-expandable--expanded .paylynk-method__label--expanded {
   display: block;
   font-size: 16px;
   font-weight: 700;
@@ -410,6 +409,9 @@ $paylynk-doc-icon-bg: #a8e8bd;
 .paylynk-method-expandable__details {
   display: flex;
   width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .paylynk-method-expandable__panel {
@@ -1011,7 +1013,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
 .paylynk-network-card {
   display: flex;
   gap: 8px;
-  align-items: flex-start;
+  align-items: center;
   padding: 20px 16px;
   border: 1px solid $border-hard;
   border-radius: $radius-card;
@@ -1182,10 +1184,6 @@ $paylynk-doc-icon-bg: #a8e8bd;
   &--active {
     display: none;
   }
-}
-
-.paylynk-network-card--activated:has(.paylynk-network-card__input:checked) {
-  box-shadow: 0 0 6px rgb(0 0 0 / 9%);
 }
 
 .paylynk-network-card--activated:has(.paylynk-network-card__input:checked) .paylynk-network-card__radio-img--inactive {
@@ -1542,45 +1540,42 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-methods__list {
-    gap: 24px;
+    gap: 16px;
   }
 
   .paylynk-method:not(.paylynk-method--in-expandable) {
-    gap: 16px;
-    padding: 24px;
+    gap: 8px;
+    padding: 16px 24px;
   }
 
-  .paylynk-method--in-expandable:not(:has(.paylynk-method__input:checked)) {
+  .paylynk-method--in-expandable {
+    gap: 8px;
+  }
+
+  .paylynk-method-expandable__card {
+    padding: 16px 24px;
+  }
+
+  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method-expandable__card,
+  .paylynk-method-expandable--expanded .paylynk-method-expandable__card {
     gap: 16px;
-    padding: 24px;
+    padding: 16px 24px;
   }
 
   .paylynk-method__icon {
-    width: 46px;
-    height: 46px;
+    width: 32px;
+    height: 32px;
   }
 
-  .paylynk-method__label {
-    font-size: 20px;
-  }
-
-  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method-expandable__card {
-    gap: 20px;
-    padding: 24px;
-  }
-
-  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--expanded {
-    font-size: 20px;
-  }
-
-  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__icon {
-    width: 46px;
-    height: 46px;
+  .paylynk-method__label,
+  .paylynk-method-expandable:has(.paylynk-method__input:checked) .paylynk-method__label--expanded,
+  .paylynk-method-expandable--expanded .paylynk-method__label--expanded {
+    font-size: 16px;
   }
 
   .paylynk-method-expandable__panel {
     flex-direction: row;
-    gap: 40px;
+    gap: 24px;
     align-items: center;
     justify-content: flex-end;
     padding: 20px 24px;
@@ -1592,8 +1587,8 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-method-select {
-    flex: 0 0 200px;
-    width: 200px;
+    flex: 0 0 180px;
+    width: 180px;
   }
 
   .paylynk-sidebar {
@@ -1602,7 +1597,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
     flex: 0 0 $paylynk-sidebar-width;
     flex-direction: column;
     align-self: stretch;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0;
     width: $paylynk-sidebar-width;
     min-height: 100%;
@@ -1611,12 +1606,29 @@ $paylynk-doc-icon-bg: #a8e8bd;
     box-sizing: border-box;
 
     .paylynk-summary {
-      gap: 20px;
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      gap: 24px;
+      min-height: 626px;
       padding: 32px 24px 24px;
       border: 1px solid $border-soft;
       border-radius: 16px;
       background: $surface-card;
       box-shadow: 3px 8px 8px rgb(14 45 118 / 20%);
+    }
+
+    .paylynk-summary__body {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+    }
+
+    .paylynk-summary__expires {
+      margin-top: auto;
+      padding-top: 16px;
     }
 
     .paylynk-summary__heading {
@@ -1775,7 +1787,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-network-section {
-    gap: 24px;
+    gap: 16px;
   }
 
   .paylynk-network-section__head {
@@ -1793,7 +1805,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-network-list {
-    gap: 24px;
+    gap: 16px;
   }
 
   .paylynk-network-consent__text {
@@ -1801,9 +1813,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
   }
 
   .paylynk-network-card {
-    gap: 16px;
-    align-items: center;
-    padding: 24px;
+    padding: 16px 24px;
   }
 
   .paylynk-network-card:not(.paylynk-network-card--activated):not(.paylynk-network-card--disabled) {
@@ -1814,34 +1824,6 @@ $paylynk-doc-icon-bg: #a8e8bd;
     width: auto;
     margin-left: auto;
     padding-left: 0;
-  }
-
-  .paylynk-network-card__icon-wrap {
-    width: 46px;
-    height: 46px;
-  }
-
-  .paylynk-network-card__icon {
-    width: 24px;
-    height: 24px;
-  }
-
-  .paylynk-network-card__main {
-    flex: 1 1 auto;
-    flex-direction: column;
-    gap: 4px;
-    justify-content: center;
-  }
-
-  .paylynk-network-card__text {
-    gap: 4px;
-  }
-
-  .paylynk-network-card__title {
-    font-size: 20px;
-  }
-
-  .paylynk-network-card__inactive {
     gap: 16px;
   }
 

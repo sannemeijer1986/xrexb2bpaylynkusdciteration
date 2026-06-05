@@ -3040,23 +3040,172 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  const PAYLYNK_EXPAND_ANIM_MS = 220;
+
+  function animatePaylynkExpandableDetails(details, expanded, onComplete) {
+    if (!details) return;
+    const token = String((Number(details.getAttribute("data-anim-token")) || 0) + 1);
+    details.setAttribute("data-anim-token", token);
+    details.style.transition = "none";
+    const current = details.getBoundingClientRect().height;
+
+    if (expanded) {
+      details.style.height = "auto";
+      const target = details.scrollHeight;
+      details.style.height = `${current}px`;
+      details.getBoundingClientRect();
+      details.style.transition = `height ${PAYLYNK_EXPAND_ANIM_MS}ms ease, opacity ${PAYLYNK_EXPAND_ANIM_MS}ms ease`;
+      details.style.height = `${target}px`;
+      details.style.opacity = "1";
+      const onOpenEnd = (e) => {
+        if (e.propertyName !== "height") return;
+        details.removeEventListener("transitionend", onOpenEnd);
+        if (details.getAttribute("data-anim-token") !== token) return;
+        if (details.getAttribute("aria-hidden") === "false") {
+          const settled = details.scrollHeight;
+          const rendered = details.getBoundingClientRect().height;
+          // Avoid height:auto snap when sub-pixel layout differs from the animated value.
+          if (Math.abs(settled - rendered) < 2) {
+            details.style.height = "auto";
+          } else {
+            details.style.height = `${settled}px`;
+          }
+        }
+        if (onComplete) onComplete();
+      };
+      details.addEventListener("transitionend", onOpenEnd);
+      return;
+    }
+
+    const lockedHeight = details.getBoundingClientRect().height;
+    if (details.style.height === "auto" || !details.style.height) {
+      details.style.height = `${lockedHeight}px`;
+    } else {
+      details.style.height = `${parseFloat(details.style.height) || lockedHeight}px`;
+    }
+    details.getBoundingClientRect();
+    details.style.transition = `height ${PAYLYNK_EXPAND_ANIM_MS}ms ease, opacity ${PAYLYNK_EXPAND_ANIM_MS}ms ease`;
+    details.style.height = "0px";
+    details.style.opacity = "0";
+    const onCloseEnd = (e) => {
+      if (e.propertyName !== "height") return;
+      details.removeEventListener("transitionend", onCloseEnd);
+      if (details.getAttribute("data-anim-token") !== token) return;
+      if (onComplete) onComplete();
+    };
+    details.addEventListener("transitionend", onCloseEnd);
+  }
+
+  function setPaylynkMethodExpanded(expandable, expanded) {
+    if (!expandable) return;
+    const details = expandable.querySelector(".paylynk-method-expandable__details");
+    if (!details) {
+      expandable.classList.toggle("paylynk-method-expandable--expanded", expanded);
+      return;
+    }
+    if (expanded) {
+      expandable.classList.add("paylynk-method-expandable--expanded");
+      details.removeAttribute("hidden");
+      details.setAttribute("aria-hidden", "false");
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          animatePaylynkExpandableDetails(details, true);
+        });
+      });
+      return;
+    }
+    expandable.classList.remove("paylynk-method-expandable--expanded");
+    details.setAttribute("aria-hidden", "true");
+    animatePaylynkExpandableDetails(details, false, () => {
+      details.setAttribute("hidden", "");
+      details.style.height = "0px";
+      details.style.opacity = "0";
+      details.style.transition = "";
+    });
+  }
+
+  function isPaylynkMethodExpandableOpen(expandable) {
+    const details = expandable.querySelector(".paylynk-method-expandable__details");
+    if (!details) {
+      return expandable.classList.contains("paylynk-method-expandable--expanded");
+    }
+    return (
+      expandable.classList.contains("paylynk-method-expandable--expanded") &&
+      !details.hasAttribute("hidden") &&
+      details.getAttribute("aria-hidden") === "false" &&
+      details.getBoundingClientRect().height > 1
+    );
+  }
+
+  function resetPaylynkMethodExpandablePanels() {
+    const root = document.querySelector("[data-paylynk-methods]");
+    if (!root) return;
+    root.querySelectorAll("[data-paylynk-method-expandable]").forEach((expandable) => {
+      const details = expandable.querySelector(".paylynk-method-expandable__details");
+      const input = expandable.querySelector(".paylynk-method__input");
+      if (!details) return;
+
+      details.removeAttribute("data-anim-token");
+      details.style.transition = "";
+      details.style.overflow = "hidden";
+
+      const expanded = input instanceof HTMLInputElement && input.checked;
+      if (expanded) {
+        expandable.classList.add("paylynk-method-expandable--expanded");
+        details.removeAttribute("hidden");
+        details.setAttribute("aria-hidden", "false");
+        details.style.height = "auto";
+        details.style.opacity = "1";
+      } else {
+        expandable.classList.remove("paylynk-method-expandable--expanded");
+        details.setAttribute("hidden", "");
+        details.setAttribute("aria-hidden", "true");
+        details.style.height = "0px";
+        details.style.opacity = "0";
+      }
+    });
+  }
+
+  function initPaylynkMethodExpandablePanels() {
+    resetPaylynkMethodExpandablePanels();
+  }
+
   function syncPaylynkMethodExpandableDetails() {
     const root = document.querySelector("[data-paylynk-methods]");
     if (!root) return;
+    root.querySelectorAll("[data-paylynk-method-expandable]").forEach((expandable) => {
+      const input = expandable.querySelector(".paylynk-method__input");
+      const shouldExpand = input instanceof HTMLInputElement && input.checked;
+      if (shouldExpand === isPaylynkMethodExpandableOpen(expandable)) return;
+      setPaylynkMethodExpanded(expandable, shouldExpand);
+    });
+  }
 
-    const usdtDetails = root.querySelector("[data-paylynk-method-usdt-details]");
-    const usdcDetails = root.querySelector("[data-paylynk-method-usdc-details]");
-    const usdt = root.querySelector('input[name="paylynk-payment-method"][value="usdt"]');
-    const usdc = root.querySelector('input[name="paylynk-payment-method"][value="usdc"]');
+  function injectEmbeddedWalletPrototypeControl() {
+    if (document.querySelector("[data-prototype-embedded-wallet]")) return;
+    const body = document.querySelector(".build-badge__body");
+    if (!body) return;
 
-    if (usdtDetails && usdt) {
-      if (usdt.checked) usdtDetails.removeAttribute("hidden");
-      else usdtDetails.setAttribute("hidden", "");
-    }
-    if (usdcDetails && usdc) {
-      if (usdc.checked) usdcDetails.removeAttribute("hidden");
-      else usdcDetails.setAttribute("hidden", "");
-    }
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "build-badge__reset";
+    btn.setAttribute("data-prototype-embedded-wallet", "");
+    btn.textContent = "Embedded wallet";
+
+    const resetBtn = body.querySelector("[data-prototype-reset]");
+    if (resetBtn) resetBtn.after(btn);
+    else body.prepend(btn);
+  }
+
+  function initEmbeddedWalletPrototypeControl() {
+    injectEmbeddedWalletPrototypeControl();
+    document.querySelector("[data-prototype-embedded-wallet]")?.addEventListener("click", () => {
+      if (window.PpWalletFlow?.openDirect) {
+        window.PpWalletFlow.openDirect();
+        return;
+      }
+      showPrototypeToast("Embedded wallet not available on this page");
+    });
   }
 
   function injectErc20ActivatedPrototypeControls() {
@@ -3159,9 +3308,12 @@
           if (input instanceof HTMLInputElement) input.checked = false;
         });
       }
-      const syncExpandables = () => syncPaylynkMethodExpandableDetails();
-      methodsRoot.addEventListener("change", syncExpandables);
-      syncExpandables();
+      initPaylynkMethodExpandablePanels();
+      methodsRoot.addEventListener("change", (e) => {
+        if (!e.target.matches('[data-paylynk-method-input][name="paylynk-payment-method"]')) return;
+        syncPaylynkMethodExpandableDetails();
+      });
+      syncPaylynkMethodExpandableDetails();
 
       methodsRoot.querySelectorAll("[data-paylynk-fee-details]").forEach((btn) => {
         btn.addEventListener("click", (e) => {
@@ -3183,20 +3335,23 @@
     }
 
     document.querySelector("[data-paylynk-network-back]")?.addEventListener("click", () => {
+      setPaylynkView("method");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
       const methodsRoot = document.querySelector("[data-paylynk-methods]");
       if (methodsRoot) {
         methodsRoot.querySelectorAll('[data-paylynk-method-input][name="paylynk-payment-method"]').forEach((input) => {
           if (input instanceof HTMLInputElement) input.checked = false;
         });
-        syncPaylynkMethodExpandableDetails();
+        // Reset synchronously — animated collapse while the method view was hidden left panels stuck.
+        resetPaylynkMethodExpandablePanels();
       }
+
       try {
         window.localStorage?.removeItem(PAYLYNK_STABLECOIN_KEY);
       } catch (_) {
         /* ignore */
       }
-      setPaylynkView("method");
-      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
     document.querySelector("[data-paylynk-network-help]")?.addEventListener("click", (e) => {
@@ -3455,6 +3610,7 @@
     initWalletPasscodeSelect();
     initAccountCreatedSelect();
     initPrototypeReset();
+    initEmbeddedWalletPrototypeControl();
   }
 
   window.PaylynkPrototype = Object.assign(window.PaylynkPrototype || {}, {
