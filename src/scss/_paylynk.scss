@@ -1290,10 +1290,24 @@ $paylynk-doc-icon-bg: #a8e8bd;
 
 // Expanded summary (network step sidebar)
 .paylynk-sidebar--network {
-  .paylynk-summary-row__value {
+  .paylynk-summary-row > .paylynk-summary-row__label {
     flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .paylynk-summary-row__value-inline .paylynk-summary-row__value {
+    flex: 0 1 auto;
     width: auto;
     max-width: 191px;
+  }
+
+  .paylynk-summary-row__label-block {
+    .paylynk-summary-row__label,
+    .paylynk-summary-row__value {
+      flex: 0 0 auto;
+      width: auto;
+      max-width: none;
+    }
   }
 
   .paylynk-summary-row__value-col {
@@ -1689,7 +1703,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
     .paylynk-summary-row__value--primary {
       font-size: 16px;
       font-weight: 700;
-      text-align: right;
+      text-align: left;
     }
 
     .paylynk-summary-row__label-block .paylynk-summary-row__label {
@@ -1739,7 +1753,7 @@ $paylynk-doc-icon-bg: #a8e8bd;
       .paylynk-summary-row__value {
         font-size: 16px;
         font-weight: 700;
-        text-align: right;
+        text-align: left;
       }
     }
 
