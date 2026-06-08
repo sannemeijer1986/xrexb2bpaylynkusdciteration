@@ -2903,6 +2903,31 @@ $wallet-accent: $ew-text-link;
 
 .pp-wallet-export-key__page--risk {
   text-align: center;
+  padding: 24px 20px 16px;
+
+  @media (min-width: $desktop-breakpoint) {
+    padding: 38px 32px 40px;
+  }
+
+  .pp-wallet-export-key__page-title {
+    margin: 16px 0 0;
+    font-size: $ew-size-l;
+    line-height: normal;
+
+    @media (min-width: $desktop-breakpoint) {
+      font-size: $ew-size-xxl;
+    }
+  }
+
+  .pp-wallet-export-key__page-body {
+    margin: 16px 0 0;
+    font-size: $ew-size-m;
+    line-height: normal;
+
+    @media (min-width: $desktop-breakpoint) {
+      font-size: $ew-size-l;
+    }
+  }
 }
 
 .pp-wallet-export-key__hero {
@@ -2950,6 +2975,19 @@ $wallet-accent: $ew-text-link;
   font-weight: $ew-title-weight;
   color: $ew-text-warning;
   line-height: 1.3;
+}
+
+.pp-wallet-export-key__page-followup {
+  margin: 16px 0 0;
+  font-family: $font-ew;
+  font-size: $ew-size-m;
+  font-weight: $ew-subtitle-weight;
+  color: $ew-text-warning;
+  line-height: normal;
+
+  @media (min-width: $desktop-breakpoint) {
+    font-size: $ew-size-l;
+  }
 }
 
 .pp-wallet-export-key__page--intro .pp-wallet-export-key__actions,
