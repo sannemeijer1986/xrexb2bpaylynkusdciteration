@@ -23,6 +23,7 @@
   const SELECTED_SN_KEY = `${STORAGE_PREFIX}selectedSn.v1`;
   const SETUP_PROGRESS_MIGRATED_KEY = `${STORAGE_PREFIX}setupProgressMigrated.v1`;
   const SKIP_SELECTED_SN_RESET_ONCE_KEY = `${STORAGE_PREFIX}skipSelectedSnResetOnce.v1`;
+  const WALLET_ERROR_SIM_KEY = `${STORAGE_PREFIX}walletErrorSim.v1`;
   /** True only until refresh — "I need a demo" does not persist (prototype checkbox does). */
   let activatingDemoSessionRequested = false;
 
@@ -821,6 +822,57 @@
     const btn = document.querySelector(".setup-actions--wallet .setup-button--primary");
     if (!btn || btn.tagName !== "BUTTON") return;
     btn.disabled = states.setupProgress < 4;
+  }
+
+  function readWalletErrorSim() {
+    try {
+      return window.localStorage?.getItem(WALLET_ERROR_SIM_KEY) === "1";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function syncWalletErrorSimUi() {
+    const enabled = readWalletErrorSim();
+    document.documentElement.toggleAttribute("data-prototype-wallet-error-sim", enabled);
+    const alert = document.getElementById("setupWalletError");
+    if (alert) {
+      if (enabled) alert.removeAttribute("hidden");
+      else alert.setAttribute("hidden", "");
+    }
+    document.querySelectorAll("[data-prototype-wallet-error-sim]").forEach((el) => {
+      if (el instanceof HTMLInputElement) el.checked = enabled;
+    });
+  }
+
+  function setWalletErrorSim(enabled) {
+    try {
+      window.localStorage?.setItem(WALLET_ERROR_SIM_KEY, enabled ? "1" : "0");
+    } catch (_) {
+      /* ignore */
+    }
+    if (enabled && states.setupProgress < 3) {
+      setState("setupProgress", 3, { force: true });
+    }
+    syncWalletErrorSimUi();
+  }
+
+  function initWalletErrorSimCheckbox() {
+    const inputs = document.querySelectorAll("[data-prototype-wallet-error-sim]");
+    if (!inputs.length) return;
+    syncWalletErrorSimUi();
+    inputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (!(input instanceof HTMLInputElement)) return;
+        setWalletErrorSim(input.checked);
+      });
+    });
+    document.querySelectorAll("[data-setup-wallet-error-support-stub]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showPrototypeToast("Not in prototype");
+      });
+    });
   }
 
   function applySetupProgressToUi() {
@@ -1879,6 +1931,7 @@
 
     const verifyDialog = document.getElementById("verify-email-dialog");
     const passcodeModal = document.getElementById("set-passcode-modal");
+    const errorDetailsDialog = document.getElementById("error-details-dialog");
     const input = walletModals.querySelector("#verify-email-code-input");
     const emailDest = walletModals.querySelector(".verify-email-modal__email");
     const loader = document.getElementById("verify-email-loader");
@@ -2131,12 +2184,24 @@
       }
     }
 
+    function openErrorDetailsModal() {
+      lastFocus = document.activeElement;
+      walletModals.hidden = false;
+      if (verifyDialog) verifyDialog.hidden = true;
+      if (passcodeModal) passcodeModal.hidden = true;
+      if (errorDetailsDialog) errorDetailsDialog.hidden = false;
+      document.body.classList.add("wallet-modals-is-open");
+      abortPasscodeSubmit();
+      abortOtpVerification();
+    }
+
     function openVerifyModal() {
       syncModalEmail();
       lastFocus = document.activeElement;
       walletModals.hidden = false;
       if (verifyDialog) verifyDialog.hidden = false;
       if (passcodeModal) passcodeModal.hidden = true;
+      if (errorDetailsDialog) errorDetailsDialog.hidden = true;
       document.body.classList.add("wallet-modals-is-open");
       abortPasscodeSubmit();
       abortOtpVerification();
@@ -2148,6 +2213,7 @@
       lastFocus = document.activeElement;
       walletModals.hidden = false;
       if (verifyDialog) verifyDialog.hidden = true;
+      if (errorDetailsDialog) errorDetailsDialog.hidden = true;
       if (passcodeModal) {
         passcodeModal.hidden = false;
         resetPasscodeForm();
@@ -2163,6 +2229,7 @@
       resetVerifyEmailInput();
       if (verifyDialog) verifyDialog.hidden = false;
       if (passcodeModal) passcodeModal.hidden = true;
+      if (errorDetailsDialog) errorDetailsDialog.hidden = true;
       walletModals.hidden = true;
       document.body.classList.remove("wallet-modals-is-open");
       hideToastImmediate();
@@ -2179,6 +2246,13 @@
 
     document.querySelectorAll(".setup-timeline-set-passcode").forEach((btn) => {
       btn.addEventListener("click", () => openPasscodeModal());
+    });
+
+    document.querySelectorAll("[data-setup-wallet-error-details]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openErrorDetailsModal();
+      });
     });
 
     input?.addEventListener("input", () => updateLoaderFromInput());
@@ -3527,6 +3601,7 @@
     setPaylynkErc20Activated("usdt", false);
     setPaylynkErc20Activated("usdc", false);
     setBankWhitelisted(false);
+    setWalletErrorSim(false);
 
     document.querySelectorAll("[data-prototype-journey]").forEach((sel) => {
       sel.value = "setup";
@@ -3611,11 +3686,13 @@
         document.body.classList.remove("wallet-modals-is-open");
         const v = document.getElementById("verify-email-dialog");
         const p = document.getElementById("set-passcode-modal");
+        const err = document.getElementById("error-details-dialog");
         const inp = wm.querySelector("#verify-email-code-input");
         const ld = document.getElementById("verify-email-loader");
         const toastEl = document.getElementById("wallet-toast");
         if (v) v.hidden = false;
         if (p) p.hidden = true;
+        if (err) err.hidden = true;
         if (inp) {
           inp.value = "";
           inp.readOnly = false;
@@ -3678,6 +3755,7 @@
     initAccountCreatedSelect();
     initPrototypeReset();
     initEmbeddedWalletPrototypeControl();
+    initWalletErrorSimCheckbox();
   }
 
   window.PaylynkPrototype = Object.assign(window.PaylynkPrototype || {}, {

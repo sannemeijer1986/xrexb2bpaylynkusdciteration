@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=96" />
+  <link rel="stylesheet" href="css/main.css?v=99" />
   <script>
     (function () {
       try {
@@ -44,6 +44,18 @@
             </div>
 
             <div class="setup-timeline" aria-label="Wallet setup steps">
+              <div class="setup-wallet-error" id="setupWalletError" hidden role="alert">
+                <div class="setup-wallet-error__alert">
+                  <img class="setup-wallet-error__icon" src="assets/icon_danger_circle.svg" width="16" height="16" alt="" aria-hidden="true" />
+                  <p class="setup-wallet-error__text">
+                    Something went wrong. Try again or
+                    <button type="button" class="setup-wallet-error__link" data-setup-wallet-error-support-stub>contact support</button>
+                    ·
+                    <button type="button" class="setup-wallet-error__link" data-setup-wallet-error-details>Error details</button>
+                  </p>
+                </div>
+              </div>
+
               <div class="setup-timeline__step setup-timeline__step--active">
                 <div class="setup-timeline__gutter">
                   <div class="setup-timeline__icon-wrap" aria-hidden="true">
@@ -214,6 +226,40 @@
 
         <footer class="verify-email-modal__footer">
           <button type="button" class="verify-email-modal__cancel" data-wallet-modals-dismiss>Cancel</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="error-details-dialog" class="wallet-error-details-dialog wallet-modals__dialog" hidden>
+      <div
+        class="verify-email-modal__panel wallet-error-details-modal__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="error-details-modal-title"
+      >
+        <header class="verify-email-modal__header wallet-error-details-modal__header">
+          <button type="button" class="verify-email-modal__close" data-wallet-modals-dismiss aria-label="Close dialog">
+            <img src="assets/icon_close_gray.svg" width="24" height="24" alt="" />
+          </button>
+          <h2 id="error-details-modal-title" class="verify-email-modal__title">Error details</h2>
+        </header>
+
+        <div class="wallet-error-details-modal__body">
+          <div class="wallet-error-details-modal__text">
+            <p>Arguments: from: 0x5943248dB44a92606ceC12fD8B82371cDf5e4029 to:</p>
+            <p>0x3455f970e3F0994a3dC811449004B02f8CEE6b90 data:</p>
+            <p>00PZLEL000000000000000000000000000000000000000000000000000(</p>
+            <p>.371cDf5e4029 to: 0x3455f970e3F0994a3dC811449004B02f8CEE6b90 data:</p>
+            <p>00PZLEL000000000000000000000000000000000000000000000000000(</p>
+            <p>04B02f8CEE6b90 function: transfer(address recipient, uint256 amount) args:</p>
+            <p>)000000) sender: 0x5943248dB44a92606ceC12fD8B82371cDf5e4029 Docs: s blocked because &apos;Oxfc34..e974&apos; is not allowed by default under the security policies. These policies help protect your account. Version: viem@2.45.1</p>
+          </div>
+        </div>
+
+        <footer class="verify-email-modal__footer wallet-error-details-modal__footer">
+          <button type="button" class="set-passcode-modal__btn set-passcode-modal__btn--primary wallet-error-details-modal__close-btn" data-wallet-modals-dismiss>
+            Close
+          </button>
         </footer>
       </div>
     </div>
@@ -556,6 +602,12 @@
         <label class="build-badge__checkbox">
           <input type="checkbox" data-prototype-bank-whitelisted aria-label="Bank account whitelisted" />
           <span>Bank account whitelisted</span>
+        </label>
+      </div>
+      <div class="build-badge__section-row">
+        <label class="build-badge__checkbox">
+          <input type="checkbox" data-prototype-wallet-error-sim aria-label="Error sim." />
+          <span>Error sim.</span>
         </label>
       </div>
       <div class="build-badge__section-row">

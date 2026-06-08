@@ -1820,6 +1820,104 @@
   }
 }
 
+.setup-wallet-error {
+  padding-bottom: 24px;
+
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.setup-wallet-error__alert {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+  padding: 8px;
+  border-radius: $radius-card;
+  background: rgba(221, 72, 60, 0.15);
+}
+
+.setup-wallet-error__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  display: block;
+  object-fit: contain;
+}
+
+.setup-wallet-error__text {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  color: #eb5347;
+}
+
+.setup-wallet-error__link {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(#eb5347, 0.45);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.wallet-error-details-dialog {
+  width: 100%;
+}
+
+.wallet-error-details-dialog[hidden] {
+  display: none !important;
+}
+
+.wallet-error-details-modal__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 16px 16px 16px;
+  box-sizing: border-box;
+}
+
+.wallet-error-details-modal__text {
+  margin: 0;
+  color: $text-primary;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  word-break: break-word;
+
+  p {
+    margin: 0;
+  }
+}
+
+.wallet-error-details-modal__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.wallet-error-details-modal__close-btn {
+  width: 100%;
+  min-height: 52px;
+  border-radius: $radius-button;
+  font-size: 16px;
+}
+
 .setup-timeline {
   display: flex;
   flex-direction: column;
@@ -3137,13 +3235,15 @@ body.wallet-modals-is-open {
 
   .verify-email-dialog,
   .set-passcode-modal,
-  .activating-reauth-dialog {
+  .activating-reauth-dialog,
+  .wallet-error-details-dialog {
     height: 100%;
     min-height: 0;
   }
 
   .verify-email-modal__panel,
   .set-passcode-modal__panel,
+  .wallet-error-details-modal__panel,
   // Same specificity as base `.activating-reauth-modal__panel.verify-email-modal__panel { max-width: 480px }`
   // so mobile full-bleed wins (otherwise re-auth sheet stays capped at 480px).
   .activating-reauth-modal__panel.verify-email-modal__panel {
@@ -3164,6 +3264,49 @@ body.wallet-modals-is-open {
   .set-passcode-modal__header {
     width: 100%;
     max-width: none;
+  }
+
+  .wallet-error-details-modal__header.verify-email-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: none;
+    min-height: 64px;
+    padding: 10px 20px;
+    border-bottom: 1px solid $border-soft;
+
+    .verify-email-modal__close {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      order: unset;
+      transform: translateY(-50%);
+    }
+
+    .verify-email-modal__title {
+      flex: 1 1 auto;
+      order: unset;
+      padding: 0 44px;
+      text-align: center;
+    }
+  }
+
+  .wallet-error-details-modal__body,
+  .wallet-error-details-modal__footer {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: $wallet-modal-mobile-inner-max;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .wallet-error-details-modal__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .verify-email-modal__body,
@@ -3214,8 +3357,20 @@ body.wallet-modals-is-open {
 
   .verify-email-dialog,
   .set-passcode-modal,
-  .activating-reauth-dialog {
+  .activating-reauth-dialog,
+  .wallet-error-details-dialog {
     height: auto;
+  }
+
+  .wallet-error-details-modal__panel {
+    min-height: 0;
+    max-height: calc(100dvh - 32px);
+    overflow: hidden auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 16px;
+    background: $surface-card;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14);
   }
 
   .verify-email-modal__panel {
@@ -3250,17 +3405,21 @@ body.wallet-modals-is-open {
   .verify-email-modal__footer,
   .set-passcode-modal__header,
   .set-passcode-modal__body,
-  .set-passcode-modal__footer {
+  .set-passcode-modal__footer,
+  .wallet-error-details-modal__body,
+  .wallet-error-details-modal__footer {
     max-width: none;
     margin-left: 0;
     margin-right: 0;
   }
 
   .verify-email-modal__body,
-  .set-passcode-modal__body {
+  .set-passcode-modal__body,
+  .wallet-error-details-modal__body {
     flex: none;
     min-height: 0;
     overflow: visible;
+    padding: 16px 32px 32px;
   }
 
   .verify-email-loader__card {
@@ -3323,6 +3482,37 @@ body.wallet-modals-is-open {
     height: 40px;
     border-radius: $radius-card;
     font-size: 14px;
+  }
+
+  .wallet-error-details-modal__close-btn {
+    width: 156px;
+    min-height: 40px;
+    flex: 0 0 auto;
+    border-radius: $radius-card;
+    font-size: 14px;
+  }
+
+  .wallet-error-details-modal__header.verify-email-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 0;
+    padding: 32px 32px 16px;
+    border-bottom: 0;
+
+    .verify-email-modal__close {
+      position: static;
+      order: 2;
+      transform: none;
+    }
+
+    .verify-email-modal__title {
+      flex: 1 1 auto;
+      order: 1;
+      padding: 0;
+      font-size: 20px;
+      text-align: left;
+    }
   }
 
   .set-passcode-modal__header {
