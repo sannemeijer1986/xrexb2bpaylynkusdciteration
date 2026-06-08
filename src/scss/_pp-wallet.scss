@@ -3182,6 +3182,8 @@ $wallet-accent: $ew-text-link;
     display: block;
     width: 32px;
     height: 32px;
+    object-fit: contain;
+    object-position: center;
   }
 
   @media (min-width: $desktop-breakpoint) {
@@ -3329,6 +3331,14 @@ $wallet-accent: $ew-text-link;
   display: flex;
   gap: 6px;
   width: 100%;
+
+  &[hidden] {
+    display: none !important;
+  }
+}
+
+.pp-wallet-export-key__divider[hidden] {
+  display: none !important;
 }
 
 .pp-wallet-export-key__confirm-address,
@@ -3367,9 +3377,105 @@ $wallet-accent: $ew-text-link;
   background: $ew-border-highcon;
 }
 
-.pp-wallet-export-key__page--confirm .pp-wallet-export-key__copy-icon img {
-  width: 24px;
-  height: 24px;
+.pp-wallet-export-key__page--confirm {
+  padding: 24px 20px 16px;
+  gap: 20px;
+
+  @media (min-width: $desktop-breakpoint) {
+    padding: 38px 32px 40px;
+    gap: 32px;
+  }
+
+  .pp-wallet-export-key__copy-icon img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .pp-wallet-export-key__important {
+    gap: 16px;
+  }
+
+  .pp-wallet-export-key__important-title {
+    font-size: $ew-size-m;
+
+    @media (min-width: $desktop-breakpoint) {
+      font-size: $ew-size-l;
+    }
+  }
+
+  .pp-wallet-export-key__warnings {
+    border-radius: 12px;
+
+    @media (min-width: $desktop-breakpoint) {
+      border-radius: 16px;
+    }
+  }
+
+  .pp-wallet-export-key__warning-item {
+    gap: 8px;
+    padding: 16px 20px;
+
+    @media (min-width: $desktop-breakpoint) {
+      gap: 12px;
+      padding: 20px;
+    }
+  }
+
+  .pp-wallet-export-key__warning-illus {
+    width: 51.333px;
+    height: 44px;
+
+    @media (min-width: $desktop-breakpoint) {
+      width: 70px;
+      height: 60px;
+    }
+  }
+
+  .pp-wallet-export-key__warning-illus-img {
+    width: 51.333px;
+    height: 44px;
+
+    @media (min-width: $desktop-breakpoint) {
+      width: 70px;
+      height: 60px;
+    }
+  }
+
+  .pp-wallet-export-key__warning-main {
+    font-size: $ew-size-m;
+
+    @media (min-width: $desktop-breakpoint) {
+      font-size: $ew-size-l;
+    }
+  }
+
+  .pp-wallet-export-key__warning-sub {
+    font-size: $ew-size-xs;
+
+    @media (min-width: $desktop-breakpoint) {
+      font-size: $ew-size-s;
+    }
+  }
+
+  .pp-wallet-export-key__consent {
+    padding-top: 0;
+  }
+
+  .pp-wallet-export-key__actions {
+    margin-top: auto;
+    padding-top: 24px;
+
+    @media (max-width: $desktop-breakpoint - 1px) {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 16px;
+
+      .ew-btn {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  }
 }
 
 .pp-wallet-export-key__info {

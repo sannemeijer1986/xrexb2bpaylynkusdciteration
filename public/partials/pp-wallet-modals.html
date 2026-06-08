@@ -485,7 +485,7 @@
                                             <article class="pp-wallet-export-key__address-card">
                                                 <div class="pp-wallet-export-key__address-card-main">
                                                     <span class="pp-wallet-export-key__address-card-icon" aria-hidden="true">
-                                                        <img src="assets/icon-tron.svg" alt="" width="32" height="32" />
+                                                        <img src="assets/icon-tron.svg" alt="" width="40" height="40" />
                                                     </span>
                                                     <div class="pp-wallet-export-key__address-card-content">
                                                         <p class="pp-wallet-export-key__address-card-value">TXmk3b...419a72</p>
@@ -512,7 +512,7 @@
                                         <img src="assets/Illu1.svg" alt="" width="160" height="160" class="pp-wallet-export-key__hero-icon" />
                                     </span>
                                 </div>
-                                <h2 class="pp-wallet-export-key__page-title">Address will not be visible</h2>
+                                <h2 class="pp-wallet-export-key__page-title">Address(es) will not be visible</h2>
                                 <p class="pp-wallet-export-key__page-body">After exporting the private key, the address(es) associated with this key will no longer appear in this embedded wallet and XREX Pay. You will need another Web3 wallet to access and manage it.</p>
                                 <p class="pp-wallet-export-key__page-followup">Currently active stablecoin payment methods for this beneficiary in XREX PayLynk will be deactivated.</p>
                                 <div class="pp-wallet-export-key__actions pp-wallet-bnc pp-wallet-bnc--split">
@@ -551,7 +551,7 @@
                             </section>
 
                             <section class="pp-wallet-export-key__page pp-wallet-export-key__page--confirm" id="walletExportKeyPageConfirm" hidden>
-                                <div class="pp-wallet-export-key__confirm-top">
+                                <div class="pp-wallet-export-key__confirm-top" hidden>
                                     <div class="pp-wallet-export-key__confirm-address">
                                         <div class="pp-wallet-export-key__confirm-meta">
                                             <span class="pp-wallet-export-key__info-label">Address</span>
@@ -569,7 +569,7 @@
                                         <span class="pp-wallet-export-key__info-value pp-wallet-export-key__info-value--xl" id="walletExportKeyNetwork">Ethereum (ERC-20)</span>
                                     </div>
                                 </div>
-                                <div class="pp-wallet-export-key__divider pp-wallet-export-key__divider--light" aria-hidden="true"></div>
+                                <div class="pp-wallet-export-key__divider pp-wallet-export-key__divider--light" aria-hidden="true" hidden></div>
                                 <div class="pp-wallet-export-key__important">
                                     <div class="pp-wallet-export-key__important-head">
                                         <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-export-key__important-icon" />
@@ -581,8 +581,8 @@
                                                 <img src="assets/Illu1.svg" alt="" width="70" height="60" class="pp-wallet-export-key__warning-illus-img" />
                                             </span>
                                             <span class="pp-wallet-export-key__warning-content">
-                                                <span class="pp-wallet-export-key__warning-main">Address will be removed</span>
-                                                <span class="pp-wallet-export-key__warning-sub">This address will no longer appear in this embedded wallet and XREX Pay.</span>
+                                                <span class="pp-wallet-export-key__warning-main">Address(es) will be removed</span>
+                                                <span class="pp-wallet-export-key__warning-sub">Address(es) will no longer appear in this embedded wallet and XREX Pay. Currently active stablecoin payment methods for this beneficiary in XREX PayLynk will be deactivated.</span>
                                             </span>
                                         </li>
                                         <li class="pp-wallet-export-key__warning-item">
@@ -591,7 +591,7 @@
                                             </span>
                                             <span class="pp-wallet-export-key__warning-content">
                                                 <span class="pp-wallet-export-key__warning-main">Auto-debit payments stop</span>
-                                                <span class="pp-wallet-export-key__warning-sub">Funds will no longer be automatically debited from this address.</span>
+                                                <span class="pp-wallet-export-key__warning-sub">Once exported, funds will no longer be automatically debited from associated address(es).</span>
                                             </span>
                                         </li>
                                         <li class="pp-wallet-export-key__warning-item">
