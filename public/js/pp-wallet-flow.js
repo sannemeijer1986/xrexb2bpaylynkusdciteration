@@ -573,23 +573,7 @@
             if (walletCloseConfirmBack) {
                 walletCloseConfirmBack.addEventListener("click", function () {
                     closeWalletCloseConfirm();
-                    if (walletModal && walletModal.classList.contains("pp-wallet-modal--settings-visible")) {
-                        showAssetsView();
-                    } else if (walletModal && walletModal.classList.contains("pp-wallet-modal--export-key-view")) {
-                        walletModal.classList.add("pp-wallet-modal--from-export-key");
-                        var onTransitionEndFromExport = function (e) {
-                            if (e.target && e.target.classList && e.target.classList.contains("pp-wallet-modal__view") && e.propertyName === "transform") {
-                                walletModal.removeEventListener("transitionend", onTransitionEndFromExport);
-                                walletModal.classList.remove("pp-wallet-modal--from-export-key");
-                            }
-                        };
-                        walletModal.addEventListener("transitionend", onTransitionEndFromExport);
-                        requestAnimationFrame(function () {
-                            showAddressDetailView(currentBeneficiaryName, currentBeneficiaryInitials, currentNetworkName || "Ethereum (ERC-20)");
-                        });
-                    } else {
-                        showListView();
-                    }
+                    showWalletHomeView();
                 });
             }
             if (walletCloseConfirmClose) {
@@ -1699,6 +1683,29 @@
                 }
                 setActiveTab("assets");
                 requestAnimationFrame(function () { walletModal.classList.remove("pp-wallet-modal--header-no-transition"); });
+            }
+
+            function showWalletHomeView() {
+                if (!walletModal) return;
+                if (walletModal.classList.contains("pp-wallet-modal--settings-visible")) {
+                    walletModal.classList.remove("pp-wallet-modal--settings-visible");
+                    if (walletModalHeader) walletModalHeader.classList.remove("pp-wallet-modal__header--settings-tab");
+                    if (walletViewSettings) {
+                        walletViewSettings.setAttribute("hidden", "");
+                        walletViewSettings.setAttribute("aria-hidden", "true");
+                    }
+                    setActiveTab("assets");
+                }
+                if (walletModal.classList.contains("pp-wallet-modal--export-key-view")) {
+                    exportKeyFlowSkippedExplanation = false;
+                    setExportKeyFlowStep("intro", true);
+                }
+                walletModal.classList.remove("pp-wallet-modal--from-export-key");
+                walletModal.classList.remove("pp-wallet-modal--wallet-account-view");
+                if (walletModalDialog) walletModalDialog.classList.remove("pp-wallet-modal__dialog--deeper");
+                hideWithdrawProcessingModal();
+                clearWalletTransitionOverlay();
+                showListView();
             }
 
             if (walletModalBack) walletModalBack.addEventListener("click", onWalletBackClick);
