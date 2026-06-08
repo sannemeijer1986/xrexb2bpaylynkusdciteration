@@ -308,6 +308,7 @@
   let prototypeToastHideTimer = null;
 
   const PROTOTYPE_TOAST_DEFAULT_ICON = "assets/icon_info_blue.svg";
+  const PROTOTYPE_TOAST_ERROR_ICON = "assets/icon_danger_circle.svg";
 
   function queuePaymentMethodAddedToast() {
     try {
@@ -355,7 +356,9 @@
       typeof message === "string" && message.trim() ? message.trim() : "Not in prototype";
     if (textEl) textEl.textContent = text;
     if (iconEl) {
-      iconEl.src = opts.success ? "assets/icon_success.svg" : PROTOTYPE_TOAST_DEFAULT_ICON;
+      if (opts.success) iconEl.src = "assets/icon_success.svg";
+      else if (opts.error) iconEl.src = PROTOTYPE_TOAST_ERROR_ICON;
+      else iconEl.src = PROTOTYPE_TOAST_DEFAULT_ICON;
     }
     window.clearTimeout(prototypeToastHideTimer);
     prototypeToastHideTimer = null;
@@ -858,7 +861,7 @@
     }
     syncWalletErrorSimUi();
     if (enabled && showToast) {
-      showPrototypeToast("Something went wrong: Try again");
+      showPrototypeToast("Something went wrong: Try again", { error: true });
     }
   }
 
@@ -920,7 +923,7 @@
     }
     syncActivatingErrorSimUi();
     if (nextMode && showToast) {
-      showPrototypeToast("Setup paused: Something went wrong");
+      showPrototypeToast("Setup paused: Something went wrong", { error: true });
     }
   }
 
@@ -1979,6 +1982,11 @@
         </select>
       </div>
     `;
+    const selectStack = body.querySelector(".build-badge__select-stack");
+    if (selectStack) {
+      selectStack.appendChild(row);
+      return;
+    }
     const journeyRow = body.querySelector("[data-prototype-journey]")?.closest(".build-badge__section-row");
     if (journeyRow) {
       journeyRow.after(row);
@@ -3464,30 +3472,46 @@
     });
   }
 
+  function getOrCreatePrototypeCheckboxStack(body) {
+    let stack = body.querySelector(".build-badge__checkbox-stack");
+    if (stack) return stack;
+
+    stack = document.createElement("div");
+    stack.className = "build-badge__checkbox-stack";
+    const selectStack = body.querySelector(".build-badge__select-stack");
+    const setupProgressGroup = body.querySelector('[data-state-group="setupProgress"]');
+    const anchor = selectStack || setupProgressGroup;
+    if (anchor) anchor.before(stack);
+    else body.appendChild(stack);
+    return stack;
+  }
+
   function injectErc20ActivatedPrototypeControls() {
     if (document.querySelector("[data-prototype-usdt-erc20-activated]")) return;
     const body = document.querySelector(".build-badge__body");
     if (!body) return;
 
-    const stack = document.createElement("div");
-    stack.className = "build-badge__checkbox-stack build-badge__checkbox-stack--erc20";
-    stack.innerHTML = `
-        <div class="build-badge__section-row">
-          <label class="build-badge__checkbox">
-            <input type="checkbox" data-prototype-usdt-erc20-activated aria-label="USDT ERC-20 activated" />
-            <span>USDT/ERC-20 activated</span>
-          </label>
-        </div>
-        <div class="build-badge__section-row">
-          <label class="build-badge__checkbox">
-            <input type="checkbox" data-prototype-usdc-erc20-activated aria-label="USDC ERC-20 activated" />
-            <span>USDC/ERC-20 activated</span>
-          </label>
-        </div>`;
+    const stack = getOrCreatePrototypeCheckboxStack(body);
+    stack.classList.add("build-badge__checkbox-stack--erc20");
 
-    const journeyRow = body.querySelector("[data-prototype-journey]")?.closest(".build-badge__section-row");
-    if (journeyRow) journeyRow.before(stack);
-    else body.appendChild(stack);
+    const usdtRow = document.createElement("div");
+    usdtRow.className = "build-badge__section-row";
+    usdtRow.innerHTML = `
+      <label class="build-badge__checkbox">
+        <input type="checkbox" data-prototype-usdt-erc20-activated aria-label="USDT ERC-20 activated" />
+        <span>USDT/ERC-20 activated</span>
+      </label>`;
+
+    const usdcRow = document.createElement("div");
+    usdcRow.className = "build-badge__section-row";
+    usdcRow.innerHTML = `
+      <label class="build-badge__checkbox">
+        <input type="checkbox" data-prototype-usdc-erc20-activated aria-label="USDC ERC-20 activated" />
+        <span>USDC/ERC-20 activated</span>
+      </label>`;
+
+    stack.appendChild(usdtRow);
+    stack.appendChild(usdcRow);
     injectBankWhitelistedPrototypeControl();
   }
 
@@ -3504,13 +3528,7 @@
         <span>Bank account whitelisted</span>
       </label>`;
 
-    const erc20Stack =
-      body.querySelector(".build-badge__checkbox-stack--erc20") ||
-      body.querySelector("[data-prototype-usdc-erc20-activated]")?.closest(".build-badge__checkbox-stack");
-    const journeyRow = body.querySelector("[data-prototype-journey]")?.closest(".build-badge__section-row");
-    if (erc20Stack) erc20Stack.after(row);
-    else if (journeyRow) journeyRow.before(row);
-    else body.appendChild(row);
+    getOrCreatePrototypeCheckboxStack(body).appendChild(row);
   }
 
   function initPaylynkErc20ActivatedCheckboxes() {
