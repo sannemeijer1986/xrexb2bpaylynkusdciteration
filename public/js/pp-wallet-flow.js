@@ -966,7 +966,6 @@
                 var exportAddressEl = document.getElementById("walletExportKeyAddress");
                 if (exportAddressEl && addressValueEl) exportAddressEl.textContent = addressValueEl.textContent || "0x2134...1233f8";
                 if (introAddressEl && addressValueEl) introAddressEl.textContent = addressValueEl.textContent || "0x2134...1233f8";
-                var introNetworkEl = document.getElementById("walletExportIntroNetwork");
                 var exportCopyBtn = document.getElementById("walletExportKeyAddressCopy");
                 var addressRow = walletModal && walletModal.querySelector(".pp-wallet-modal__address-value-row");
                 if (exportCopyBtn && addressRow) exportCopyBtn.setAttribute("data-copy-value", addressRow.getAttribute("data-copy-value") || "");
@@ -974,7 +973,6 @@
                 if (exportNetworkEl) exportNetworkEl.textContent = currentNetworkName || "Ethereum (ERC-20)";
                 var exportBeneficiaryEl = document.getElementById("walletExportKeyBeneficiary");
                 if (exportBeneficiaryEl) exportBeneficiaryEl.textContent = currentBeneficiaryName || "AGP Technology";
-                if (introNetworkEl) introNetworkEl.textContent = currentNetworkName || "Ethereum (ERC-20)";
                 var consentCheckbox = document.getElementById("walletExportKeyConsent");
                 var revealBtn = document.getElementById("walletExportKeyRevealBtn");
                 if (consentCheckbox) {

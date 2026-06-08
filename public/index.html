@@ -925,30 +925,49 @@
                     <div class="pp-wallet-modal__view pp-wallet-modal__view--export-key" id="walletViewExportKey" aria-hidden="true">
                         <div class="pp-wallet-export-key">
                             <section class="pp-wallet-export-key__page pp-wallet-export-key__page--intro" id="walletExportKeyPageIntro">
-                                <div class="pp-wallet-export-key__intro-copy">
-                                    <h2 class="pp-wallet-export-key__page-title">Before you continue</h2>
-                                    <p class="pp-wallet-export-key__page-body">A private key is a secret code that gives full access to a wallet address and its funds across various Web3 services.</p>
-                                </div>
-                                <div class="pp-wallet-export-key__intro-details">
-                                    <h3 class="pp-wallet-export-key__intro-details-title pp-wallet-withdraw-form__label">Private key to export</h3>
-                                    <div class="pp-wallet-export-key__intro-details-card">
-                                        <div class="pp-wallet-export-key__intro-details-row pp-wallet-withdraw-confirm__detail-row">
-                                            <span class="pp-wallet-export-key__intro-details-label pp-wallet-withdraw-confirm__detail-label">Address</span>
-                                            <span class="pp-wallet-export-key__intro-details-value pp-wallet-withdraw-confirm__detail-value" id="walletExportIntroAddress">0x2134...1233f8</span>
+                                <div class="pp-wallet-export-key__intro-stack">
+                                    <div class="pp-wallet-export-key__intro-header">
+                                        <div class="pp-wallet-export-key__intro-copy">
+                                            <h2 class="pp-wallet-export-key__page-title">Before you continue</h2>
+                                            <p class="pp-wallet-export-key__page-body">A private key gives full access to a wallet address and its funds across Web3 services. Exporting is irreversible.</p>
                                         </div>
-                                        <div class="pp-wallet-export-key__intro-details-row pp-wallet-withdraw-confirm__detail-row">
-                                            <span class="pp-wallet-export-key__intro-details-label pp-wallet-withdraw-confirm__detail-label">Network</span>
-                                            <span class="pp-wallet-export-key__intro-details-value pp-wallet-withdraw-confirm__detail-value" id="walletExportIntroNetwork">Ethereum (ERC-20)</span>
-                                        </div>
-                                        <div class="pp-wallet-export-key__intro-details-row pp-wallet-withdraw-confirm__detail-row">
-                                            <span class="pp-wallet-export-key__intro-details-label pp-wallet-withdraw-confirm__detail-label">Beneficiary</span>
-                                            <span class="pp-wallet-export-key__intro-details-value pp-wallet-withdraw-confirm__detail-value" id="walletExportIntroBeneficiary">AGP Technology</span>
+                                        <div class="pp-wallet-export-key__intro-warning pp-wallet-withdraw-confirm__alert" role="note">
+                                            <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-export-key__intro-warning-icon pp-wallet-withdraw-confirm__alert-icon" />
+                                            <p class="pp-wallet-export-key__intro-warning-text pp-wallet-withdraw-confirm__alert-text">This action affects the listed addresses, networks, and activated stablecoins for mentioned beneficiary. See next screens for risks.</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="pp-wallet-export-key__intro-warning pp-wallet-withdraw-confirm__alert">
-                                    <img src="assets/icon-ew-warning-orange.svg" alt="" width="24" height="24" class="pp-wallet-export-key__intro-warning-icon pp-wallet-withdraw-confirm__alert-icon" />
-                                    <p class="pp-wallet-export-key__intro-warning-text pp-wallet-withdraw-confirm__alert-text">Exporting your private key is irreversible and has important Consequences &amp; Risks. See the next screens for a detailed explanation.</p>
+                                    <div class="pp-wallet-export-key__intro-addresses">
+                                        <div class="pp-wallet-export-key__intro-addresses-heading">
+                                            <h3 class="pp-wallet-export-key__intro-addresses-title">Addresses impacted</h3>
+                                            <p class="pp-wallet-export-key__intro-addresses-beneficiary">Beneficiary: <span id="walletExportIntroBeneficiary">AGP Technology</span></p>
+                                        </div>
+                                        <div class="pp-wallet-export-key__address-cards">
+                                            <article class="pp-wallet-export-key__address-card">
+                                                <div class="pp-wallet-export-key__address-card-main">
+                                                    <span class="pp-wallet-export-key__address-card-icon" aria-hidden="true">
+                                                        <img src="assets/icon-ew-currency-ETH.svg" alt="" width="40" height="40" />
+                                                    </span>
+                                                    <div class="pp-wallet-export-key__address-card-content">
+                                                        <p class="pp-wallet-export-key__address-card-value" id="walletExportIntroAddress">0x2134...1233f8</p>
+                                                        <p class="pp-wallet-export-key__address-card-network">Ethereum Network (ERC-20)</p>
+                                                    </div>
+                                                    <span class="pp-wallet-export-key__address-card-tag">USDT · USDC</span>
+                                                </div>
+                                            </article>
+                                            <article class="pp-wallet-export-key__address-card">
+                                                <div class="pp-wallet-export-key__address-card-main">
+                                                    <span class="pp-wallet-export-key__address-card-icon" aria-hidden="true">
+                                                        <img src="assets/icon-tron.svg" alt="" width="32" height="32" />
+                                                    </span>
+                                                    <div class="pp-wallet-export-key__address-card-content">
+                                                        <p class="pp-wallet-export-key__address-card-value">TXmk3b...419a72</p>
+                                                        <p class="pp-wallet-export-key__address-card-network">TRON Network (TRC-20)</p>
+                                                    </div>
+                                                    <span class="pp-wallet-export-key__address-card-tag">USDT</span>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="pp-wallet-export-key__actions pp-wallet-export-key__actions--intro">
                                     <button type="button" class="pp-wallet-export-key__skip" id="walletExportIntroSkipBtn">Skip explanation</button>
