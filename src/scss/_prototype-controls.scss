@@ -17,7 +17,7 @@
   color: #ffffff;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   font-size: 12px;
-  padding: 16px 16px 16px 16px;
+  padding: 12px;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 8px 0px 0px 0px;
+  padding: 4px 0 0;
   background: transparent;
   border: none;
   color: inherit;
@@ -90,7 +90,7 @@
 .build-badge__body {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   transform-origin: bottom;
   transition: max-height 0.15s ease, opacity 0.2s ease, transform 0.25s ease;
   max-height: 550px;
@@ -143,10 +143,10 @@
 .build-badge__group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
-  padding: 6px 8px;
+  padding: 4px 6px;
 }
 
 .build-badge__group.is-locked {
@@ -165,13 +165,25 @@
   font-size: 10px;
   font-weight: 700;
   color: #ffffff;
-  margin-top: 4px;
+  margin-top: 0;
+}
+
+.build-badge__section-title-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex-shrink: 0;
+  min-width: 0;
+
+  .build-badge__section-title {
+    margin-top: 0;
+  }
 }
 
 .build-badge__checkbox-stack {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .build-badge__checkbox-stack .build-badge__section-row {
@@ -182,8 +194,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 6px;
+  margin-top: 0;
 
   > .build-badge__section-title {
     margin-top: 0;
@@ -216,26 +228,16 @@
   justify-content: flex-end;
 }
 
-.build-badge__logged-in-timer-row,
-.build-badge__wallet-passcode-timer-row {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  box-sizing: border-box;
-}
-
 .build-badge__logged-in-timer,
 .build-badge__wallet-passcode-timer {
-  width: 124px;
-  max-width: 100%;
   box-sizing: border-box;
-  padding: 0 2px;
-  font-size: 11px;
+  padding: 0;
+  font-size: 10px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  line-height: 1.2;
-  color: rgba(255, 255, 255, 0.72);
-  text-align: right;
+  line-height: 1.1;
+  color: rgba(255, 255, 255, 0.62);
+  text-align: left;
   letter-spacing: 0.02em;
 }
 
@@ -258,8 +260,8 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
-  padding: 2px 22px 2px 8px;
-  min-height: 30px;
+  padding: 1px 22px 1px 8px;
+  min-height: 26px;
   min-width: 0;
   cursor: pointer;
   appearance: none;
@@ -335,8 +337,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin: 8px 0;
-  padding: 8px 12px;
+  margin: 4px 0;
+  padding: 6px 10px;
   border: 0;
   border-radius: 8px;
   background: $button-primary;

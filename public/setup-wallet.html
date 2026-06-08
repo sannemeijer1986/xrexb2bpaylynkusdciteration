@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=99" />
+  <link rel="stylesheet" href="css/main.css?v=100" />
   <script>
     (function () {
       try {
@@ -51,7 +51,7 @@
                     Something went wrong. Try again or
                     <button type="button" class="setup-wallet-error__link" data-setup-wallet-error-support-stub>contact support</button>
                     ·
-                    <button type="button" class="setup-wallet-error__link" data-setup-wallet-error-details>Error details</button>
+                    <button type="button" class="setup-wallet-error__link" data-setup-wallet-error-details data-wallet-error-details>Error details</button>
                   </p>
                 </div>
               </aside>
@@ -567,6 +567,13 @@
     </div>
   </div>
 
+  <div id="prototype-toast" class="wallet-toast" hidden aria-live="polite">
+    <div class="wallet-toast__inner">
+      <img class="wallet-toast__icon" src="assets/icon_info_blue.svg" width="24" height="24" alt="" aria-hidden="true" />
+      <p class="wallet-toast__text">Not in prototype</p>
+    </div>
+  </div>
+
   <div class="build-badge" role="note" aria-label="Prototype state controls">
     <button class="build-badge__header" type="button" aria-expanded="true" aria-controls="prototypeStatesBodyWallet">
       <span class="build-badge__title">Prototype controls</span>
@@ -629,7 +636,10 @@
         </div>
       </div>
       <div class="build-badge__section-row">
-        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__section-title-col">
+          <div class="build-badge__section-title">Logged in</div>
+          <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+        </div>
         <div class="build-badge__checkbox-group">
           <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
             <option value="false" selected>False</option>
@@ -637,21 +647,18 @@
           </select>
         </div>
       </div>
-      <div class="build-badge__logged-in-timer-row">
-        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
-      </div>
 
       <div class="build-badge__section-row">
-        <div class="build-badge__section-title">Wallet passcode</div>
+        <div class="build-badge__section-title-col">
+          <div class="build-badge__section-title">Wallet passcode</div>
+          <div class="build-badge__wallet-passcode-timer" data-prototype-wallet-passcode-timer aria-live="polite">0:00</div>
+        </div>
         <div class="build-badge__checkbox-group">
           <select class="build-badge__select" data-prototype-wallet-passcode aria-label="Wallet passcode">
             <option value="inactive" selected>Inactive</option>
             <option value="active">Active</option>
           </select>
         </div>
-      </div>
-      <div class="build-badge__wallet-passcode-timer-row">
-        <div class="build-badge__wallet-passcode-timer" data-prototype-wallet-passcode-timer aria-live="polite">0:00</div>
       </div>
 
       <div class="build-badge__group" data-state-group="setupProgress">

@@ -24,6 +24,7 @@
   const SETUP_PROGRESS_MIGRATED_KEY = `${STORAGE_PREFIX}setupProgressMigrated.v1`;
   const SKIP_SELECTED_SN_RESET_ONCE_KEY = `${STORAGE_PREFIX}skipSelectedSnResetOnce.v1`;
   const WALLET_ERROR_SIM_KEY = `${STORAGE_PREFIX}walletErrorSim.v1`;
+  const ACTIVATING_ERROR_SIM_KEY = `${STORAGE_PREFIX}activatingErrorSim.v1`;
   /** True only until refresh — "I need a demo" does not persist (prototype checkbox does). */
   let activatingDemoSessionRequested = false;
 
@@ -845,7 +846,8 @@
     });
   }
 
-  function setWalletErrorSim(enabled) {
+  function setWalletErrorSim(enabled, opts = {}) {
+    const showToast = opts.showToast !== false;
     try {
       window.localStorage?.setItem(WALLET_ERROR_SIM_KEY, enabled ? "1" : "0");
     } catch (_) {
@@ -855,6 +857,119 @@
       setState("setupProgress", 3, { force: true });
     }
     syncWalletErrorSimUi();
+    if (enabled && showToast) {
+      showPrototypeToast("Something went wrong: Try again");
+    }
+  }
+
+  function readActivatingErrorSim() {
+    try {
+      const v = window.localStorage?.getItem(ACTIVATING_ERROR_SIM_KEY);
+      return v === "1" || v === "2" ? v : "";
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function syncActivatingErrorSimUi() {
+    const mode = readActivatingErrorSim();
+    if (mode) {
+      document.documentElement.setAttribute("data-prototype-activating-error-sim", mode);
+    } else {
+      document.documentElement.removeAttribute("data-prototype-activating-error-sim");
+    }
+
+    const paused = document.getElementById("activatingStablecoinPaused");
+    if (paused) {
+      if (mode) paused.removeAttribute("hidden");
+      else paused.setAttribute("hidden", "");
+    }
+
+    const resumableCopy = document.querySelector(".activating-stablecoin-paused__error-copy--resumable");
+    const nonResumableCopy = document.querySelector(
+      ".activating-stablecoin-paused__error-copy--non-resumable",
+    );
+    const resumableActions = document.querySelector(
+      ".activating-stablecoin-paused__actions--resumable",
+    );
+    const nonResumableActions = document.querySelector(
+      ".activating-stablecoin-paused__actions--non-resumable",
+    );
+
+    if (resumableCopy) resumableCopy.hidden = mode !== "1";
+    if (nonResumableCopy) nonResumableCopy.hidden = mode !== "2";
+    if (resumableActions) resumableActions.hidden = mode !== "1";
+    if (nonResumableActions) nonResumableActions.hidden = mode !== "2";
+
+    document.querySelectorAll("[data-prototype-activating-error-sim-1]").forEach((el) => {
+      if (el instanceof HTMLInputElement) el.checked = mode === "1";
+    });
+    document.querySelectorAll("[data-prototype-activating-error-sim-2]").forEach((el) => {
+      if (el instanceof HTMLInputElement) el.checked = mode === "2";
+    });
+  }
+
+  function setActivatingErrorSim(mode, opts = {}) {
+    const showToast = opts.showToast !== false;
+    const nextMode = mode === "1" || mode === "2" ? mode : "";
+    try {
+      if (nextMode) window.localStorage?.setItem(ACTIVATING_ERROR_SIM_KEY, nextMode);
+      else window.localStorage?.removeItem(ACTIVATING_ERROR_SIM_KEY);
+    } catch (_) {
+      /* ignore */
+    }
+    syncActivatingErrorSimUi();
+    if (nextMode && showToast) {
+      showPrototypeToast("Setup paused: Something went wrong");
+    }
+  }
+
+  function clearActivatingErrorSim(opts = {}) {
+    setActivatingErrorSim("", opts);
+  }
+
+  function initActivatingErrorSimCheckboxes() {
+    const inputs1 = document.querySelectorAll("[data-prototype-activating-error-sim-1]");
+    const inputs2 = document.querySelectorAll("[data-prototype-activating-error-sim-2]");
+    if (!inputs1.length && !inputs2.length) return;
+
+    syncActivatingErrorSimUi();
+
+    inputs1.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (!(input instanceof HTMLInputElement)) return;
+        if (input.checked) setActivatingErrorSim("1");
+        else clearActivatingErrorSim({ showToast: false });
+      });
+    });
+
+    inputs2.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (!(input instanceof HTMLInputElement)) return;
+        if (input.checked) setActivatingErrorSim("2");
+        else clearActivatingErrorSim({ showToast: false });
+      });
+    });
+
+    document.querySelectorAll("[data-activating-paused-resume]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        clearActivatingErrorSim({ showToast: false });
+      });
+    });
+
+    document.querySelectorAll("[data-activating-paused-cancel]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showPrototypeToast("Not in prototype");
+      });
+    });
+
+    document.querySelectorAll("[data-activating-paused-error-support]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showPrototypeToast("Not in prototype");
+      });
+    });
   }
 
   function initWalletErrorSimCheckbox() {
@@ -864,7 +979,7 @@
     inputs.forEach((input) => {
       input.addEventListener("change", () => {
         if (!(input instanceof HTMLInputElement)) return;
-        setWalletErrorSim(input.checked);
+        setWalletErrorSim(input.checked, { showToast: input.checked });
       });
     });
     document.querySelectorAll("[data-setup-wallet-error-support-stub]").forEach((btn) => {
@@ -2248,7 +2363,7 @@
       btn.addEventListener("click", () => openPasscodeModal());
     });
 
-    document.querySelectorAll("[data-setup-wallet-error-details]").forEach((btn) => {
+    document.querySelectorAll("[data-wallet-error-details]").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         openErrorDetailsModal();
@@ -3601,7 +3716,8 @@
     setPaylynkErc20Activated("usdt", false);
     setPaylynkErc20Activated("usdc", false);
     setBankWhitelisted(false);
-    setWalletErrorSim(false);
+    setWalletErrorSim(false, { showToast: false });
+    clearActivatingErrorSim({ showToast: false });
 
     document.querySelectorAll("[data-prototype-journey]").forEach((sel) => {
       sel.value = "setup";
@@ -3756,6 +3872,7 @@
     initPrototypeReset();
     initEmbeddedWalletPrototypeControl();
     initWalletErrorSimCheckbox();
+    initActivatingErrorSimCheckboxes();
   }
 
   window.PaylynkPrototype = Object.assign(window.PaylynkPrototype || {}, {

@@ -226,7 +226,10 @@
         </div>
       </div>
       <div class="build-badge__section-row">
-        <div class="build-badge__section-title">Logged in</div>
+        <div class="build-badge__section-title-col">
+          <div class="build-badge__section-title">Logged in</div>
+          <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
+        </div>
         <div class="build-badge__checkbox-group">
           <select class="build-badge__select" data-prototype-logged-in aria-label="Logged in">
             <option value="false">False</option>
@@ -234,21 +237,18 @@
           </select>
         </div>
       </div>
-      <div class="build-badge__logged-in-timer-row">
-        <div class="build-badge__logged-in-timer" data-prototype-logged-in-timer aria-live="polite">0:00</div>
-      </div>
 
       <div class="build-badge__section-row">
-        <div class="build-badge__section-title">Wallet passcode</div>
+        <div class="build-badge__section-title-col">
+          <div class="build-badge__section-title">Wallet passcode</div>
+          <div class="build-badge__wallet-passcode-timer" data-prototype-wallet-passcode-timer aria-live="polite">0:00</div>
+        </div>
         <div class="build-badge__checkbox-group">
           <select class="build-badge__select" data-prototype-wallet-passcode aria-label="Wallet passcode">
             <option value="inactive" selected>Inactive</option>
             <option value="active">Active</option>
           </select>
         </div>
-      </div>
-      <div class="build-badge__wallet-passcode-timer-row">
-        <div class="build-badge__wallet-passcode-timer" data-prototype-wallet-passcode-timer aria-live="polite">0:00</div>
       </div>
 
       <div class="build-badge__group" data-state-group="setupProgress">
