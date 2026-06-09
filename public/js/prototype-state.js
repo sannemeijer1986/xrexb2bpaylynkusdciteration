@@ -963,7 +963,7 @@
     document.querySelectorAll("[data-activating-paused-cancel]").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        showPrototypeToast("Not in prototype");
+        openSetupLeaveDialog({ leaveShowsStub: true });
       });
     });
 
@@ -1602,13 +1602,16 @@
     document.body.classList.remove("wallet-modals-is-open");
   }
 
+  let setupLeaveLeaveShowsStub = false;
+
   function getSetupLeaveDialog() {
     return document.getElementById("setup-leave-dialog");
   }
 
-  function openSetupLeaveDialog() {
+  function openSetupLeaveDialog(opts = {}) {
     const dialog = getSetupLeaveDialog();
     if (!dialog || !dialog.hidden) return;
+    setupLeaveLeaveShowsStub = !!opts.leaveShowsStub;
     dialog.hidden = false;
     document.body.classList.add("setup-dialog-is-open");
     const panel = dialog.querySelector(".setup-dialog__panel");
@@ -1622,6 +1625,7 @@
     if (!dialog || dialog.hidden) return;
     dialog.hidden = true;
     document.body.classList.remove("setup-dialog-is-open");
+    setupLeaveLeaveShowsStub = false;
   }
 
   function initSetupLeaveCancelDialog() {
@@ -1649,6 +1653,11 @@
 
     dialog.querySelector("[data-setup-leave-dialog-leave]")?.addEventListener("click", (e) => {
       e.preventDefault();
+      if (setupLeaveLeaveShowsStub) {
+        closeSetupLeaveDialog();
+        showPrototypeToast("Not in prototype");
+        return;
+      }
       const journey = readJourneyFromStorage();
       if (
         journey === "paylynk" &&

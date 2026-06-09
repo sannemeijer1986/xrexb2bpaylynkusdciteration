@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=106" />
+  <link rel="stylesheet" href="css/main.css?v=115" />
   <script>
     (function () {
       try {
@@ -109,20 +109,23 @@
                     </button>
                   </div>
                   <div class="activating-stablecoin-paused__actions activating-stablecoin-paused__actions--non-resumable" hidden>
+                    <div class="activating-stablecoin-paused__resume-group">
+                      <button
+                        type="button"
+                        class="setup-button setup-button--primary activating-stablecoin-paused__resume"
+                        disabled
+                        aria-disabled="true"
+                      >
+                        Resume setup
+                      </button>
+                      <p class="activating-stablecoin-paused__retry-hint">Try again in ~10 min</p>
+                    </div>
                     <button
                       type="button"
-                      class="setup-button activating-stablecoin-paused__cancel"
+                      class="activating-stablecoin-paused__cancel-link"
                       data-activating-paused-cancel
                     >
-                      Cancel setup
-                    </button>
-                    <button
-                      type="button"
-                      class="setup-button setup-button--primary activating-stablecoin-paused__resume"
-                      disabled
-                      aria-disabled="true"
-                    >
-                      Resume setup
+                      Cancel
                     </button>
                   </div>
                 </div>
@@ -475,7 +478,7 @@
         <div class="setup-dialog__copy">
           <h2 id="setup-leave-dialog-title" class="setup-dialog__title">Leave payment method configuration?</h2>
           <p id="setup-leave-dialog-desc" class="setup-dialog__desc">
-            Your payment method won't be activated until you complete the setup. You can return anytime to finish.
+            Your payment method won't be activated until setup is complete.
           </p>
         </div>
         <div class="setup-dialog__actions">
