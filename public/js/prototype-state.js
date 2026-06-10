@@ -865,10 +865,29 @@
     }
   }
 
+  const ACTIVATING_ERROR_SIM_COPY = {
+    1: {
+      title: "USDT setup paused",
+      desc: "We ran into an issue completing your payment method setup. Your progress has been saved.",
+    },
+    2: {
+      title: "USDT setup paused",
+      desc: "We ran into an issue completing your payment method setup. Your progress has been saved.",
+    },
+    3: {
+      title: "USDT setup failed",
+      desc: "We ran into an issue completing your payment method setup. Our team has been notified and will follow up to resolve this shortly.",
+    },
+  };
+
+  function isActivatingErrorSimMode(mode) {
+    return mode === "1" || mode === "2" || mode === "3";
+  }
+
   function readActivatingErrorSim() {
     try {
       const v = window.localStorage?.getItem(ACTIVATING_ERROR_SIM_KEY);
-      return v === "1" || v === "2" ? v : "";
+      return isActivatingErrorSimMode(v) ? v : "";
     } catch (_) {
       return "";
     }
@@ -888,21 +907,21 @@
       else paused.setAttribute("hidden", "");
     }
 
-    const resumableCopy = document.querySelector(".activating-stablecoin-paused__error-copy--resumable");
-    const nonResumableCopy = document.querySelector(
-      ".activating-stablecoin-paused__error-copy--non-resumable",
-    );
-    const resumableActions = document.querySelector(
-      ".activating-stablecoin-paused__actions--resumable",
-    );
-    const nonResumableActions = document.querySelector(
-      ".activating-stablecoin-paused__actions--non-resumable",
-    );
+    const titleEl = document.querySelector("[data-activating-paused-title]");
+    const descEl = document.querySelector("[data-activating-paused-desc]");
+    const copy = ACTIVATING_ERROR_SIM_COPY[mode];
+    if (copy) {
+      if (titleEl) titleEl.textContent = copy.title;
+      if (descEl) descEl.textContent = copy.desc;
+    }
 
-    if (resumableCopy) resumableCopy.hidden = mode !== "1";
-    if (nonResumableCopy) nonResumableCopy.hidden = mode !== "2";
-    if (resumableActions) resumableActions.hidden = mode !== "1";
-    if (nonResumableActions) nonResumableActions.hidden = mode !== "2";
+    const ar1Actions = document.querySelector(".activating-stablecoin-paused__actions--ar1");
+    const ar2Actions = document.querySelector(".activating-stablecoin-paused__actions--ar2");
+    const ar3Actions = document.querySelector(".activating-stablecoin-paused__actions--ar3");
+
+    if (ar1Actions) ar1Actions.hidden = mode !== "1";
+    if (ar2Actions) ar2Actions.hidden = mode !== "2";
+    if (ar3Actions) ar3Actions.hidden = mode !== "3";
 
     document.querySelectorAll("[data-prototype-activating-error-sim-1]").forEach((el) => {
       if (el instanceof HTMLInputElement) el.checked = mode === "1";
@@ -910,11 +929,14 @@
     document.querySelectorAll("[data-prototype-activating-error-sim-2]").forEach((el) => {
       if (el instanceof HTMLInputElement) el.checked = mode === "2";
     });
+    document.querySelectorAll("[data-prototype-activating-error-sim-3]").forEach((el) => {
+      if (el instanceof HTMLInputElement) el.checked = mode === "3";
+    });
   }
 
   function setActivatingErrorSim(mode, opts = {}) {
     const showToast = opts.showToast !== false;
-    const nextMode = mode === "1" || mode === "2" ? mode : "";
+    const nextMode = isActivatingErrorSimMode(mode) ? mode : "";
     try {
       if (nextMode) window.localStorage?.setItem(ACTIVATING_ERROR_SIM_KEY, nextMode);
       else window.localStorage?.removeItem(ACTIVATING_ERROR_SIM_KEY);
@@ -923,7 +945,11 @@
     }
     syncActivatingErrorSimUi();
     if (nextMode && showToast) {
-      showPrototypeToast("Setup paused: Something went wrong", { error: true });
+      const toastMessage =
+        nextMode === "3"
+          ? "Setup failed: Something went wrong"
+          : "Setup paused: Something went wrong";
+      showPrototypeToast(toastMessage, { error: true });
     }
   }
 
@@ -931,10 +957,32 @@
     setActivatingErrorSim("", opts);
   }
 
+  function navigateFromActivatingLeaveSetup() {
+    const journey = readJourneyFromStorage();
+    if (
+      journey === "paylynk" &&
+      document.body?.getAttribute("data-prototype-context") === "activating-stablecoin"
+    ) {
+      navigatePaylynkToNetworkSelect();
+      return;
+    }
+    const context = document.body?.getAttribute("data-prototype-context");
+    if (context === "activating-stablecoin" || context === "wallet-setup") {
+      try {
+        window.sessionStorage?.setItem(SKIP_SELECTED_SN_RESET_ONCE_KEY, "1");
+      } catch (_) {
+        /* ignore */
+      }
+    }
+    clearActivatingErrorSim({ showToast: false });
+    window.location.href = journeyHref(journey);
+  }
+
   function initActivatingErrorSimCheckboxes() {
     const inputs1 = document.querySelectorAll("[data-prototype-activating-error-sim-1]");
     const inputs2 = document.querySelectorAll("[data-prototype-activating-error-sim-2]");
-    if (!inputs1.length && !inputs2.length) return;
+    const inputs3 = document.querySelectorAll("[data-prototype-activating-error-sim-3]");
+    if (!inputs1.length && !inputs2.length && !inputs3.length) return;
 
     syncActivatingErrorSimUi();
 
@@ -954,16 +1002,31 @@
       });
     });
 
+    inputs3.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (!(input instanceof HTMLInputElement)) return;
+        if (input.checked) setActivatingErrorSim("3");
+        else clearActivatingErrorSim({ showToast: false });
+      });
+    });
+
     document.querySelectorAll("[data-activating-paused-resume]").forEach((btn) => {
       btn.addEventListener("click", () => {
         clearActivatingErrorSim({ showToast: false });
       });
     });
 
-    document.querySelectorAll("[data-activating-paused-cancel]").forEach((btn) => {
+    document.querySelectorAll("[data-activating-paused-cancel-ar2]").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        openSetupLeaveDialog({ leaveShowsStub: true });
+        openSetupLeaveDialog();
+      });
+    });
+
+    document.querySelectorAll("[data-activating-paused-cancel-ar3]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        navigateFromActivatingLeaveSetup();
       });
     });
 
@@ -1602,16 +1665,13 @@
     document.body.classList.remove("wallet-modals-is-open");
   }
 
-  let setupLeaveLeaveShowsStub = false;
-
   function getSetupLeaveDialog() {
     return document.getElementById("setup-leave-dialog");
   }
 
-  function openSetupLeaveDialog(opts = {}) {
+  function openSetupLeaveDialog() {
     const dialog = getSetupLeaveDialog();
     if (!dialog || !dialog.hidden) return;
-    setupLeaveLeaveShowsStub = !!opts.leaveShowsStub;
     dialog.hidden = false;
     document.body.classList.add("setup-dialog-is-open");
     const panel = dialog.querySelector(".setup-dialog__panel");
@@ -1625,7 +1685,6 @@
     if (!dialog || dialog.hidden) return;
     dialog.hidden = true;
     document.body.classList.remove("setup-dialog-is-open");
-    setupLeaveLeaveShowsStub = false;
   }
 
   function initSetupLeaveCancelDialog() {
@@ -1653,21 +1712,14 @@
 
     dialog.querySelector("[data-setup-leave-dialog-leave]")?.addEventListener("click", (e) => {
       e.preventDefault();
-      if (setupLeaveLeaveShowsStub) {
-        closeSetupLeaveDialog();
-        showPrototypeToast("Not in prototype");
+      closeSetupLeaveDialog();
+      const context = document.body?.getAttribute("data-prototype-context");
+      if (context === "activating-stablecoin") {
+        navigateFromActivatingLeaveSetup();
         return;
       }
       const journey = readJourneyFromStorage();
-      if (
-        journey === "paylynk" &&
-        document.body?.getAttribute("data-prototype-context") === "activating-stablecoin"
-      ) {
-        navigatePaylynkToNetworkSelect();
-        return;
-      }
-      const context = document.body?.getAttribute("data-prototype-context");
-      if (context === "activating-stablecoin" || context === "wallet-setup") {
+      if (context === "wallet-setup") {
         try {
           window.sessionStorage?.setItem(SKIP_SELECTED_SN_RESET_ONCE_KEY, "1");
         } catch (_) {

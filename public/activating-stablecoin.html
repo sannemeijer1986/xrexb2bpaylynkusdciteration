@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=115" />
+  <link rel="stylesheet" href="css/main.css?v=117" />
   <script>
     (function () {
       try {
@@ -77,29 +77,22 @@
 
             <div class="activating-stablecoin-wrapper">
               <div class="activating-stablecoin-paused" id="activatingStablecoinPaused" hidden>
-                <p class="activating-stablecoin-paused__title">Setup paused</p>
+                <div class="activating-stablecoin-paused__head">
+                  <img
+                    class="activating-stablecoin-paused__icon"
+                    src="assets/danger-circle.svg"
+                    width="40"
+                    height="40"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                  <p class="activating-stablecoin-paused__title" data-activating-paused-title>USDT setup paused</p>
+                </div>
                 <div class="activating-stablecoin-paused__body">
-                  <p class="activating-stablecoin-paused__desc">
-                    We couldn’t complete setup right now. Progress has been saved.
+                  <p class="activating-stablecoin-paused__desc" data-activating-paused-desc>
+                    We ran into an issue completing your payment method setup. Your progress has been saved.
                   </p>
-                  <div class="setup-wallet-error__alert activating-stablecoin-paused__alert">
-                    <img class="setup-wallet-error__icon" src="assets/icon_danger_circle.svg" width="16" height="16" alt="" aria-hidden="true" />
-                    <p class="setup-wallet-error__text">
-                      <span class="activating-stablecoin-paused__error-copy activating-stablecoin-paused__error-copy--resumable">
-                        Something went wrong. Try again or
-                        <button type="button" class="setup-wallet-error__link" data-activating-paused-error-support>contact support</button>
-                        ·
-                        <button type="button" class="setup-wallet-error__link" data-wallet-error-details>Error details</button>
-                      </span>
-                      <span class="activating-stablecoin-paused__error-copy activating-stablecoin-paused__error-copy--non-resumable" hidden>
-                        Something went wrong. Try again later or
-                        <button type="button" class="setup-wallet-error__link" data-activating-paused-error-support>contact support</button>
-                        ·
-                        <button type="button" class="setup-wallet-error__link" data-wallet-error-details>Error details</button>
-                      </span>
-                    </p>
-                  </div>
-                  <div class="activating-stablecoin-paused__actions activating-stablecoin-paused__actions--resumable">
+                  <div class="activating-stablecoin-paused__actions activating-stablecoin-paused__actions--ar1">
                     <button
                       type="button"
                       class="setup-button setup-button--primary activating-stablecoin-paused__resume"
@@ -108,7 +101,7 @@
                       Resume setup
                     </button>
                   </div>
-                  <div class="activating-stablecoin-paused__actions activating-stablecoin-paused__actions--non-resumable" hidden>
+                  <div class="activating-stablecoin-paused__actions activating-stablecoin-paused__actions--ar2" hidden>
                     <div class="activating-stablecoin-paused__resume-group">
                       <button
                         type="button"
@@ -118,14 +111,30 @@
                       >
                         Resume setup
                       </button>
-                      <p class="activating-stablecoin-paused__retry-hint">Try again in ~10 min</p>
+                      <p class="activating-stablecoin-paused__retry-hint">Check back in a few minutes</p>
                     </div>
                     <button
                       type="button"
                       class="activating-stablecoin-paused__cancel-link"
-                      data-activating-paused-cancel
+                      data-activating-paused-cancel-ar2
                     >
-                      Cancel
+                      Cancel USDT setup
+                    </button>
+                  </div>
+                  <div class="activating-stablecoin-paused__actions activating-stablecoin-paused__actions--ar3" hidden>
+                    <button
+                      type="button"
+                      class="setup-button setup-button--primary activating-stablecoin-paused__cancel-btn"
+                      data-activating-paused-cancel-ar3
+                    >
+                      Cancel USDT setup
+                    </button>
+                    <button
+                      type="button"
+                      class="activating-stablecoin-paused__support-link"
+                      data-activating-paused-error-support
+                    >
+                      Contact Support
                     </button>
                   </div>
                 </div>
@@ -476,14 +485,14 @@
     >
       <div class="setup-dialog__content">
         <div class="setup-dialog__copy">
-          <h2 id="setup-leave-dialog-title" class="setup-dialog__title">Leave payment method configuration?</h2>
+          <h2 id="setup-leave-dialog-title" class="setup-dialog__title">Leave payment method setup?</h2>
           <p id="setup-leave-dialog-desc" class="setup-dialog__desc">
             Your payment method won't be activated until setup is complete.
           </p>
         </div>
         <div class="setup-dialog__actions">
           <button type="button" class="setup-dialog__btn setup-dialog__btn--secondary" data-setup-leave-dialog-continue>
-            Continue setup
+            Stay
           </button>
           <button type="button" class="setup-dialog__btn setup-dialog__btn--danger" data-setup-leave-dialog-leave>
             Leave anyway
@@ -519,14 +528,20 @@
         </div>
         <div class="build-badge__section-row">
           <label class="build-badge__checkbox">
-            <input type="checkbox" data-prototype-activating-error-sim-1 aria-label="Error sim. 1" />
-            <span>Error sim. 1</span>
+            <input type="checkbox" data-prototype-activating-error-sim-1 aria-label="Error AR-1" />
+            <span>Error AR-1</span>
           </label>
         </div>
         <div class="build-badge__section-row">
           <label class="build-badge__checkbox">
-            <input type="checkbox" data-prototype-activating-error-sim-2 aria-label="Error sim. 2" />
-            <span>Error sim. 2</span>
+            <input type="checkbox" data-prototype-activating-error-sim-2 aria-label="Error AR-2" />
+            <span>Error AR-2</span>
+          </label>
+        </div>
+        <div class="build-badge__section-row">
+          <label class="build-badge__checkbox">
+            <input type="checkbox" data-prototype-activating-error-sim-3 aria-label="Error AR-3" />
+            <span>Error AR-3</span>
           </label>
         </div>
       </div>
