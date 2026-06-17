@@ -1397,7 +1397,8 @@
               : false;
 
       const showComplete = !!isMethodActivated;
-      const showIncomplete = !isProfilePage && p >= 3 && !showComplete && isSelectedStablecoin;
+      const showIncomplete =
+        isStablecoin && p >= 3 && !showComplete && isSelectedStablecoin;
 
       item.classList.toggle("setup-payment-method--state-incomplete", showIncomplete);
       item.classList.toggle("setup-payment-method--state-complete", showComplete);
@@ -1412,7 +1413,7 @@
           stateLabel.textContent = isBank ? "Added (1)" : "Activated (1)";
           stateLabel.hidden = false;
           stateLabel.classList.remove("setup-payment-method__state--inactive");
-        } else if (isProfilePage && (isStablecoin || isBank)) {
+        } else if (isProfilePage && !showIncomplete && (isStablecoin || isBank)) {
           stateLabel.textContent = "Inactive";
           stateLabel.hidden = false;
           stateLabel.classList.add("setup-payment-method__state--inactive");
