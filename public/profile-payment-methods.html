@@ -111,8 +111,22 @@
 
             <div class="profile-payment__methods-groups" aria-label="Payment methods">
               <section class="profile-payment__bank-section" aria-labelledby="profilePaymentBankLabel" data-profile-payment-bank-section>
-                <h3 id="profilePaymentBankLabel" class="profile-payment__bank-section-title">USD bank accounts</h3>
-
+                <header class="profile-payment__stablecoin-head">
+                    <h3 id="profilePaymentBankLabel" class="profile-payment__bank-section-title">USD bank accounts</h3>
+                    <p class="profile-payment__stablecoin-notice">
+                        <img
+                        class="profile-payment__stablecoin-notice-icon"
+                        src="assets/icon_info_blue.svg"
+                        width="16"
+                        height="16"
+                        alt=""
+                        aria-hidden="true"
+                        />
+                        <span class="profile-payment__stablecoin-notice-text">
+                        For all beneficiaries
+                        </span>
+                    </p>
+                </header>
                 <div class="profile-payment__bank-list">
                   <article class="profile-payment-bank-row profile-payment-bank-row--account" data-profile-payment-bank-account hidden>
                     <span class="profile-payment-bank-row__icon profile-payment-bank-row__icon--verified" aria-hidden="true">
@@ -162,7 +176,7 @@
                         aria-hidden="true"
                       />
                       <span class="profile-payment__stablecoin-notice-text">
-                        For payments to <strong data-profile-payment-beneficiary-name>AGP Technology</strong> only
+                        For <strong data-profile-payment-beneficiary-name>AGP Technology</strong> only
                       </span>
                     </p>
                   </header>
