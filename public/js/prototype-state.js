@@ -1413,7 +1413,7 @@
           stateLabel.hidden = false;
           stateLabel.classList.remove("setup-payment-method__state--inactive");
         } else if (isProfilePage && (isStablecoin || isBank)) {
-          stateLabel.textContent = "Not set up";
+          stateLabel.textContent = "Inactive";
           stateLabel.hidden = false;
           stateLabel.classList.add("setup-payment-method__state--inactive");
         } else {
@@ -1487,6 +1487,10 @@
         }
       }
     });
+
+    if (isProfilePage) {
+      syncProfilePaymentWalletSection();
+    }
   }
 
   function formatActivatingStepLabel(stepLabel, pct) {
@@ -2665,31 +2669,31 @@
     accountRow.hidden = !readBankWhitelisted();
   }
 
-  function syncProfilePaymentStablecoinSummary() {
+  function shouldShowProfilePaymentWalletSection() {
+    if (readPaylynkErc20Activated("usdt") || readPaylynkErc20Activated("usdc")) return true;
+    return states.setupProgress >= 4;
+  }
+
+  function syncProfilePaymentWalletSection() {
     if (document.body?.getAttribute("data-prototype-context") !== "profile-payment-methods") return;
-    const countEl = document.querySelector("[data-profile-payment-address-count]");
-    if (!countEl) return;
-    const usdtActivated = readPaylynkErc20Activated("usdt");
-    const usdcActivated = readPaylynkErc20Activated("usdc");
-    const count = (usdtActivated ? 1 : 0) + (usdcActivated ? 1 : 0);
-    countEl.textContent = String(count);
-    const nounEl = document.querySelector("[data-profile-payment-address-noun]");
-    if (nounEl) nounEl.textContent = count === 1 ? "address" : "addresses";
+    const show = shouldShowProfilePaymentWalletSection();
+    document.documentElement.toggleAttribute("data-prototype-profile-wallet-visible", show);
+    document.querySelectorAll("[data-profile-payment-wallet-section]").forEach((section) => {
+      section.hidden = !show;
+      section.toggleAttribute("hidden", !show);
+    });
   }
 
   function initProfilePaymentMethodsPage() {
     if (document.body?.getAttribute("data-prototype-context") !== "profile-payment-methods") return;
     syncPaymentSetupFromProgress();
     syncProfilePaymentBankSection();
-    syncProfilePaymentStablecoinSummary();
     document.addEventListener("paylynk:bank-whitelisted-changed", () => {
       syncPaymentSetupFromProgress();
       syncProfilePaymentBankSection();
-      syncProfilePaymentStablecoinSummary();
     });
     document.addEventListener("paylynk:erc20-activated-changed", () => {
       syncPaymentSetupFromProgress();
-      syncProfilePaymentStablecoinSummary();
     });
     document.querySelector("[data-profile-payment-bank-delete]")?.addEventListener("click", (e) => {
       e.preventDefault();
@@ -3839,11 +3843,6 @@
 
     const swiftLabel = document.querySelector("[data-paylynk-method-swift]");
     swiftLabel?.addEventListener("click", (e) => {
-      e.preventDefault();
-      showPrototypeToast("Not in prototype");
-    });
-
-    document.querySelector(".paylynk-header__account-trigger")?.addEventListener("click", (e) => {
       e.preventDefault();
       showPrototypeToast("Not in prototype");
     });

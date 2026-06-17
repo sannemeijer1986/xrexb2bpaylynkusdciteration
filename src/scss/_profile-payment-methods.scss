@@ -1,4 +1,4 @@
-// Profile & Payment methods — Figma 8534:36419 (desktop), 8534:36348 (mobile)
+// Profile & Payment methods — Figma 10787:41490 (desktop), 10787:41371 (mobile)
 
 // Match payment-setup accordion scroll behavior (reserve scrollbar gutter).
 body.paylynk-page[data-prototype-context='profile-payment-methods'] {
@@ -64,10 +64,17 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 
 .profile-payment__profile-card,
 .profile-payment__methods-card {
-  border: 1px solid $border-soft;
   border-radius: $radius-card;
   background: $surface-card;
   box-sizing: border-box;
+}
+
+.profile-payment__profile-card {
+  border: 1px solid $border-soft;
+}
+
+.profile-payment__methods-card {
+  border: 1px solid $border-hard;
 }
 
 .profile-payment__profile-card {
@@ -153,14 +160,17 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 }
 
 .profile-payment__methods-card {
-  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 16px;
 }
 
 .profile-payment__methods-head {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 40px;
+  gap: 8px;
+  margin-bottom: 0;
 }
 
 .profile-payment__methods-icon {
@@ -170,8 +180,8 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
   justify-content: center;
 
   img {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
   }
 }
@@ -179,9 +189,9 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 .profile-payment__methods-title {
   margin: 0;
   color: $text-primary;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: normal;
 }
 
 .profile-payment__methods-groups {
@@ -211,6 +221,13 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
   gap: 16px;
 }
 
+.profile-payment__stablecoin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
 .profile-payment__stablecoin-head {
   display: flex;
   flex-direction: column;
@@ -220,20 +237,36 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
 .profile-payment__stablecoin-title {
   margin: 0;
   color: $text-primary;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.profile-payment__stablecoin-notice {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  color: #73a2f5;
   font-size: 14px;
   font-weight: 600;
   line-height: normal;
 }
 
-.profile-payment__stablecoin-summary {
-  margin: 0;
-  color: $text-secondary;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
+.profile-payment__stablecoin-notice-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  object-fit: contain;
+}
+
+.profile-payment__stablecoin-notice-text {
+  flex: 1 1 auto;
+  min-width: 0;
 
   strong {
-    font-weight: 700;
+    font-weight: 600;
   }
 }
 
@@ -242,11 +275,19 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+  width: 100%;
+}
+
+html:not([data-prototype-profile-wallet-visible])
+  body[data-prototype-context='profile-payment-methods']
+  .profile-payment__wallet-section,
+body[data-prototype-context='profile-payment-methods'] .profile-payment__wallet-section[hidden] {
+  display: none !important;
 }
 
 .profile-payment__wallet-section-title {
   margin: 0;
-  color: $text-primary;
+  color: $text-secondary;
   font-size: 12px;
   font-weight: 600;
   line-height: normal;
@@ -368,6 +409,7 @@ body.paylynk-page[data-prototype-context='profile-payment-methods'] {
   align-items: center;
   gap: 8px;
   width: 100%;
+  min-height: 78px;
   padding: 20px 16px;
   border: 1px solid $border-hard;
   border-radius: $radius-card;
@@ -529,7 +571,7 @@ body[data-prototype-context='profile-payment-methods'] {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: 16px;
+    margin-top: 0;
   }
 
   .setup-payment-method__desc {
@@ -545,7 +587,7 @@ body[data-prototype-context='profile-payment-methods'] {
     padding-top: 0;
   }
 
-  .setup-payment-method__state--inactive {
+  .setup-payment-method--state-incomplete .setup-payment-method__state {
     color: $text-placeholder;
   }
 }
@@ -625,11 +667,25 @@ body[data-prototype-context='profile-payment-methods'] {
   }
 
   .profile-payment__methods-card {
+    gap: 48px;
     padding: 32px;
   }
 
+  .profile-payment__methods-head {
+    gap: 12px;
+  }
+
+  .profile-payment__methods-icon img {
+    width: 32px;
+    height: 32px;
+  }
+
   .profile-payment__methods-title {
-    font-size: 20px;
+    font-size: 18px;
+  }
+
+  .profile-payment__methods-groups {
+    gap: 48px;
   }
 
   .profile-payment__bank-section {
@@ -641,12 +697,9 @@ body[data-prototype-context='profile-payment-methods'] {
     font-weight: 700;
   }
 
-  .profile-payment__stablecoin-block {
+  .profile-payment__stablecoin-content {
     gap: 24px;
-
-    .setup-payment-method-wrapper {
-      margin-top: 0;
-    }
+    padding-bottom: 16px;
   }
 
   .profile-payment__stablecoin-title {
@@ -667,31 +720,31 @@ body[data-prototype-context='profile-payment-methods'] {
   }
 
   .profile-payment-bank-row {
-    gap: 16px;
-    padding: 24px;
+    gap: 8px;
+    min-height: 78px;
+    padding: 16px 24px;
   }
 
   .profile-payment-bank-row__icon {
-    width: 46px;
-    height: 46px;
+    width: 32px;
+    height: 32px;
 
     img {
-      width: 28px;
-      height: 28px;
+      width: 20px;
+      height: 20px;
     }
   }
 
   .profile-payment-bank-row__title {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 4px;
-    font-size: 20px;
+    font-size: 16px;
     line-height: normal;
   }
 
   .profile-payment-bank-row__number {
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 600;
   }
 
   .profile-payment-bank-row__custom {
@@ -701,6 +754,9 @@ body[data-prototype-context='profile-payment-methods'] {
 
   .profile-payment-bank-row__hint {
     display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
   }
 
   .profile-payment-bank-row__aside {
@@ -709,30 +765,10 @@ body[data-prototype-context='profile-payment-methods'] {
 
   .profile-payment-bank-row__status {
     display: block;
+    font-size: 16px;
   }
 
   .profile-payment-bank-row--add .profile-payment-bank-row__chevron {
     display: block;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wrapper {
-    gap: 24px;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .profile-payment__stablecoin-block .setup-payment-method-wrapper {
-    margin-top: 0;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-methods__group {
-    margin-top: 0;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method--expanded .setup-payment-method__panel {
-    padding-top: 0;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__divider {
-    margin-top: 0;
-    padding-top: 0;
   }
 }

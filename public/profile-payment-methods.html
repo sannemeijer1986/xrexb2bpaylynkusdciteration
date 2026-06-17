@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=118" />
+  <link rel="stylesheet" href="css/main.css?v=124" />
   <script>
     (function () {
       try {
@@ -149,21 +149,30 @@
               </section>
 
               <section class="profile-payment__stablecoin-block" aria-labelledby="profilePaymentStablecoinLabel">
-                <header class="profile-payment__stablecoin-head">
-                  <h3 id="profilePaymentStablecoinLabel" class="profile-payment__stablecoin-title">Stablecoins</h3>
-                  <p class="profile-payment__stablecoin-summary" data-profile-payment-stablecoin-summary>
-                    <span data-profile-payment-address-count>0</span>
-                    <span data-profile-payment-address-noun>addresses</span> activated for payments to
-                    <strong data-profile-payment-beneficiary-name>AGP Technology</strong>
-                  </p>
-                </header>
+                <div class="profile-payment__stablecoin-content">
+                  <header class="profile-payment__stablecoin-head">
+                    <h3 id="profilePaymentStablecoinLabel" class="profile-payment__stablecoin-title">Stablecoins</h3>
+                    <p class="profile-payment__stablecoin-notice">
+                      <img
+                        class="profile-payment__stablecoin-notice-icon"
+                        src="assets/icon_info_blue.svg"
+                        width="16"
+                        height="16"
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      <span class="profile-payment__stablecoin-notice-text">
+                        For payments to <strong data-profile-payment-beneficiary-name>AGP Technology</strong> only
+                      </span>
+                    </p>
+                  </header>
 
-                <div class="setup-payment-methods__group">
+                  <div class="setup-payment-methods__group">
                 <div class="setup-payment-method-wrapper">
                   <article class="setup-payment-method" data-payment-method-item data-method-kind="usdt">
                     <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
                       <span class="setup-payment-method__lead">
-                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdt.svg" width="46" height="46" alt="" />
+                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdt.svg" width="32" height="32" alt="" />
                         <span class="setup-payment-method__copy">
                           <span class="setup-payment-method__name">USDT</span>
                           <span class="setup-payment-method__sub">Tether USD</span>
@@ -220,7 +229,7 @@
                   <article class="setup-payment-method" data-payment-method-item data-method-kind="usdc">
                     <button type="button" class="setup-payment-method__trigger" data-payment-method-trigger aria-expanded="false">
                       <span class="setup-payment-method__lead">
-                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdc.svg" width="46" height="46" alt="" />
+                        <img class="setup-payment-method__icon setup-payment-method__icon--lg" src="assets/icon_usdc.svg" width="32" height="32" alt="" />
                         <span class="setup-payment-method__copy">
                           <span class="setup-payment-method__name">USDC</span>
                           <span class="setup-payment-method__sub">Circle USD</span>
@@ -264,23 +273,23 @@
                   </article>
                 </div>
                 </div>
-              </section>
+                </div>
 
-              <section class="profile-payment__wallet-section" aria-labelledby="profilePaymentWalletLabel">
-                <h3 id="profilePaymentWalletLabel" class="profile-payment__wallet-section-title">Activated via your self-custody wallet</h3>
-                <div class="profile-payment-wallet" data-pp-wallet-entry role="button" tabindex="0" aria-label="Stablecoin wallet">
-                  <span class="profile-payment-wallet__icon" aria-hidden="true">
-                    <img src="assets/icon_wallet_gray.svg" width="20" height="20" alt="" />
-                  </span>
-                  <span class="profile-payment-wallet__copy">
-                    <span class="profile-payment-wallet__title">Stablecoin wallet</span>
-                    <span class="profile-payment-wallet__detail" data-profile-payment-wallet-email>abc1234@gmail.com</span>
-                  </span>
-                  <button
-                    type="button"
-                    class="profile-payment-wallet__menu"
-                    data-pp-wallet-menu
-                    aria-label="Wallet options"
+                <section class="profile-payment__wallet-section" data-profile-payment-wallet-section aria-labelledby="profilePaymentWalletLabel">
+                  <h3 id="profilePaymentWalletLabel" class="profile-payment__wallet-section-title">Activated via your self-custody wallet</h3>
+                  <div class="profile-payment-wallet" data-pp-wallet-entry role="button" tabindex="0" aria-label="Stablecoin wallet">
+                    <span class="profile-payment-wallet__icon" aria-hidden="true">
+                      <img src="assets/icon_wallet_gray.svg" width="20" height="20" alt="" />
+                    </span>
+                    <span class="profile-payment-wallet__copy">
+                      <span class="profile-payment-wallet__title">Stablecoin wallet</span>
+                      <span class="profile-payment-wallet__detail" data-profile-payment-wallet-email>abc1234@gmail.com</span>
+                    </span>
+                    <button
+                      type="button"
+                      class="profile-payment-wallet__menu"
+                      data-pp-wallet-menu
+                      aria-label="Wallet options"
                     aria-haspopup="menu"
                     aria-expanded="false"
                   >
@@ -291,6 +300,7 @@
                     <a href="https://support.xrex.sg/en/articles/13543998-how-does-paying-in-usdt-work-on-paylynk" target="_blank" rel="noopener noreferrer" role="menuitem">How it works</a>
                   </div>
                 </div>
+              </section>
               </section>
             </div>
           </article>

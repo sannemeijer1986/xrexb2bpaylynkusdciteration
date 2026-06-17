@@ -937,7 +937,8 @@ body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wra
   gap: 16px;
 }
 
-body[data-prototype-context='payment-setup'] {
+body[data-prototype-context='payment-setup'],
+body[data-prototype-context='profile-payment-methods'] {
   .setup-payment-method__sub {
     display: none !important;
   }
@@ -1176,6 +1177,10 @@ body[data-prototype-context='profile-payment-methods'] {
 
   .setup-payment-method--state-complete .setup-payment-method__state {
     color: #3fae64;
+  }
+
+  .setup-payment-method__state--inactive {
+    color: #bcbdbd;
   }
 }
 
@@ -1767,25 +1772,23 @@ body[data-prototype-context='profile-payment-methods'] {
     gap: 16px;
   }
 
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method-wrapper {
+    margin-top: 0;
+  }
+
   .setup-payment-method__trigger {
     padding: 24px;
     gap: 16px;
   }
 
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__state {
-    position: absolute;
-    top: 37px;
-    right: 56px;
-    margin: 0;
-    font-size: 18px;
+  body[data-prototype-context='payment-setup'] .setup-payment-method__trigger,
+  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__trigger {
+    min-height: 78px;
+    padding: 16px 24px;
   }
 
-  body[data-prototype-context='payment-setup'] {
-    .setup-payment-method__trigger {
-      min-height: 78px;
-      padding: 16px 24px;
-    }
-
+  body[data-prototype-context='payment-setup'],
+  body[data-prototype-context='profile-payment-methods'] {
     .setup-payment-method__copy {
       flex-direction: row;
       align-items: center;
@@ -1799,7 +1802,9 @@ body[data-prototype-context='profile-payment-methods'] {
     }
 
     .setup-payment-method__state {
+      position: static;
       flex-shrink: 0;
+      margin: 0;
       font-size: 16px;
       font-weight: 700;
       text-align: right;
@@ -1920,33 +1925,6 @@ body[data-prototype-context='profile-payment-methods'] {
         line-height: normal;
       }
     }
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__icon--lg {
-    width: 46px;
-    height: 46px;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__name {
-    font-size: 20px;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__sub {
-    font-size: 16px;
-    line-height: 23px;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__panel {
-    padding: 0 24px 0 82px;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method--expanded .setup-payment-method__panel {
-    padding: 0 24px 24px 82px;
-  }
-
-  body[data-prototype-context='profile-payment-methods'] .setup-payment-method__desc {
-    font-size: 16px;
-    line-height: 23px;
   }
 
   .setup-payment-method__network-head {
