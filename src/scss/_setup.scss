@@ -902,6 +902,22 @@ body[data-prototype-context='activating-stablecoin'] .setup-panel__content {
   border-radius: $radius-card;
 }
 
+@media (min-width: $desktop-breakpoint) {
+  // Tall activating content (e.g. onboarding video) must grow the panel scroll area
+  // instead of clipping inside the default grid row capped at 1fr.
+  body[data-prototype-context='activating-stablecoin'] .setup-panel {
+    display: block;
+  }
+
+  body[data-prototype-context='activating-stablecoin'] .setup-panel__body {
+    min-height: auto;
+  }
+
+  body[data-prototype-context='activating-stablecoin'] .setup-footer {
+    margin-top: 40px;
+  }
+}
+
 body[data-prototype-context='payment-setup'] .setup-payment-methods__group .paylynk-comingsoon {
   margin-top: 32px;
   margin-bottom: 16px;

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css?v=117" />
+  <link rel="stylesheet" href="css/main.css?v=119" />
   <script>
     (function () {
       try {
@@ -222,6 +222,35 @@
               </div>
 
               <div class="activating-stablecoin-wait">
+                <div class="activating-stablecoin-onboarding-video" data-activating-onboarding-video>
+                  <div class="activating-stablecoin-onboarding-video__media">
+                    <img
+                      class="activating-stablecoin-onboarding-video__img"
+                      src="assets/temp_video_image.png"
+                      alt=""
+                      width="636"
+                      height="357"
+                      decoding="async"
+                    />
+                    <button
+                      type="button"
+                      class="activating-stablecoin-onboarding-video__play"
+                      data-activating-onboarding-video-play
+                      aria-label="Play video"
+                    >
+                      <span class="activating-stablecoin-onboarding-video__play-icon" aria-hidden="true"></span>
+                    </button>
+                  </div>
+                  <div class="activating-stablecoin-onboarding-video__copy">
+                    <p class="activating-stablecoin-onboarding-video__eyebrow">What happens next</p>
+                    <p class="activating-stablecoin-onboarding-video__title">Get ready to receive payment requests</p>
+                    <p class="activating-stablecoin-onboarding-video__desc">
+                      Complete your payment profile to receive and manage payment requests through PayLynk.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="activating-stablecoin-onboarding-slider" data-activating-onboarding-slider hidden>
                 <p class="activating-stablecoin-wait__title">Discover XREX</p>
               <div class="activating-stablecoin-carousel" data-activating-carousel>
                 <div class="activating-stablecoin-carousel__panel" data-activating-carousel-panel>
@@ -322,6 +351,7 @@
                     </button>
                   </div>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -546,6 +576,15 @@
         </div>
       </div>
       <div class="build-badge__select-stack">
+      <div class="build-badge__section-row">
+        <div class="build-badge__section-title">Onboarding</div>
+        <div class="build-badge__checkbox-group">
+          <select class="build-badge__select" data-prototype-activating-onboarding aria-label="Onboarding">
+            <option value="video" selected>Video</option>
+            <option value="slider">Slider</option>
+          </select>
+        </div>
+      </div>
       <div class="build-badge__section-row">
         <div class="build-badge__section-title">Journey</div>
         <div class="build-badge__checkbox-group">

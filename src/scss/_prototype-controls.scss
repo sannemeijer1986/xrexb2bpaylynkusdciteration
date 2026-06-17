@@ -9,7 +9,6 @@
   min-width: 240px;
   width: 240px;
   min-height: 40px;
-  max-height: 550px;
   background: rgba(57, 59, 59, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -23,7 +22,7 @@
   flex-direction: column;
   color-scheme: dark;
   pointer-events: auto;
-  transition: width 0.15s ease, max-height 0.25s ease, opacity 0.2s ease;
+  transition: width 0.15s ease, opacity 0.2s ease;
 }
 
 @media (max-width: 640px) {
@@ -92,10 +91,9 @@
   flex-direction: column;
   gap: 8px;
   transform-origin: bottom;
-  transition: max-height 0.15s ease, opacity 0.2s ease, transform 0.25s ease;
-  max-height: 550px;
+  transition: opacity 0.2s ease, transform 0.25s ease;
   opacity: 1;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .build-badge.is-collapsed {

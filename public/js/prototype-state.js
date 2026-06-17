@@ -25,6 +25,7 @@
   const SKIP_SELECTED_SN_RESET_ONCE_KEY = `${STORAGE_PREFIX}skipSelectedSnResetOnce.v1`;
   const WALLET_ERROR_SIM_KEY = `${STORAGE_PREFIX}walletErrorSim.v1`;
   const ACTIVATING_ERROR_SIM_KEY = `${STORAGE_PREFIX}activatingErrorSim.v1`;
+  const ACTIVATING_ONBOARDING_KEY = `${STORAGE_PREFIX}activatingOnboarding.v1`;
   /** True only until refresh — "I need a demo" does not persist (prototype checkbox does). */
   let activatingDemoSessionRequested = false;
 
@@ -1036,6 +1037,69 @@
         showPrototypeToast("Not in prototype");
       });
     });
+  }
+
+  function initActivatingOnboardingSelect() {
+    const selects = document.querySelectorAll("[data-prototype-activating-onboarding]");
+    if (!selects.length) return;
+
+    syncActivatingOnboardingUi();
+
+    selects.forEach((select) => {
+      select.addEventListener("change", () => {
+        if (!(select instanceof HTMLSelectElement)) return;
+        setActivatingOnboarding(select.value);
+        document.querySelectorAll("[data-prototype-activating-onboarding]").forEach((el) => {
+          if (el !== select && el instanceof HTMLSelectElement) el.value = select.value;
+        });
+      });
+    });
+
+    document.querySelectorAll("[data-activating-onboarding-video-play]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showPrototypeToast("Not in prototype");
+      });
+    });
+  }
+
+  function readActivatingOnboarding() {
+    try {
+      const v = window.localStorage?.getItem(ACTIVATING_ONBOARDING_KEY);
+      return v === "slider" ? "slider" : "video";
+    } catch (_) {
+      return "video";
+    }
+  }
+
+  function syncActivatingOnboardingUi() {
+    const mode = readActivatingOnboarding();
+    document.documentElement.setAttribute("data-prototype-activating-onboarding", mode);
+
+    const video = document.querySelector("[data-activating-onboarding-video]");
+    const slider = document.querySelector("[data-activating-onboarding-slider]");
+    if (video) {
+      if (mode === "video") video.removeAttribute("hidden");
+      else video.setAttribute("hidden", "");
+    }
+    if (slider) {
+      if (mode === "slider") slider.removeAttribute("hidden");
+      else slider.setAttribute("hidden", "");
+    }
+
+    document.querySelectorAll("[data-prototype-activating-onboarding]").forEach((el) => {
+      if (el instanceof HTMLSelectElement) el.value = mode;
+    });
+  }
+
+  function setActivatingOnboarding(mode) {
+    const nextMode = mode === "slider" ? "slider" : "video";
+    try {
+      window.localStorage?.setItem(ACTIVATING_ONBOARDING_KEY, nextMode);
+    } catch (_) {
+      /* ignore */
+    }
+    syncActivatingOnboardingUi();
   }
 
   function initWalletErrorSimCheckbox() {
@@ -3797,6 +3861,7 @@
     setBankWhitelisted(false);
     setWalletErrorSim(false, { showToast: false });
     clearActivatingErrorSim({ showToast: false });
+    setActivatingOnboarding("video");
 
     document.querySelectorAll("[data-prototype-journey]").forEach((sel) => {
       sel.value = "setup";
@@ -3952,6 +4017,7 @@
     initEmbeddedWalletPrototypeControl();
     initWalletErrorSimCheckbox();
     initActivatingErrorSimCheckboxes();
+    initActivatingOnboardingSelect();
   }
 
   window.PaylynkPrototype = Object.assign(window.PaylynkPrototype || {}, {
